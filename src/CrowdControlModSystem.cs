@@ -1,5 +1,4 @@
-﻿using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
