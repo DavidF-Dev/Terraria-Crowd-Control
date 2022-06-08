@@ -55,7 +55,7 @@ public sealed class BuffEffect : CrowdControlEffect
         ApplyBuffs(TimeLeft.GetValueOrDefault());
     }
     
-    private void PreUpdateBuffs(CrowdControlPlayer player)
+    private void PreUpdateBuffs()
     {
         CheckImmunities();
     }

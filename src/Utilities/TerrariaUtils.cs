@@ -72,9 +72,10 @@ public static class TerrariaUtils
     [PublicAPI]
     public static void WriteDebug([NotNull] string message, Color? colour = null)
     {
-        #if !DEBUG
-        return;
-        #endif
+        if (!CrowdControlConfig.GetInstance().DeveloperMode)
+        {
+            return;
+        }
         
         WriteMessage(ItemID.Cog, message, colour.GetValueOrDefault(Color.Yellow));
     }
