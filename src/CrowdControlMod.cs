@@ -94,6 +94,9 @@ public sealed class CrowdControlMod : Mod
         base.Close();
     }
     
+    /// <summary>
+    ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready.
+    /// </summary>
     [PublicAPI]
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
@@ -114,6 +117,9 @@ public sealed class CrowdControlMod : Mod
         On.Terraria.Main.Update += OnUpdate;
     }
 
+    /// <summary>
+    ///     Stop the crowd control session if it is currently running.
+    /// </summary>
     [PublicAPI]
     public void StopCrowdControlSession()
     {

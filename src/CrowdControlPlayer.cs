@@ -14,6 +14,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="OnRespawn" />
     public event Action<CrowdControlPlayer> OnRespawnHook;
 
+    /// <inheritdoc cref="PreUpdateBuffs" />
+    public event Action<CrowdControlPlayer> PreUpdateBuffsHook; 
+
     #endregion
 
     #region Methods
@@ -44,6 +47,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     {
         OnRespawnHook?.Invoke(player.GetModPlayer<CrowdControlPlayer>());
         base.OnRespawn(player);
+    }
+
+    public override void PreUpdateBuffs()
+    {
+        base.PreUpdateBuffs();
     }
 
     #endregion
