@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using JetBrains.Annotations;
 using Terraria;
@@ -44,9 +45,6 @@ public sealed class CrowdControlMod : Mod
 
     [NotNull]
     private readonly Dictionary<string, CrowdControlEffect> _effects = new();
-
-    [NotNull]
-    private readonly HashSet<string> _activeEffects = new();
     
     #endregion
 
@@ -157,12 +155,10 @@ public sealed class CrowdControlMod : Mod
         _isSessionStarted = false;
         
         // Stop all active effects
-        foreach (var effectId in _activeEffects)
+        foreach (var effect in _effects.Values.Where(effect => effect.IsActive))
         {
-            _effects[effectId].Stop();
+            effect.Stop();
         }
-
-        _activeEffects.Clear();
     }
 
     #endregion
