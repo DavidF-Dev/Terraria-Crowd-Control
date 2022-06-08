@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
+using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod;
@@ -32,14 +37,14 @@ public sealed class CrowdControlMod : Mod
     #endregion
 
     #region Fields
-
+    
     [NotNull]
     private CrowdControlPlayer _player = null!;
-
+    
     [CanBeNull]
     private Thread _sessionThread;
 
-    private bool _isSessionStarted;
+    private bool _isSessionRunning;
 
     private bool _isSessionConnected;
 
@@ -54,14 +59,86 @@ public sealed class CrowdControlMod : Mod
     ///     Session is active if started and successfully connected to the crowd control service.
     /// </summary>
     [PublicAPI]
-    public bool IsSessionActive => _isSessionStarted && _isSessionConnected;
+    public bool IsSessionActive => _isSessionRunning && _isSessionConnected;
 
     #endregion
 
     #region Methods
 
+    public override void Load()
+    {
+        _instance = this;
+        
+        // Load shaders if on client
+        if (Main.netMode != NetmodeID.Server)
+        {
+            // TODO: Load shaders
+        }
+
+        // Ignore silent exceptions thrown by Socket.Connect
+        Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
+        Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
+
+        base.Load();
+    }
+    
+    public override void Close()
+    {
+        // Ensure that the session is stopped
+        StopCrowdControlSession();
+
+        // Null references
+        _player = null!;
+        _instance = null!;
+
+        base.Close();
+    }
+    
+    [PublicAPI]
+    public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
+    {
+        if (_isSessionRunning || _sessionThread != null)
+        {
+            return;
+        }
+        
+        _player = player;
+
+        _isSessionRunning = true;
+        TerrariaUtils.WriteDebug("Started the Crowd Control session");
+        
+        // Start the connection thread
+        _sessionThread = new Thread(HandleSessionConnection);
+        _sessionThread.Start();
+        
+        On.Terraria.Main.Update += OnUpdate;
+    }
+
+    [PublicAPI]
+    public void StopCrowdControlSession()
+    {
+        if (!_isSessionRunning)
+        {
+            return;
+        }
+
+        _player = null!;
+
+        // Allow the threaded method to clean up itself when it exits its loop
+        _isSessionRunning = false;
+        TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
+        
+        // Stop all active effects
+        foreach (var effect in _effects.Values.Where(effect => effect.IsActive))
+        {
+            effect.Stop();
+        }
+
+        On.Terraria.Main.Update -= OnUpdate;
+    }
+
     /// <summary>
-    ///     Get the crowd control player instance.
+    ///     Get the local crowd control player instance.
     /// </summary>
     [PublicAPI] [Pure] [NotNull]
     public CrowdControlPlayer GetPlayer()
@@ -93,72 +170,164 @@ public sealed class CrowdControlMod : Mod
         }
     }
     
-    public override void Load()
+    private void OnUpdate(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
     {
-        _instance = this;
+        if (IsSessionPaused())
+        {
+            orig.Invoke(self, gameTime);
+            return;
+        }
 
-        base.Load();
+        // Update the active effects (so that their timers are reduced)
+        var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        foreach (var effect in _effects.Values.Where(x => x.IsActive))
+        {
+            effect.Update(delta);
+        }
+        
+        orig.Invoke(self, gameTime);
     }
-
-    public override void Close()
-    {
-        // Ensure that the session is stopped
-        StopCrowdControlSession();
-
-        // Null references
-        _player = null!;
-        _instance = null!;
-
-        base.Close();
-    }
-
-    private void CrowdControlConnection()
+    
+    private void HandleSessionConnection()
     {
         // Initialisation
         _isSessionConnected = false;
-        
+        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        var writeAttempt = true;
+
         // Connection loop
-        while (_isSessionStarted)
+        while (_isSessionRunning)
         {
-            // TODO
+            // Attempt to connect the socket to the crowd control service
+            try
+            {
+                socket.Connect("127.0.0.1", 58430);
+                _isSessionConnected = true;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            if (_isSessionConnected)
+            {
+                TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Connected to Crowd Control", Color.Green);
+                
+                // Connection successful, so keep polling the socket for incoming packets
+                while (_isSessionRunning && socket.Connected && socket.Poll(1000, SelectMode.SelectWrite))
+                {
+                    try
+                    {
+                        // Read incoming data (if any)
+                        var buffer = new byte[1024];
+                        var size = socket.Receive(buffer);
+                        var data = System.Text.Encoding.ASCII.GetString(buffer, 0, size);
+
+                        if (!data.StartsWith("{"))
+                        {
+                            // No data (or it is invalid), so wait until next poll
+                            continue;
+                        }
+                        
+                        // Parse and process the request
+                        string response;
+                        try
+                        {
+                            var request = CrowdControlRequest.FromJson(data);
+                            var responseStatus = ProcessEffect(request.Code, request.Viewer, (CrowdControlRequestType)request.Id);
+                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"Effect {request.Code}: {responseStatus}"));
+                        }
+                        catch (Exception e)
+                        {
+                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(0, 0, e.Message));
+                        }
+
+                        // Send a response back to the crowd control service
+                        var tmp = System.Text.Encoding.ASCII.GetBytes(response);
+                        var outBuffer = new byte[tmp.Length + 1];
+                        Array.Copy(tmp, 0, outBuffer, 0, tmp.Length);
+                        outBuffer[^1] = 0x00;
+                        socket.Send(outBuffer);
+                    }
+                    catch (Exception)
+                    {
+                        // If an exception occurs, abort the connection
+                        break;
+                    }
+                }
+
+                // Connection should be closed, so dispose of the socket connection if its still alive
+                if (socket.Connected)
+                {
+                    try
+                    {
+                        socket.Shutdown(SocketShutdown.Both);
+                    }
+                    finally
+                    {
+                        socket.Close();
+                    }
+                }
+
+                if (_isSessionRunning)
+                {
+                    TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                }
+                
+                _isSessionConnected = false;
+                writeAttempt = true;
+            }
+            else
+            {
+                // Connection failed, so wait before attempting to reconnect
+                Thread.Sleep(1500);
+
+                if (!writeAttempt)
+                {
+                    continue;
+                }
+
+                writeAttempt = false;
+                TerrariaUtils.WriteMessage(ItemID.LargeAmber, "Attempting to connect to Crowd Control", Color.Yellow);
+            }
         }
 
         // Clean up
-        _isSessionConnected = false;
         _sessionThread = null;
     }
 
-    private void StartCrowdControlSession([NotNull] Player player)
+    private CrowdControlResponseStatus ProcessEffect([NotNull] string code, [NotNull] string viewer, CrowdControlRequestType requestType)
     {
-        if (_isSessionStarted || _sessionThread != null)
+        // Ensure the session is active (in case of multi-threaded shenanigans)
+        if (!IsSessionActive)
         {
-            return;
+            return CrowdControlResponseStatus.Failure;
         }
         
-        _player = player.GetModPlayer<CrowdControlPlayer>();
-
-        _isSessionStarted = true;
+        // Ensure the effect is supported
+        if (!_effects.TryGetValue(code, out var effect))
+        {
+            return CrowdControlResponseStatus.Unavailable;
+        }
         
-        // Start the connection thread
-        _sessionThread = new Thread(CrowdControlConnection);
-        _sessionThread.Start();
+        // Re-attempt the effect at a later point if the session is paused
+        if (IsSessionPaused() && requestType != CrowdControlRequestType.Stop)
+        {
+            return CrowdControlResponseStatus.Retry;
+        }
+
+        // If the viewer name is blank, or cannot be displayed, then default to 'Chat'
+        if (string.IsNullOrEmpty(viewer) || Terraria.Localization.NetworkText.FromLiteral(viewer) == Terraria.Localization.NetworkText.Empty)
+        {
+            viewer = "Chat";
+        }
+
+        return requestType == CrowdControlRequestType.Start ? effect.Start(viewer) : effect.Stop();
     }
 
-    private void StopCrowdControlSession()
+    private bool IsSessionPaused()
     {
-        if (!_isSessionStarted)
-        {
-            return;
-        }
-
-        // Allow the threaded method to clean up itself when it exits its loop
-        _isSessionStarted = false;
-        
-        // Stop all active effects
-        foreach (var effect in _effects.Values.Where(effect => effect.IsActive))
-        {
-            effect.Stop();
-        }
+        return !IsSessionActive || Main.gamePaused || GetPlayer().Player.dead;
     }
 
     #endregion

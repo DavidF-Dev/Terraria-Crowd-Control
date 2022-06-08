@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using CrowdControlMod.CrowdControlService;
+using JetBrains.Annotations;
 
 namespace CrowdControlMod;
 
@@ -53,35 +54,41 @@ public abstract class CrowdControlEffect
     ///     Start the effect.
     /// </summary>
     [PublicAPI]
-    public void Start([NotNull] string viewer)
+    public CrowdControlResponseStatus Start([NotNull] string viewer)
     {
         if (IsActive)
         {
-            return;
+            return CrowdControlResponseStatus.Retry;
         }
 
-        IsActive = true;
         Viewer = viewer;
         TimeLeft = Duration;
-        
-        OnStart();
+        var responseStatus = OnStart();
+        IsActive = responseStatus == CrowdControlResponseStatus.Success;
 
         if (IsActive && !TimeLeft.HasValue)
         {
             // Stop straight away if the effect does not have a duration
             Stop();
+        } 
+        else if (!IsActive)
+        {
+            // Ensure that the effect is stopped properly if not active
+            Stop();
         }
+
+        return responseStatus;
     }
 
     /// <summary>
-    ///     Stop the effect instantly.
+    ///     Stop the effect instantly, without fail.
     /// </summary>
     [PublicAPI]
-    public void Stop()
+    public CrowdControlResponseStatus Stop()
     {
         if (!IsActive)
         {
-            return;
+            return CrowdControlResponseStatus.Failure;
         }
 
         IsActive = false;
@@ -89,6 +96,8 @@ public abstract class CrowdControlEffect
         TimeLeft = null;
         
         OnStop();
+
+        return CrowdControlResponseStatus.Success;
     }
 
     /// <summary>
@@ -107,20 +116,31 @@ public abstract class CrowdControlEffect
         if (TimeLeft <= 0)
         {
             Stop();
+            return;
         }
+        
+        OnUpdate(delta);
     }
 
     /// <summary>
     ///     Invoked when the effect is triggered.
     /// </summary>
-    protected virtual void OnStart()
+    protected virtual CrowdControlResponseStatus OnStart()
+    {
+        return CrowdControlResponseStatus.Success;
+    }
+
+    /// <summary>
+    ///     Invoked when the effect is stopped. Stops without fail.
+    /// </summary>
+    protected virtual void OnStop()
     {
     }
 
     /// <summary>
-    ///     Invoked when the effect is stopped.
+    ///     Invoked each frame whilst the effect is active.
     /// </summary>
-    protected virtual void OnStop()
+    protected virtual void OnUpdate(float delta)
     {
     }
 
