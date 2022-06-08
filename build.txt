@@ -1,4 +1,4 @@
 displayName = Crowd Control for Terraria
-author = NA
+author = DavidFDev
 version = 0.1
 buildIgnore=TerrariaPack.cs
