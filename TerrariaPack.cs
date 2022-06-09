@@ -39,10 +39,16 @@ public sealed class Terraria : SimpleTCPPack
         {
             return new List<Effect>()
             {
-                //new Effect("Give Items","giveitems",ItemKind.Folder), //New folder for third batch
+                // --- Time effects
+                new Effect("Time Effects", "time_folder", ItemKind.Folder),
+                new Effect("Set the time to noon", "time_noon"),
+                new Effect("Set the time to midnight", "time_midnight"),
+                new Effect("Set the time to sunrise", "time_sunrise"),
+                new Effect("Set the time to sunset", "time_sunset"),
                 
-                // Provide the player with buffs that improve survivability (iron-skin & endurance)
-                new Effect("Boost player survivability", "buff_iron")
+                // --- Positive buff effects
+                new Effect("Boost player survivability", "buff_survivability"),
+                new Effect("Boost player health regeneration", "buff_regeneration")
             };
         }
     }

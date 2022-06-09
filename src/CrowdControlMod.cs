@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Effects;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -61,6 +63,8 @@ public sealed class CrowdControlMod : Mod
     [PublicAPI]
     public bool IsSessionActive => _isSessionRunning && _isSessionConnected;
 
+    public override uint ExtraPlayerBuffSlots => 32;
+
     #endregion
 
     #region Methods
@@ -69,15 +73,19 @@ public sealed class CrowdControlMod : Mod
     {
         _instance = this;
         
-        // Load shaders if on client
+        // Load stuff if not running on a server
         if (Main.netMode != NetmodeID.Server)
-        {
+        { 
             // TODO: Load shaders
         }
+        
+        // Add effects
+        AddAllEffects();
 
-        // Ignore silent exceptions thrown by Socket.Connect
+        // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
+        Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
 
         base.Load();
     }
@@ -90,17 +98,45 @@ public sealed class CrowdControlMod : Mod
         // Null references
         _player = null!;
         _instance = null!;
+        _effects.Clear();
 
         base.Close();
     }
-    
+
+    public override void HandlePacket(BinaryReader reader, int whoAmI)
+    {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            try
+            {
+                // Read incoming packet header data
+                var packetId = (CrowdControlPacket)reader.ReadByte();
+                var player = Main.player[reader.ReadInt32()].GetModPlayer<CrowdControlPlayer>();
+                var effectId = reader.ReadString();
+
+                // Check that the effect exists and is active
+                if (player != null && !string.IsNullOrEmpty(effectId) && _effects.TryGetValue(effectId, out var effect) && effect.IsActive)
+                {
+                    // Let the effect handle the packet
+                    effect.ReceivePacket(packetId, player, reader);
+                }
+            }
+            catch (Exception e)
+            {
+                TerrariaUtils.WriteDebug($"Failed to handle an incoming packet: {e.Message}");
+            }
+        }
+        
+        base.HandlePacket(reader, whoAmI);
+    }
+
     /// <summary>
     ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready.
     /// </summary>
     [PublicAPI]
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
-        if (_isSessionRunning || _sessionThread != null)
+        if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
         {
             return;
         }
@@ -147,7 +183,7 @@ public sealed class CrowdControlMod : Mod
     ///     Get the local crowd control player instance.
     /// </summary>
     [PublicAPI] [Pure] [NotNull]
-    public CrowdControlPlayer GetPlayer()
+    public CrowdControlPlayer GetLocalPlayer()
     {
         return _player;
     }
@@ -158,6 +194,8 @@ public sealed class CrowdControlMod : Mod
     [PublicAPI] [Pure]
     public bool TryGetActiveEffect<T>([NotNull] string id, [CanBeNull] out T effect) where T : CrowdControlEffect
     {
+        // TODO: Remove method if unused
+        
         if (!_effects.TryGetValue(id, out var e) || !e.IsActive)
         {
             effect = null;
@@ -240,7 +278,7 @@ public sealed class CrowdControlMod : Mod
                         try
                         {
                             var request = CrowdControlRequest.FromJson(data);
-                            var responseStatus = ProcessEffect(request.Code, request.Viewer, (CrowdControlRequestType)request.Id);
+                            var responseStatus = ProcessEffect(request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
                             response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"Effect {request.Code}: {responseStatus}"));
                         }
                         catch (Exception e)
@@ -257,6 +295,7 @@ public sealed class CrowdControlMod : Mod
                     }
                     catch (Exception)
                     {
+                        // TODO: Is it necessary to abort the connection?
                         // If an exception occurs, abort the connection
                         break;
                     }
@@ -286,7 +325,7 @@ public sealed class CrowdControlMod : Mod
             else
             {
                 // Connection failed, so wait before attempting to reconnect
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
 
                 if (!writeAttempt)
                 {
@@ -307,18 +346,21 @@ public sealed class CrowdControlMod : Mod
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
         {
+            TerrariaUtils.WriteDebug($"Failed to process effect request '{requestType} {code}' as the session is not active");
             return CrowdControlResponseStatus.Failure;
         }
         
         // Ensure the effect is supported
         if (!_effects.TryGetValue(code, out var effect))
         {
+            TerrariaUtils.WriteDebug($"Failed to process effect request '{requestType} {code}' as it is not supported by the mod");
             return CrowdControlResponseStatus.Unavailable;
         }
         
         // Re-attempt the effect at a later point if the session is paused
         if (IsSessionPaused() && requestType != CrowdControlRequestType.Stop)
         {
+            TerrariaUtils.WriteDebug($"Retrying effect '{requestType} {code}' as the session is paused");
             return CrowdControlResponseStatus.Retry;
         }
 
@@ -327,13 +369,35 @@ public sealed class CrowdControlMod : Mod
         {
             viewer = "Chat";
         }
-
-        return requestType == CrowdControlRequestType.Start ? effect.Start(viewer) : effect.Stop();
+        
+        var result = requestType == CrowdControlRequestType.Start ? effect.Start(viewer) : effect.Stop();
+        TerrariaUtils.WriteDebug($"Processed effect request '{requestType} {code}' with response '{result}'");
+        return result;
     }
 
     private bool IsSessionPaused()
     {
-        return !IsSessionActive || Main.gamePaused || GetPlayer().Player.dead;
+        return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
+    }
+
+    private void AddEffect([NotNull] CrowdControlEffect effect)
+    {
+        // Will throw an exception if key already exists
+        _effects.Add(effect.Id, effect);
+    }
+
+    private void AddAllEffects()
+    {
+        // --- Time effects
+        AddEffect(new SetTimeEffect(EffectId.SetTimeNoon, "noon", 27000, true));
+        AddEffect(new SetTimeEffect(EffectId.SetTimeMidnight, "midnight", 16200, false));
+        AddEffect(new SetTimeEffect(EffectId.SetTimeSunrise, "sunrise", 0, true));
+        AddEffect(new SetTimeEffect(EffectId.SetTimeSunset, "sunset", 0, false));
+        
+        // --- Positive buff effects
+        AddEffect(new BuffEffect(EffectId.BuffSurvivability, EffectSeverity.Positive, 12f,
+            ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs",
+            BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
     }
 
     #endregion

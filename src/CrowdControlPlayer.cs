@@ -58,9 +58,9 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
     {
-        if (IsLocalPlayer)
+        if (IsLocalPlayer && CrowdControlMod.GetInstance().IsSessionActive)
         {
-            // TODO: Respawn timer
+            // Reduce the respawn timer by the mod configuration factor
             Player.respawnTimer = (int)(Player.respawnTimer * CrowdControlConfig.GetInstance().RespawnTimeFactor);
         }
         

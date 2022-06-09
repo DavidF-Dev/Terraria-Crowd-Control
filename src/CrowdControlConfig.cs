@@ -33,9 +33,9 @@ public sealed class CrowdControlConfig : ModConfig
 
     [PublicAPI]
     [Label("Show effect messages in chat")]
-    [Tooltip("Disable this to stop effect messages from showing in chat.\nUseful if you would like is use the browser source.")]
+    [Tooltip("Disable this to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
     [DefaultValue(true)]
-    public bool ShowEffectMessagesInChat { get; private set; }
+    public bool ShowEffectMessagesInChat;
 
     [PublicAPI]
     [Label("Respawn Timer")]
@@ -44,13 +44,13 @@ public sealed class CrowdControlConfig : ModConfig
     [Increment(0.1f)]
     [DrawTicks]
     [DefaultValue(0.5f)]
-    public float RespawnTimeFactor { get; private set; }
+    public float RespawnTimeFactor;
 
     [PublicAPI]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
-    public bool DeveloperMode { get; private set; }
+    public bool DeveloperMode;
 
     public override ConfigScope Mode => ConfigScope.ClientSide;
 
