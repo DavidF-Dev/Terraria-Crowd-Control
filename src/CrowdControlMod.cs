@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
+using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
@@ -223,7 +224,15 @@ public sealed class CrowdControlMod : Mod
         musicId = 0;
         foreach (var effect in _effects.Values.Where(x => x.IsActive))
         {
-            effect.UpdateMusic(ref musicId, ref priority);
+            // Ignore if the effect does not play music or is too low priority
+            if (effect is not IMusicEffect musicEffect || musicEffect.MusicPriority <= priority)
+            {
+                continue;
+            }
+
+            // Update the music and current priority
+            musicId = musicEffect.MusicId;
+            priority = musicEffect.MusicPriority;
         }
 
         return musicId != 0;

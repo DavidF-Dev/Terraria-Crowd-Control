@@ -49,9 +49,9 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     #region Properties
 
-    public int MusicId => MusicID.Mushrooms;
+    int IMusicEffect.MusicId => MusicID.Mushrooms;
     
-    public int MusicPriority => 0;
+    int IMusicEffect.MusicPriority => 0;
 
     #endregion
 

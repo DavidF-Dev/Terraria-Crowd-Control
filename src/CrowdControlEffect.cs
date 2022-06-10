@@ -190,22 +190,6 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Check if the effect wants to update the music.
-    /// </summary>
-    public void UpdateMusic(ref int musicId, ref int priority)
-    {
-        if (this is not IMusicEffect musicEffect || musicEffect.MusicPriority <= priority)
-        {
-            // Do not update music
-            return;
-        }
-        
-        // Update the music and current priority
-        musicId = musicEffect.MusicId;
-        priority = musicEffect.MusicPriority;
-    }
-    
-    /// <summary>
     ///     Receive a packet meant for this effect, sent from a client.
     /// </summary>
     public void ReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
