@@ -1,9 +1,10 @@
 ﻿using JetBrains.Annotations;
 
-namespace CrowdControlMod;
+namespace CrowdControlMod.ID;
 
+// ReSharper disable once InconsistentNaming
 [PublicAPI]
-public enum CrowdControlPacket : byte
+public enum PacketID : byte
 {
     /// <summary>
     ///     Send a debug message to all clients.<br />

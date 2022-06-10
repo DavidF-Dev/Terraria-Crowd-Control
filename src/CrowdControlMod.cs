@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -86,7 +87,7 @@ public sealed class CrowdControlMod : Mod
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
-        
+
         base.Load();
     }
 
@@ -212,6 +213,22 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
+    /// <summary>
+    ///     Check if any of the effects want to play music.
+    /// </summary>
+    [PublicAPI]
+    public bool TryGetEffectMusic(out int musicId)
+    {
+        var priority = int.MinValue;
+        musicId = 0;
+        foreach (var effect in _effects.Values.Where(x => x.IsActive))
+        {
+            effect.UpdateMusic(ref musicId, ref priority);
+        }
+
+        return musicId != 0;
+    }
+    
     private void HandleClientPacket(BinaryReader reader)
     {
         if (!IsSessionActive)
@@ -220,10 +237,10 @@ public sealed class CrowdControlMod : Mod
         }
         
         // Determine what to do with the incoming packet
-        var packetId = (CrowdControlPacket)reader.ReadByte();
+        var packetId = (PacketID)reader.ReadByte();
         switch (packetId)
         {
-            case CrowdControlPacket.DebugMessage:
+            case PacketID.DebugMessage:
             {
                 // Let this client handle the debug message
                 var message = reader.ReadString();
@@ -231,7 +248,7 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteDebug(message, colour);
                 break;
             }
-            case CrowdControlPacket.EffectMessage:
+            case PacketID.EffectMessage:
             {
                 // Let this client handle the effect message
                 var itemId = reader.ReadInt16();
@@ -248,7 +265,7 @@ public sealed class CrowdControlMod : Mod
     private void HandleServerPacket(BinaryReader reader, int sender)
     {
         // Let the server handle the effect packet
-        var packetId = (CrowdControlPacket)reader.ReadByte();
+        var packetId = (PacketID)reader.ReadByte();
         var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
         var effectId = reader.ReadString();
         
@@ -448,19 +465,19 @@ public sealed class CrowdControlMod : Mod
     private void AddAllEffects()
     {
         // --- Time effects
-        AddEffect(new SetTimeEffect(EffectId.SetTimeNoon, "noon", 27000, true));
-        AddEffect(new SetTimeEffect(EffectId.SetTimeMidnight, "midnight", 16200, false));
-        AddEffect(new SetTimeEffect(EffectId.SetTimeSunrise, "sunrise", 0, true));
-        AddEffect(new SetTimeEffect(EffectId.SetTimeSunset, "sunset", 0, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         
         // --- Positive buff effects
-        AddEffect(new BuffEffect(EffectId.BuffSurvivability, EffectSeverity.Positive, 12f,
+        AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 12f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs",
             BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
         
         // --- Unassigned effects
         AddEffect(new SpawnStructureEffect());
-        AddEffect(new IncreaseSpawnRateEffect(EffectId.IncreaseSpawnRate, 20f, 20f));
+        AddEffect(new IncreaseSpawnRateEffect(EffectID.IncreaseSpawnRate, 20f, 20f));
         AddEffect(new WallOfFishEffect(15f, 0.85f));
     }
 

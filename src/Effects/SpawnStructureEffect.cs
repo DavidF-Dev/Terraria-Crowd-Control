@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;
@@ -95,7 +96,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnStructureEffect() : base(EffectId.SpawnStructure, null, EffectSeverity.Neutral)
+    public SpawnStructureEffect() : base(EffectID.SpawnStructure, null, EffectSeverity.Neutral)
     {
     }
 
@@ -122,7 +123,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         else
         {
             // Let the server generate the structure if we are a client
-            SendPacket(CrowdControlPacket.SpawnStructure, (int)_chosenStructure, player.TileX, player.TileY);
+            SendPacket(PacketID.SpawnStructure, (int)_chosenStructure, player.TileX, player.TileY);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -149,9 +150,9 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.TinHammer, message, Severity);
     }
 
-    protected override void OnReceivePacket(CrowdControlPacket packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != CrowdControlPacket.SpawnStructure)
+        if (packetId != PacketID.SpawnStructure)
         {
             return;
         }

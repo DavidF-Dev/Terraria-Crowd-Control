@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
+using CrowdControlMod.Effects.Interfaces;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;
@@ -114,7 +116,7 @@ public abstract class CrowdControlEffect
             else if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 // Notify the server that the timed effect is active
-                SendPacket(CrowdControlPacket.EffectStatus, true);
+                SendPacket(PacketID.EffectStatus, true);
             }
         }
         else
@@ -139,7 +141,7 @@ public abstract class CrowdControlEffect
         if (Main.netMode == NetmodeID.MultiplayerClient && _isTimedEffect)
         {
             // Notify the server that the timed effect finished
-            SendPacket(CrowdControlPacket.EffectStatus, false);
+            SendPacket(PacketID.EffectStatus, false);
         }
 
         SendStopMessage();
@@ -188,9 +190,25 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
+    ///     Check if the effect wants to update the music.
+    /// </summary>
+    public void UpdateMusic(ref int musicId, ref int priority)
+    {
+        if (this is not IMusicEffect musicEffect || musicEffect.MusicPriority <= priority)
+        {
+            // Do not update music
+            return;
+        }
+        
+        // Update the music and current priority
+        musicId = musicEffect.MusicId;
+        priority = musicEffect.MusicPriority;
+    }
+    
+    /// <summary>
     ///     Receive a packet meant for this effect, sent from a client.
     /// </summary>
-    public void ReceivePacket(CrowdControlPacket packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
+    public void ReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
         if (Main.netMode != NetmodeID.Server)
         {
@@ -199,7 +217,7 @@ public abstract class CrowdControlEffect
         }
 
         // Check if the packet is in regards to a client's effect status changing
-        if (packetId == CrowdControlPacket.EffectStatus)
+        if (packetId == PacketID.EffectStatus)
         {
             var isActive = reader.ReadBoolean();
 
@@ -225,7 +243,7 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Send a packet to be handled by the effect on the server-side.
     /// </summary>
-    protected void SendPacket(CrowdControlPacket packetId, [NotNull] params object[] args)
+    protected void SendPacket(PacketID packetId, [NotNull] params object[] args)
     {
         if (Main.netMode == NetmodeID.Server)
         {
@@ -295,7 +313,7 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Invoked when a packet is received, meant for this effect to handle on the server-side.
     /// </summary>
-    protected virtual void OnReceivePacket(CrowdControlPacket packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
+    protected virtual void OnReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
     }
 

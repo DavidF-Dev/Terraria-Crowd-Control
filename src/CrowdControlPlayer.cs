@@ -1,4 +1,5 @@
 ﻿using System;
+using CrowdControlMod.Config;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;

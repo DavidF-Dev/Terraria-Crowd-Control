@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using Terraria.ModLoader.Config;
 
-namespace CrowdControlMod;
+namespace CrowdControlMod.Config;
 
 [UsedImplicitly]
 [Label("Configuration")]

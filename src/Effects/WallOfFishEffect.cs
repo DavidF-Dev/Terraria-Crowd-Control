@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Effects.Interfaces;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -11,7 +13,7 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects;
 
-public sealed class WallOfFishEffect : CrowdControlEffect
+public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 {
     #region Fields
 
@@ -24,7 +26,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect
 
     #region Constructors
 
-    public WallOfFishEffect(float duration, float drawOffset) : base(EffectId.WallOfFish, duration, EffectSeverity.Negative)
+    public WallOfFishEffect(float duration, float drawOffset) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
     {
         _drawOffset = drawOffset;
 
@@ -42,6 +44,14 @@ public sealed class WallOfFishEffect : CrowdControlEffect
             _fishIds.Add(i);
         }
     }
+
+    #endregion
+
+    #region Properties
+
+    public int MusicId => MusicID.Mushrooms;
+    
+    public int MusicPriority => 0;
 
     #endregion
 

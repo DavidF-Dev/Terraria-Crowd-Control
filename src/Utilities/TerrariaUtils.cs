@@ -1,5 +1,7 @@
 ﻿using System;
+using CrowdControlMod.Config;
 using CrowdControlMod.Effects;
+using CrowdControlMod.ID;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -89,7 +91,7 @@ public static class TerrariaUtils
         {
             // Create a packet to send to all clients
             var packet = CrowdControlMod.GetInstance().GetPacket(4);
-            packet.Write((byte)CrowdControlPacket.EffectMessage);
+            packet.Write((byte)PacketID.EffectMessage);
             packet.Write(itemId);
             packet.Write(message);
             packet.Write((int)severity);
@@ -125,7 +127,7 @@ public static class TerrariaUtils
         {
             // Create a packet to send to all clients
             var packet = CrowdControlMod.GetInstance().GetPacket(3);
-            packet.Write((byte)CrowdControlPacket.DebugMessage);
+            packet.Write((byte)PacketID.DebugMessage);
             packet.Write(message);
             packet.Write(colour.GetValueOrDefault(Color.Yellow).PackedValue);
             packet.Send();

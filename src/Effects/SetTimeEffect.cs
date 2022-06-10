@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;
@@ -38,7 +39,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
         // if !allow time change in boss and ActiveBossEventOrInvasion(false true)
         // Failure
 
-        // TODO: Check if game time is already at desired time: Retry
+        // TODO: Check if game time is already at desired time: Retry (?)
 
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
@@ -49,7 +50,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
         else
         {
             // Send a packet telling the server to change the time
-            SendPacket(CrowdControlPacket.SetTime, _time, _isDay);
+            SendPacket(PacketID.SetTime, _time, _isDay);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -60,9 +61,9 @@ public sealed class SetTimeEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(_isDay ? ItemID.SunMask : ItemID.MoonMask, $"{viewerString} set the time to {_timeString}", EffectSeverity.Neutral);
     }
 
-    protected override void OnReceivePacket(CrowdControlPacket packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != CrowdControlPacket.SetTime)
+        if (packetId != PacketID.SetTime)
         {
             // Ignore (this shouldn't happen)
             return;
