@@ -143,7 +143,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        TerrariaUtils.WriteEffectMessage(0, message, Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.TinHammer, message, Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPacket packetId, CrowdControlPlayer player, BinaryReader reader)
