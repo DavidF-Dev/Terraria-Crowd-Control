@@ -17,8 +17,6 @@ public sealed class CrowdControlModSystem : ModSystem
             // Stop the crowd control session upon exiting a world
             CrowdControlMod.GetInstance().StopCrowdControlSession();
         }
-        
-        base.PreSaveAndQuit();
     }
 
     #endregion

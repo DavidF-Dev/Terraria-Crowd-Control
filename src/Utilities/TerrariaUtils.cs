@@ -131,13 +131,15 @@ public static class TerrariaUtils
             packet.Send();
             return;
         }
-
-        // Ignore if not in developer mode
+        
+        #if !DEBUG
+        // Ignore if not in developer mode        
         if (!CrowdControlConfig.GetInstance().DeveloperMode)
         {
             return;
         }
-        
+        #endif
+
         WriteMessage(ItemID.Cog, message, colour.GetValueOrDefault(Color.Yellow));
     }
     

@@ -28,6 +28,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
     [Pure]
     private static Structure ChooseStructure([NotNull] CrowdControlPlayer player)
     {
+        // Choose the structure based on the player's location in the world
         var tileY = player.TileY;
 
         if (player.Player.ZoneCorrupt || player.Player.ZoneCrimson)
@@ -50,6 +51,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     private static void SpawnStructure(Structure structure, int tileX, int tileY)
     {
+        // Generate the structure
         switch (structure)
         {
             case Structure.None:
@@ -70,15 +72,16 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
                 throw new ArgumentOutOfRangeException(nameof(structure), structure, null);
         }
 
-        const int extentsX = 100;
-        const int extentsY = 150;
+        // Update the client with the changed tiles
+        const int extentsX = 64;
+        const int extentsY = 64;
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
-            WorldGen.RangeFrame(tileX - extentsX, tileY - extentsY, tileX + extentsX, tileY + extentsY);
+            WorldGen.RangeFrame(tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
         }
         else
         {
-            NetMessage.SendTileSquare(-1, tileX, tileY, extentsX * 2, extentsY * 2);
+            NetMessage.SendTileSquare(-1, tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
         }
     }
 

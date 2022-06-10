@@ -98,7 +98,7 @@ public sealed class CrowdControlMod : Mod
         // Null references
         _player = null!;
         _instance = null!;
-        _effects.Clear();
+        DisposeAllEffects();
 
         base.Close();
     }
@@ -132,7 +132,6 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready.
     /// </summary>
-    [PublicAPI]
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
         if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
@@ -156,7 +155,6 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Stop the crowd control session if it is currently running.
     /// </summary>
-    [PublicAPI]
     public void StopCrowdControlSession()
     {
         if (!_isSessionRunning)
@@ -460,8 +458,22 @@ public sealed class CrowdControlMod : Mod
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs",
             BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
         
+        // --- Unassigned effects
         AddEffect(new SpawnStructureEffect(EffectId.SpawnStructure));
+        AddEffect(new IncreaseSpawnRateEffect(EffectId.IncreaseSpawnRate, 20f, 20f));
     }
-    
+
+    private void DisposeAllEffects()
+    {
+        // Dispose each effect
+        foreach (var effect in _effects.Values)
+        {
+            effect.Dispose();
+        }
+
+        // Clear the list
+        _effects.Clear();
+    }
+
     #endregion
 }

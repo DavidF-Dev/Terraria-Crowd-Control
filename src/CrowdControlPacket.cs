@@ -18,6 +18,12 @@ public enum CrowdControlPacket : byte
     EffectMessage,
     
     /// <summary>
+    ///     Notify the server about the status of an effect.<br />
+    ///     Packet data: (bool)status
+    /// </summary>
+    EffectStatus,
+    
+    /// <summary>
     ///     Set the in-game time on the server.<br />
     ///     Packet data: (int)time (bool)isDay
     /// </summary>

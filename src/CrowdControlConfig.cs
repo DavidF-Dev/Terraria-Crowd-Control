@@ -20,7 +20,6 @@ public sealed class CrowdControlConfig : ModConfig
     /// <summary>
     ///     Get the crowd control config instance.
     /// </summary>
-    /// <returns></returns>
     [PublicAPI] [Pure] [NotNull]
     public static CrowdControlConfig GetInstance()
     {
@@ -30,14 +29,14 @@ public sealed class CrowdControlConfig : ModConfig
     #endregion
 
     #region Properties
-
-    [PublicAPI]
+    
+    [UsedImplicitly]
     [Label("Show effect messages in chat")]
     [Tooltip("Disable this to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
-    [PublicAPI]
+    [UsedImplicitly]
     [Label("Respawn Timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
     [Range(0.4f, 1f)]
@@ -46,7 +45,7 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
-    [PublicAPI]
+    [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]

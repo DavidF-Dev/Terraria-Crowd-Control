@@ -1,10 +1,8 @@
 ﻿using System;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod;
@@ -22,7 +20,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     [PublicAPI]
     public int TileX => (int)(Player.position.X / 16);
-    
+
     [PublicAPI]
     public int TileY => (int)(Player.position.Y / 16);
 
@@ -30,7 +28,12 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     #region Events
 
+    /// <inheritdoc cref="PlayerDisconnect" />
+    [PublicAPI]
+    public static event Action<Player> PlayerDisconnectHook;
+
     /// <inheritdoc cref="PreUpdateBuffs" />
+    [PublicAPI]
     public event Action PreUpdateBuffsHook;
 
     #endregion
@@ -44,8 +47,6 @@ public sealed class CrowdControlPlayer : ModPlayer
             // Start the crowd control session upon entering a world
             CrowdControlMod.GetInstance().StartCrowdControlSession(this);
         }
-        
-        base.OnEnterWorld(player);
     }
 
     public override void PlayerDisconnect(Player player)
@@ -56,7 +57,7 @@ public sealed class CrowdControlPlayer : ModPlayer
             CrowdControlMod.GetInstance().StopCrowdControlSession();
         }
 
-        base.PlayerDisconnect(player);
+        PlayerDisconnectHook?.Invoke(player);
     }
 
     public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
@@ -66,14 +67,11 @@ public sealed class CrowdControlPlayer : ModPlayer
             // Reduce the respawn timer by the mod configuration factor
             Player.respawnTimer = (int)(Player.respawnTimer * CrowdControlConfig.GetInstance().RespawnTimeFactor);
         }
-
-        base.Kill(damage, hitDirection, pvp, damageSource);
     }
 
     public override void PreUpdateBuffs()
     {
         PreUpdateBuffsHook?.Invoke();
-        base.PreUpdateBuffs();
     }
 
     #endregion

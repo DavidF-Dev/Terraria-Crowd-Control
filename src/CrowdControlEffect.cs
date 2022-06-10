@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
@@ -6,7 +7,6 @@ using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CrowdControlMod;
 
@@ -25,12 +25,25 @@ public abstract class CrowdControlEffect
 
     #endregion
 
+    #region Fields
+
+    /// <inheritdoc cref="ActiveOnServer"/>
+    [NotNull]
+    private readonly HashSet<int> _activeOnServer = new();
+
+    #endregion
+
     #region Constructors
 
     protected CrowdControlEffect([NotNull] string id, EffectSeverity severity)
     {
         Id = id;
         Severity = severity;
+
+        if (Main.netMode == NetmodeID.Server)
+        {
+            CrowdControlPlayer.PlayerDisconnectHook += PlayerDisconnect;
+        }
     }
 
     #endregion
@@ -40,37 +53,36 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Unique id that correlates to the crowd control effect ids.
     /// </summary>
-    [PublicAPI] [NotNull]
+    [NotNull]
     public string Id { get; }
 
     /// <summary>
     ///     Effect is currently active.
     /// </summary>
-    [PublicAPI]
     public bool IsActive { get; private set; }
-
-    /// <summary>
-    ///     Name of the viewer that triggered the effect.
-    /// </summary>
-    [PublicAPI] [NotNull]
-    protected string Viewer { get; private set; } = string.Empty;
 
     /// <summary>
     ///     Total time that the effect takes to complete.
     /// </summary>
-    [PublicAPI] [CanBeNull]
+    [CanBeNull]
     protected float? Duration { get; set; }
 
     /// <summary>
     ///     Current time remaining on the effect.
     /// </summary>
-    [PublicAPI] [CanBeNull]
+    [CanBeNull]
     protected float? TimeLeft { get; private set; }
 
     /// <summary>
     ///     Severity of the effect on the streamer.
     /// </summary>
     protected EffectSeverity Severity { get; }
+
+    /// <summary>
+    ///     Collection of players with this timed effect active (server-side).
+    /// </summary>
+    [NotNull]
+    protected IEnumerable<int> ActiveOnServer => _activeOnServer;
 
     #endregion
 
@@ -79,7 +91,6 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Start the effect.
     /// </summary>
-    [PublicAPI]
     public CrowdControlResponseStatus Start([NotNull] string viewer)
     {
         if (IsActive)
@@ -87,7 +98,6 @@ public abstract class CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        Viewer = viewer;
         TimeLeft = Duration;
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
@@ -96,16 +106,21 @@ public abstract class CrowdControlEffect
         {
             var hasTimeLeft = TimeLeft is > 0f;
             SendStartMessage(viewer, GetLocalPlayer().Player.name, hasTimeLeft ? $"{TimeLeft.Value:0.}" : null);
+
             if (!hasTimeLeft)
             {
                 // Effect should stop straight away as it isn't timed
                 Stop();
             }
+            else if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                // Notify the server that the timed effect is active
+                SendPacket(CrowdControlPacket.EffectStatus, true);
+            }
         }
         else
         {
             // Effect could not start, so reset variables
-            Viewer = string.Empty;
             TimeLeft = null;
         }
 
@@ -115,7 +130,6 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Stop the effect instantly, without fail.
     /// </summary>
-    [PublicAPI]
     public CrowdControlResponseStatus Stop()
     {
         if (!IsActive)
@@ -123,9 +137,15 @@ public abstract class CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
+        if (Main.netMode == NetmodeID.MultiplayerClient && TimeLeft.GetValueOrDefault() > 0)
+        {
+            // Notify the server that the timed effect finished
+            SendPacket(CrowdControlPacket.EffectStatus, false);
+        }
+
         SendStopMessage();
+
         IsActive = false;
-        Viewer = string.Empty;
         TimeLeft = null;
 
         OnStop();
@@ -136,7 +156,6 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Update the effect whilst active each frame so that the time remaining is reduced.
     /// </summary>
-    [PublicAPI]
     public void Update(float delta)
     {
         if (!IsActive || !TimeLeft.HasValue)
@@ -148,6 +167,10 @@ public abstract class CrowdControlEffect
         TimeLeft -= delta;
         if (TimeLeft <= 0)
         {
+            // Set the time left to 1 to signify to the Stop() method that the effect WAS timed
+            // Ouch
+            TimeLeft = 1f;
+
             Stop();
             TerrariaUtils.WriteDebug($"Stopped effect '{Id}' because the duration reached zero");
             return;
@@ -157,9 +180,21 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
+    ///     Clean up the effect right before it is destroyed (when the mod is unloaded).
+    /// </summary>
+    public void Dispose()
+    {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            CrowdControlPlayer.PlayerDisconnectHook -= PlayerDisconnect;
+        }
+
+        OnDispose();
+    }
+
+    /// <summary>
     ///     Receive a packet meant for this effect, sent from a client.
     /// </summary>
-    [PublicAPI]
     public void ReceivePacket(CrowdControlPacket packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
         if (Main.netMode != NetmodeID.Server)
@@ -167,7 +202,28 @@ public abstract class CrowdControlEffect
             // Ignore if not running on the server
             return;
         }
-        
+
+        // Check if the packet is in regards to a client's effect status changing
+        if (packetId == CrowdControlPacket.EffectStatus)
+        {
+            var isActive = reader.ReadBoolean();
+
+            // Add or remove the player from the server-side collection
+            if (isActive)
+            {
+                _activeOnServer.Add(player.Player.whoAmI);
+                TerrariaUtils.WriteDebug($"Added '{player.Player.name}' from effect '{Id}' active collection");
+            }
+            else
+            {
+                _activeOnServer.Remove(player.Player.whoAmI);
+                TerrariaUtils.WriteDebug($"Removed '{player.Player.name}' from effect '{Id}' active collection");
+            }
+
+            OnEffectStatusChanged(player, isActive);
+            return;
+        }
+
         OnReceivePacket(packetId, player, reader);
     }
 
@@ -192,7 +248,7 @@ public abstract class CrowdControlEffect
             {
                 TerrariaUtils.WriteToPacket(packet, obj);
             }
-            
+
             // Send the packet to the server
             packet.Send();
             TerrariaUtils.WriteDebug($"'{Id}' sent packet '{packetId}' to the server");
@@ -202,7 +258,7 @@ public abstract class CrowdControlEffect
             TerrariaUtils.WriteDebug($"'{Id}' failed to send the packet '{packetId}' to the server: {e.Message}");
         }
     }
-    
+
     /// <summary>
     ///     Invoked when the effect is triggered.
     /// </summary>
@@ -225,6 +281,13 @@ public abstract class CrowdControlEffect
     {
     }
 
+    /// <summary>
+    ///     Invoked before the effect is destroyed (when the mod is unloaded).
+    /// </summary>
+    protected virtual void OnDispose()
+    {
+    }
+
     protected virtual void SendStartMessage([NotNull] string viewerString, [NotNull] string playerString, [CanBeNull] string durationString)
     {
         TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
@@ -239,6 +302,22 @@ public abstract class CrowdControlEffect
     /// </summary>
     protected virtual void OnReceivePacket(CrowdControlPacket packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
+    }
+
+    /// <summary>
+    ///     Invoked when a client notifies the server about a change in effect status.<br />
+    ///     Invoked on the server.
+    /// </summary>
+    protected virtual void OnEffectStatusChanged([NotNull] CrowdControlPlayer player, bool isActive)
+    {
+    }
+
+    private void PlayerDisconnect(Player player)
+    {
+        // Server-side
+        // Remove player from server-side collection
+        _activeOnServer.Remove(player.whoAmI);
+        TerrariaUtils.WriteDebug($"Removed '{player.name}' from effect '{Id}' active collection");
     }
 
     #endregion
