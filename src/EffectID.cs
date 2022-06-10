@@ -13,5 +13,7 @@ public static class EffectId
     // --- Positive buff effects
     public const string BuffSurvivability = "buff_survivability";
 
+    public const string SpawnStructure = "spawn_structure";
+
     #endregion
 }

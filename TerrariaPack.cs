@@ -48,7 +48,9 @@ public sealed class Terraria : SimpleTCPPack
                 
                 // --- Positive buff effects
                 new Effect("Boost player survivability", "buff_survivability"),
-                new Effect("Boost player health regeneration", "buff_regeneration")
+                new Effect("Boost player health regeneration", "buff_regeneration"),
+                
+                new Effect("Spawn structure", "spawn_structure")
             };
         }
     }

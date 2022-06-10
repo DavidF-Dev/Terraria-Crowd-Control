@@ -31,10 +31,11 @@ public static class TerrariaUtils
     }
 
     /// <summary>
-    ///     Write a message to the game chat.
+    ///     Write a message to the game chat.<br />
+    ///     Server will broadcast the message to all clients.
     /// </summary>
     [PublicAPI]
-    public static void WriteMessage([NotNull] string message, Color colour = default)
+    public static void WriteMessage([NotNull] string message, Color? colour = null, bool doLog = true)
     {
         var netText = NetworkText.FromLiteral(message);
         if (netText == NetworkText.Empty)
@@ -42,41 +43,60 @@ public static class TerrariaUtils
             // Ignore
             return;
         }
-        
+
+        // Check if we should log this message to client.log or server.log
+        if (doLog)
+        {
+            CrowdControlMod.GetInstance().Logger.Info(message);
+        }
+
         if (Main.netMode == NetmodeID.Server)
         {
             // Broadcast if called from a server
-            ChatHelper.BroadcastChatMessage(netText, colour);
+            ChatHelper.BroadcastChatMessage(netText, colour.GetValueOrDefault(Color.White));
             return;
         }
 
         // Send to client
-        Main.NewText(netText, colour);
+        Main.NewText(netText, colour.GetValueOrDefault(Color.White));
     }
 
     /// <summary>
-    ///     Write a message to the game chat, prefixed with the provided item.
+    ///     Write a message to the game chat, prefixed with the provided item.<br />
+    ///     Server will broadcast the message to all clients.
     /// </summary>
     [PublicAPI]
-    public static void WriteMessage(short itemId, [NotNull] string message, Color colour)
+    public static void WriteMessage(short itemId, [NotNull] string message, Color? colour = null, bool doLog = true)
     {
         if (itemId == 0)
         {
-            WriteMessage(message, colour);
+            WriteMessage(message, colour, doLog);
             return;
         }
 
-        WriteMessage($"{GetItemRichText(itemId)} {message}", colour);
+        WriteMessage($"{GetItemRichText(itemId)} {message}", colour, doLog);
     }
 
     /// <summary>
     ///     Write an effect message to the game chat, prefixed with the provided item.<br />
-    ///     Colour is determined by the provided effect type.<br />
+    ///     Server will notify clients of the effect message, letting them handle it.
     ///     Message will only appear if configured to.
     /// </summary>
     [PublicAPI]
     public static void WriteEffectMessage(short itemId, [NotNull] string message, EffectSeverity severity)
     {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            // Create a packet to send to all clients
+            var packet = CrowdControlMod.GetInstance().GetPacket(4);
+            packet.Write((byte)CrowdControlPacket.EffectMessage);
+            packet.Write(itemId);
+            packet.Write(message);
+            packet.Write((int)severity);
+            packet.Send();
+            return;
+        }
+        
         if (!CrowdControlConfig.GetInstance().ShowEffectMessagesInChat)
         {
             return;
@@ -95,19 +115,28 @@ public static class TerrariaUtils
     }
 
     /// <summary>
-    ///     Write a message to the game chat, only if in a debug build.
+    ///     Write a message to the game chat, only if in a debug build.<br />
+    ///     Server will notify clients of the debug message, letting them handle it.
     /// </summary>
     [PublicAPI]
     public static void WriteDebug([NotNull] string message, Color? colour = null)
     {
-        // TODO: Allow server to write debug messages (send to clients with developer mode enabled?)
-        
-        #if !DEBUG
+        if (Main.netMode == NetmodeID.Server)
+        {
+            // Create a packet to send to all clients
+            var packet = CrowdControlMod.GetInstance().GetPacket(3);
+            packet.Write((byte)CrowdControlPacket.DebugMessage);
+            packet.Write(message);
+            packet.Write(colour.GetValueOrDefault(Color.Yellow).PackedValue);
+            packet.Send();
+            return;
+        }
+
+        // Ignore if not in developer mode
         if (!CrowdControlConfig.GetInstance().DeveloperMode)
         {
             return;
         }
-        #endif
         
         WriteMessage(ItemID.Cog, message, colour.GetValueOrDefault(Color.Yellow));
     }
@@ -166,6 +195,6 @@ public static class TerrariaUtils
                 throw new NotImplementedException($"Sending '{data.GetType().Name}' in a packet is unsupported");
         }
     }
-    
+
     #endregion
 }

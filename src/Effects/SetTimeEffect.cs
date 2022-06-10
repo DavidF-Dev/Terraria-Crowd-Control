@@ -52,7 +52,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
             SendPacket(CrowdControlPacket.SetTime, _time, _isDay);
         }
 
-        return base.OnStart();
+        return CrowdControlResponseStatus.Success;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)

@@ -59,13 +59,11 @@ public sealed class BuffEffect : CrowdControlEffect
         }
 
         player.PreUpdateBuffsHook += PreUpdateBuffs;
-        return base.OnStart();
+        return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
     {
-        // Don't bother clearing the buffs
-    
         GetLocalPlayer().PreUpdateBuffsHook -= PreUpdateBuffs;
     }
 

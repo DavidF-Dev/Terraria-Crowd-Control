@@ -86,10 +86,10 @@ public sealed class CrowdControlMod : Mod
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
-
+        
         base.Load();
     }
-    
+
     public override void Close()
     {
         // Ensure that the session is stopped
@@ -105,28 +105,29 @@ public sealed class CrowdControlMod : Mod
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
     {
-        if (Main.netMode == NetmodeID.Server)
+        switch (Main.netMode)
         {
-            try
+            case NetmodeID.MultiplayerClient:
             {
-                // Read incoming packet header data
-                var packetId = (CrowdControlPacket)reader.ReadByte();
-                var player = Main.player[reader.ReadInt32()].GetModPlayer<CrowdControlPlayer>();
-                var effectId = reader.ReadString();
-
-                // Check that the effect exists and is active
-                if (player != null && !string.IsNullOrEmpty(effectId) && _effects.TryGetValue(effectId, out var effect) && effect.IsActive)
-                {
-                    // Let the effect handle the packet
-                    effect.ReceivePacket(packetId, player, reader);
-                }
+                HandleClientPacket(reader);
+                break;
             }
-            catch (Exception e)
+            case NetmodeID.Server:
             {
-                TerrariaUtils.WriteDebug($"Failed to handle an incoming packet: {e.Message}");
+                HandleServerPacket(reader, whoAmI);
+                break;
             }
         }
         
+        try
+        {
+            
+        }
+        catch (Exception e)
+        {
+            TerrariaUtils.WriteDebug($"Failed to handle an incoming packet: {e.Message}");
+        }
+
         base.HandlePacket(reader, whoAmI);
     }
 
@@ -138,6 +139,7 @@ public sealed class CrowdControlMod : Mod
     {
         if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
         {
+            TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
             return;
         }
         
@@ -213,6 +215,55 @@ public sealed class CrowdControlMod : Mod
             return false;
         }
     }
+
+    private void HandleClientPacket(BinaryReader reader)
+    {
+        if (!IsSessionActive)
+        {
+            return;
+        }
+        
+        // Determine what to do with the incoming packet
+        var packetId = (CrowdControlPacket)reader.ReadByte();
+        switch (packetId)
+        {
+            case CrowdControlPacket.DebugMessage:
+            {
+                // Let this client handle the debug message
+                var message = reader.ReadString();
+                var colour = new Color {PackedValue = reader.ReadUInt32()};
+                TerrariaUtils.WriteDebug(message, colour);
+                break;
+            }
+            case CrowdControlPacket.EffectMessage:
+            {
+                // Let this client handle the effect message
+                var itemId = reader.ReadInt16();
+                var message = reader.ReadString();
+                var severity = (EffectSeverity)reader.ReadInt32();
+                TerrariaUtils.WriteEffectMessage(itemId, message, severity);
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void HandleServerPacket(BinaryReader reader, int sender)
+    {
+        // Let the server handle the effect packet
+        var packetId = (CrowdControlPacket)reader.ReadByte();
+        var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
+        var effectId = reader.ReadString();
+        
+        // Check that the effect exists
+        if (player != null && !string.IsNullOrEmpty(effectId) && _effects.TryGetValue(effectId, out var effect))
+        {
+            // Let the effect handle the packet
+            effect.ReceivePacket(packetId, player, reader); 
+            TerrariaUtils.WriteDebug($"'{effectId}' responded to packet '{packetId}' from client '{player.Player.name}'");
+        }
+    }
     
     private void OnUpdate(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
     {
@@ -260,9 +311,15 @@ public sealed class CrowdControlMod : Mod
                 // Connection successful, so keep polling the socket for incoming packets
                 while (_isSessionRunning && socket.Connected && socket.Poll(1000, SelectMode.SelectWrite))
                 {
+                    // Check if there is any data to receive
+                    if (!socket.Poll(1000, SelectMode.SelectRead))
+                    {
+                        continue;
+                    }
+                    
                     try
                     {
-                        // Read incoming data (if any)
+                        // Read incoming data
                         var buffer = new byte[1024];
                         var size = socket.Receive(buffer);
                         var data = System.Text.Encoding.ASCII.GetString(buffer, 0, size);
@@ -339,6 +396,7 @@ public sealed class CrowdControlMod : Mod
 
         // Clean up
         _sessionThread = null;
+        TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
     }
 
     private CrowdControlResponseStatus ProcessEffect([NotNull] string code, [NotNull] string viewer, CrowdControlRequestType requestType)
@@ -382,7 +440,12 @@ public sealed class CrowdControlMod : Mod
 
     private void AddEffect([NotNull] CrowdControlEffect effect)
     {
-        // Will throw an exception if key already exists
+        if (_effects.ContainsKey(effect.Id))
+        {
+            TerrariaUtils.WriteDebug($"Effect '{effect.Id}' is already added");
+            return;
+        }
+        
         _effects.Add(effect.Id, effect);
     }
 
@@ -398,7 +461,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectId.BuffSurvivability, EffectSeverity.Positive, 12f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs",
             BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
+        
+        AddEffect(new SpawnStructureEffect(EffectId.SpawnStructure));
     }
-
+    
     #endregion
 }

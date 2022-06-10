@@ -185,13 +185,12 @@ public abstract class CrowdControlEffect
         try
         {
             // Create a new packet and assign the data
-            var packet = CrowdControlMod.GetInstance().GetPacket(args.Length);
+            var packet = CrowdControlMod.GetInstance().GetPacket(args.Length + 2);
             packet.Write((byte)packetId);
-            packet.Write(GetLocalPlayer().Player.whoAmI);
             packet.Write(Id);
-            foreach (var i in args)
+            foreach (var obj in args)
             {
-                TerrariaUtils.WriteToPacket(packet, i);
+                TerrariaUtils.WriteToPacket(packet, obj);
             }
             
             // Send the packet to the server

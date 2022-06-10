@@ -6,14 +6,26 @@ namespace CrowdControlMod;
 public enum CrowdControlPacket : byte
 {
     /// <summary>
-    ///     Broadcast a debug message to be received by any clients that have developer mode enabled.<br />
-    ///     Packet data: (string)message
+    ///     Send a debug message to all clients.<br />
+    ///     Packet data: (string)message (uint)colourPackedValue
     /// </summary>
-    BroadcastDebug,
+    DebugMessage,
+    
+    /// <summary>
+    ///     Send an effect message to all clients.<br />
+    ///     Packet data: (short)itemId (string)message (int)severity
+    /// </summary>
+    EffectMessage,
     
     /// <summary>
     ///     Set the in-game time on the server.<br />
     ///     Packet data: (int)time (bool)isDay
     /// </summary>
-    SetTime
+    SetTime,
+    
+    /// <summary>
+    ///     Spawn a structure on the server.<br />
+    ///     Packet data: (int)structure (int)tileX (int)tileY
+    /// </summary>
+    SpawnStructure,
 }
