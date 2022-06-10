@@ -105,23 +105,21 @@ public sealed class CrowdControlMod : Mod
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
     {
-        switch (Main.netMode)
-        {
-            case NetmodeID.MultiplayerClient:
-            {
-                HandleClientPacket(reader);
-                break;
-            }
-            case NetmodeID.Server:
-            {
-                HandleServerPacket(reader, whoAmI);
-                break;
-            }
-        }
-        
         try
         {
-            
+            switch (Main.netMode)
+            {
+                case NetmodeID.MultiplayerClient:
+                {
+                    HandleClientPacket(reader);
+                    break;
+                }
+                case NetmodeID.Server:
+                {
+                    HandleServerPacket(reader, whoAmI);
+                    break;
+                }
+            }
         }
         catch (Exception e)
         {
