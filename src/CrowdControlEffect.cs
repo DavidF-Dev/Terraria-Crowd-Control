@@ -27,7 +27,12 @@ public abstract class CrowdControlEffect
 
     #region Fields
 
-    /// <inheritdoc cref="ActiveOnServer"/>
+    [CanBeNull]
+    private readonly float? _duration;
+
+    private readonly bool _isTimedEffect;
+    
+    /// <inheritdoc cref="ActiveOnServer" />
     [NotNull]
     private readonly HashSet<int> _activeOnServer = new();
 
@@ -35,9 +40,11 @@ public abstract class CrowdControlEffect
 
     #region Constructors
 
-    protected CrowdControlEffect([NotNull] string id, EffectSeverity severity)
+    protected CrowdControlEffect([NotNull] string id, [CanBeNull] float? duration, EffectSeverity severity)
     {
         Id = id;
+        _duration = duration;
+        _isTimedEffect = _duration is > 0f;
         Severity = severity;
 
         if (Main.netMode == NetmodeID.Server)
@@ -62,16 +69,9 @@ public abstract class CrowdControlEffect
     public bool IsActive { get; private set; }
 
     /// <summary>
-    ///     Total time that the effect takes to complete.
-    /// </summary>
-    [CanBeNull]
-    protected float? Duration { get; set; }
-
-    /// <summary>
     ///     Current time remaining on the effect.
     /// </summary>
-    [CanBeNull]
-    protected float? TimeLeft { get; private set; }
+    protected float TimeLeft { get; private set; }
 
     /// <summary>
     ///     Severity of the effect on the streamer.
@@ -98,16 +98,15 @@ public abstract class CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        TimeLeft = Duration;
+        TimeLeft = _duration.GetValueOrDefault();
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
 
         if (IsActive)
         {
-            var hasTimeLeft = TimeLeft is > 0f;
-            SendStartMessage(viewer, GetLocalPlayer().Player.name, hasTimeLeft ? $"{TimeLeft.Value:0.}" : null);
+            SendStartMessage(viewer, GetLocalPlayer().Player.name, _isTimedEffect ? $"{TimeLeft:0.}" : null);
 
-            if (!hasTimeLeft)
+            if (!_isTimedEffect)
             {
                 // Effect should stop straight away as it isn't timed
                 Stop();
@@ -121,7 +120,7 @@ public abstract class CrowdControlEffect
         else
         {
             // Effect could not start, so reset variables
-            TimeLeft = null;
+            TimeLeft = 0;
         }
 
         return responseStatus;
@@ -137,7 +136,7 @@ public abstract class CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.netMode == NetmodeID.MultiplayerClient && TimeLeft.GetValueOrDefault() > 0)
+        if (Main.netMode == NetmodeID.MultiplayerClient && _isTimedEffect)
         {
             // Notify the server that the timed effect finished
             SendPacket(CrowdControlPacket.EffectStatus, false);
@@ -146,7 +145,7 @@ public abstract class CrowdControlEffect
         SendStopMessage();
 
         IsActive = false;
-        TimeLeft = null;
+        TimeLeft = 0f;
 
         OnStop();
 
@@ -158,7 +157,7 @@ public abstract class CrowdControlEffect
     /// </summary>
     public void Update(float delta)
     {
-        if (!IsActive || !TimeLeft.HasValue)
+        if (!IsActive)
         {
             return;
         }
@@ -167,10 +166,6 @@ public abstract class CrowdControlEffect
         TimeLeft -= delta;
         if (TimeLeft <= 0)
         {
-            // Set the time left to 1 to signify to the Stop() method that the effect WAS timed
-            // Ouch
-            TimeLeft = 1f;
-
             Stop();
             TerrariaUtils.WriteDebug($"Stopped effect '{Id}' because the duration reached zero");
             return;

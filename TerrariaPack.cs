@@ -51,7 +51,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Boost player health regeneration", "buff_regeneration"),
                 
                 new Effect("Spawn structure", "spawn_structure"),
-                new Effect("Increase spawn rate", "increase_spawn_rate")
+                new Effect("Increase spawn rate", "increase_spawn_rate"),
+                new Effect("Wall of Fish", "wall_of_fish")
             };
         }
     }

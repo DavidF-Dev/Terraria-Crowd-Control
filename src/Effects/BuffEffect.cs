@@ -34,9 +34,8 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect([NotNull] string id, EffectSeverity severity, float duration, short itemId, [NotNull] GetStartMessageDelegate getStartMessage, [NotNull] params int[] buffs) : base(id, severity)
+    public BuffEffect([NotNull] string id, EffectSeverity severity, float duration, short itemId, [NotNull] GetStartMessageDelegate getStartMessage, [NotNull] params int[] buffs) : base(id, duration, severity)
     {
-        Duration = duration;
         _itemId = itemId;
         _getStartMessage = getStartMessage;
         _buffs = new HashSet<int>(buffs);
@@ -90,7 +89,6 @@ public sealed class BuffEffect : CrowdControlEffect
         }
 
         // Add buffs if needed
-        var buffTime = TimeLeft.GetValueOrDefault(1f);
         foreach (var buffId in _buffs)
         {
             // Check if the player already has the buff
@@ -98,7 +96,7 @@ public sealed class BuffEffect : CrowdControlEffect
             {
                 // Check if the buff remaining time is 'fine'
                 var buffIndex = player.Player.FindBuffIndex(buffId);
-                if (player.Player.buffTime[buffIndex] >= buffTime)
+                if (player.Player.buffTime[buffIndex] >= TimeLeft)
                 {
                     continue;
                 }
@@ -107,7 +105,7 @@ public sealed class BuffEffect : CrowdControlEffect
                 player.Player.DelBuff(buffIndex);
             }
 
-            player.Player.AddBuff(buffId, (int)Math.Ceiling(60 * buffTime));
+            player.Player.AddBuff(buffId, (int)Math.Ceiling(60 * TimeLeft));
         }
     }
 

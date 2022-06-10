@@ -16,6 +16,7 @@ public static class EffectId
     // --- Unassigned
     public const string SpawnStructure = "spawn_structure";
     public const string IncreaseSpawnRate = "increase_spawn_rate";
+    public const string WallOfFish = "wall_of_fish";
 
     #endregion
 }

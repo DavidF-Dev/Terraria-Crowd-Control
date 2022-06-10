@@ -21,7 +21,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetTimeEffect([NotNull] string id, [NotNull] string timeString, int time, bool isDay) : base(id, EffectSeverity.Neutral)
+    public SetTimeEffect([NotNull] string id, [NotNull] string timeString, int time, bool isDay) : base(id, null, EffectSeverity.Neutral)
     {
         _timeString = timeString;
         _time = time;

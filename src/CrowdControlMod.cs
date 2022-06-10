@@ -459,8 +459,9 @@ public sealed class CrowdControlMod : Mod
             BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
         
         // --- Unassigned effects
-        AddEffect(new SpawnStructureEffect(EffectId.SpawnStructure));
+        AddEffect(new SpawnStructureEffect());
         AddEffect(new IncreaseSpawnRateEffect(EffectId.IncreaseSpawnRate, 20f, 20f));
+        AddEffect(new WallOfFishEffect(15f, 0.85f));
     }
 
     private void DisposeAllEffects()
