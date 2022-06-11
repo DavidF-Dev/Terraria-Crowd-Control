@@ -519,6 +519,11 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ExplodeInventoryEffect());
         AddEffect(new ReforgeItemEffect());
         AddEffect(new MoneyBoostEffect(25f));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Pickaxe));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Sword));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Armour));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.HealingPotion));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Potion));
 
         // --- World effects
         AddEffect(new SpawnStructureEffect());

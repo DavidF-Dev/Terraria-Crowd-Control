@@ -77,5 +77,10 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.LuckyCoin, $"{viewerString} donated {Main.ValueToCoins(_coins)} to {playerString} and increased coins drops from enemies for {durationString} seconds", Severity);
     }
 
+    protected override void SendStopMessage()
+    {
+        TerrariaUtils.WriteEffectMessage(0, "Coin drop-rate is back to normal", EffectSeverity.Neutral);
+    }
+
     #endregion
 }

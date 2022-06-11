@@ -34,6 +34,11 @@ public static class EffectID
     public const string ExplodeInventory = "explode_inventory";
     public const string ReforgeItem = "item_prefix";
     public const string MoneyBoost = "boost_money";
+    public const string GivePickaxe = "give_pickaxe";
+    public const string GiveSword = "give_sword";
+    public const string GiveArmour = "give_armour";
+    public const string GiveHealingPotion = "give_healing_potion";
+    public const string GivePotion = "give_potion";
 
     // --- World effects
     public const string SpawnStructure = "spawn_structure";

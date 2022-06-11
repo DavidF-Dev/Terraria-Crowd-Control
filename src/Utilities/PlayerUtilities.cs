@@ -42,7 +42,7 @@ public static class PlayerUtilities
     [PublicAPI] [Pure]
     public static bool IsGrounded([NotNull] CrowdControlPlayer player)
     {
-        return Main.tileSolid[Main.tile[player.TileX, player.TileY + 4].TileType] && player.Player.velocity.Y == 0f;
+        return Main.tileSolid[Main.tile[player.TileX, player.TileY + 3].TileType] && player.Player.velocity.Y == 0f;
     }
 
     /// <summary>

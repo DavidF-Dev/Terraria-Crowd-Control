@@ -9,7 +9,10 @@ public sealed class IcyFeetEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const float AccelerationFactor = 0.4f;
+    private const float GroundedAccelerationFactor = 0.4f;
+    private const float InAirAccelerationFactor = 0.8f;
+    private const float GroundRunSlowdown = 0f;
+    private const float InAirRunSlowdown = 0.6f;
 
     #endregion
 
@@ -18,14 +21,9 @@ public sealed class IcyFeetEffect : CrowdControlEffect
     private static void PostUpdateRunSpeeds()
     {
         var player = GetLocalPlayer();
-        if (!PlayerUtilities.IsGrounded(player))
-        {
-            // Ignore if not grounded
-            return;
-        }
-
-        player.Player.runAcceleration *= AccelerationFactor;
-        player.Player.runSlowdown = 0f;
+        var isGrounded = PlayerUtilities.IsGrounded(player);
+        player.Player.runAcceleration *= isGrounded ? GroundedAccelerationFactor : InAirAccelerationFactor;
+        player.Player.runSlowdown = isGrounded ? GroundRunSlowdown : InAirRunSlowdown;
     }
 
     #endregion

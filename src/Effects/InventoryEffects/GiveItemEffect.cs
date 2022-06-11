@@ -1,0 +1,267 @@
+﻿using System;
+using System.Collections.Generic;
+using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
+using Terraria;
+using Terraria.ID;
+
+namespace CrowdControlMod.Effects.InventoryEffects;
+
+public sealed class GiveItemEffect : CrowdControlEffect
+{
+    #region Enums
+
+    public enum GiveItem
+    {
+        Pickaxe,
+        Sword,
+        Armour,
+        HealingPotion,
+        Potion
+    }
+
+    #endregion
+
+    #region Static Fields and Constants
+
+    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>> Items = new()
+    {
+        {
+            GiveItem.Pickaxe, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtility.Progression.PreEye, new short[] {3509, 3503, 1, 3497, 3515, 3491, 882, 3485}},
+                {ProgressionUtility.Progression.PreSkeletron, new short[] {3521, 1917, 1320}},
+                {ProgressionUtility.Progression.PreWall, new short[] {103, 798}},
+                {ProgressionUtility.Progression.PreMech, new short[] {122, 776, 1188, 777, 1195}},
+                {ProgressionUtility.Progression.PreGolem, new short[] {778, 1202, 1506, 1230, 990, 2176}},
+                {ProgressionUtility.Progression.PreLunar, new short[] {1294, 2176, 990}},
+                {ProgressionUtility.Progression.PreMoonLord, new short[] {1294, 2176}},
+                {ProgressionUtility.Progression.PostGame, new short[] {2776, 2781, 2786, 3466}}
+            }
+        },
+        {
+            GiveItem.Sword, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtility.Progression.PreEye, new short[] {1827, 4, 3496, 3490, 1304, 3772, 881}},
+                {ProgressionUtility.Progression.PreSkeletron, new short[] {3520, 3484, 1166, 1909, 2273, 724, 46, 795}},
+                {ProgressionUtility.Progression.PreWall, new short[] {155, 3349, 65, 1123, 190, 121, 273}},
+                {ProgressionUtility.Progression.PreMech, new short[] {3258, 483, 1185, 1192, 484, 3823, 1306, 426, 672, 482, 1199, 676, 723, 3013, 3211}},
+                {ProgressionUtility.Progression.PreGolem, new short[] {368, 1227, 674, 1327, 3106, 671, 1226, 1826, 1928, 675, 3018}},
+                {ProgressionUtility.Progression.PreLunar, new short[] {3018, 3827, 757, 2880}},
+                {ProgressionUtility.Progression.PreMoonLord, new short[] {3827, 757, 2880}},
+                {ProgressionUtility.Progression.PostGame, new short[] {3065, 3063}}
+            }
+        },
+        {
+            GiveItem.Armour, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            {
+                {
+                    ProgressionUtility.Progression.PreEye, new[]
+                    {
+                        ItemID.MiningHelmet, ItemID.WoodHelmet, ItemID.WoodBreastplate, ItemID.WoodGreaves, ItemID.CactusHelmet, ItemID.CactusBreastplate, ItemID.CactusLeggings,
+                        ItemID.CopperHelmet, ItemID.CopperChainmail, ItemID.CopperGreaves, ItemID.TinHelmet, ItemID.TinChainmail, ItemID.TinGreaves,
+                        ItemID.IronHelmet, ItemID.IronChainmail, ItemID.IronGreaves, ItemID.PumpkinHelmet, ItemID.PumpkinBreastplate, ItemID.PumpkinLeggings,
+                        ItemID.GladiatorHelmet, ItemID.GladiatorBreastplate, ItemID.GladiatorLeggings, ItemID.IronHelmet, ItemID.IronChainmail, ItemID.IronGreaves,
+                        ItemID.LeadHelmet, ItemID.LeadChainmail, ItemID.LeadGreaves, ItemID.GoldHelmet, ItemID.GoldChainmail, ItemID.GoldGreaves,
+                        ItemID.SilverHelmet, ItemID.SilverChainmail, ItemID.SilverGreaves, ItemID.TungstenHelmet, ItemID.TungstenChainmail, ItemID.TungstenGreaves,
+                        ItemID.PlatinumHelmet, ItemID.PlatinumChainmail, ItemID.PlatinumGreaves
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreSkeletron, new[]
+                    {
+                        ItemID.BeeHeadgear, ItemID.BeeBreastplate, ItemID.BeeGreaves,
+                        ItemID.JungleHat, ItemID.JungleShirt, ItemID.JunglePants, ItemID.AncientCobaltHelmet, ItemID.AncientCobaltBreastplate, ItemID.AncientCobaltLeggings,
+                        ItemID.MeteorHelmet, ItemID.MeteorSuit, ItemID.MeteorLeggings
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreWall, new[]
+                    {
+                        ItemID.NecroHelmet, ItemID.NecroBreastplate, ItemID.NecroGreaves, ItemID.ShadowHelmet, ItemID.ShadowScalemail, ItemID.ShadowGreaves,
+                        ItemID.AncientShadowHelmet, ItemID.AncientShadowScalemail, ItemID.AncientShadowGreaves, ItemID.CrimsonHelmet, ItemID.CrimsonScalemail, ItemID.CrimsonGreaves,
+                        ItemID.MoltenHelmet, ItemID.MoltenBreastplate, ItemID.MoltenGreaves
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreMech, new[]
+                    {
+                        ItemID.SpiderMask, ItemID.SpiderBreastplate, ItemID.SpiderGreaves, ItemID.PearlwoodHelmet, ItemID.PearlwoodBreastplate, ItemID.PearlwoodGreaves,
+                        ItemID.CobaltHelmet, ItemID.CobaltBreastplate, ItemID.CobaltLeggings, ItemID.PalladiumHelmet, ItemID.PalladiumBreastplate, ItemID.PalladiumLeggings,
+                        ItemID.MythrilHelmet, ItemID.MythrilChainmail, ItemID.MythrilGreaves, ItemID.OrichalcumHelmet, ItemID.OrichalcumBreastplate, ItemID.OrichalcumLeggings,
+                        ItemID.AdamantiteHelmet, ItemID.AdamantiteBreastplate, ItemID.AdamantiteLeggings, ItemID.TitaniumHeadgear, ItemID.TitaniumHelmet, ItemID.TitaniumMask,
+                        ItemID.TitaniumBreastplate, ItemID.TitaniumLeggings, ItemID.AdamantiteHeadgear, ItemID.AdamantiteMask
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreGolem, new[]
+                    {
+                        ItemID.FrostHelmet, ItemID.FrostBreastplate, ItemID.FrostLeggings, ItemID.ApprenticeHat, ItemID.ApprenticeRobe, ItemID.ApprenticeTrousers,
+                        ItemID.HallowedHelmet, ItemID.HallowedMask, ItemID.HallowedHeadgear, ItemID.HallowedPlateMail, ItemID.HallowedGreaves,
+                        ItemID.ChlorophyteHelmet, ItemID.ChlorophyteMask, ItemID.ChlorophyteHeadgear, ItemID.ChlorophytePlateMail, ItemID.ChlorophyteGreaves,
+                        ItemID.TurtleHelmet, ItemID.TurtleScaleMail, ItemID.TurtleLeggings, ItemID.TikiMask, ItemID.TikiShirt, ItemID.TikiPants,
+                        ItemID.SpookyHelmet, ItemID.SpookyBreastplate, ItemID.SpookyLeggings, ItemID.ShroomiteHeadgear, ItemID.ShroomiteHelmet, ItemID.ShroomiteMask,
+                        ItemID.ShroomiteBreastplate, ItemID.ShroomiteLeggings
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreLunar, new[]
+                    {
+                        ItemID.SpectreHood, ItemID.SpectreMask, ItemID.SpectreRobe, ItemID.SpectrePants, ItemID.BeetleHelmet, ItemID.BeetleShell, ItemID.BeetleScaleMail,
+                        ItemID.BeetleLeggings
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PreMoonLord, new[]
+                    {
+                        ItemID.SpectreHood, ItemID.SpectreMask, ItemID.SpectreRobe, ItemID.SpectrePants, ItemID.BeetleHelmet, ItemID.BeetleShell, ItemID.BeetleScaleMail,
+                        ItemID.BeetleLeggings
+                    }
+                },
+                {
+                    ProgressionUtility.Progression.PostGame, new[]
+                    {
+                        ItemID.SolarFlareHelmet, ItemID.SolarFlareBreastplate, ItemID.SolarFlareLeggings, ItemID.VortexHelmet, ItemID.VortexBreastplate, ItemID.VortexLeggings,
+                        ItemID.NebulaHelmet, ItemID.NebulaBreastplate, ItemID.NebulaLeggings, ItemID.StardustHelmet, ItemID.StardustBreastplate, ItemID.StardustLeggings
+                    }
+                }
+            }
+        },
+        {
+            GiveItem.HealingPotion, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtility.Progression.PreEye, new[] {ItemID.LesserHealingPotion}},
+                {ProgressionUtility.Progression.PreSkeletron, new[] {ItemID.HealingPotion}},
+                {ProgressionUtility.Progression.PreWall, new[] {ItemID.HealingPotion}},
+                {ProgressionUtility.Progression.PreMech, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtility.Progression.PreGolem, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtility.Progression.PreLunar, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtility.Progression.PreMoonLord, new[] {ItemID.SuperHealingPotion}},
+                {ProgressionUtility.Progression.PostGame, new[] {ItemID.SuperHealingPotion}}
+            }
+        },
+        {
+            GiveItem.Potion, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            {
+                {
+                    ProgressionUtility.Progression.PreEye, new short[]
+                    {
+                        ItemID.AmmoReservationPotion, ItemID.ArcheryPotion, ItemID.BattlePotion, ItemID.BuilderPotion, ItemID.CalmingPotion, 2329, ItemID.EndurancePotion,
+                        ItemID.FeatherfallPotion, ItemID.FlipperPotion, ItemID.GillsPotion, ItemID.GravitationPotion, ItemID.HunterPotion, ItemID.InfernoPotion,
+                        ItemID.IronskinPotion, ItemID.LifeforcePotion, ItemID.NightOwlPotion, ItemID.ObsidianSkinPotion, ItemID.RagePotion, ItemID.RegenerationPotion,
+                        ItemID.ShinePotion, ItemID.SpelunkerPotion, ItemID.SummoningPotion, ItemID.SwiftnessPotion, ItemID.ThornsPotion, ItemID.TitanPotion, ItemID.WrathPotion,
+                        ItemID.FlaskofCursedFlames, ItemID.FlaskofFire, ItemID.FlaskofGold, ItemID.FlaskofIchor, ItemID.FlaskofNanites, ItemID.FlaskofParty, ItemID.FlaskofPoison, ItemID.FlaskofVenom
+                    }
+                }
+            }
+        }
+    };
+
+    #endregion
+
+    #region Static Methods
+
+    [NotNull]
+    private static string GetId(GiveItem giveItem)
+    {
+        return giveItem switch
+        {
+            GiveItem.Pickaxe => EffectID.GivePickaxe,
+            GiveItem.Sword => EffectID.GiveSword,
+            GiveItem.Armour => EffectID.GiveArmour,
+            GiveItem.HealingPotion => EffectID.GiveHealingPotion,
+            GiveItem.Potion => EffectID.GivePotion,
+            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+        };
+    }
+
+    private static EffectSeverity GetSeverity(GiveItem giveItem)
+    {
+        return giveItem switch
+        {
+            GiveItem.Pickaxe => EffectSeverity.Positive,
+            GiveItem.Sword => EffectSeverity.Positive,
+            GiveItem.Armour => EffectSeverity.Positive,
+            GiveItem.HealingPotion => EffectSeverity.Positive,
+            GiveItem.Potion => EffectSeverity.Positive,
+            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+        };
+    }
+
+    private static int GetStackSize(GiveItem giveItem)
+    {
+        return giveItem switch
+        {
+            GiveItem.Pickaxe => 1,
+            GiveItem.Sword => 1,
+            GiveItem.Armour => 1,
+            GiveItem.HealingPotion => 2,
+            GiveItem.Potion => 1,
+            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+        };
+    }
+
+    #endregion
+
+    #region Fields
+
+    private readonly GiveItem _giveItem;
+    private readonly int _stack;
+    private Item _item;
+
+    #endregion
+
+    #region Constructors
+
+    public GiveItemEffect(GiveItem giveItem) : base(GetId(giveItem), null, GetSeverity(giveItem))
+    {
+        _giveItem = giveItem;
+        _stack = GetStackSize(_giveItem);
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected override CrowdControlResponseStatus OnStart()
+    {
+        // Load the item id collection (try PreEye for cases that don't use progression)
+        var progress = ProgressionUtility.GetProgression();
+        if (!Items.TryGetValue(_giveItem, out var itemsByProgression) ||
+            (!itemsByProgression.TryGetValue(progress, out var itemIds) &&
+            !itemsByProgression.TryGetValue(ProgressionUtility.Progression.PreEye, out itemIds)))
+        {
+            // Not supported
+            return CrowdControlResponseStatus.Failure;
+        }
+
+        // Choose the item and spawn it in
+        var player = GetLocalPlayer();
+        var chosenId = itemIds[Main.rand.Next(itemIds.Count)];
+        var itemId = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height, 
+            chosenId, _stack, noGrabDelay: true);
+        _item = Main.item[itemId];
+
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            // Notify server of the item
+            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, chosenId, 1f);
+        }
+
+        return CrowdControlResponseStatus.Success;
+    }
+
+    protected override void OnStop()
+    {
+        _item = null;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    {
+        TerrariaUtils.WriteEffectMessage((short)_item.type, $"{viewerString} gave {playerString} a {_item.Name}", Severity);
+    }
+
+    #endregion
+}

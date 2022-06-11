@@ -73,6 +73,11 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Explode inventory", "explode_inventory"),
                 new Effect("Reforge item", "item_prefix"),
                 new Effect("Boost coin drops", "boost_money"),
+                new Effect("Give pickaxe", "give_pickaxe"),
+                new Effect("Give sword", "give_sword"),
+                new Effect("Give armour", "give_armour"),
+                new Effect("Give healing potion", "give_healing_potion"),
+                new Effect("Give potion", "give_potion"),
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),

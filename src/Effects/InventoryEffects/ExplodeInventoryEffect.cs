@@ -45,8 +45,8 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
             // Drop the item in a random direction
             player.Player.inventory[i].favorited = false;
             player.Player.selectedItem = i;
-            player.Player.velocity.X = Main.rand.Next(6, 24);
             player.Player.direction = Main.rand.Next(100) > 50 ? -1 : 1;
+            player.Player.velocity.X = Main.rand.Next(6, 24) * player.Player.direction;
             player.Player.DropSelectedItem();
         }
 

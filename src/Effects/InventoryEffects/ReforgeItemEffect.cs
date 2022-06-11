@@ -12,24 +12,38 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private static readonly Dictionary<DamageClass, IReadOnlyList<int>> PrefixIdsByClass = new()
+    private static readonly Dictionary<int, IReadOnlyList<int>> PrefixIdsByClass = new()
     {
         {
-            DamageClass.Melee, new[]
+            DamageClass.Melee.Type, new[]
             {
                 PrefixID.Large, PrefixID.Massive, PrefixID.Dangerous, PrefixID.Savage, PrefixID.Sharp, PrefixID.Pointy, PrefixID.Tiny, PrefixID.Terrible,
                 PrefixID.Small, PrefixID.Dull, PrefixID.Unhappy, PrefixID.Bulky, PrefixID.Shameful, PrefixID.Heavy, PrefixID.Light, PrefixID.Legendary
             }
         },
         {
-            DamageClass.Ranged, new[]
+            DamageClass.MeleeNoSpeed.Type, new[]
+            {
+                PrefixID.Large, PrefixID.Massive, PrefixID.Dangerous, PrefixID.Savage, PrefixID.Sharp, PrefixID.Pointy, PrefixID.Tiny, PrefixID.Terrible,
+                PrefixID.Small, PrefixID.Dull, PrefixID.Unhappy, PrefixID.Bulky, PrefixID.Shameful, PrefixID.Heavy, PrefixID.Light, PrefixID.Legendary
+            }
+        },
+        {
+            DamageClass.SummonMeleeSpeed.Type, new[]
+            {
+                PrefixID.Large, PrefixID.Massive, PrefixID.Dangerous, PrefixID.Savage, PrefixID.Sharp, PrefixID.Pointy, PrefixID.Tiny, PrefixID.Terrible,
+                PrefixID.Small, PrefixID.Dull, PrefixID.Unhappy, PrefixID.Bulky, PrefixID.Shameful, PrefixID.Heavy, PrefixID.Light, PrefixID.Legendary
+            }
+        },
+        {
+            DamageClass.Ranged.Type, new[]
             {
                 PrefixID.Sighted, PrefixID.Rapid, PrefixID.Hasty, PrefixID.Intimidating, PrefixID.Deadly, PrefixID.Staunch, PrefixID.Awful, PrefixID.Lethargic,
                 PrefixID.Awkward, PrefixID.Powerful, PrefixID.Unreal
             }
         },
         {
-            DamageClass.Magic, new[]
+            DamageClass.Magic.Type, new[]
             {
                 PrefixID.Mystic, PrefixID.Adept, PrefixID.Masterful, PrefixID.Inept, PrefixID.Ignorant, PrefixID.Deranged, PrefixID.Intense, PrefixID.Taboo,
                 PrefixID.Celestial, PrefixID.Furious, PrefixID.Manic, PrefixID.Mythical
@@ -72,7 +86,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         }
 
         var item = player.Player.inventory[player.Player.selectedItem];
-        if (!PrefixIdsByClass.TryGetValue(item.DamageType, out var prefixIds))
+        if (!PrefixIdsByClass.TryGetValue(item.DamageType.Type, out var prefixIds))
         {
             // Not a supported item to be reforged, so retry
             return CrowdControlResponseStatus.Retry;
@@ -82,7 +96,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         do
         {
             var index = Main.rand.Next(prefixIds.Count + UniversalPrefixIds.Count);
-            _chosenPrefix = index > prefixIds.Count ? prefixIds[index] : UniversalPrefixIds[index - prefixIds.Count];
+            _chosenPrefix = index < prefixIds.Count ? prefixIds[index] : UniversalPrefixIds[index - prefixIds.Count];
         } while (item.prefix == _chosenPrefix);
 
         _item = new Item(item.type);
