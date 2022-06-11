@@ -39,6 +39,14 @@ public sealed class Terraria : SimpleTCPPack
         {
             return new List<Effect>()
             {
+                // --- Player effects
+                new Effect("Player Effects", "player_folder", ItemKind.Folder),
+                new Effect("Kill player", "kill_player"),
+                new Effect("Explode player", "explode_player"),
+                new Effect("Heal player", "heal_player"),
+                new Effect("God mode", "god_mode_player"),
+                new Effect("Increase spawn rate", "increase_spawn_rate"),
+                
                 // --- Time effects
                 new Effect("Time Effects", "time_folder", ItemKind.Folder),
                 new Effect("Set the time to noon", "time_noon"),
@@ -46,12 +54,17 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set the time to sunrise", "time_sunrise"),
                 new Effect("Set the time to sunset", "time_sunset"),
                 
-                // --- Positive buff effects
+                // --- Buff effects (positive -> negative)
+                new Effect("Buff Effects", "buff_folder", ItemKind.Folder),
                 new Effect("Boost player survivability", "buff_survivability"),
                 new Effect("Boost player health regeneration", "buff_regeneration"),
                 
+                // --- World effects
+                new Effect("World Effects", "world_folder", ItemKind.Folder),
                 new Effect("Spawn structure", "spawn_structure"),
-                new Effect("Increase spawn rate", "increase_spawn_rate"),
+                
+                // --- Screen effects
+                new Effect("Screen Effects", "screen_folder", ItemKind.Folder),
                 new Effect("Wall of Fish", "wall_of_fish")
             };
         }

@@ -7,6 +7,7 @@ using System.Threading;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
 using CrowdControlMod.Effects.Interfaces;
+using CrowdControlMod.Effects.PlayerEffects;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
@@ -164,8 +165,6 @@ public sealed class CrowdControlMod : Mod
             return;
         }
 
-        _player = null!;
-
         // Allow the threaded method to clean up itself when it exits its loop
         _isSessionRunning = false;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
@@ -175,6 +174,8 @@ public sealed class CrowdControlMod : Mod
         {
             effect.Stop();
         }
+        
+        _player = null!;
 
         On.Terraria.Main.Update -= OnUpdate;
     }
@@ -212,6 +213,15 @@ public sealed class CrowdControlMod : Mod
             effect = null;
             return false;
         }
+    }
+
+    /// <summary>
+    ///     Check whether the provided effect is currently active.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public bool IsEffectActive([NotNull] string id)
+    {
+        return _effects.TryGetValue(id, out var effect) && effect.IsActive;
     }
 
     /// <summary>
@@ -473,21 +483,29 @@ public sealed class CrowdControlMod : Mod
 
     private void AddAllEffects()
     {
+        // --- Player effects
+        AddEffect(new KillPlayerEffect());
+        AddEffect(new ExplodePlayerEffect());
+        AddEffect(new HealPlayerEffect());
+        AddEffect(new GodModeEffect());
+        AddEffect(new IncreaseSpawnRateEffect());
+        
         // --- Time effects
         AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         
-        // --- Positive buff effects
+        // --- Buff effects (positive -> negative)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 12f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs",
             BuffID.Ironskin, BuffID.Endurance, BuffID.BeetleEndurance1));
         
-        // --- Unassigned effects
+        // --- World effects
         AddEffect(new SpawnStructureEffect());
-        AddEffect(new IncreaseSpawnRateEffect(EffectID.IncreaseSpawnRate, 20f, 20f));
-        AddEffect(new WallOfFishEffect(15f, 0.85f));
+        
+        // --- Screen effects
+        AddEffect(new WallOfFishEffect());
     }
 
     private void DisposeAllEffects()

@@ -165,12 +165,15 @@ public abstract class CrowdControlEffect
         }
 
         // Reduce the timer, stopping the effect if it reaches zero
-        TimeLeft -= delta;
-        if (TimeLeft <= 0)
+        if (_isTimedEffect)
         {
-            Stop();
-            TerrariaUtils.WriteDebug($"Stopped effect '{Id}' because the duration reached zero");
-            return;
+            TimeLeft -= delta;
+            if (TimeLeft <= 0)
+            {
+                Stop();
+                TerrariaUtils.WriteDebug($"Stopped effect '{Id}' because the duration reached zero");
+                return;
+            }
         }
 
         OnUpdate(delta);

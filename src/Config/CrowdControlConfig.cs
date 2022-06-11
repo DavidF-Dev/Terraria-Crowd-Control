@@ -46,6 +46,21 @@ public sealed class CrowdControlConfig : ModConfig
     public float RespawnTimeFactor;
 
     [UsedImplicitly]
+    [Label("Enable Spawn Protection for Explosive Effects")]
+    [Tooltip("When enabled, explosive-related effects will be delayed when the player is too close to spawn.")]
+    [DefaultValue(true)]
+    public bool EnableSpawnProtection;
+
+    [UsedImplicitly]
+    [Label("Spawn Protection Radius")]
+    [Tooltip("If spawn protection is enabled, then this is the range around the world spawn that will be protected.")]
+    [Range(10, 100)]
+    [Increment(10)]
+    [DrawTicks]
+    [DefaultValue(30)]
+    public int SpawnProtectionRadius;
+
+    [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]

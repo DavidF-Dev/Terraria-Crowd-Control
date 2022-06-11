@@ -17,22 +17,6 @@ public static class TerrariaUtils
     #region Static Methods
 
     /// <summary>
-    ///     Is the provided player the local player / client?
-    /// </summary>
-    [PublicAPI] [Pure]
-    public static bool IsLocalPlayer([NotNull] Player player)
-    {
-        return player.whoAmI == Main.myPlayer;
-    }
-
-    /// <inheritdoc cref="IsLocalPlayer(Terraria.Player)"/>
-    [PublicAPI] [Pure]
-    public static bool IsLocalPlayer([NotNull] CrowdControlPlayer player)
-    {
-        return player.Player.whoAmI == Main.myPlayer;
-    }
-
-    /// <summary>
     ///     Write a message to the game chat.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>

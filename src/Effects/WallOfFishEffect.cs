@@ -15,9 +15,13 @@ namespace CrowdControlMod.Effects;
 
 public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 {
-    #region Fields
+    #region Static Fields and Constants
 
-    private readonly float _drawOffset;
+    private const float DrawOffset = 0.85f;
+
+    #endregion
+
+    #region Fields
 
     [NotNull]
     private readonly List<int> _fishIds;
@@ -26,10 +30,8 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public WallOfFishEffect(float duration, float drawOffset) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
+    public WallOfFishEffect() : base(EffectID.WallOfFish, 15f, EffectSeverity.Negative)
     {
-        _drawOffset = drawOffset;
-
         // Add fish ids, so that their textures are loaded
         _fishIds = new List<int>(Math.Abs(2297 - 2321) + Math.Abs(2450 - 2488));
         for (var i = 2297; i <= 2321; i++)
@@ -50,7 +52,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     #region Properties
 
     int IMusicEffect.MusicId => MusicID.Mushrooms;
-    
+
     int IMusicEffect.MusicPriority => 0;
 
     #endregion
@@ -81,7 +83,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
         {
             for (var i = 0; i < maxFish; i++)
             {
-                DrawWallOfFish(i * _drawOffset);
+                DrawWallOfFish(i * DrawOffset);
             }
         }
         catch (Exception e)

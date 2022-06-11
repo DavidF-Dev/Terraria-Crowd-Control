@@ -1,0 +1,34 @@
+﻿using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+
+namespace CrowdControlMod.Effects.PlayerEffects;
+
+public sealed class KillPlayerEffect : CrowdControlEffect
+{
+    #region Constructors
+
+    public KillPlayerEffect() : base(EffectID.KillPlayer, null, EffectSeverity.Negative)
+    {
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected override CrowdControlResponseStatus OnStart()
+    {
+        // Succeed if the player is not invincible (the player is killed when the start message is sent)
+        return !PlayerUtilities.IsInvincible(GetLocalPlayer()) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    {
+        // Kill the player here
+        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was killed by {viewerString}"), 1000, 0);
+    }
+
+    #endregion
+}

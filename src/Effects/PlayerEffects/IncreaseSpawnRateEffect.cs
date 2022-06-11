@@ -1,24 +1,23 @@
 ﻿using System.Linq;
 using CrowdControlMod.Globals;
-using JetBrains.Annotations;
+using CrowdControlMod.ID;
 using Terraria;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects;
+namespace CrowdControlMod.Effects.PlayerEffects;
 
 public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 {
-    #region Fields
+    #region Static Fields and Constants
 
-    private readonly float _factor;
+    private const float Factor = 20f;
 
     #endregion
 
     #region Constructors
 
-    public IncreaseSpawnRateEffect([NotNull] string id, float duration, float factor) : base(id, duration, EffectSeverity.Negative)
+    public IncreaseSpawnRateEffect() : base(EffectID.IncreaseSpawnRate, 20f, EffectSeverity.Negative)
     {
-        _factor = factor;
         CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
     }
 
@@ -37,8 +36,8 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
         if ((Main.netMode == NetmodeID.SinglePlayer && IsActive) ||
             (Main.netMode == NetmodeID.Server && ActiveOnServer.Contains(player.whoAmI)))
         {
-            spawnRate = (int)(spawnRate / _factor);
-            maxSpawns *= (int)(maxSpawns * _factor);
+            spawnRate = (int)(spawnRate / Factor);
+            maxSpawns *= (int)(maxSpawns * Factor);
         }
     }
 

@@ -11,13 +11,23 @@ namespace CrowdControlMod;
 [UsedImplicitly]
 public sealed class CrowdControlPlayer : ModPlayer
 {
+    #region Delegates
+
+    /// <inheritdoc cref="CanBeHitByNPC" />
+    public delegate bool CanBeHitByNpcDelegate(NPC npc, ref int cooldownSlot);
+
+    /// <inheritdoc cref="CanBeHitByProjectile" />
+    public delegate bool CanBeHitByProjectileDelegate(Projectile projectile);
+
+    #endregion
+
     #region Properties
 
     /// <summary>
     ///     Is this player instance the local player / client?
     /// </summary>
     [PublicAPI]
-    public bool IsLocalPlayer => TerrariaUtils.IsLocalPlayer(this);
+    public bool IsLocalPlayer => PlayerUtilities.IsLocalPlayer(this);
 
     [PublicAPI]
     public int TileX => (int)(Player.position.X / 16);
@@ -32,6 +42,14 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="PlayerDisconnect" />
     [PublicAPI]
     public static event Action<Player> PlayerDisconnectHook;
+
+    /// <inheritdoc cref="CanBeHitByNPC" />
+    [PublicAPI]
+    public event CanBeHitByNpcDelegate CanBeHitByNpcHook;
+
+    /// <inheritdoc cref="CanBeHitByProjectile" />
+    [PublicAPI]
+    public event CanBeHitByProjectileDelegate CanBeHitByProjectileHook;
 
     /// <inheritdoc cref="PreUpdateBuffs" />
     [PublicAPI]
@@ -70,6 +88,16 @@ public sealed class CrowdControlPlayer : ModPlayer
         }
     }
 
+    public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
+    {
+        return CanBeHitByNpcHook?.Invoke(npc, ref cooldownSlot) ?? base.CanBeHitByNPC(npc, ref cooldownSlot);
+    }
+
+    public override bool CanBeHitByProjectile(Projectile proj)
+    {
+        return CanBeHitByProjectileHook?.Invoke(proj) ?? base.CanBeHitByProjectile(proj);
+    }
+    
     public override void PreUpdateBuffs()
     {
         PreUpdateBuffsHook?.Invoke();
