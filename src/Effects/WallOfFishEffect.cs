@@ -30,7 +30,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public WallOfFishEffect() : base(EffectID.WallOfFish, 15f, EffectSeverity.Negative)
+    public WallOfFishEffect(float duration) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
     {
         // Add fish ids, so that their textures are loaded
         _fishIds = new List<int>(Math.Abs(2297 - 2321) + Math.Abs(2450 - 2488));

@@ -1,1 +1,5 @@
-Crowd Control for Terraria is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control Twitch extension.
+- Effects and prices can be customised through the Crowd Control application.
+- Built for Terraria 1.4: Journey's End.
+- Supports single-player **and** multi-player.
+- A fun way to earn revenue and grow your community!

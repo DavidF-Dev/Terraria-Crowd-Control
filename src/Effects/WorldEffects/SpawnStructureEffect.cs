@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects;
+namespace CrowdControlMod.Effects.WorldEffects;
 
 public sealed class SpawnStructureEffect : CrowdControlEffect
 {

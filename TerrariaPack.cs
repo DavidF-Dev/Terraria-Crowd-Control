@@ -44,7 +44,12 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Kill player", "kill_player"),
                 new Effect("Explode player", "explode_player"),
                 new Effect("Heal player", "heal_player"),
+                new Effect("Damage player", "damage_player"),
                 new Effect("God mode", "god_mode_player"),
+                new Effect("Increase max health", "increase_life"),
+                new Effect("Decrease max health", "decrease_life"),
+                new Effect("Increase max mana", "increase_mana"),
+                new Effect("Decrease max mana", "decrease_mana"),
                 new Effect("Increase spawn rate", "increase_spawn_rate"),
                 
                 // --- Time effects
@@ -54,14 +59,25 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set the time to sunrise", "time_sunrise"),
                 new Effect("Set the time to sunset", "time_sunset"),
                 
-                // --- Buff effects (positive -> negative)
+                // --- Buff effects
                 new Effect("Buff Effects", "buff_folder", ItemKind.Folder),
+                new Effect("Increase jump height", "jump_boost"),
+                new Effect("Increase movement speed", "run_boost"),
+                new Effect("Slippery boots", "icy_feet"),
                 new Effect("Boost player survivability", "buff_survivability"),
                 new Effect("Boost player health regeneration", "buff_regeneration"),
+                
+                // --- Inventory effects
+                new Effect("Inventory Effects", "inventory_folder", ItemKind.Folder),
+                new Effect("Drop item", "drop_item"),
+                new Effect("Explode inventory", "explode_inventory"),
+                new Effect("Reforge item", "item_prefix"),
+                new Effect("Boost coin drops", "boost_money"),
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),
                 new Effect("Spawn structure", "spawn_structure"),
+                new Effect("Random teleportation", "random_teleport"),
                 
                 // --- Screen effects
                 new Effect("Screen Effects", "screen_folder", ItemKind.Folder),

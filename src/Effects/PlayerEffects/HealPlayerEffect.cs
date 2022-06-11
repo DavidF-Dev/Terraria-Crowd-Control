@@ -7,12 +7,6 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 
 public sealed class HealPlayerEffect : CrowdControlEffect
 {
-    #region Static Fields and Constants
-
-    private const int LovestruckSeconds = 6;
-
-    #endregion
-
     #region Constructors
 
     public HealPlayerEffect() : base(EffectID.HealPlayer, null, EffectSeverity.Positive)
@@ -33,7 +27,7 @@ public sealed class HealPlayerEffect : CrowdControlEffect
         }
 
         player.Player.statLife = player.Player.statLifeMax2;
-        player.Player.AddBuff(BuffID.Lovestruck, 60 * LovestruckSeconds);
+        player.Player.AddBuff(BuffID.Lovestruck, 60 * 5);
         return CrowdControlResponseStatus.Success;
     }
 

@@ -6,7 +6,7 @@ using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects;
+namespace CrowdControlMod.Effects.BuffEffects;
 
 public sealed class BuffEffect : CrowdControlEffect
 {
@@ -25,7 +25,7 @@ public sealed class BuffEffect : CrowdControlEffect
 
     [NotNull]
     private readonly HashSet<int> _buffs;
-    
+
     private readonly bool _hasConfusedBuff;
 
     private readonly bool _hasFrozenBuff;

@@ -28,8 +28,8 @@ public sealed class CrowdControlConfig : ModConfig
 
     #endregion
 
-    #region Properties
-    
+    #region Fields
+
     [UsedImplicitly]
     [Label("Show effect messages in chat")]
     [Tooltip("Disable this to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
@@ -65,6 +65,10 @@ public sealed class CrowdControlConfig : ModConfig
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
     public bool DeveloperMode;
+
+    #endregion
+
+    #region Properties
 
     public override ConfigScope Mode => ConfigScope.ClientSide;
 

@@ -3,6 +3,7 @@ using CrowdControlMod.ID;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace CrowdControlMod.Utilities;
 
@@ -36,6 +37,15 @@ public static class PlayerUtilities
     }
 
     /// <summary>
+    ///     Check if the player is currently grounded.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public static bool IsGrounded([NotNull] CrowdControlPlayer player)
+    {
+        return Main.tileSolid[Main.tile[player.TileX, player.TileY + 4].TileType] && player.Player.velocity.Y == 0f;
+    }
+
+    /// <summary>
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [PublicAPI] [Pure]
@@ -52,6 +62,79 @@ public static class PlayerUtilities
         var bedTile = new Vector2(player.Player.SpawnX, player.Player.SpawnY);
         return playerTile.Distance(spawnTile) < radius || playerTile.Distance(bedTile) < radius;
     }
-    
+
+    /// <summary>
+    ///     Set the hair dye of the player.
+    /// </summary>
+    [PublicAPI]
+    public static void SetHairDye([NotNull] CrowdControlPlayer player, int hairDyeItemId)
+    {
+        var item = new Item(hairDyeItemId);
+        player.Player.hairDye = item.hairDye;
+
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);
+        }
+    }
+
+    /// <summary>
+    ///     Give the player coins.
+    /// </summary>
+    [PublicAPI]
+    public static void GiveCoins([NotNull] CrowdControlPlayer player, int coins)
+    {
+        // extracted from the Terraria source code
+        while (coins > 0)
+        {
+            if (coins > 1000000)
+            {
+                var num12 = coins / 1000000;
+                coins -= 1000000 * num12;
+                var number7 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 74, num12);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number7, 1f);
+                }
+
+                continue;
+            }
+
+            if (coins > 10000)
+            {
+                var num11 = coins / 10000;
+                coins -= 10000 * num11;
+                var number6 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 73, num11);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number6, 1f);
+                }
+
+                continue;
+            }
+
+            if (coins > 100)
+            {
+                var num10 = coins / 100;
+                coins -= 100 * num10;
+                var number5 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 72, num10);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number5, 1f);
+                }
+
+                continue;
+            }
+
+            var num9 = coins;
+            coins -= num9;
+            var number4 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 71, num9);
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
+            }
+        }
+    }
+
     #endregion
 }

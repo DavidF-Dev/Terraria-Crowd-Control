@@ -82,12 +82,12 @@ public static class TerrariaUtils
             packet.Send();
             return;
         }
-        
+
         if (!CrowdControlConfig.GetInstance().ShowEffectMessagesInChat)
         {
             return;
         }
-        
+
         // Determine colour based on provided effect type
         var colour = severity switch
         {
@@ -96,7 +96,7 @@ public static class TerrariaUtils
             EffectSeverity.Negative => Color.Red,
             _ => Color.Black
         };
-        
+
         WriteMessage(itemId, message, colour);
     }
 
@@ -117,18 +117,18 @@ public static class TerrariaUtils
             packet.Send();
             return;
         }
-        
-        #if !DEBUG
+
+#if !DEBUG
         // Ignore if not in developer mode        
         if (!CrowdControlConfig.GetInstance().DeveloperMode)
         {
             return;
         }
-        #endif
+#endif
 
         WriteMessage(ItemID.Cog, message, colour.GetValueOrDefault(Color.Yellow));
     }
-    
+
     /// <summary>
     ///     Get the rich text tag for the specified item id.
     /// </summary>

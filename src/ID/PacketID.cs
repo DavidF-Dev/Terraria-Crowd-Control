@@ -11,28 +11,28 @@ public enum PacketID : byte
     ///     Packet data: (string)message (uint)colourPackedValue
     /// </summary>
     DebugMessage,
-    
+
     /// <summary>
     ///     Send an effect message to all clients.<br />
     ///     Packet data: (short)itemId (string)message (int)severity
     /// </summary>
     EffectMessage,
-    
+
     /// <summary>
     ///     Notify the server about the status of an effect.<br />
     ///     Packet data: (bool)status
     /// </summary>
     EffectStatus,
-    
+
     /// <summary>
     ///     Set the in-game time on the server.<br />
     ///     Packet data: (int)time (bool)isDay
     /// </summary>
     SetTime,
-    
+
     /// <summary>
     ///     Spawn a structure on the server.<br />
     ///     Packet data: (int)structure (int)tileX (int)tileY
     /// </summary>
-    SpawnStructure,
+    SpawnStructure
 }

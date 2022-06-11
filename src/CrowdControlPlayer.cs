@@ -55,6 +55,14 @@ public sealed class CrowdControlPlayer : ModPlayer
     [PublicAPI]
     public event Action PreUpdateBuffsHook;
 
+    /// <inheritdoc cref="PostUpdateEquips" />
+    [PublicAPI]
+    public event Action PostUpdateEquipsHook;
+
+    /// <inheritdoc cref="PostUpdateRunSpeeds" />
+    [PublicAPI]
+    public event Action PostUpdateRunSpeedsHook;
+
     #endregion
 
     #region Methods
@@ -97,10 +105,20 @@ public sealed class CrowdControlPlayer : ModPlayer
     {
         return CanBeHitByProjectileHook?.Invoke(proj) ?? base.CanBeHitByProjectile(proj);
     }
-    
+
     public override void PreUpdateBuffs()
     {
         PreUpdateBuffsHook?.Invoke();
+    }
+
+    public override void PostUpdateEquips()
+    {
+        PostUpdateEquipsHook?.Invoke();
+    }
+
+    public override void PostUpdateRunSpeeds()
+    {
+        PostUpdateRunSpeedsHook?.Invoke();
     }
 
     #endregion

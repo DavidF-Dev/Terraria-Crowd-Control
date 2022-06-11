@@ -10,7 +10,7 @@ public sealed class GodModeEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public GodModeEffect() : base(EffectID.GodModePlayer, 20f, EffectSeverity.Positive)
+    public GodModeEffect(float duration) : base(EffectID.GodModePlayer, duration, EffectSeverity.Positive)
     {
     }
 

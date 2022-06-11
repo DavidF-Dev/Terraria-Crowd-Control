@@ -1,7 +1,6 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
 namespace CrowdControlMod.Effects.PlayerEffects;

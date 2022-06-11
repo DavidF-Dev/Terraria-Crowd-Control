@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
-using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
@@ -33,7 +32,7 @@ public abstract class CrowdControlEffect
     private readonly float? _duration;
 
     private readonly bool _isTimedEffect;
-    
+
     /// <inheritdoc cref="ActiveOnServer" />
     [NotNull]
     private readonly HashSet<int> _activeOnServer = new();
