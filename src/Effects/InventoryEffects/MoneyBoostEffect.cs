@@ -12,7 +12,7 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const int MidasDuration = 10;
+    private const int MidasDuration = 15;
 
     #endregion
 

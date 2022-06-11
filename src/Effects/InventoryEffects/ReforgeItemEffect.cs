@@ -22,6 +22,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
             }
         },
         {
+            // Same as DamageClass.Melee
             DamageClass.MeleeNoSpeed.Type, new[]
             {
                 PrefixID.Large, PrefixID.Massive, PrefixID.Dangerous, PrefixID.Savage, PrefixID.Sharp, PrefixID.Pointy, PrefixID.Tiny, PrefixID.Terrible,
@@ -29,6 +30,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
             }
         },
         {
+            // Same as DamageClass.Melee
             DamageClass.SummonMeleeSpeed.Type, new[]
             {
                 PrefixID.Large, PrefixID.Massive, PrefixID.Dangerous, PrefixID.Savage, PrefixID.Sharp, PrefixID.Pointy, PrefixID.Tiny, PrefixID.Terrible,
