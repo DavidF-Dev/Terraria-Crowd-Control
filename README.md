@@ -1,4 +1,4 @@
-<img src="banner.png"></src>
+<img src=".github/banner.png"></src>
 A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
 - Effects and prices can be customised through the Crowd Control application.
 - Built for Terraria 1.4: Journey's End.
