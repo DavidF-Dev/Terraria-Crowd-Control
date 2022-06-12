@@ -51,6 +51,10 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase max mana", "increase_mana"),
                 new Effect("Decrease max mana", "decrease_mana"),
                 new Effect("Increase spawn rate", "increase_spawn_rate"),
+                new Effect("Infinite ammo & mana", "infinite_ammo"),
+                new Effect("Give pet", "give_pet"),
+                new Effect("Give light pet", "give_light_pet"),
+                new Effect("Change gender", "change_gender"),
                 
                 // --- Time effects
                 new Effect("Time Effects", "time_folder", ItemKind.Folder),
@@ -77,12 +81,13 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give sword", "give_sword"),
                 new Effect("Give armour", "give_armour"),
                 new Effect("Give healing potion", "give_healing_potion"),
-                new Effect("Give potion", "give_potion"),
+                new Effect("Give random potion", "give_potion"),
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),
                 new Effect("Spawn structure", "spawn_structure"),
                 new Effect("Random teleportation", "random_teleport"),
+                new Effect("Rainbow feet", "rainbow_feet"),
                 
                 // --- Screen effects
                 new Effect("Screen Effects", "screen_folder", ItemKind.Folder),

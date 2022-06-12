@@ -16,6 +16,10 @@ public static class EffectID
     public const string IncreaseMaxMana = "increase_mana";
     public const string DecreaseMaxMana = "decrease_mana";
     public const string IncreaseSpawnRate = "increase_spawn_rate";
+    public const string InfiniteAmmo = "infinite_ammo";
+    public const string GivePet = "give_pet";
+    public const string GiveLightPet = "give_light_pet";
+    public const string ChangeGender = "change_gender";
 
     // --- Time effects
     public const string SetTimeNoon = "time_noon";
@@ -43,6 +47,7 @@ public static class EffectID
     // --- World effects
     public const string SpawnStructure = "spawn_structure";
     public const string RandomTeleport = "random_teleport";
+    public const string RainbowFeet = "rainbow_feet";
 
     // --- Screen effects
     public const string WallOfFish = "wall_of_fish";

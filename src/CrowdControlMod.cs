@@ -499,7 +499,11 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetMaxStatEffect(EffectID.IncreaseMaxMana, true, false));
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxMana, false, false));
         AddEffect(new IncreaseSpawnRateEffect(20f));
-
+        AddEffect(new InfiniteAmmoEffect(20f));
+        AddEffect(new GivePetEffect(GivePetEffect.PetType.Pet));
+        AddEffect(new GivePetEffect(GivePetEffect.PetType.LightPet));
+        AddEffect(new ChangeGenderEffect());
+        
         // --- Time effects
         AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
@@ -528,6 +532,7 @@ public sealed class CrowdControlMod : Mod
         // --- World effects
         AddEffect(new SpawnStructureEffect());
         AddEffect(new RandomTeleportEffect());
+        AddEffect(new RainbowFeetEffect(20f));
 
         // --- Screen effects
         AddEffect(new WallOfFishEffect(20f));

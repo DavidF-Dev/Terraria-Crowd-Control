@@ -19,6 +19,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="CanBeHitByProjectile" />
     public delegate bool CanBeHitByProjectileDelegate(Projectile projectile);
 
+    /// <inheritdoc cref="CanConsumeAmmo" />
+    public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
+
     #endregion
 
     #region Properties
@@ -43,6 +46,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     [PublicAPI]
     public static event Action<Player> PlayerDisconnectHook;
 
+    /// <inheritdoc cref="OnRespawn" />
+    [PublicAPI]
+    public event Action OnRespawnHook;
+
     /// <inheritdoc cref="CanBeHitByNPC" />
     [PublicAPI]
     public event CanBeHitByNpcDelegate CanBeHitByNpcHook;
@@ -50,6 +57,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="CanBeHitByProjectile" />
     [PublicAPI]
     public event CanBeHitByProjectileDelegate CanBeHitByProjectileHook;
+
+    /// <inheritdoc cref="CanConsumeAmmo" />
+    [PublicAPI]
+    public event CanConsumeAmmoDelegate CanConsumeAmmoHook;
 
     /// <inheritdoc cref="PreUpdateBuffs" />
     [PublicAPI]
@@ -62,6 +73,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="PostUpdateRunSpeeds" />
     [PublicAPI]
     public event Action PostUpdateRunSpeedsHook;
+
+    /// <inheritdoc cref="PostUpdate" />
+    [PublicAPI]
+    public event Action PostUpdateHook;
 
     #endregion
 
@@ -87,6 +102,11 @@ public sealed class CrowdControlPlayer : ModPlayer
         PlayerDisconnectHook?.Invoke(player);
     }
 
+    public override void OnRespawn(Player player)
+    {
+        OnRespawnHook?.Invoke();
+    }
+
     public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
     {
         if (IsLocalPlayer && CrowdControlMod.GetInstance().IsSessionActive)
@@ -106,6 +126,11 @@ public sealed class CrowdControlPlayer : ModPlayer
         return CanBeHitByProjectileHook?.Invoke(proj) ?? base.CanBeHitByProjectile(proj);
     }
 
+    public override bool CanConsumeAmmo(Item weapon, Item ammo)
+    {
+        return CanConsumeAmmoHook?.Invoke(weapon, ammo) ?? base.CanConsumeAmmo(weapon, ammo);
+    }
+
     public override void PreUpdateBuffs()
     {
         PreUpdateBuffsHook?.Invoke();
@@ -119,6 +144,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void PostUpdateRunSpeeds()
     {
         PostUpdateRunSpeedsHook?.Invoke();
+    }
+
+    public override void PostUpdate()
+    {
+        PostUpdateHook?.Invoke();
     }
 
     #endregion
