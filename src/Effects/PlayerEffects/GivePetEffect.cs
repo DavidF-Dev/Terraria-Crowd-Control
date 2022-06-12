@@ -45,6 +45,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     private readonly int _slot;
     private IList<int> _petOptions;
     private int _chosenId;
+    private bool _hooked;
 
     #endregion
 
@@ -55,8 +56,6 @@ public sealed class GivePetEffect : CrowdControlEffect
         _petType = petType;
         _slot = _petType == PetType.Pet ? 0 : 1;
         _petOptions = new List<int>(_petType == PetType.Pet ? Pets : LightPets);
-        
-        GetLocalPlayer().OnRespawnHook += OnRespawn;
     }
 
     #endregion
@@ -79,11 +78,23 @@ public sealed class GivePetEffect : CrowdControlEffect
 
         _petOptions.Remove(_chosenId);
         player.Player.AddBuff(_chosenId, 1);
+
+        if (!_hooked)
+        {
+            GetLocalPlayer().OnRespawnHook += OnRespawn;
+            _hooked = true;
+        }
+        
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnDispose()
     {
+        if (!_hooked)
+        {
+            return;
+        }
+        
         GetLocalPlayer().OnRespawnHook -= OnRespawn;
     }
     

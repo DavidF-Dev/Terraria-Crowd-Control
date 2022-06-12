@@ -88,6 +88,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn structure", "spawn_structure"),
                 new Effect("Random teleportation", "random_teleport"),
                 new Effect("Rainbow feet", "rainbow_feet"),
+                new Effect("Spawn a Dungeon Guardian", "spawn_guardian"),
+                new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian"),
                 
                 // --- Screen effects
                 new Effect("Screen Effects", "screen_folder", ItemKind.Folder),

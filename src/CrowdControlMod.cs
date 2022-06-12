@@ -533,6 +533,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnStructureEffect());
         AddEffect(new RandomTeleportEffect());
         AddEffect(new RainbowFeetEffect(20f));
+        AddEffect(new SpawnGuardian(false));
+        AddEffect(new SpawnGuardian(true));
 
         // --- Screen effects
         AddEffect(new WallOfFishEffect(20f));

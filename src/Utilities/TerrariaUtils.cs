@@ -101,6 +101,28 @@ public static class TerrariaUtils
     }
 
     /// <summary>
+    ///     Send an effect message to a client's game chat, prefixed with the provided item.<br />
+    ///     Message will only appear if configured to.
+    /// </summary>
+    [PublicAPI]
+    public static void SendEffectMessage([NotNull] CrowdControlPlayer player, short itemId, [NotNull] string message, EffectSeverity severity)
+    {
+        if (Main.netMode != NetmodeID.Server)
+        {
+            // Ignored on client
+            return;
+        }
+        
+        // Create a packet to send to the specific client
+        var packet = CrowdControlMod.GetInstance().GetPacket(4);
+        packet.Write((byte)PacketID.EffectMessage);
+        packet.Write(itemId);
+        packet.Write(message);
+        packet.Write((int)severity);
+        packet.Send(player.Player.whoAmI);
+    }
+
+    /// <summary>
     ///     Write a message to the game chat, only if in a debug build.<br />
     ///     Server will notify clients of the debug message, letting them handle it.
     /// </summary>

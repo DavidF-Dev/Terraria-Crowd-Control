@@ -48,6 +48,8 @@ public static class EffectID
     public const string SpawnStructure = "spawn_structure";
     public const string RandomTeleport = "random_teleport";
     public const string RainbowFeet = "rainbow_feet";
+    public const string SpawnGuardian = "spawn_guardian";
+    public const string SpawnFakeGuardian = "spawn_fake_guardian";
 
     // --- Screen effects
     public const string WallOfFish = "wall_of_fish";

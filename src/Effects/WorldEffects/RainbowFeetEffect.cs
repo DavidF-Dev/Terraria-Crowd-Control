@@ -72,7 +72,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
             // Choose a truly random colour
             colour = PaintIds[Main.rand.Next(PaintIds.Length)];
         }
-        else if (_paintedTiles.Contains(Main.tile[x, y]))
+        else if (!_paintedTiles.Contains(Main.tile[x, y]))
         {
             // Choose the next colour in the rainbow sequence
             colour = PaintIds[_paintIndex];

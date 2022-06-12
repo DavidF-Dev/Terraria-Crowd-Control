@@ -34,5 +34,11 @@ public enum PacketID : byte
     ///     Spawn a structure on the server.<br />
     ///     Packet data: (int)structure (int)tileX (int)tileY
     /// </summary>
-    SpawnStructure
+    SpawnStructure,
+    
+    /// <summary>
+    ///     Spawn an npc on the server.<br />
+    ///     Packet data: (short)type (int)tileX (int)tileY
+    /// </summary>
+    SpawnNpc
 }
