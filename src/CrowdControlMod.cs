@@ -103,10 +103,12 @@ public sealed class CrowdControlMod : Mod
         // Ensure that the session is stopped
         StopCrowdControlSession();
 
+        // Dispose effects and clear them
+        DisposeAllEffects();
+        
         // Null references
         _player = null!;
         _instance = null!;
-        DisposeAllEffects();
 
         base.Close();
     }

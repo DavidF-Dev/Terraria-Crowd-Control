@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using JetBrains.Annotations;
@@ -45,7 +44,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     private readonly int _slot;
     private IList<int> _petOptions;
     private int _chosenId;
-    private bool _hooked;
+    private CrowdControlPlayer _hooked;
 
     #endregion
 
@@ -79,10 +78,10 @@ public sealed class GivePetEffect : CrowdControlEffect
         _petOptions.Remove(_chosenId);
         player.Player.AddBuff(_chosenId, 1);
 
-        if (!_hooked)
+        if (_hooked == null)
         {
-            GetLocalPlayer().OnRespawnHook += OnRespawn;
-            _hooked = true;
+            player.OnRespawnHook += OnRespawn;
+            _hooked = player;
         }
         
         return CrowdControlResponseStatus.Success;
@@ -90,12 +89,13 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     protected override void OnDispose()
     {
-        if (!_hooked)
+        if (_hooked == null)
         {
             return;
         }
         
-        GetLocalPlayer().OnRespawnHook -= OnRespawn;
+        _hooked.OnRespawnHook -= OnRespawn;
+        _hooked = null;
     }
     
     private void OnRespawn()

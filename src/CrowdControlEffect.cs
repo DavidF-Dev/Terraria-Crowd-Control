@@ -281,7 +281,8 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Invoked before the effect is destroyed (when the mod is unloaded).
+    ///     Invoked before the effect is destroyed (when the mod is unloaded).<br />
+    ///     Note that the local player will be null.
     /// </summary>
     protected virtual void OnDispose()
     {
