@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
@@ -124,6 +125,8 @@ public sealed class CrowdControlConfig : ModConfig
         packet.Write((byte)PacketID.ConfigState);
         packet.Write(DisableTombstones);
         packet.Send();
+        
+        TerrariaUtils.WriteDebug("Sending config to server");
     }
 
     #endregion

@@ -36,6 +36,12 @@ public static class TerrariaUtils
             CrowdControlMod.GetInstance().Logger.Info(message);
         }
 
+        if (Main.gameMenu)
+        {
+            // Cannot send chat if on the main menu
+            return;
+        }
+
         if (Main.netMode == NetmodeID.Server)
         {
             // Broadcast if called from a server

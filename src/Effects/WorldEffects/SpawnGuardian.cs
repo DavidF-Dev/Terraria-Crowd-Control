@@ -88,6 +88,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         // Set the target
         npc.ai[NPC.maxAI - 1] = player.Player.whoAmI;
+        npc.target = player.Player.whoAmI;
 
         // Set whether it is fake or not
         var guardian = (CrowdControlGuardian)npc.ModNPC;

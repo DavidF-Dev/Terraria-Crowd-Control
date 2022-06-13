@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.Config;
+﻿using System;
+using CrowdControlMod.Config;
 using CrowdControlMod.ID;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -134,6 +135,51 @@ public static class PlayerUtils
                 NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
             }
         }
+    }
+
+    /// <summary>
+    ///     Find the closest player to the specified center.<br />
+    ///     Returns the whoAmI value.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public static int FindClosestPlayer(Vector2 center, out float distanceToPlayer)
+    {
+        // Copied from the terraria source code
+        var d = float.MaxValue;
+        var closestPlayer = -1;
+        for (var index = 0; index < byte.MaxValue; ++index)
+        {
+            var player = Main.player[index];
+            if (player.active && !player.dead && !player.ghost)
+            {
+                var num = Vector2.DistanceSquared(center, player.Center);
+                if (num < (double)d)
+                {
+                    d = num;
+                    closestPlayer = index;
+                }
+            }
+        }
+
+        if (closestPlayer < 0)
+        {
+            for (var index = 0; index < byte.MaxValue; ++index)
+            {
+                var player = Main.player[index];
+                if (player.active)
+                {
+                    var num = Vector2.DistanceSquared(center, player.Center);
+                    if (num < (double)d)
+                    {
+                        d = num;
+                        closestPlayer = index;
+                    }
+                }
+            }
+        }
+
+        distanceToPlayer = (float)Math.Sqrt(d);
+        return closestPlayer;
     }
 
     #endregion

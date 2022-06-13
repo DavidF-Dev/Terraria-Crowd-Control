@@ -157,14 +157,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         _player = player;
-        if (Main.netMode == NetmodeID.MultiplayerClient)
-        {
-            // Send the client's config settings to the server
-            CrowdControlConfig.GetInstance().SendConfigToServer();
-        }
-
         _isSessionRunning = true;
-        TerrariaUtils.WriteDebug("Started the Crowd Control session");
 
         // Start the connection thread
         _sessionThread = new Thread(HandleSessionConnection);
@@ -242,12 +235,8 @@ public sealed class CrowdControlMod : Mod
 
     private void HandleClientPacket(BinaryReader reader)
     {
-        if (!IsSessionActive)
-        {
-            return;
-        }
-
         // Determine what to do with the incoming packet
+        // Note, this runs even if the session is not active
         var packetId = (PacketID)reader.ReadByte();
         switch (packetId)
         {
@@ -282,6 +271,7 @@ public sealed class CrowdControlMod : Mod
         {
             // Update config state for client
             player.ServerDisableTombstones = reader.ReadBoolean();
+            TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
             return;
         }
         
@@ -320,6 +310,18 @@ public sealed class CrowdControlMod : Mod
         _isSessionConnected = false;
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         var writeAttempt = true;
+        
+        // Wait for the world to load
+        while (_isSessionRunning && Main.gameMenu)
+        {
+        }
+        
+        TerrariaUtils.WriteDebug("Started the Crowd Control session");
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            // Send the client's config settings to the server
+            CrowdControlConfig.GetInstance().SendConfigToServer();
+        }
 
         // Connection loop
         while (_isSessionRunning)
