@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
 using CrowdControlMod.Effects.BuffEffects;
@@ -16,11 +17,10 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using On.Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Projectile = Terraria.Projectile;
 
 namespace CrowdControlMod;
 
@@ -83,7 +83,7 @@ public sealed class CrowdControlMod : Mod
         _instance = this;
 
         // Load stuff if not running on a server
-        if (Terraria.Main.netMode != NetmodeID.Server)
+        if (Main.netMode != NetmodeID.Server)
         {
             // TODO: Load shaders
         }
@@ -110,6 +110,11 @@ public sealed class CrowdControlMod : Mod
         // Null references
         _player = null!;
         _instance = null!;
+        
+        if (Main.netMode != NetmodeID.Server)
+        {
+            // TODO: Unload shaders
+        }
 
         base.Close();
     }
@@ -118,7 +123,7 @@ public sealed class CrowdControlMod : Mod
     {
         try
         {
-            switch (Terraria.Main.netMode)
+            switch (Main.netMode)
             {
                 case NetmodeID.MultiplayerClient:
                 {
@@ -145,13 +150,18 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
-        if (_isSessionRunning || _sessionThread != null || Terraria.Main.netMode == NetmodeID.Server)
+        if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
         {
             TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
             return;
         }
 
         _player = player;
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            // Send the client's config settings to the server
+            CrowdControlConfig.GetInstance().SendConfigToServer();
+        }
 
         _isSessionRunning = true;
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
@@ -160,7 +170,7 @@ public sealed class CrowdControlMod : Mod
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
 
-        Main.Update += OnUpdate;
+        On.Terraria.Main.Update += OnUpdate;
     }
 
     /// <summary>
@@ -185,7 +195,7 @@ public sealed class CrowdControlMod : Mod
 
         _player = null!;
 
-        Main.Update -= OnUpdate;
+        On.Terraria.Main.Update -= OnUpdate;
     }
 
     /// <summary>
@@ -196,33 +206,7 @@ public sealed class CrowdControlMod : Mod
     {
         return _player;
     }
-
-    /// <summary>
-    ///     Get an effect by id if it is currently active.
-    /// </summary>
-    [PublicAPI] [Pure]
-    public bool TryGetActiveEffect<T>([NotNull] string id, [CanBeNull] out T effect) where T : CrowdControlEffect
-    {
-        // TODO: Remove method if unused
-
-        if (!_effects.TryGetValue(id, out var e) || !e.IsActive)
-        {
-            effect = null;
-            return false;
-        }
-
-        try
-        {
-            effect = (T)e;
-            return true;
-        }
-        catch (Exception)
-        {
-            effect = null;
-            return false;
-        }
-    }
-
+    
     /// <summary>
     ///     Check whether the provided effect is currently active.
     /// </summary>
@@ -293,7 +277,14 @@ public sealed class CrowdControlMod : Mod
     {
         // Let the server handle the effect packet
         var packetId = (PacketID)reader.ReadByte();
-        var player = Terraria.Main.player[sender].GetModPlayer<CrowdControlPlayer>();
+        var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
+        if (packetId == PacketID.ConfigState)
+        {
+            // Update config state for client
+            player.ServerDisableTombstones = reader.ReadBoolean();
+            return;
+        }
+        
         var effectId = reader.ReadString();
 
         // Check that the effect exists
@@ -305,7 +296,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
+    private void OnUpdate(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
     {
         if (IsSessionPaused())
         {
@@ -390,34 +381,32 @@ public sealed class CrowdControlMod : Mod
                         outBuffer[^1] = 0x00;
                         socket.Send(outBuffer);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        // TODO: Is it necessary to abort the connection?
                         // If an exception occurs, abort the connection
+                        TerrariaUtils.WriteDebug($"Aborted connection due to an exception: {e.Message}");
                         break;
                     }
                 }
 
-                // Connection should be closed, so dispose of the socket connection if its still alive
-                if (socket.Connected)
+                // Disconnect and shutdown - then create a new socket
+                try
                 {
-                    try
-                    {
-                        socket.Shutdown(SocketShutdown.Both);
-                    }
-                    finally
-                    {
-                        socket.Close();
-                    }
+                    socket.Shutdown(SocketShutdown.Both);
                 }
-
-                if (_isSessionRunning)
+                finally
                 {
-                    TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                    socket.Dispose();
+                    socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 }
 
                 _isSessionConnected = false;
                 writeAttempt = true;
+                
+                if (_isSessionRunning)
+                {
+                    TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                }
             }
             else
             {
@@ -435,6 +424,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Clean up
+        socket.Dispose();
         _sessionThread = null;
         TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
     }
@@ -475,7 +465,7 @@ public sealed class CrowdControlMod : Mod
 
     private bool IsSessionPaused()
     {
-        return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
+        return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
     }
 
     private void AddEffect([NotNull] CrowdControlEffect effect)
@@ -524,15 +514,15 @@ public sealed class CrowdControlMod : Mod
             BuffID.Ironskin, BuffID.Endurance));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
             ItemID.Heart, (v, p) => $"{v} provided {p} with regeneration buffs",
-            p => PlayerUtilities.SetHairDye(p, ItemID.LifeHairDye),
+            p => PlayerUtils.SetHairDye(p, ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.ManaRegeneration, BuffID.Lovestruck));
         AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 25f,
             ItemID.MagicLantern, (v, p) => $"{v} provided {p} with light",
-            p => PlayerUtilities.SetHairDye(p, ItemID.MartianHairDye),
+            p => PlayerUtils.SetHairDye(p, ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
         AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 25f,
             ItemID.GoldChest, (v, p) => $"{v} helped {p} to search for treasure",
-            p => PlayerUtilities.SetHairDye(p, ItemID.DepthHairDye),
+            p => PlayerUtils.SetHairDye(p, ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
             ItemID.Aglet, (v, p) => $"{v} boosted the movement speed of {p}", null,
@@ -560,7 +550,7 @@ public sealed class CrowdControlMod : Mod
             BuffID.Invisibility));
         AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 8f,
             ItemID.Sunglasses, (v, p) => $"{v} obstructed {p}'s screen",
-            p => PlayerUtilities.SetHairDye(p, ItemID.TwilightHairDye),
+            p => PlayerUtils.SetHairDye(p, ItemID.TwilightHairDye),
             BuffID.Obstructed));
 
         // -- Inventory effects

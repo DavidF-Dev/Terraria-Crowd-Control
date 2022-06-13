@@ -21,7 +21,7 @@ public sealed class SpawnKingSlime : CrowdControlEffect
 
         // Set king slime settings
         npc.target = player.Player.whoAmI;
-        npc.lifeMax = GetLife(ProgressionUtility.GetProgression());
+        npc.lifeMax = GetLife(ProgressionUtils.GetProgression());
         npc.life = npc.lifeMax;
 
         if (Main.netMode == NetmodeID.Server)
@@ -31,18 +31,18 @@ public sealed class SpawnKingSlime : CrowdControlEffect
         }
     }
 
-    private static int GetLife(ProgressionUtility.Progression progress)
+    private static int GetLife(ProgressionUtils.Progression progress)
     {
         return progress switch
         {
-            ProgressionUtility.Progression.PreEye => 1000,
-            ProgressionUtility.Progression.PreSkeletron => 1500,
-            ProgressionUtility.Progression.PreWall => 2000,
-            ProgressionUtility.Progression.PreMech => 2500,
-            ProgressionUtility.Progression.PreGolem => 3000,
-            ProgressionUtility.Progression.PreLunar => 3500,
-            ProgressionUtility.Progression.PreMoonLord => 4000,
-            ProgressionUtility.Progression.PostGame => 4500,
+            ProgressionUtils.Progression.PreEye => 1000,
+            ProgressionUtils.Progression.PreSkeletron => 1500,
+            ProgressionUtils.Progression.PreWall => 2000,
+            ProgressionUtils.Progression.PreMech => 2500,
+            ProgressionUtils.Progression.PreGolem => 3000,
+            ProgressionUtils.Progression.PreLunar => 3500,
+            ProgressionUtils.Progression.PreMoonLord => 4000,
+            ProgressionUtils.Progression.PostGame => 4500,
             _ => 1
         };
     }

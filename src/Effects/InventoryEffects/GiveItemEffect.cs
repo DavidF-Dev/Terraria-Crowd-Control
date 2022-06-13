@@ -26,39 +26,39 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
-    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>> Items = new()
+    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> Items = new()
     {
         {
-            GiveItem.Pickaxe, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            GiveItem.Pickaxe, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtility.Progression.PreEye, new short[] {3509, 3503, 1, 3497, 3515, 3491, 882, 3485}},
-                {ProgressionUtility.Progression.PreSkeletron, new short[] {3521, 1917, 1320}},
-                {ProgressionUtility.Progression.PreWall, new short[] {103, 798}},
-                {ProgressionUtility.Progression.PreMech, new short[] {122, 776, 1188, 777, 1195}},
-                {ProgressionUtility.Progression.PreGolem, new short[] {778, 1202, 1506, 1230, 990, 2176}},
-                {ProgressionUtility.Progression.PreLunar, new short[] {1294, 2176, 990}},
-                {ProgressionUtility.Progression.PreMoonLord, new short[] {1294, 2176}},
-                {ProgressionUtility.Progression.PostGame, new short[] {2776, 2781, 2786, 3466}}
+                {ProgressionUtils.Progression.PreEye, new short[] {3509, 3503, 1, 3497, 3515, 3491, 882, 3485}},
+                {ProgressionUtils.Progression.PreSkeletron, new short[] {3521, 1917, 1320}},
+                {ProgressionUtils.Progression.PreWall, new short[] {103, 798}},
+                {ProgressionUtils.Progression.PreMech, new short[] {122, 776, 1188, 777, 1195}},
+                {ProgressionUtils.Progression.PreGolem, new short[] {778, 1202, 1506, 1230, 990, 2176}},
+                {ProgressionUtils.Progression.PreLunar, new short[] {1294, 2176, 990}},
+                {ProgressionUtils.Progression.PreMoonLord, new short[] {1294, 2176}},
+                {ProgressionUtils.Progression.PostGame, new short[] {2776, 2781, 2786, 3466}}
             }
         },
         {
-            GiveItem.Sword, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            GiveItem.Sword, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtility.Progression.PreEye, new short[] {1827, 4, 3496, 3490, 1304, 3772, 881}},
-                {ProgressionUtility.Progression.PreSkeletron, new short[] {3520, 3484, 1166, 1909, 2273, 724, 46, 795}},
-                {ProgressionUtility.Progression.PreWall, new short[] {155, 3349, 65, 1123, 190, 121, 273}},
-                {ProgressionUtility.Progression.PreMech, new short[] {3258, 483, 1185, 1192, 484, 3823, 1306, 426, 672, 482, 1199, 676, 723, 3013, 3211}},
-                {ProgressionUtility.Progression.PreGolem, new short[] {368, 1227, 674, 1327, 3106, 671, 1226, 1826, 1928, 675, 3018}},
-                {ProgressionUtility.Progression.PreLunar, new short[] {3018, 3827, 757, 2880}},
-                {ProgressionUtility.Progression.PreMoonLord, new short[] {3827, 757, 2880}},
-                {ProgressionUtility.Progression.PostGame, new short[] {3065, 3063}}
+                {ProgressionUtils.Progression.PreEye, new short[] {1827, 4, 3496, 3490, 1304, 3772, 881}},
+                {ProgressionUtils.Progression.PreSkeletron, new short[] {3520, 3484, 1166, 1909, 2273, 724, 46, 795}},
+                {ProgressionUtils.Progression.PreWall, new short[] {155, 3349, 65, 1123, 190, 121, 273}},
+                {ProgressionUtils.Progression.PreMech, new short[] {3258, 483, 1185, 1192, 484, 3823, 1306, 426, 672, 482, 1199, 676, 723, 3013, 3211}},
+                {ProgressionUtils.Progression.PreGolem, new short[] {368, 1227, 674, 1327, 3106, 671, 1226, 1826, 1928, 675, 3018}},
+                {ProgressionUtils.Progression.PreLunar, new short[] {3018, 3827, 757, 2880}},
+                {ProgressionUtils.Progression.PreMoonLord, new short[] {3827, 757, 2880}},
+                {ProgressionUtils.Progression.PostGame, new short[] {3065, 3063}}
             }
         },
         {
-            GiveItem.Armour, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            GiveItem.Armour, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
                 {
-                    ProgressionUtility.Progression.PreEye, new[]
+                    ProgressionUtils.Progression.PreEye, new[]
                     {
                         ItemID.MiningHelmet, ItemID.WoodHelmet, ItemID.WoodBreastplate, ItemID.WoodGreaves, ItemID.CactusHelmet, ItemID.CactusBreastplate, ItemID.CactusLeggings,
                         ItemID.CopperHelmet, ItemID.CopperChainmail, ItemID.CopperGreaves, ItemID.TinHelmet, ItemID.TinChainmail, ItemID.TinGreaves,
@@ -70,7 +70,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreSkeletron, new[]
+                    ProgressionUtils.Progression.PreSkeletron, new[]
                     {
                         ItemID.BeeHeadgear, ItemID.BeeBreastplate, ItemID.BeeGreaves,
                         ItemID.JungleHat, ItemID.JungleShirt, ItemID.JunglePants, ItemID.AncientCobaltHelmet, ItemID.AncientCobaltBreastplate, ItemID.AncientCobaltLeggings,
@@ -78,7 +78,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreWall, new[]
+                    ProgressionUtils.Progression.PreWall, new[]
                     {
                         ItemID.NecroHelmet, ItemID.NecroBreastplate, ItemID.NecroGreaves, ItemID.ShadowHelmet, ItemID.ShadowScalemail, ItemID.ShadowGreaves,
                         ItemID.AncientShadowHelmet, ItemID.AncientShadowScalemail, ItemID.AncientShadowGreaves, ItemID.CrimsonHelmet, ItemID.CrimsonScalemail, ItemID.CrimsonGreaves,
@@ -86,7 +86,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreMech, new[]
+                    ProgressionUtils.Progression.PreMech, new[]
                     {
                         ItemID.SpiderMask, ItemID.SpiderBreastplate, ItemID.SpiderGreaves, ItemID.PearlwoodHelmet, ItemID.PearlwoodBreastplate, ItemID.PearlwoodGreaves,
                         ItemID.CobaltHelmet, ItemID.CobaltBreastplate, ItemID.CobaltLeggings, ItemID.PalladiumHelmet, ItemID.PalladiumBreastplate, ItemID.PalladiumLeggings,
@@ -96,7 +96,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreGolem, new[]
+                    ProgressionUtils.Progression.PreGolem, new[]
                     {
                         ItemID.FrostHelmet, ItemID.FrostBreastplate, ItemID.FrostLeggings, ItemID.ApprenticeHat, ItemID.ApprenticeRobe, ItemID.ApprenticeTrousers,
                         ItemID.HallowedHelmet, ItemID.HallowedMask, ItemID.HallowedHeadgear, ItemID.HallowedPlateMail, ItemID.HallowedGreaves,
@@ -107,21 +107,21 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreLunar, new[]
+                    ProgressionUtils.Progression.PreLunar, new[]
                     {
                         ItemID.SpectreHood, ItemID.SpectreMask, ItemID.SpectreRobe, ItemID.SpectrePants, ItemID.BeetleHelmet, ItemID.BeetleShell, ItemID.BeetleScaleMail,
                         ItemID.BeetleLeggings
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PreMoonLord, new[]
+                    ProgressionUtils.Progression.PreMoonLord, new[]
                     {
                         ItemID.SpectreHood, ItemID.SpectreMask, ItemID.SpectreRobe, ItemID.SpectrePants, ItemID.BeetleHelmet, ItemID.BeetleShell, ItemID.BeetleScaleMail,
                         ItemID.BeetleLeggings
                     }
                 },
                 {
-                    ProgressionUtility.Progression.PostGame, new[]
+                    ProgressionUtils.Progression.PostGame, new[]
                     {
                         ItemID.SolarFlareHelmet, ItemID.SolarFlareBreastplate, ItemID.SolarFlareLeggings, ItemID.VortexHelmet, ItemID.VortexBreastplate, ItemID.VortexLeggings,
                         ItemID.NebulaHelmet, ItemID.NebulaBreastplate, ItemID.NebulaLeggings, ItemID.StardustHelmet, ItemID.StardustBreastplate, ItemID.StardustLeggings
@@ -130,23 +130,23 @@ public sealed class GiveItemEffect : CrowdControlEffect
             }
         },
         {
-            GiveItem.HealingPotion, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            GiveItem.HealingPotion, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtility.Progression.PreEye, new[] {ItemID.LesserHealingPotion}},
-                {ProgressionUtility.Progression.PreSkeletron, new[] {ItemID.HealingPotion}},
-                {ProgressionUtility.Progression.PreWall, new[] {ItemID.HealingPotion}},
-                {ProgressionUtility.Progression.PreMech, new[] {ItemID.GreaterHealingPotion}},
-                {ProgressionUtility.Progression.PreGolem, new[] {ItemID.GreaterHealingPotion}},
-                {ProgressionUtility.Progression.PreLunar, new[] {ItemID.GreaterHealingPotion}},
-                {ProgressionUtility.Progression.PreMoonLord, new[] {ItemID.SuperHealingPotion}},
-                {ProgressionUtility.Progression.PostGame, new[] {ItemID.SuperHealingPotion}}
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.LesserHealingPotion}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.HealingPotion}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.HealingPotion}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.GreaterHealingPotion}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.SuperHealingPotion}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.SuperHealingPotion}}
             }
         },
         {
-            GiveItem.Potion, new Dictionary<ProgressionUtility.Progression, IReadOnlyList<short>>
+            GiveItem.Potion, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
                 {
-                    ProgressionUtility.Progression.PreEye, new short[]
+                    ProgressionUtils.Progression.PreEye, new short[]
                     {
                         ItemID.AmmoReservationPotion, ItemID.ArcheryPotion, ItemID.BattlePotion, ItemID.BuilderPotion, ItemID.CalmingPotion, 2329, ItemID.EndurancePotion,
                         ItemID.FeatherfallPotion, ItemID.FlipperPotion, ItemID.GillsPotion, ItemID.GravitationPotion, ItemID.HunterPotion, ItemID.InfernoPotion,
@@ -228,10 +228,10 @@ public sealed class GiveItemEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         // Load the item id collection (try PreEye for cases that don't use progression)
-        var progress = ProgressionUtility.GetProgression();
+        var progress = ProgressionUtils.GetProgression();
         if (!Items.TryGetValue(_giveItem, out var itemsByProgression) ||
             (!itemsByProgression.TryGetValue(progress, out var itemIds) &&
-             !itemsByProgression.TryGetValue(ProgressionUtility.Progression.PreEye, out itemIds)))
+             !itemsByProgression.TryGetValue(ProgressionUtils.Progression.PreEye, out itemIds)))
         {
             // Not supported
             return CrowdControlResponseStatus.Failure;

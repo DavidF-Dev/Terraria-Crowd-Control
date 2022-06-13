@@ -7,7 +7,7 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Utilities;
 
-public static class PlayerUtilities
+public static class PlayerUtils
 {
     #region Static Methods
 

@@ -27,7 +27,7 @@ public sealed class CrowdControlSceneEffect : ModSceneEffect
     public override bool IsSceneEffectActive(Player player)
     {
         // Check if any of the effects want to play music
-        return PlayerUtilities.IsLocalPlayer(player) && CrowdControlMod.GetInstance().TryGetEffectMusic(out _musicId) && _musicId > 0;
+        return PlayerUtils.IsLocalPlayer(player) && CrowdControlMod.GetInstance().TryGetEffectMusic(out _musicId) && _musicId > 0;
     }
 
     #endregion

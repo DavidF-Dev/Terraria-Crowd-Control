@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod;
@@ -29,19 +30,33 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     #endregion
 
+    #region Fields
+    
+    /// <summary>
+    ///     Server-side value for whether this player has tombstones disabled in their config.
+    /// </summary>
+    public bool ServerDisableTombstones;
+
+    #endregion
+
     #region Properties
 
     /// <summary>
     ///     Is this player instance the local player / client?
     /// </summary>
     [PublicAPI]
-    public bool IsLocalPlayer => PlayerUtilities.IsLocalPlayer(this);
+    public bool IsLocalPlayer => PlayerUtils.IsLocalPlayer(this);
 
     [PublicAPI]
     public int TileX => (int)(Player.position.X / 16);
 
     [PublicAPI]
     public int TileY => (int)(Player.position.Y / 16);
+
+    /// <summary>
+    ///     Whether tombstones are disabled for this player. Correct for client and server.
+    /// </summary>
+    public bool DisableTombstones => Main.netMode == NetmodeID.Server ? ServerDisableTombstones : CrowdControlConfig.GetInstance().DisableTombstones;
 
     #endregion
 

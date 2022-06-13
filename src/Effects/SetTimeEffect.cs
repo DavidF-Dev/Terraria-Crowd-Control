@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -35,11 +36,11 @@ public sealed class SetTimeEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        // TODO:
-        // if !allow time change in boss and ActiveBossEventOrInvasion(false true)
-        // Failure
-
-        // TODO: Check if game time is already at desired time: Retry (?)
+        if (!CrowdControlConfig.GetInstance().AllowTimeChangeDuringBoss && WorldUtils.ActiveBossEventOrInvasion())
+        {
+            // Cannot change time during boss or invasion
+            return CrowdControlResponseStatus.Failure;
+        }
 
         if (Main.netMode == NetmodeID.SinglePlayer)
         {

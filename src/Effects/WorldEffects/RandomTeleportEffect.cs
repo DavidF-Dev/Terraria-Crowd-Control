@@ -23,7 +23,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         player.Player.TeleportationPotion();
         SoundEngine.PlaySound(SoundID.Item6, player.Player.position);
-        PlayerUtilities.SetHairDye(player, ItemID.BiomeHairDye);
+        PlayerUtils.SetHairDye(player, ItemID.BiomeHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

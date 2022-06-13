@@ -37,7 +37,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         _paintIndex = Main.rand.Next(PaintIds.Length);
-        PlayerUtilities.SetHairDye(player, ItemID.RainbowHairDye);
+        PlayerUtils.SetHairDye(player, ItemID.RainbowHairDye);
 
         player.PostUpdateHook += PostUpdate;
         CrowdControlProjectile.KillHook += ProjectileKill;

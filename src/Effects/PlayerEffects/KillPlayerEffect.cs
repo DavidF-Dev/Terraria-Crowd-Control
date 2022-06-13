@@ -20,7 +20,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         // Succeed if the player is not invincible (the player is killed when the start message is sent)
-        return !PlayerUtilities.IsInvincible(GetLocalPlayer()) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
+        return !PlayerUtils.IsInvincible(GetLocalPlayer()) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)

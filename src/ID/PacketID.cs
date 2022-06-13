@@ -23,6 +23,12 @@ public enum PacketID : byte
     ///     Packet data: (bool)status
     /// </summary>
     EffectStatus,
+    
+    /// <summary>
+    ///     Notify the server about the client's config settings.<br />
+    ///     Packet data: (bool)disableTombstones
+    /// </summary>
+    ConfigState,
 
     /// <summary>
     ///     Set the in-game time on the server.<br />

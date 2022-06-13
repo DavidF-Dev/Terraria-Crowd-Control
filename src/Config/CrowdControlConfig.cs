@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using CrowdControlMod.ID;
 using JetBrains.Annotations;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader.Config;
 
 namespace CrowdControlMod.Config;
@@ -37,6 +40,12 @@ public sealed class CrowdControlConfig : ModConfig
     public bool ShowEffectMessagesInChat;
 
     [UsedImplicitly]
+    [Label("Disable Tombstones")]
+    [Description("Enable this to prevent your tombstones from spawning when you die.")]
+    [DefaultValue(false)]
+    public bool DisableTombstones;
+
+    [UsedImplicitly]
     [Label("Respawn Timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
     [Range(0.4f, 1f)]
@@ -61,6 +70,12 @@ public sealed class CrowdControlConfig : ModConfig
     public int SpawnProtectionRadius;
 
     [UsedImplicitly]
+    [Label("Allow Time-Changing Effects During Bosses")]
+    [Description("Disable this to prevent time-changing effects during boss fights, invasions or events.")]
+    [DefaultValue(false)]
+    public bool AllowTimeChangeDuringBoss;
+
+    [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
@@ -80,6 +95,35 @@ public sealed class CrowdControlConfig : ModConfig
     {
         _instance = this;
         base.OnLoaded();
+    }
+
+    public override void OnChanged()
+    {
+        if (Main.netMode != NetmodeID.MultiplayerClient || !CrowdControlMod.GetInstance().IsSessionActive)
+        {
+            return;
+        }
+        
+        // If connected as a client, update the server on the changes
+        SendConfigToServer();
+    }
+
+    /// <summary>
+    ///     As a client, update the server with the relevant config values for our player.
+    /// </summary>
+    [PublicAPI]
+    public void SendConfigToServer()
+    {
+        if (Main.netMode != NetmodeID.MultiplayerClient)
+        {
+            return;
+        }
+
+        // Update the server on relevant changes
+        var packet = CrowdControlMod.GetInstance().GetPacket(2);
+        packet.Write((byte)PacketID.ConfigState);
+        packet.Write(DisableTombstones);
+        packet.Send();
     }
 
     #endregion

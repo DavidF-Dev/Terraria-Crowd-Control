@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CrowdControlMod.Utilities;
 
-public static class ProgressionUtility
+public static class ProgressionUtils
 {
     #region Enums
 
