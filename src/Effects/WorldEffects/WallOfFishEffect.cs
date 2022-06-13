@@ -32,6 +32,12 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     public WallOfFishEffect(float duration) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
     {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            _fishIds = new List<int>();
+            return;
+        }
+        
         // Add fish ids, so that their textures are loaded
         _fishIds = new List<int>(Math.Abs(2297 - 2321) + Math.Abs(2450 - 2488));
         for (var i = 2297; i <= 2321; i++)
