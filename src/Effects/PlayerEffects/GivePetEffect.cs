@@ -9,12 +9,16 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 
 public sealed class GivePetEffect : CrowdControlEffect
 {
+    #region Enums
+
     public enum PetType
     {
         Pet,
         LightPet
     }
-    
+
+    #endregion
+
     #region Static Fields and Constants
 
     private static readonly int[] Pets =
@@ -68,7 +72,7 @@ public sealed class GivePetEffect : CrowdControlEffect
 
         // Choose a new pet id
         _chosenId = _petOptions[Main.rand.Next(_petOptions.Count)];
-        
+
         // If there are no more options, regenerate the collection
         if (_petOptions.Count == 1)
         {
@@ -83,7 +87,7 @@ public sealed class GivePetEffect : CrowdControlEffect
             player.OnRespawnHook += OnRespawn;
             _hooked = player;
         }
-        
+
         return CrowdControlResponseStatus.Success;
     }
 
@@ -93,11 +97,11 @@ public sealed class GivePetEffect : CrowdControlEffect
         {
             return;
         }
-        
+
         _hooked.OnRespawnHook -= OnRespawn;
         _hooked = null;
     }
-    
+
     private void OnRespawn()
     {
         if (_chosenId == 0)

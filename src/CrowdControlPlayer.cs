@@ -2,6 +2,7 @@
 using CrowdControlMod.Config;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -21,6 +22,10 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="CanConsumeAmmo" />
     public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
+
+    /// <inheritdoc cref="Shoot" />
+    [PublicAPI]
+    public delegate bool ShootDelegate(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback);
 
     #endregion
 
@@ -77,6 +82,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="PostUpdate" />
     [PublicAPI]
     public event Action PostUpdateHook;
+
+    /// <inheritdoc cref="Shoot" />
+    [PublicAPI]
+    public event ShootDelegate ShootHook;
 
     #endregion
 
@@ -149,6 +158,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void PostUpdate()
     {
         PostUpdateHook?.Invoke();
+    }
+
+    public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+    {
+        return ShootHook?.Invoke(item, source, position, velocity, type, damage, knockback) ?? base.Shoot(item, source, position, velocity, type, damage, knockback);
     }
 
     #endregion

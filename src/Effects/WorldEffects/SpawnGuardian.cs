@@ -6,7 +6,6 @@ using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,20 +66,17 @@ public sealed class SpawnGuardian : CrowdControlEffect
             // Ignored
             return;
         }
-        
+
         // Ignore the packet arguments as we already know the npc
         reader.ReadInt16();
         reader.ReadInt32();
         reader.ReadInt32();
 
-        // Spawn the dungeon guardian
-        var index = Spawn(player);
-        
-        // Update server
-        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        // Spawn the dungeon guardian on the server
+        Spawn(player);
     }
 
-    private int Spawn([NotNull] CrowdControlPlayer player)
+    private void Spawn([NotNull] CrowdControlPlayer player)
     {
         // Determine spawn position
         var circleEdge = Main.rand.NextVector2CircularEdge(HalfRangeWidth, HalfRangeHeight);
@@ -96,7 +92,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         // Set whether it is fake or not
         var guardian = (CrowdControlGuardian)npc.ModNPC;
         guardian.IsFake = _isFake;
-        
+
         // This is only invoked by whoever spawned the guardian (single-player or server)
         guardian.FakeGuardianDied += () =>
         {
@@ -112,7 +108,11 @@ public sealed class SpawnGuardian : CrowdControlEffect
             }
         };
 
-        return index;
+        if (Main.netMode == NetmodeID.Server)
+        {
+            // Notify the server
+            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        }
     }
 
     #endregion
@@ -124,6 +124,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
     {
         #region Fields
 
+        private int _timeLeft;
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         ///     Whether the guardian is fake (stored in the second last ai slot).
         /// </summary>
@@ -132,12 +138,6 @@ public sealed class SpawnGuardian : CrowdControlEffect
             get => NPC.ai[NPC.maxAI - 2] > 0f;
             set => NPC.ai[NPC.maxAI - 2] = value ? 1f : 0f;
         }
-        
-        private int _timeLeft;
-
-        #endregion
-
-        #region Properties
 
         public override string Texture => $"Terraria/Images/NPC_{NPCID.DungeonGuardian}";
 
@@ -169,7 +169,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         public override bool PreAI()
         {
             NPC.type = NPCID.DungeonGuardian;
-            
+
             // Reduce the time left timer
             _timeLeft--;
             if (_timeLeft != 0)

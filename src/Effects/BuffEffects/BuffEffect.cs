@@ -23,6 +23,8 @@ public sealed class BuffEffect : CrowdControlEffect
 
     private readonly GetStartMessageDelegate _getStartMessage;
 
+    private readonly Action<CrowdControlPlayer> _onStart;
+
     [NotNull]
     private readonly HashSet<int> _buffs;
 
@@ -34,9 +36,10 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect([NotNull] string id, EffectSeverity severity, float duration, short itemId, [NotNull] GetStartMessageDelegate getStartMessage, [NotNull] params int[] buffs) : base(id, duration, severity)
+    public BuffEffect([NotNull] string id, EffectSeverity severity, float duration, short itemId, [NotNull] GetStartMessageDelegate getStartMessage, [CanBeNull] Action<CrowdControlPlayer> onStart, [NotNull] params int[] buffs) : base(id, duration, severity)
     {
         _itemId = itemId;
+        _onStart = onStart;
         _getStartMessage = getStartMessage;
         _buffs = new HashSet<int>(buffs);
         _hasConfusedBuff = _buffs.Contains(BuffID.Confused);
@@ -57,6 +60,7 @@ public sealed class BuffEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
+        _onStart?.Invoke(player);
         player.PreUpdateBuffsHook += PreUpdateBuffs;
         return CrowdControlResponseStatus.Success;
     }

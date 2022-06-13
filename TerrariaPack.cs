@@ -55,6 +55,11 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give pet", "give_pet"),
                 new Effect("Give light pet", "give_light_pet"),
                 new Effect("Change gender", "change_gender"),
+                new Effect("Shoot bombs", "shoot_bombs"),
+                new Effect("Shoot grenades", "shoot_grenades"),
+                new Effect("Increase jump height", "jump_boost"),
+                new Effect("Increase movement speed", "run_boost"),
+                new Effect("Slippery boots", "icy_feet"),
                 
                 // --- Time effects
                 new Effect("Time Effects", "time_folder", ItemKind.Folder),
@@ -63,13 +68,21 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set the time to sunrise", "time_sunrise"),
                 new Effect("Set the time to sunset", "time_sunset"),
                 
-                // --- Buff effects
+                // --- Buff effects (positive)
                 new Effect("Buff Effects", "buff_folder", ItemKind.Folder),
-                new Effect("Increase jump height", "jump_boost"),
-                new Effect("Increase movement speed", "run_boost"),
-                new Effect("Slippery boots", "icy_feet"),
                 new Effect("Boost player survivability", "buff_survivability"),
-                new Effect("Boost player health regeneration", "buff_regeneration"),
+                new Effect("Boost player health regeneration", "buff_regen"),
+                new Effect("Provide light buffs", "buff_light"),
+                new Effect("Help search for treasure", "buff_treasure"),
+                new Effect("Boost movement speed", "buff_movement"),
+                
+                // --- Buff effects (negative)
+                new Effect("Freeze", "buff_freeze"),
+                new Effect("Set on fire", "buff_fire"),
+                new Effect("Daze", "buff_daze"),
+                new Effect("Levitate", "buff_levitate"),
+                new Effect("Confuse", "buff_confuse"),
+                new Effect("Make invisible", "buff_invisible"),
                 
                 // --- Inventory effects
                 new Effect("Inventory Effects", "inventory_folder", ItemKind.Folder),
@@ -90,10 +103,9 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Rainbow feet", "rainbow_feet"),
                 new Effect("Spawn a Dungeon Guardian", "spawn_guardian"),
                 new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian"),
-                
-                // --- Screen effects
-                new Effect("Screen Effects", "screen_folder", ItemKind.Folder),
-                new Effect("Wall of Fish", "wall_of_fish")
+                new Effect("Spawn King Slime", "spawn_king_slime"),
+                new Effect("Spawn critters", "spawn_critters"),
+                new Effect("Wall of Fish", "wall_of_fish"),
             };
         }
     }

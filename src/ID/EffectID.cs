@@ -20,6 +20,11 @@ public static class EffectID
     public const string GivePet = "give_pet";
     public const string GiveLightPet = "give_light_pet";
     public const string ChangeGender = "change_gender";
+    public const string ShootBombs = "shoot_bombs";
+    public const string ShootGrenades = "shoot_grenades";
+    public const string JumpBoost = "jump_boost";
+    public const string RunBoost = "run_boost";
+    public const string IcyFeet = "icy_feet";
 
     // --- Time effects
     public const string SetTimeNoon = "time_noon";
@@ -27,11 +32,21 @@ public static class EffectID
     public const string SetTimeSunrise = "time_sunrise";
     public const string SetTimeSunset = "time_sunset";
 
-    // --- Buff effects
-    public const string JumpBoost = "jump_boost";
-    public const string RunBoost = "run_boost";
-    public const string IcyFeet = "icy_feet";
+    // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";
+    public const string BuffRegen = "buff_regen";
+    public const string BuffLight = "buff_light";
+    public const string BuffTreasure = "buff_treasure";
+    public const string BuffMovement = "buff_movement";
+
+    // --- Buff effects (negative)
+    public const string BuffFreeze = "buff_freeze";
+    public const string BuffFire = "buff_fire";
+    public const string BuffDaze = "buff_daze";
+    public const string BuffLevitate = "buff_levitate";
+    public const string BuffConfuse = "buff_confuse";
+    public const string BuffInvisible = "buff_invisible";
+    public const string BuffBlind = "buff_blind";
 
     // --- Inventory effects
     public const string DropItem = "drop_item";
@@ -50,8 +65,8 @@ public static class EffectID
     public const string RainbowFeet = "rainbow_feet";
     public const string SpawnGuardian = "spawn_guardian";
     public const string SpawnFakeGuardian = "spawn_fake_guardian";
-
-    // --- Screen effects
+    public const string SpawnKingSlime = "spawn_king_slime";
+    public const string SpawnCritters = "spawn_critters";
     public const string WallOfFish = "wall_of_fish";
 
     #endregion

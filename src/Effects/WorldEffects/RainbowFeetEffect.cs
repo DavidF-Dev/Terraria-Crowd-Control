@@ -43,12 +43,12 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         CrowdControlProjectile.KillHook += ProjectileKill;
         return CrowdControlResponseStatus.Success;
     }
-    
+
     protected override void OnStop()
     {
         _paintIndex = 0;
         _paintedTiles.Clear();
-        
+
         GetLocalPlayer().PostUpdateHook -= PostUpdate;
         CrowdControlProjectile.KillHook -= ProjectileKill;
     }
@@ -103,7 +103,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         SetRainbowOnTile(tileX, tileY + 3, false);
         SetRainbowOnTile(tileX + 1, tileY + 3, false);
     }
-    
+
     private void ProjectileKill(Projectile projectile, int timeLeft)
     {
         if (projectile.minion || projectile.sentry || projectile.bobber || projectile.owner != GetLocalPlayer().Player.whoAmI)

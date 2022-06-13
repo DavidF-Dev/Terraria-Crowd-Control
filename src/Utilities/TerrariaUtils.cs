@@ -112,7 +112,7 @@ public static class TerrariaUtils
             // Ignored on client
             return;
         }
-        
+
         // Create a packet to send to the specific client
         var packet = CrowdControlMod.GetInstance().GetPacket(4);
         packet.Write((byte)PacketID.EffectMessage);

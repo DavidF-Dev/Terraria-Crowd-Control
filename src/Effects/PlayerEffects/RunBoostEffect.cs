@@ -4,7 +4,7 @@ using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects.BuffEffects;
+namespace CrowdControlMod.Effects.PlayerEffects;
 
 public sealed class RunBoostEffect : CrowdControlEffect
 {

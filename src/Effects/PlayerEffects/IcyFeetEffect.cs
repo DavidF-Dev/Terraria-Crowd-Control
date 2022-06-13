@@ -3,7 +3,7 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects.BuffEffects;
+namespace CrowdControlMod.Effects.PlayerEffects;
 
 public sealed class IcyFeetEffect : CrowdControlEffect
 {

@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects;
+namespace CrowdControlMod.Effects.WorldEffects;
 
 public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 {

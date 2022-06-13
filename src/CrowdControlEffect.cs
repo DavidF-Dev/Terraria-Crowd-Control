@@ -192,6 +192,14 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
+    ///     Whether the active effect should be updated and have its timer reduced.
+    /// </summary>
+    public virtual bool ShouldUpdate()
+    {
+        return true;
+    }
+
+    /// <summary>
     ///     Receive a packet meant for this effect, sent from a client.
     /// </summary>
     public void ReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)

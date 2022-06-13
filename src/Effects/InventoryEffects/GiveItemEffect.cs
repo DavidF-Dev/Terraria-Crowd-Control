@@ -231,7 +231,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         var progress = ProgressionUtility.GetProgression();
         if (!Items.TryGetValue(_giveItem, out var itemsByProgression) ||
             (!itemsByProgression.TryGetValue(progress, out var itemIds) &&
-            !itemsByProgression.TryGetValue(ProgressionUtility.Progression.PreEye, out itemIds)))
+             !itemsByProgression.TryGetValue(ProgressionUtility.Progression.PreEye, out itemIds)))
         {
             // Not supported
             return CrowdControlResponseStatus.Failure;
@@ -240,7 +240,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         // Choose the item and spawn it in
         var player = GetLocalPlayer();
         var chosenId = itemIds[Main.rand.Next(itemIds.Count)];
-        var itemId = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height, 
+        var itemId = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height,
             chosenId, _stack, noGrabDelay: true);
         _item = Main.item[itemId];
 

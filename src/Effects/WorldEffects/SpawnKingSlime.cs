@@ -1,0 +1,103 @@
+﻿using System.IO;
+using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CrowdControlMod.Effects.WorldEffects;
+
+public sealed class SpawnKingSlime : CrowdControlEffect
+{
+    #region Static Methods
+
+    private static void Spawn([NotNull] ModPlayer player)
+    {
+        // Spawn king slime
+        var index = NPC.NewNPC(null, (int)player.Player.Center.X, (int)player.Player.Center.Y, NPCID.KingSlime);
+        var npc = Main.npc[index];
+
+        // Set king slime settings
+        npc.target = player.Player.whoAmI;
+        npc.lifeMax = GetLife(ProgressionUtility.GetProgression());
+        npc.life = npc.lifeMax;
+
+        if (Main.netMode == NetmodeID.Server)
+        {
+            // Notify clients if spawned on server
+            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        }
+    }
+
+    private static int GetLife(ProgressionUtility.Progression progress)
+    {
+        return progress switch
+        {
+            ProgressionUtility.Progression.PreEye => 1000,
+            ProgressionUtility.Progression.PreSkeletron => 1500,
+            ProgressionUtility.Progression.PreWall => 2000,
+            ProgressionUtility.Progression.PreMech => 2500,
+            ProgressionUtility.Progression.PreGolem => 3000,
+            ProgressionUtility.Progression.PreLunar => 3500,
+            ProgressionUtility.Progression.PreMoonLord => 4000,
+            ProgressionUtility.Progression.PostGame => 4500,
+            _ => 1
+        };
+    }
+
+    #endregion
+
+    #region Constructors
+
+    public SpawnKingSlime() : base(EffectID.SpawnKingSlime, null, EffectSeverity.Negative)
+    {
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected override CrowdControlResponseStatus OnStart()
+    {
+        var player = GetLocalPlayer();
+        if (Main.netMode == NetmodeID.SinglePlayer)
+        {
+            // Simply spawn if in single-player
+            Spawn(player);
+        }
+        else
+        {
+            // Notify server (no need to send arguments)
+            SendPacket(PacketID.SpawnNpc, (short)0, 0, 0);
+        }
+
+        player.Player.AddBuff(BuffID.ShadowDodge, 60 * 5);
+        player.Player.AddBuff(BuffID.Slimed, 60 * 60);
+        return CrowdControlResponseStatus.Success;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.SlimeCrown, $"{viewerString} summoned a King Slime", Severity);
+    }
+
+    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    {
+        if (packetId != PacketID.SpawnNpc)
+        {
+            return;
+        }
+
+        // Ignore the packet arguments as we already know the npc
+        reader.ReadInt16();
+        reader.ReadInt32();
+        reader.ReadInt32();
+
+        // Spawn on server
+        Spawn(player);
+    }
+
+    #endregion
+}
