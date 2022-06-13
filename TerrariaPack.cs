@@ -52,6 +52,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Decrease max mana", "decrease_mana"),
                 new Effect("Increase spawn rate", "increase_spawn_rate"),
                 new Effect("Infinite ammo & mana", "infinite_ammo"),
+                new Effect("Force mount", "force_mount"),
                 new Effect("Give pet", "give_pet"),
                 new Effect("Give light pet", "give_light_pet"),
                 new Effect("Change gender", "change_gender"),

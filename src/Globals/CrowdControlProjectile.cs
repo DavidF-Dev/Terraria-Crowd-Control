@@ -10,7 +10,16 @@ namespace CrowdControlMod.Globals;
 [UsedImplicitly]
 public sealed class CrowdControlProjectile : GlobalProjectile
 {
-    private static readonly HashSet<int> TombstoneProjectileIds = new ()
+    #region Delegates
+
+    /// <inheritdoc cref="Kill" />
+    public delegate void KillDelegate(Projectile projectile, int timeLeft);
+
+    #endregion
+
+    #region Static Fields and Constants
+
+    private static readonly HashSet<int> TombstoneProjectileIds = new()
     {
         ProjectileID.Tombstone,
         ProjectileID.GraveMarker,
@@ -24,11 +33,6 @@ public sealed class CrowdControlProjectile : GlobalProjectile
         ProjectileID.RichGravestone4,
         ProjectileID.RichGravestone5
     };
-    
-    #region Delegates
-
-    /// <inheritdoc cref="Kill" />
-    public delegate void KillDelegate(Projectile projectile, int timeLeft);
 
     #endregion
 
@@ -74,7 +78,7 @@ public sealed class CrowdControlProjectile : GlobalProjectile
             // Notify clients if we're running on the server
             NetMessage.SendData(MessageID.SyncNPC, -1, player.Player.whoAmI, null, projectile.whoAmI);
         }
-            
+
         return false;
     }
 

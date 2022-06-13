@@ -13,13 +13,15 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     #region Static Fields and Constants
 
     private static readonly byte[] PaintIds = {13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+    private const int MaxTrackedPaintedTiles = 3;
 
     #endregion
 
     #region Fields
 
-    private readonly HashSet<Tile> _paintedTiles = new();
+    private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
     private int _paintIndex;
+    private int _trackedPaintedTilesCounter;
 
     #endregion
 
@@ -46,8 +48,9 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     protected override void OnStop()
     {
-        _paintIndex = 0;
         _paintedTiles.Clear();
+        _paintIndex = 0;
+        _trackedPaintedTilesCounter = 0;
 
         GetLocalPlayer().PostUpdateHook -= PostUpdate;
         CrowdControlProjectile.KillHook -= ProjectileKill;
@@ -77,7 +80,17 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
             // Choose the next colour in the rainbow sequence
             colour = PaintIds[_paintIndex];
             _paintIndex = (_paintIndex + 1) % PaintIds.Length;
+            
             _paintedTiles.Add(Main.tile[x, y]);
+            if (_trackedPaintedTilesCounter == MaxTrackedPaintedTiles)
+            {
+                // If collection is full, remove the first element
+                _paintedTiles.RemoveAt(0);
+            }
+            else
+            {
+                _trackedPaintedTilesCounter++;
+            }
         }
         else
         {

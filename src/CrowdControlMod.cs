@@ -493,6 +493,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxMana, false, false));
         AddEffect(new IncreaseSpawnRateEffect(20f));
         AddEffect(new InfiniteAmmoEffect(20f));
+        AddEffect(new ForceMountEffect(20f));
         AddEffect(new GivePetEffect(GivePetEffect.PetType.Pet));
         AddEffect(new GivePetEffect(GivePetEffect.PetType.LightPet));
         AddEffect(new ChangeGenderEffect());
@@ -511,11 +512,11 @@ public sealed class CrowdControlMod : Mod
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs", null,
-            BuffID.Ironskin, BuffID.Endurance));
+            BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast, BuffID.BunnyMount));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
             ItemID.Heart, (v, p) => $"{v} provided {p} with regeneration buffs",
             p => PlayerUtils.SetHairDye(p, ItemID.LifeHairDye),
-            BuffID.Regeneration, BuffID.SoulDrain, BuffID.ManaRegeneration, BuffID.Lovestruck));
+            BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
         AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 25f,
             ItemID.MagicLantern, (v, p) => $"{v} provided {p} with light",
             p => PlayerUtils.SetHairDye(p, ItemID.MartianHairDye),
@@ -526,10 +527,10 @@ public sealed class CrowdControlMod : Mod
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
             ItemID.Aglet, (v, p) => $"{v} boosted the movement speed of {p}", null,
-            BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking));
+            BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
 
         // --- Buff effects (negative)
-        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 6f,
             ItemID.IceCream, (v, p) => $"{v} cast a chilly spell over {p}", null,
             BuffID.Frozen));
         AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 6f,
@@ -538,7 +539,7 @@ public sealed class CrowdControlMod : Mod
             BuffID.OnFire));
         AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 8f,
             ItemID.FallenStar, (v, p) => $"{v} dazed {p}", null,
-            BuffID.Dazed));
+            BuffID.Dazed, BuffID.WindPushed, BuffID.NoBuilding));
         AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 8f,
             ItemID.FragmentVortex, (v, p) => $"{v} distorted gravity around {p}", null,
             BuffID.VortexDebuff));
@@ -548,7 +549,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 15f,
             ItemID.InvisibilityPotion, (v, p) => $"{v} stole {p}'s body...", null,
             BuffID.Invisibility));
-        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 10f,
             ItemID.Sunglasses, (v, p) => $"{v} obstructed {p}'s screen",
             p => PlayerUtils.SetHairDye(p, ItemID.TwilightHairDye),
             BuffID.Obstructed));

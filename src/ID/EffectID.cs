@@ -17,6 +17,7 @@ public static class EffectID
     public const string DecreaseMaxMana = "decrease_mana";
     public const string IncreaseSpawnRate = "increase_spawn_rate";
     public const string InfiniteAmmo = "infinite_ammo";
+    public const string ForceMount = "force_mount";
     public const string GivePet = "give_pet";
     public const string GiveLightPet = "give_light_pet";
     public const string ChangeGender = "change_gender";
