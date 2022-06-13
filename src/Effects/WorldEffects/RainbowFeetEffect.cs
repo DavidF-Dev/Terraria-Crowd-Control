@@ -12,8 +12,9 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private static readonly byte[] PaintIds = {13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
     private const int MaxTrackedPaintedTiles = 3;
+
+    private static readonly byte[] PaintIds = {13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
 
     #endregion
 
@@ -80,7 +81,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
             // Choose the next colour in the rainbow sequence
             colour = PaintIds[_paintIndex];
             _paintIndex = (_paintIndex + 1) % PaintIds.Length;
-            
+
             _paintedTiles.Add(Main.tile[x, y]);
             if (_trackedPaintedTilesCounter == MaxTrackedPaintedTiles)
             {

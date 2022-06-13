@@ -17,10 +17,11 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using Terraria;
+using On.Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Projectile = Terraria.Projectile;
 
 namespace CrowdControlMod;
 
@@ -83,7 +84,7 @@ public sealed class CrowdControlMod : Mod
         _instance = this;
 
         // Load stuff if not running on a server
-        if (Main.netMode != NetmodeID.Server)
+        if (Terraria.Main.netMode != NetmodeID.Server)
         {
             // TODO: Load shaders
         }
@@ -110,8 +111,8 @@ public sealed class CrowdControlMod : Mod
         // Null references
         _player = null!;
         _instance = null!;
-        
-        if (Main.netMode != NetmodeID.Server)
+
+        if (Terraria.Main.netMode != NetmodeID.Server)
         {
             // TODO: Unload shaders
         }
@@ -123,7 +124,7 @@ public sealed class CrowdControlMod : Mod
     {
         try
         {
-            switch (Main.netMode)
+            switch (Terraria.Main.netMode)
             {
                 case NetmodeID.MultiplayerClient:
                 {
@@ -150,7 +151,7 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
-        if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
+        if (_isSessionRunning || _sessionThread != null || Terraria.Main.netMode == NetmodeID.Server)
         {
             TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
             return;
@@ -163,7 +164,7 @@ public sealed class CrowdControlMod : Mod
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
 
-        On.Terraria.Main.Update += OnUpdate;
+        Main.Update += OnUpdate;
     }
 
     /// <summary>
@@ -188,7 +189,7 @@ public sealed class CrowdControlMod : Mod
 
         _player = null!;
 
-        On.Terraria.Main.Update -= OnUpdate;
+        Main.Update -= OnUpdate;
     }
 
     /// <summary>
@@ -199,7 +200,7 @@ public sealed class CrowdControlMod : Mod
     {
         return _player;
     }
-    
+
     /// <summary>
     ///     Check whether the provided effect is currently active.
     /// </summary>
@@ -266,7 +267,7 @@ public sealed class CrowdControlMod : Mod
     {
         // Let the server handle the effect packet
         var packetId = (PacketID)reader.ReadByte();
-        var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
+        var player = Terraria.Main.player[sender].GetModPlayer<CrowdControlPlayer>();
         if (packetId == PacketID.ConfigState)
         {
             // Update config state for client
@@ -274,7 +275,7 @@ public sealed class CrowdControlMod : Mod
             TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
             return;
         }
-        
+
         var effectId = reader.ReadString();
 
         // Check that the effect exists
@@ -286,7 +287,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private void OnUpdate(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
+    private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
     {
         if (IsSessionPaused())
         {
@@ -310,14 +311,14 @@ public sealed class CrowdControlMod : Mod
         _isSessionConnected = false;
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         var writeAttempt = true;
-        
+
         // Wait for the world to load
-        while (_isSessionRunning && Main.gameMenu)
+        while (_isSessionRunning && Terraria.Main.gameMenu)
         {
         }
-        
+
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (Terraria.Main.netMode == NetmodeID.MultiplayerClient)
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();
@@ -404,7 +405,7 @@ public sealed class CrowdControlMod : Mod
 
                 _isSessionConnected = false;
                 writeAttempt = true;
-                
+
                 if (_isSessionRunning)
                 {
                     TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
@@ -467,7 +468,7 @@ public sealed class CrowdControlMod : Mod
 
     private bool IsSessionPaused()
     {
-        return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
+        return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
     }
 
     private void AddEffect([NotNull] CrowdControlEffect effect)

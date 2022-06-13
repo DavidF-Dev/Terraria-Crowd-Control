@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
@@ -77,14 +73,14 @@ public sealed class CrowdControlProjectile : GlobalProjectile
         projectile.active = false;
         projectile.timeLeft = 1;
         projectile.Kill();
-        if (Main.netMode == NetmodeID.Server)
+        if (Main.netMode != NetmodeID.Server)
         {
-            // Notify clients if we're running on the server
-            NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.whoAmI);
-            TerrariaUtils.WriteDebug($"Removed tombstone of '{player.Player.name}'");
+            return;
         }
 
-        return;
+        // Notify clients if we're running on the server
+        NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.whoAmI);
+        TerrariaUtils.WriteDebug($"Removed tombstone of '{player.Player.name}'");
     }
 
     #endregion

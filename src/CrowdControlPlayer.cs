@@ -31,7 +31,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     #endregion
 
     #region Fields
-    
+
     /// <summary>
     ///     Server-side value for whether this player has tombstones disabled in their config.
     /// </summary>

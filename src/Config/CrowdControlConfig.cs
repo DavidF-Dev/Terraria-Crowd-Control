@@ -104,7 +104,7 @@ public sealed class CrowdControlConfig : ModConfig
         {
             return;
         }
-        
+
         // If connected as a client, update the server on the changes
         SendConfigToServer();
     }
@@ -125,7 +125,7 @@ public sealed class CrowdControlConfig : ModConfig
         packet.Write((byte)PacketID.ConfigState);
         packet.Write(DisableTombstones);
         packet.Send();
-        
+
         TerrariaUtils.WriteDebug("Sending config to server");
     }
 
