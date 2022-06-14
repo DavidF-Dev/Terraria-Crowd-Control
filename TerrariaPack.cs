@@ -61,14 +61,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase jump height", "jump_boost"),
                 new Effect("Increase movement speed", "run_boost"),
                 new Effect("Slippery boots", "icy_feet"),
-                
-                // --- Time effects
-                new Effect("Time Effects", "time_folder", ItemKind.Folder),
-                new Effect("Set the time to noon", "time_noon"),
-                new Effect("Set the time to midnight", "time_midnight"),
-                new Effect("Set the time to sunrise", "time_sunrise"),
-                new Effect("Set the time to sunset", "time_sunset"),
-                
+
                 // --- Buff effects (positive)
                 new Effect("Buff Effects", "buff_folder", ItemKind.Folder),
                 new Effect("Boost player survivability", "buff_survivability"),
@@ -99,6 +92,10 @@ public sealed class Terraria : SimpleTCPPack
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),
+                new Effect("Set the time to noon", "time_noon"),
+                new Effect("Set the time to midnight", "time_midnight"),
+                new Effect("Set the time to sunrise", "time_sunrise"),
+                new Effect("Set the time to sunset", "time_sunset"),
                 new Effect("Spawn structure", "spawn_structure"),
                 new Effect("Random teleportation", "random_teleport"),
                 new Effect("Rainbow feet", "rainbow_feet"),

@@ -506,12 +506,6 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new RunBoostEffect(20f));
         AddEffect(new IcyFeetEffect(20f));
 
-        // --- Time effects
-        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
-
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs", null,
@@ -569,6 +563,10 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Potion));
 
         // --- World effects
+        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         AddEffect(new SpawnStructureEffect());
         AddEffect(new RandomTeleportEffect());
         AddEffect(new RainbowFeetEffect(20f));

@@ -27,12 +27,6 @@ public static class EffectID
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
 
-    // --- Time effects
-    public const string SetTimeNoon = "time_noon";
-    public const string SetTimeMidnight = "time_midnight";
-    public const string SetTimeSunrise = "time_sunrise";
-    public const string SetTimeSunset = "time_sunset";
-
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";
     public const string BuffRegen = "buff_regen";
@@ -61,6 +55,10 @@ public static class EffectID
     public const string GivePotion = "give_potion";
 
     // --- World effects
+    public const string SetTimeNoon = "time_noon";
+    public const string SetTimeMidnight = "time_midnight";
+    public const string SetTimeSunrise = "time_sunrise";
+    public const string SetTimeSunset = "time_sunset";
     public const string SpawnStructure = "spawn_structure";
     public const string RandomTeleport = "random_teleport";
     public const string RainbowFeet = "rainbow_feet";
