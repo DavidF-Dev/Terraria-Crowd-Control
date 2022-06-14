@@ -67,6 +67,9 @@ public static class EffectID
     public const string SpawnKingSlime = "spawn_king_slime";
     public const string SpawnCritters = "spawn_critters";
     public const string WallOfFish = "wall_of_fish";
+    
+    // --- Challenge effects
+    public const string JumpChallenge = "jump_challenge";
 
     #endregion
 }

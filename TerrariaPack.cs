@@ -104,6 +104,10 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn King Slime", "spawn_king_slime"),
                 new Effect("Spawn critters", "spawn_critters"),
                 new Effect("Wall of Fish", "wall_of_fish"),
+                
+                // --- Challenge effects
+                new Effect("Challenges", "challenges_folder", ItemKind.Folder),
+                new Effect("Start jump challenge", "jump_challenge"),
             };
         }
     }

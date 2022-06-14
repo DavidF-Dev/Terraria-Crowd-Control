@@ -9,6 +9,7 @@ using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
 using CrowdControlMod.Effects.BuffEffects;
+using CrowdControlMod.Effects.Challenges;
 using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.Effects.InventoryEffects;
 using CrowdControlMod.Effects.PlayerEffects;
@@ -575,6 +576,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnKingSlime());
         AddEffect(new SpawnCritters());
         AddEffect(new WallOfFishEffect(20f));
+        
+        // --- Challenge effects
+        AddEffect(new JumpChallengeEffect(20f));
     }
 
     private void DisposeAllEffects()
