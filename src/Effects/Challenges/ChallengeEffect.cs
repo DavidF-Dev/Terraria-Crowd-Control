@@ -1,9 +1,11 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -39,12 +41,14 @@ public abstract class ChallengeEffect : CrowdControlEffect
     {
         if (_isAnyChallengeActive)
         {
+            // Fail if there is already any challenge active
             return CrowdControlResponseStatus.Failure;
         }
 
         var result = OnChallengeStart();
         if (result != CrowdControlResponseStatus.Success)
         {
+            // Return early if cannot start the effect
             return result;
         }
 
@@ -62,6 +66,10 @@ public abstract class ChallengeEffect : CrowdControlEffect
             // Reward the player
             var player = GetLocalPlayer();
             SoundEngine.PlaySound(SoundID.AchievementComplete, player.Player.position);
+            var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
+            var proj = Main.projectile[index];
+            proj.friendly = true;
+            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
         }
 
         _isAnyChallengeActive = false;
@@ -124,33 +132,69 @@ public abstract class ChallengeEffect : CrowdControlEffect
 
     private void PostDrawInterface(SpriteBatch spriteBatch)
     {
-        // Draw the challenge text below the player
-        var player = GetLocalPlayer();
-        var pos = player.Player.position;
-        const float offset1 = 16f * 4f;
-        const float offset2 = 16f * 4.5f;
-        const float scale = 2f;
+        var center = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+        var font = FontAssets.MouseText.Value;
+        const float scale = 0.8f;
 
-        // TODO: Text not appearing
+        // Determine 'challenge description' string size and set scale 'bob' values
+        var str1 = GetChallengeDescription();
+        var str1Size = font.MeasureString(str1);
+        const float scaleMagnitude = 0.12f;
+        const float scaleFrequency = 0.75f;
         
+        // Draw 'challenge description' string
         spriteBatch.DrawString(
-            FontAssets.DeathText.Value,
-            $"Complete challenge in {TimeLeft:0.00} seconds",
-            new Vector2(pos.X, pos.Y + offset1),
-            Color.White,
+            font,
+            str1,
+            new Vector2(center.X, center.Y + 45f),
+            Color.Yellow,
             0f,
-            Vector2.Zero,
-            Vector2.One * scale,
+            str1Size * 0.5f,
+            Vector2.One * (scale + Math.Abs((float)Math.Sin(Main.GlobalTimeWrappedHourly * scaleFrequency) * scaleMagnitude)),
             SpriteEffects.None,
             0f);
 
+        // Determine 'time left' string size and set colour timings
+        var str2 = $"{TimeLeft:0.0} seconds remaining";
+        var str2Size = font.MeasureString(str2);
+        const float redStart = 5.5f;
+        const float redEnd = 2.5f;
+        const float yellowStart = 8.5f;
+        const float yellowEnd = 5.5f;
+
+        // Choose colour based on time left
+        Color colour;
+        if (TimeLeft < redEnd)
+        {
+            colour = Color.Red;
+        }
+        else if (TimeLeft < redStart)
+        {
+            const float offset = redStart - redEnd;
+            colour = Color.Lerp(Color.Red, Color.Yellow, (TimeLeft - redEnd) / offset);
+        }
+        else if (TimeLeft < yellowEnd)
+        {
+            colour = Color.Yellow;
+        }
+        else if (TimeLeft < yellowStart)
+        {
+            const float offset = yellowStart - yellowEnd;
+            colour = Color.Lerp(Color.Yellow, Color.White, (TimeLeft - yellowEnd) / offset);
+        }
+        else
+        {
+            colour = Color.White;
+        }
+        
+        // Draw 'time left' string
         spriteBatch.DrawString(
-            FontAssets.DeathText.Value,
-            GetChallengeDescription(),
-            new Vector2(pos.X, pos.Y + offset2),
-            Color.Yellow,
+            font,
+            str2,
+            new Vector2(center.X, center.Y + 70f),
+            colour,
             0f,
-            Vector2.Zero,
+            str2Size * 0.5f,
             Vector2.One * scale,
             SpriteEffects.None,
             0f);
