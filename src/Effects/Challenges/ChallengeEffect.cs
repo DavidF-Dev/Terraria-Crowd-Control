@@ -74,7 +74,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
     {
         // Write normal message
         var challengeString = TerrariaUtils.GetColouredRichText($"{GetChallengeDescription()} within {durationString} seconds", Color.Yellow);
-        TerrariaUtils.WriteMessage(ItemID.Pigronata, $"{viewerString} challenged {playerString}! {challengeString}", Color.White);
+        TerrariaUtils.WriteEffectMessage(ItemID.FastClock, $"{viewerString} challenged {playerString}: {challengeString}", Severity);
     }
 
     protected sealed override void SendStopMessage()
@@ -82,11 +82,12 @@ public abstract class ChallengeEffect : CrowdControlEffect
         // Stop message depends on challenge outcome
         if (_isCompleted)
         {
-            TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Challenge completed!", Color.Green);
+            TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Challenge completed", Color.Green);
         }
         else if (CrowdControlMod.GetInstance().IsSessionActive)
         {
-            GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason("Challenge failed!"), 1000, 0);
+            var player = GetLocalPlayer();
+            player.Player.KillMe(PlayerDeathReason.ByCustomReason($"{player.Player.name} failed their challenge"), 1000, 0);
         }
     }
 
@@ -134,7 +135,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         
         spriteBatch.DrawString(
             FontAssets.DeathText.Value,
-            $"Complete challenge in {TimeLeft:0} seconds",
+            $"Complete challenge in {TimeLeft:0.00} seconds",
             new Vector2(pos.X, pos.Y + offset1),
             Color.White,
             0f,

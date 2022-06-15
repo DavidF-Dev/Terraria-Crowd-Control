@@ -506,6 +506,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new JumpBoostEffect(20f));
         AddEffect(new RunBoostEffect(20f));
         AddEffect(new IcyFeetEffect(20f));
+        AddEffect(new ZoomEffect(15f, true));
+        AddEffect(new ZoomEffect(15f, false));
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,

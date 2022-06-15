@@ -26,6 +26,8 @@ public static class EffectID
     public const string JumpBoost = "jump_boost";
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
+    public const string ZoomIn = "zoom_in";
+    public const string ZoomOut = "zoom_out";
 
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";
