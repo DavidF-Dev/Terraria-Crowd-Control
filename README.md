@@ -10,24 +10,27 @@ The mod features a wide variety of effects. It's up to the viewers whether they 
 Here is just a taste of the effects that this mod has to offer:
 - Explode the player
 - Enable 'god-mode'
+- Spawn bosses
 - Reforge weapons and tools
 - Drop the player's items
-- Spawn mobs
+- Drastically increase the spawn-rate
 - Provide buffs and de-buffs
 - Increase movement speed and jump-height
 - Flip the screen
-- Provide weapons
+- Provide weapons, armour & tools
 - Heal the player
 - Hurt the player
-- and... (my personal favourite)... summon a giant wall of fish
+- Summon a giant wall of fish
+- Challenge the player to complete a goal within a short time
 
 ## Usage
 Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4, which can be downloaded for free on Steam.<br>
 Older versions are not supported.<br>
 <br>
-The mod can be installed in two ways:
-- Using the Mod Browser in tModLoader (**recommended**): search for, and download `Crowd Control for Terraria`.
-- Manually from the [Releases](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases) page: place the `.tmod` file in `Documents/My Games/Terraria/ModLoader/Mods`.
+The mod can be installed in a few ways:
+- [Steam Workshop]() **(recommended)**
+- tModLoader in-game Mod Browser: search for, and download `Crowd Control for Terraria`
+- GitHub [Releases](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases): place the `.tmod` file in `Documents/My Games/Terraria/tModLoader/Mods`
 
 ### Starting Crowd Control
 To begin playing, simply join a single-player or multi-player world (*the server must also have the mod installed*). 
