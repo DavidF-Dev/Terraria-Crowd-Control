@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
 
@@ -18,16 +19,25 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     public IncreaseSpawnRateEffect(float duration) : base(EffectID.IncreaseSpawnRate, duration, EffectSeverity.Negative)
     {
-        CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
     }
 
     #endregion
 
     #region Methods
 
-    protected override void OnDispose()
+    protected override void OnSessionStarted()
+    {
+        CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
+    }
+
+    protected override void OnSessionStopped()
     {
         CrowdControlNPC.EditSpawnRateHook -= EditSpawnRate;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.WaterCandle, $"{viewerString} increased the enemy spawn-rate around {playerString} for {durationString} seconds", Severity);
     }
 
     private void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)

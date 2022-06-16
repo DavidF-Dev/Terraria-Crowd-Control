@@ -97,28 +97,27 @@ public sealed class CrowdControlMod : Mod
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
-
-        base.Load();
     }
 
     public override void Close()
     {
         // Ensure that the session is stopped
         StopCrowdControlSession();
-
-        // Dispose effects and clear them
-        DisposeAllEffects();
-
-        // Null references
-        _player = null!;
-        _instance = null!;
-
+        
+        // Dispose the effects before clearing them
+        foreach (var effect in _effects.Values)
+        {
+            effect.Dispose();
+        }
+        
+        _effects.Clear();
+        
         if (Terraria.Main.netMode != NetmodeID.Server)
         {
             // TODO: Unload shaders
         }
 
-        base.Close();
+        _instance = null!;
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -129,11 +128,13 @@ public sealed class CrowdControlMod : Mod
             {
                 case NetmodeID.MultiplayerClient:
                 {
+                    // Handle incoming packet as the multiplayer client
                     HandleClientPacket(reader);
                     break;
                 }
                 case NetmodeID.Server:
                 {
+                    // Handle incoming packet as the server
                     HandleServerPacket(reader, whoAmI);
                     break;
                 }
@@ -143,8 +144,6 @@ public sealed class CrowdControlMod : Mod
         {
             TerrariaUtils.WriteDebug($"Failed to handle an incoming packet: {e.Message}");
         }
-
-        base.HandlePacket(reader, whoAmI);
     }
 
     /// <summary>
@@ -161,6 +160,12 @@ public sealed class CrowdControlMod : Mod
         _player = player;
         _isSessionRunning = true;
 
+        // Initialise the effects
+        foreach (var effect in _effects.Values)
+        {
+            effect.SessionStarted();
+        }
+        
         // Start the connection thread
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
@@ -182,10 +187,15 @@ public sealed class CrowdControlMod : Mod
         _isSessionRunning = false;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
 
-        // Stop all active effects
-        foreach (var effect in _effects.Values.Where(effect => effect.IsActive))
+        // Stop effects and notify that the session stopped
+        foreach (var effect in _effects.Values)
         {
-            effect.Stop();
+            if (effect.IsActive)
+            {
+                effect.Stop();
+            }
+            
+            effect.SessionStopped();
         }
 
         _player = null!;
@@ -508,6 +518,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new IcyFeetEffect(20f));
         AddEffect(new ZoomEffect(15f, true));
         AddEffect(new ZoomEffect(15f, false));
+        AddEffect(new TeleportToDeathEffect());
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
@@ -581,18 +592,6 @@ public sealed class CrowdControlMod : Mod
         
         // --- Challenge effects
         AddEffect(new JumpChallengeEffect(20f));
-    }
-
-    private void DisposeAllEffects()
-    {
-        // Dispose each effect
-        foreach (var effect in _effects.Values)
-        {
-            effect.Dispose();
-        }
-
-        // Clear the list
-        _effects.Clear();
     }
 
     #endregion

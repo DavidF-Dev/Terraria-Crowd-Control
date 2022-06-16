@@ -90,6 +90,35 @@ public abstract class CrowdControlEffect
     #region Methods
 
     /// <summary>
+    ///     Initialise the effect when the session has started.
+    /// </summary>
+    public void SessionStarted()
+    {
+        OnSessionStarted();
+    }
+
+    /// <summary>
+    ///     Clean up the effect when the session has ended.
+    /// </summary>
+    public void SessionStopped()
+    {
+        OnSessionStopped();
+    }
+    
+    /// <summary>
+    ///     Dispose the effect when the mod is unloaded.
+    /// </summary>
+    public void Dispose()
+    {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            CrowdControlPlayer.PlayerDisconnectHook -= PlayerDisconnect;
+        }
+        
+        OnDisposed();
+    }
+    
+    /// <summary>
     ///     Start the effect.
     /// </summary>
     public CrowdControlResponseStatus Start([NotNull] string viewer)
@@ -179,19 +208,6 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Clean up the effect right before it is destroyed (when the mod is unloaded).
-    /// </summary>
-    public void Dispose()
-    {
-        if (Main.netMode == NetmodeID.Server)
-        {
-            CrowdControlPlayer.PlayerDisconnectHook -= PlayerDisconnect;
-        }
-
-        OnDispose();
-    }
-
-    /// <summary>
     ///     Whether the active effect should be updated and have its timer reduced.
     /// </summary>
     public virtual bool ShouldUpdate()
@@ -267,6 +283,27 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
+    ///     Invoked when the session is started.
+    /// </summary>
+    protected virtual void OnSessionStarted()
+    {
+    }
+    
+    /// <summary>
+    ///     Invoked when the session is ended.
+    /// </summary>
+    protected virtual void OnSessionStopped()
+    {
+    }
+
+    /// <summary>
+    ///     Invoked when the mod is unloaded and the effect should be disposed.
+    /// </summary>
+    protected virtual void OnDisposed()
+    {
+    }
+    
+    /// <summary>
     ///     Invoked when the effect is triggered.
     /// </summary>
     protected virtual CrowdControlResponseStatus OnStart()
@@ -285,14 +322,6 @@ public abstract class CrowdControlEffect
     ///     Invoked each frame whilst the effect is active.
     /// </summary>
     protected virtual void OnUpdate(float delta)
-    {
-    }
-
-    /// <summary>
-    ///     Invoked before the effect is destroyed (when the mod is unloaded).<br />
-    ///     Note that the local player will be null.
-    /// </summary>
-    protected virtual void OnDispose()
     {
     }
 

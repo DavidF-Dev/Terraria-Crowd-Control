@@ -63,6 +63,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Slippery boots", "icy_feet"),
                 new Effect("Zoom in", "zoom_in"),
                 new Effect("Zoom out", "zoom_out"),
+                new Effect("Teleport to death point", "death_tp"),
 
                 // --- Buff effects (positive)
                 new Effect("Buff Effects", "buff_folder", ItemKind.Folder),

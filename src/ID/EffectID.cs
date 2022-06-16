@@ -28,6 +28,7 @@ public static class EffectID
     public const string IcyFeet = "icy_feet";
     public const string ZoomIn = "zoom_in";
     public const string ZoomOut = "zoom_out";
+    public const string DeathTeleport = "death_tp";
 
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";
