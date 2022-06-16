@@ -73,6 +73,7 @@ public static class EffectID
     
     // --- Challenge effects
     public const string JumpChallenge = "jump_challenge";
+    public const string SwimChallenge = "swim_challenge";
 
     #endregion
 }

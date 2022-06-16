@@ -111,6 +111,7 @@ public sealed class Terraria : SimpleTCPPack
                 // --- Challenge effects
                 new Effect("Challenges", "challenges_folder", ItemKind.Folder),
                 new Effect("Start jump challenge", "jump_challenge"),
+                new Effect("Start swim challenge", "swim_challenge"),
             };
         }
     }

@@ -591,7 +591,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new WallOfFishEffect(20f));
         
         // --- Challenge effects
-        AddEffect(new JumpChallengeEffect(20f));
+        AddEffect(new JumpChallenge(20f));
+        AddEffect(new SwimChallenge(20f));
     }
 
     #endregion

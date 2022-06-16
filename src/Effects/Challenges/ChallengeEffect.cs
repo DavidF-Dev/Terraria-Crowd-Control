@@ -117,12 +117,17 @@ public abstract class ChallengeEffect : CrowdControlEffect
     /// <summary>
     ///     Invoked when the challenge begins.
     /// </summary>
-    protected abstract CrowdControlResponseStatus OnChallengeStart();
+    protected virtual CrowdControlResponseStatus OnChallengeStart()
+    {
+        return CrowdControlResponseStatus.Success;
+    }
 
     /// <summary>
     ///     Invoked when the challenge has ended.
     /// </summary>
-    protected abstract void OnChallengeStop();
+    protected virtual void OnChallengeStop()
+    {
+    }
 
     /// <summary>
     ///     Get the challenge description string.<br />
@@ -134,7 +139,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
     {
         var center = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
         var font = FontAssets.MouseText.Value;
-        const float scale = 0.8f;
+        const float scale = 0.95f;
 
         // Determine 'challenge description' string size and set scale 'bob' values
         var str1 = GetChallengeDescription();

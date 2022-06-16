@@ -3,11 +3,11 @@ using CrowdControlMod.ID;
 
 namespace CrowdControlMod.Effects.Challenges;
 
-public sealed class JumpChallengeEffect : ChallengeEffect
+public sealed class JumpChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public JumpChallengeEffect(float duration) : base(EffectID.JumpChallenge, duration)
+    public JumpChallenge(float duration) : base(EffectID.JumpChallenge, duration)
     {
     }
 
