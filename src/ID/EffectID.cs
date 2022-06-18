@@ -70,6 +70,10 @@ public static class EffectID
     public const string SpawnKingSlime = "spawn_king_slime";
     public const string SpawnCritters = "spawn_critters";
     public const string WallOfFish = "wall_of_fish";
+    public const string SetWeatherClear = "weather_clear";
+    public const string SetWeatherRain = "weather_rain";
+    public const string SetWeatherStorm = "weather_storm";
+    public const string SetWeatherWindy = "weather_windy";
     
     // --- Challenge effects
     public const string SwimChallenge = "swim_challenge";

@@ -46,5 +46,11 @@ public enum PacketID : byte
     ///     Spawn an npc on the server.<br />
     ///     Packet data: (short)type (int)tileX (int)tileY
     /// </summary>
-    SpawnNpc
+    SpawnNpc,
+    
+    /// <summary>
+    ///     Set the weather on the server.<br />
+    ///     Packet data: (int)weather
+    /// </summary>
+    SetWeather,
 }

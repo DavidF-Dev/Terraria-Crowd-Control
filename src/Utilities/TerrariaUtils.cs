@@ -208,7 +208,7 @@ public static class TerrariaUtils
                 packet.Write(@short);
                 break;
             default:
-                throw new NotImplementedException($"Sending '{data.GetType().Name}' in a packet is unsupported");
+                throw new ArgumentOutOfRangeException(nameof(data), $"Sending '{data.GetType().Name}' in a packet is unsupported");
         }
     }
 

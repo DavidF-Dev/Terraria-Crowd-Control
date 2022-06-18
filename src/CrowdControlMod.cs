@@ -589,6 +589,10 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnKingSlime());
         AddEffect(new SpawnCritters());
         AddEffect(new WallOfFishEffect(20f));
+        AddEffect(new SetWeatherEffect(WorldUtils.Weather.Clear));
+        AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
+        AddEffect(new SetWeatherEffect(WorldUtils.Weather.Storm));
+        AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
         
         // --- Challenge effects
         AddEffect(new SwimChallenge(20f));

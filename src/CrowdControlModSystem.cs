@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace CrowdControlMod;
 
@@ -34,6 +32,10 @@ public sealed class CrowdControlModSystem : ModSystem
     [PublicAPI]
     public static event ModifyTransformMatrixDelegate ModifyTransformMatrixHook;
 
+    /// <inheritdoc cref="PostUpdateEverything" />
+    [PublicAPI]
+    public static event Action PostUpdateEverythingHook;
+
     #endregion
 
     #region Methods
@@ -60,6 +62,11 @@ public sealed class CrowdControlModSystem : ModSystem
     public override void ModifyTransformMatrix(ref SpriteViewMatrix transform)
     {
         ModifyTransformMatrixHook?.Invoke(ref transform);
+    }
+
+    public override void PostUpdateEverything()
+    {
+        PostUpdateEverythingHook?.Invoke();
     }
 
     #endregion
