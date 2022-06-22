@@ -60,7 +60,7 @@ public sealed class SetWeatherEffect : CrowdControlEffect
         else
         {
             // Notify server to change the weather
-            SendPacket(PacketID.SetWeather, (int)_weather);
+            SendPacket(PacketID.HandleEffect);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -89,23 +89,10 @@ public sealed class SetWeatherEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(itemId, message, Severity);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SetWeather)
-        {
-            // Ignore
-            return;
-        }
-
-        var weather = (WorldUtils.Weather)reader.ReadInt32();
-        if (weather != _weather)
-        {
-            // Should be the same (technically don't even need to send the weather but oh well)
-            return;
-        }
-
         // Set the weather
-        WorldUtils.SetWeather(weather);
+        WorldUtils.SetWeather(_weather);
     }
 
     #endregion

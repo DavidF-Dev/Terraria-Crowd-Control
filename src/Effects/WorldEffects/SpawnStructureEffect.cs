@@ -123,7 +123,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         else
         {
             // Let the server generate the structure if we are a client
-            SendPacket(PacketID.SpawnStructure, (int)_chosenStructure, player.TileX, player.TileY);
+            SendPacket(PacketID.HandleEffect, (int)_chosenStructure, player.TileX, player.TileY);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -150,12 +150,9 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.TinHammer, message, Severity);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SpawnStructure)
-        {
-            return;
-        }
+        // Incoming packet: (int)chosenStructure (int)tileX (int)tileY
 
         // Spawn the structure on the server
         var structure = (Structure)reader.ReadInt32();

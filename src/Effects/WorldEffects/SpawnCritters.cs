@@ -85,7 +85,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         else
         {
             // Notify the server
-            SendPacket(PacketID.SpawnNpc, (short)0, 0, 0);
+            SendPacket(PacketID.HandleEffect);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -96,18 +96,8 @@ public sealed class SpawnCritters : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.BugNet, $"{viewerString} spawned a bunch of critters", Severity);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SpawnNpc)
-        {
-            return;
-        }
-
-        // Read packet arguments
-        reader.ReadInt16();
-        reader.ReadInt32();
-        reader.ReadInt32();
-
         // Spawn the critters on the server
         Spawn(player);
     }

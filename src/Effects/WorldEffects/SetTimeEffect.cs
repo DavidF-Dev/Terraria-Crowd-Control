@@ -51,7 +51,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
         else
         {
             // Send a packet telling the server to change the time
-            SendPacket(PacketID.SetTime, _time, _isDay);
+            SendPacket(PacketID.HandleEffect, _time, _isDay);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -62,14 +62,9 @@ public sealed class SetTimeEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(_isDay ? ItemID.SunMask : ItemID.MoonMask, $"{viewerString} set the time to {_timeString}", EffectSeverity.Neutral);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SetTime)
-        {
-            // Ignore (this shouldn't happen)
-            return;
-        }
-
+        // Incoming packet: (int)time (bool)isDay
         // Set the time on the server, then update the clients on the changes
         var time = reader.ReadInt32();
         var isDay = reader.ReadBoolean();

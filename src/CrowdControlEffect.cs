@@ -247,7 +247,7 @@ public abstract class CrowdControlEffect
             return;
         }
 
-        OnReceivePacket(packetId, player, reader);
+        OnReceivePacket(player, reader);
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ public abstract class CrowdControlEffect
     /// <summary>
     ///     Invoked when a packet is received, meant for this effect to handle on the server-side.
     /// </summary>
-    protected virtual void OnReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
+    protected virtual void OnReceivePacket([NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
     }
 

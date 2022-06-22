@@ -48,7 +48,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         else
         {
             // If on server, spawn on server (no need to pass arguments)
-            SendPacket(PacketID.SpawnNpc, (short)0, 0, 0);
+            SendPacket(PacketID.HandleEffect);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -59,19 +59,8 @@ public sealed class SpawnGuardian : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, $"{viewerString} spawned a Dungeon Guardian", Severity);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SpawnNpc)
-        {
-            // Ignored
-            return;
-        }
-
-        // Ignore the packet arguments as we already know the npc
-        reader.ReadInt16();
-        reader.ReadInt32();
-        reader.ReadInt32();
-
         // Spawn the dungeon guardian on the server
         Spawn(player);
     }

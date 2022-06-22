@@ -70,7 +70,7 @@ public sealed class SpawnKingSlime : CrowdControlEffect
         else
         {
             // Notify server (no need to send arguments)
-            SendPacket(PacketID.SpawnNpc, (short)0, 0, 0);
+            SendPacket(PacketID.HandleEffect);
         }
 
         player.Player.AddBuff(BuffID.ShadowDodge, 60 * 5);
@@ -83,18 +83,8 @@ public sealed class SpawnKingSlime : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.SlimeCrown, $"{viewerString} summoned a King Slime", Severity);
     }
 
-    protected override void OnReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        if (packetId != PacketID.SpawnNpc)
-        {
-            return;
-        }
-
-        // Ignore the packet arguments as we already know the npc
-        reader.ReadInt16();
-        reader.ReadInt32();
-        reader.ReadInt32();
-
         // Spawn on server
         Spawn(player);
     }
