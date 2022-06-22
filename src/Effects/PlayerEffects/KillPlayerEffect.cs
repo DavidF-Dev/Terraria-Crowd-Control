@@ -1,6 +1,7 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Terraria;
 using Terraria.DataStructures;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -10,6 +11,18 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 /// </summary>
 public sealed class KillPlayerEffect : CrowdControlEffect
 {
+    private static readonly string[] KillVerbs =
+    {
+        "killed", "slapped really hard", "pulverised", "slain", "assassinated", "discombobulated",
+        "vaporised", "force-choked", "disposed of", "stared violently", "yeeted out of existence",
+        "friend-zoned", "zapped", "crushed", "imploded", "murdered", "executed", "slam dunked",
+        "force-fed poison ivy", "smacked with a fish", "ripped to shreds", "attacked with a toothbrush",
+        "spat on", "cancelled", "tormented", "led into a room of angry fans", "hugged too tightly",
+        "subjected to a bad fun", "shot with a water gun", "poked", "removed from this plain of existence",
+        // ReSharper disable once StringLiteralTypo
+        "fed [c/FFFF00:ra][c/FF0000:in][c/0000FF:bo][c/8B00FF:ws]"
+    };
+
     #region Constructors
 
     public KillPlayerEffect() : base(EffectID.KillPlayer, null, EffectSeverity.Negative)
@@ -28,9 +41,8 @@ public sealed class KillPlayerEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)
     {
-        // Kill the player here
-        // TODO: Choose a random death message
-        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was killed by {viewerString}"), 1000, 0);
+        // Kill the player here (choose a random verb to use)
+        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was {KillVerbs[Main.rand.Next(KillVerbs.Length)]} by {viewerString}"), 1000, 0);
     }
 
     #endregion
