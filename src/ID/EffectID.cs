@@ -74,7 +74,7 @@ public static class EffectID
     public const string SetWeatherRain = "weather_rain";
     public const string SetWeatherStorm = "weather_storm";
     public const string SetWeatherWindy = "weather_windy";
-    
+
     // --- Challenge effects
     public const string SwimChallenge = "swim_challenge";
 

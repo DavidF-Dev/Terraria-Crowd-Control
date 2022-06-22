@@ -112,15 +112,15 @@ public sealed class CrowdControlMod : Mod
     {
         // Ensure that the session is stopped
         StopCrowdControlSession();
-        
+
         // Dispose the effects before clearing them
         foreach (var effect in _effects.Values)
         {
             effect.Dispose();
         }
-        
+
         _effects.Clear();
-        
+
         if (Terraria.Main.netMode != NetmodeID.Server)
         {
             // TODO: Unload shaders
@@ -175,7 +175,7 @@ public sealed class CrowdControlMod : Mod
         {
             effect.SessionStarted();
         }
-        
+
         // Start the connection thread
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
@@ -203,7 +203,7 @@ public sealed class CrowdControlMod : Mod
         {
             effect.Stop();
         }
-        
+
         // Notify effects that the session has been stopped
         foreach (var effect in _effects.Values)
         {
@@ -272,7 +272,7 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteDebug(message, colour);
                 return;
             }
-            
+
             // Let this client handle the effect message
             case PacketID.EffectMessage:
             {
@@ -297,7 +297,7 @@ public sealed class CrowdControlMod : Mod
                 player.ServerDisableTombstones = reader.ReadBoolean();
                 TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
                 break;
-            
+
             // Client wants to trigger an effect on the server
             case PacketID.HandleEffect:
             {
@@ -614,7 +614,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Storm));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
-        
+
         // --- Challenge effects
         AddEffect(new SwimChallenge(20f));
     }

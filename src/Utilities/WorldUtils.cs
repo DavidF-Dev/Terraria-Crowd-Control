@@ -77,7 +77,7 @@ public static class WorldUtils
     public static void SetWeather(Weather weather)
     {
         // TODO: Needs fixing - weather will change back after a few seconds
-        
+
         // Based off Main.UpdateWindyDayState()
 
         // Values from Terraria source

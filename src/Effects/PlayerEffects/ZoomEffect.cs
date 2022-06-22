@@ -62,7 +62,7 @@ public sealed class ZoomEffect : CrowdControlEffect
             TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, $"{viewerString} is getting a very good look at {playerString} for {durationString} seconds", Severity);
             return;
         }
-        
+
         TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, $"{viewerString} zoomed way out for {durationString} seconds", Severity);
     }
 

@@ -23,7 +23,7 @@ public enum PacketID : byte
     ///     Packet data: (bool)status
     /// </summary>
     EffectStatus,
-    
+
     /// <summary>
     ///     Notify the server about an effect that wants to run on the server (from the client).<br />
     ///     Packet data: depends on the effect.

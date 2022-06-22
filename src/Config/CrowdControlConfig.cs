@@ -95,7 +95,6 @@ public sealed class CrowdControlConfig : ModConfig
     public override void OnLoaded()
     {
         _instance = this;
-        base.OnLoaded();
     }
 
     public override void OnChanged()

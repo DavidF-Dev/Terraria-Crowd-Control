@@ -17,7 +17,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="Kill" />
     public delegate void KillDelegate(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource);
-    
+
     /// <inheritdoc cref="CanBeHitByNPC" />
     public delegate bool CanBeHitByNpcDelegate(NPC npc, ref int cooldownSlot);
 
@@ -145,7 +145,7 @@ public sealed class CrowdControlPlayer : ModPlayer
             // Reduce the respawn timer by the mod configuration factor
             Player.respawnTimer = (int)(Player.respawnTimer * CrowdControlConfig.GetInstance().RespawnTimeFactor);
         }
-        
+
         KillHook?.Invoke(damage, hitDirection, pvp, damageSource);
     }
 

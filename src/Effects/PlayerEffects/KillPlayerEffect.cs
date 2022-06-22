@@ -11,6 +11,8 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 /// </summary>
 public sealed class KillPlayerEffect : CrowdControlEffect
 {
+    #region Static Fields and Constants
+
     private static readonly string[] KillVerbs =
     {
         "killed", "slapped really hard", "pulverised", "slain", "assassinated", "discombobulated",
@@ -22,6 +24,8 @@ public sealed class KillPlayerEffect : CrowdControlEffect
         // ReSharper disable once StringLiteralTypo
         "fed [c/FFFF00:ra][c/FF0000:in][c/0000FF:bo][c/8B00FF:ws]"
     };
+
+    #endregion
 
     #region Constructors
 

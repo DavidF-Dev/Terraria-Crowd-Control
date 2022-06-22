@@ -76,7 +76,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     {
         GetLocalPlayer().OnRespawnHook -= OnRespawn;
     }
-    
+
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();

@@ -111,7 +111,7 @@ public abstract class CrowdControlEffect
     {
         OnSessionStopped();
     }
-    
+
     /// <summary>
     ///     Dispose the effect when the mod is unloaded.
     /// </summary>
@@ -121,10 +121,10 @@ public abstract class CrowdControlEffect
         {
             CrowdControlPlayer.PlayerDisconnectHook -= PlayerDisconnect;
         }
-        
+
         OnDisposed();
     }
-    
+
     /// <summary>
     ///     Start the effect (client-side).
     /// </summary>
@@ -296,7 +296,7 @@ public abstract class CrowdControlEffect
     protected virtual void OnSessionStarted()
     {
     }
-    
+
     /// <summary>
     ///     Invoked when the session is ended (client-side).
     /// </summary>
@@ -310,7 +310,7 @@ public abstract class CrowdControlEffect
     protected virtual void OnDisposed()
     {
     }
-    
+
     /// <summary>
     ///     Invoked when the effect is triggered (client-side).
     /// </summary>

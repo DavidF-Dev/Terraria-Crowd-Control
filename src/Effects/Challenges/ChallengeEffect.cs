@@ -158,7 +158,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         var str1Size = font.MeasureString(str1);
         const float scaleMagnitude = 0.12f;
         const float scaleFrequency = 0.75f;
-        
+
         // Draw 'challenge description' string
         spriteBatch.DrawString(
             font,
@@ -203,7 +203,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         {
             colour = Color.White;
         }
-        
+
         // Draw 'time left' string
         spriteBatch.DrawString(
             font,
