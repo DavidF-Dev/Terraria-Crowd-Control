@@ -1,6 +1,7 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
 using Terraria;
 using Terraria.DataStructures;
 
@@ -13,6 +14,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
+    [NotNull]
     private static readonly string[] KillVerbs =
     {
         "killed", "slapped really hard", "pulverised", "slain", "assassinated", "discombobulated",

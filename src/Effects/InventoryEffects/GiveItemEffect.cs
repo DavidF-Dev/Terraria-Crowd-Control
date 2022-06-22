@@ -29,6 +29,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
+    [NotNull]
     private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> Items = new()
     {
         {

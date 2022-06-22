@@ -32,6 +32,7 @@ public sealed class ShootExplosives : CrowdControlEffect
     private const float MaxExplosiveSpeed = 11f;
     private const int ShootChance = 85;
 
+    [NotNull]
     private static readonly Dictionary<Shoot, IReadOnlyList<short>> ExplosiveIds = new()
     {
         {
@@ -53,6 +54,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         }
     };
 
+    [NotNull]
     private static readonly Dictionary<Shoot, (int, int)> SpawnDelays = new()
     {
         {Shoot.Bombs, (60, 120)},

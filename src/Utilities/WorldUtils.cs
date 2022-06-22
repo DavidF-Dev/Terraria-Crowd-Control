@@ -52,22 +52,7 @@ public static class WorldUtils
     [PublicAPI] [Pure]
     public static Weather GetWeather()
     {
-        if (Main.IsItRaining)
-        {
-            return Weather.Rain;
-        }
-
-        if (Main.IsItStorming)
-        {
-            return Weather.Storm;
-        }
-
-        if (Main.IsItAHappyWindyDay)
-        {
-            return Weather.Windy;
-        }
-
-        return Weather.Clear;
+        return Main.IsItRaining ? Weather.Rain : Main.IsItStorming ? Weather.Storm : Main.IsItAHappyWindyDay ? Weather.Windy : Weather.Clear;
     }
 
     /// <summary>

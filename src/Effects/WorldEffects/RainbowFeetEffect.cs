@@ -3,6 +3,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -24,8 +25,11 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     #region Fields
 
+    [NotNull]
     private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
+    
     private int _paintIndex;
+    
     private int _trackedPaintedTilesCounter;
 
     #endregion

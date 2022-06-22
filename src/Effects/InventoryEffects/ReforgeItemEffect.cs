@@ -2,6 +2,7 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +16,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
+    [NotNull]
     private static readonly Dictionary<int, IReadOnlyList<int>> PrefixIdsByClass = new()
     {
         {
@@ -56,6 +58,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         }
     };
 
+    [NotNull]
     private static readonly IReadOnlyList<int> UniversalPrefixIds = new[]
     {
         PrefixID.Keen, PrefixID.Superior, PrefixID.Forceful, PrefixID.Broken, PrefixID.Damaged, PrefixID.Shoddy, PrefixID.Hurtful, PrefixID.Strong,

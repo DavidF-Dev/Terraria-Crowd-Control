@@ -24,8 +24,10 @@ public sealed class BuffEffect : CrowdControlEffect
 
     private readonly short _itemId;
 
+    [NotNull]
     private readonly GetStartMessageDelegate _getStartMessage;
 
+    [CanBeNull]
     private readonly Action<CrowdControlPlayer> _onStart;
 
     [NotNull]

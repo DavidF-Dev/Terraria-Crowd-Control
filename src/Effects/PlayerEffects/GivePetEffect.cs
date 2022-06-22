@@ -24,6 +24,7 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
+    [NotNull]
     private static readonly int[] Pets =
     {
         BuffID.BabyDinosaur, BuffID.BabyEater, BuffID.BabyFaceMonster, BuffID.BabyGrinch, BuffID.BabyHornet, BuffID.BabyImp, BuffID.BabyPenguin, BuffID.BabyRedPanda,
@@ -37,6 +38,7 @@ public sealed class GivePetEffect : CrowdControlEffect
         BuffID.DukeFishronPet
     };
 
+    [NotNull]
     private static readonly int[] LightPets =
     {
         BuffID.ShadowOrb, BuffID.CrimsonHeart, BuffID.MagicLantern, BuffID.FairyBlue, BuffID.FairyGreen, BuffID.FairyRed, BuffID.PetDD2Ghost, BuffID.Wisp,
@@ -48,8 +50,12 @@ public sealed class GivePetEffect : CrowdControlEffect
     #region Fields
 
     private readonly PetType _petType;
+    
     private readonly int _slot;
+
+    [NotNull]
     private IList<int> _petOptions;
+    
     private int _chosenId;
 
     #endregion

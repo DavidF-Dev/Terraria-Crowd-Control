@@ -14,7 +14,7 @@ namespace CrowdControlMod.Effects.InventoryEffects;
 public sealed class DropItemEffect : CrowdControlEffect
 {
     #region Fields
-
+    
     private Item _droppedItem;
 
     #endregion

@@ -23,6 +23,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     private const int SpawnMin = 3;
     private const int SpawnMax = 8;
 
+    [NotNull]
     private static readonly IReadOnlyList<short> CritterIds = new[]
     {
         NPCID.Bird, NPCID.BirdBlue, NPCID.Buggy, NPCID.Bunny, NPCID.ExplosiveBunny, NPCID.GemBunnyAmethyst, NPCID.GemBunnyTopaz, NPCID.GemBunnySapphire,
