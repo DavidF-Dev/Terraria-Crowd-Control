@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Zoom the screen in or out by a huge factor for a short duration.
+/// </summary>
 public sealed class ZoomEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

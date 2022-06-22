@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Provide the player with a pet or light pet.
+/// </summary>
 public sealed class GivePetEffect : CrowdControlEffect
 {
     #region Enums

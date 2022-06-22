@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Goes through the player's inventory and drops their items in random directions.
+/// </summary>
 public sealed class ExplodeInventoryEffect : CrowdControlEffect
 {
     #region Constructors

@@ -9,6 +9,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Set the time in the world.
+/// </summary>
 public sealed class SetTimeEffect : CrowdControlEffect
 {
     #region Fields

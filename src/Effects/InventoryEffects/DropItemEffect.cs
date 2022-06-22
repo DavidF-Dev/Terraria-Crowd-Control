@@ -8,6 +8,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Drop the held item, or choose an item from the hot-bar to drop.
+/// </summary>
 public sealed class DropItemEffect : CrowdControlEffect
 {
     #region Fields

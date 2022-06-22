@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Damage the player so they are left on a sliver of health. Will not kill the player.
+/// </summary>
 public sealed class DamagePlayerEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

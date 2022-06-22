@@ -10,6 +10,9 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Kill the player by spawning an explosion.
+/// </summary>
 public sealed class ExplodePlayerEffect : CrowdControlEffect
 {
     #region Constructors

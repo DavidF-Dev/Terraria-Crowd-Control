@@ -85,7 +85,7 @@ public static class PlayerUtils
     [PublicAPI]
     public static void GiveCoins([NotNull] CrowdControlPlayer player, int coins)
     {
-        // extracted from the Terraria source code
+        // Copied from the Terraria source code
         while (coins > 0)
         {
             if (coins > 1000000)

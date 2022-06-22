@@ -16,7 +16,7 @@ public abstract class CrowdControlEffect
     #region Static Methods
 
     /// <summary>
-    ///     Get the local player to be effected.
+    ///     Get the local player to be effected (client-side).
     /// </summary>
     [Pure] [NotNull]
     protected static CrowdControlPlayer GetLocalPlayer()
@@ -28,9 +28,15 @@ public abstract class CrowdControlEffect
 
     #region Fields
 
+    /// <summary>
+    ///     How long the effect lasts for, or null if the effect is instantaneous.
+    /// </summary>
     [CanBeNull]
     private readonly float? _duration;
 
+    /// <summary>
+    ///     Effect is timed (if the duration is non-null and above zero).
+    /// </summary>
     private readonly bool _isTimedEffect;
 
     /// <inheritdoc cref="ActiveOnServer" />
@@ -50,6 +56,7 @@ public abstract class CrowdControlEffect
 
         if (Main.netMode == NetmodeID.Server)
         {
+            // Hook onto when a player disconnects from the server so we can update the active players collection correctly
             CrowdControlPlayer.PlayerDisconnectHook += PlayerDisconnect;
         }
     }
@@ -75,7 +82,7 @@ public abstract class CrowdControlEffect
     protected float TimeLeft { get; private set; }
 
     /// <summary>
-    ///     Severity of the effect on the streamer.
+    ///     Severity of the effect on the streamer. Can be used by implementing classes when writing their effect message.
     /// </summary>
     protected EffectSeverity Severity { get; }
 
@@ -90,7 +97,7 @@ public abstract class CrowdControlEffect
     #region Methods
 
     /// <summary>
-    ///     Initialise the effect when the session has started.
+    ///     Initialise the effect when the session has started (client-side).
     /// </summary>
     public void SessionStarted()
     {
@@ -98,7 +105,7 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Clean up the effect when the session has ended.
+    ///     Clean up the effect when the session has ended (client-side).
     /// </summary>
     public void SessionStopped()
     {
@@ -119,7 +126,7 @@ public abstract class CrowdControlEffect
     }
     
     /// <summary>
-    ///     Start the effect.
+    ///     Start the effect (client-side).
     /// </summary>
     public CrowdControlResponseStatus Start([NotNull] string viewer)
     {
@@ -157,7 +164,7 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Stop the effect instantly, without fail.
+    ///     Stop the effect instantly, without fail (client-side).
     /// </summary>
     public CrowdControlResponseStatus Stop()
     {
@@ -183,7 +190,7 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Update the effect whilst active each frame so that the time remaining is reduced.
+    ///     Update the effect whilst active each frame so that the time remaining is reduced (client-side).
     /// </summary>
     public void Update(float delta)
     {
@@ -216,7 +223,7 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Receive a packet meant for this effect, sent from a client.
+    ///     Receive a packet meant for this effect, sent from a client (server-side).
     /// </summary>
     public void ReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
@@ -247,11 +254,12 @@ public abstract class CrowdControlEffect
             return;
         }
 
+        // Let the implementing class handle the incoming packet
         OnReceivePacket(player, reader);
     }
 
     /// <summary>
-    ///     Send a packet to be handled by the effect on the server-side.
+    ///     Send a packet to be handled by the effect on the server-side (client-side).
     /// </summary>
     protected void SendPacket(PacketID packetId, [NotNull] params object[] args)
     {
@@ -283,14 +291,14 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Invoked when the session is started.
+    ///     Invoked when the session is started (client-side).
     /// </summary>
     protected virtual void OnSessionStarted()
     {
     }
     
     /// <summary>
-    ///     Invoked when the session is ended.
+    ///     Invoked when the session is ended (client-side).
     /// </summary>
     protected virtual void OnSessionStopped()
     {
@@ -304,7 +312,7 @@ public abstract class CrowdControlEffect
     }
     
     /// <summary>
-    ///     Invoked when the effect is triggered.
+    ///     Invoked when the effect is triggered (client-side).
     /// </summary>
     protected virtual CrowdControlResponseStatus OnStart()
     {
@@ -312,38 +320,43 @@ public abstract class CrowdControlEffect
     }
 
     /// <summary>
-    ///     Invoked when the effect is stopped. Stops without fail.
+    ///     Invoked when the effect is stopped. Stops without fail (client-side).
     /// </summary>
     protected virtual void OnStop()
     {
     }
 
     /// <summary>
-    ///     Invoked each frame whilst the effect is active.
+    ///     Invoked each frame whilst the effect is active (client-side).
     /// </summary>
     protected virtual void OnUpdate(float delta)
     {
     }
 
+    /// <summary>
+    ///     Send an effect message when the effect is triggered (client-side).
+    /// </summary>
     protected virtual void SendStartMessage([NotNull] string viewerString, [NotNull] string playerString, [CanBeNull] string durationString)
     {
         TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
     }
 
+    /// <summary>
+    ///     Send an effect message when the timed effect is stopped (client-side).
+    /// </summary>
     protected virtual void SendStopMessage()
     {
     }
 
     /// <summary>
-    ///     Invoked when a packet is received, meant for this effect to handle on the server-side.
+    ///     Invoked when a packet is received, meant for this effect to handle on the server-side (server-side).
     /// </summary>
     protected virtual void OnReceivePacket([NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
     {
     }
 
     /// <summary>
-    ///     Invoked when a client notifies the server about a change in effect status.<br />
-    ///     Invoked on the server.
+    ///     Invoked when a client notifies the server about a change in effect status (server-side).
     /// </summary>
     protected virtual void OnEffectStatusChanged([NotNull] CrowdControlPlayer player, bool isActive)
     {

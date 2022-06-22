@@ -39,6 +39,7 @@ public static class TerrariaUtils
         if (Main.gameMenu)
         {
             // Cannot send chat if on the main menu
+            // If chat is sent on the main menu, the sound engine thread gets stuck
             return;
         }
 

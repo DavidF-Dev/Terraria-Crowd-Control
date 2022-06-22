@@ -4,6 +4,9 @@ using Terraria;
 
 namespace CrowdControlMod.Effects.Challenges;
 
+/// <summary>
+///     Player must touch any liquid (water, lava or honey) to complete this challenge.
+/// </summary>
 public sealed class SwimChallenge : ChallengeEffect
 {
     #region Static Methods

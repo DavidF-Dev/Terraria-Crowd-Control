@@ -5,6 +5,9 @@ using Terraria.DataStructures;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Forcefully kill the player instantly.
+/// </summary>
 public sealed class KillPlayerEffect : CrowdControlEffect
 {
     #region Constructors
@@ -26,6 +29,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)
     {
         // Kill the player here
+        // TODO: Choose a random death message
         GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was killed by {viewerString}"), 1000, 0);
     }
 

@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Force the player to ride a mount for a short duration.
+/// </summary>
 public sealed class ForceMountEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

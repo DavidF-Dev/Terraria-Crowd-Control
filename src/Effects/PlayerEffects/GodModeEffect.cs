@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Make the player invulnerable to all damage for a short duration.
+/// </summary>
 public sealed class GodModeEffect : CrowdControlEffect
 {
     #region Constructors

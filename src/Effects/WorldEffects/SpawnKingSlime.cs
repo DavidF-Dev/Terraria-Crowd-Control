@@ -9,6 +9,9 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Spawn a king slime at the player's position, with its health scaled based on world progression.
+/// </summary>
 public sealed class SpawnKingSlime : CrowdControlEffect
 {
     #region Static Methods

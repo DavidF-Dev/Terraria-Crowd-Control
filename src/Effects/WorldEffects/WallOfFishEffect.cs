@@ -13,6 +13,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Draw a wall of fish over the player's screen (client-side).
+/// </summary>
 public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 {
     #region Static Fields and Constants

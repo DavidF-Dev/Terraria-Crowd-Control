@@ -13,16 +13,26 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.Challenges;
 
+/// <summary>
+///     Challenge effects require a goal to be completed within a specified time.
+///     The player is punished or rewarded depending on if they were able to complete the challenge.
+/// </summary>
 public abstract class ChallengeEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
+    /// <summary>
+    ///     Any challenge is active (any effect that implements ChallengeEffect)
+    /// </summary>
     private static bool _isAnyChallengeActive;
 
     #endregion
 
     #region Fields
 
+    /// <summary>
+    ///     Challenge is marked as completed so the player won't be punished.
+    /// </summary>
     private bool _isCompleted;
 
     #endregion
@@ -134,6 +144,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
     ///     Get the challenge description string.<br />
     ///     e.g. "Craft a pickaxe"
     /// </summary>
+    [NotNull]
     protected abstract string GetChallengeDescription();
 
     private void PostDrawInterface(SpriteBatch spriteBatch)

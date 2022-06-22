@@ -11,6 +11,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Make the player drop (and shoot) either tile-breaking explosives or non-tile-breaking grenades.
+/// </summary>
 public sealed class ShootExplosives : CrowdControlEffect
 {
     #region Enums

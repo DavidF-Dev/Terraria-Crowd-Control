@@ -57,10 +57,19 @@ public sealed class CrowdControlMod : Mod
     [CanBeNull]
     private Thread _sessionThread;
 
+    /// <summary>
+    ///     Session is running, but might not be connected.
+    /// </summary>
     private bool _isSessionRunning;
 
+    /// <summary>
+    ///     Session is connected, but might not be running (due to being on a different thread).
+    /// </summary>
     private bool _isSessionConnected;
 
+    /// <summary>
+    ///     Effects that this mod handles.
+    /// </summary>
     [NotNull]
     private readonly Dictionary<string, CrowdControlEffect> _effects = new();
 
@@ -147,10 +156,11 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
-    ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready.
+    ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready (client-side).
     /// </summary>
     public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
     {
+        // Cannot start if already running, or the thread is active in the background, or we're on a server
         if (_isSessionRunning || _sessionThread != null || Terraria.Main.netMode == NetmodeID.Server)
         {
             TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
@@ -174,10 +184,11 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
-    ///     Stop the crowd control session if it is currently running.
+    ///     Stop the crowd control session if it is currently running (client-side).
     /// </summary>
     public void StopCrowdControlSession()
     {
+        // Cannot stop unless the session is running (obviously!)
         if (!_isSessionRunning)
         {
             return;
@@ -187,14 +198,15 @@ public sealed class CrowdControlMod : Mod
         _isSessionRunning = false;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
 
-        // Stop effects and notify that the session stopped
+        // Stop effects
+        foreach (var effect in _effects.Values.Where(x => x.IsActive))
+        {
+            effect.Stop();
+        }
+        
+        // Notify effects that the session has been stopped
         foreach (var effect in _effects.Values)
         {
-            if (effect.IsActive)
-            {
-                effect.Stop();
-            }
-            
             effect.SessionStopped();
         }
 
@@ -204,7 +216,7 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
-    ///     Get the local crowd control player instance.
+    ///     Get the local crowd control player instance (client-side).
     /// </summary>
     [PublicAPI] [Pure] [NotNull]
     public CrowdControlPlayer GetLocalPlayer()
@@ -213,7 +225,7 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
-    ///     Check whether the provided effect is currently active.
+    ///     Check whether the provided effect is currently active (client-side).
     /// </summary>
     [PublicAPI] [Pure]
     public bool IsEffectActive([NotNull] string id)
@@ -245,61 +257,68 @@ public sealed class CrowdControlMod : Mod
         return musicId != 0;
     }
 
-    private void HandleClientPacket(BinaryReader reader)
+    private void HandleClientPacket([NotNull] BinaryReader reader)
     {
-        // Determine what to do with the incoming packet
+        // Determine what to do with the incoming packet (client-side)
         // Note, this runs even if the session is not active
         var packetId = (PacketID)reader.ReadByte();
         switch (packetId)
         {
+            // Let this client handle the debug message
             case PacketID.DebugMessage:
             {
-                // Let this client handle the debug message
                 var message = reader.ReadString();
                 var colour = new Color {PackedValue = reader.ReadUInt32()};
                 TerrariaUtils.WriteDebug(message, colour);
-                break;
+                return;
             }
+            
+            // Let this client handle the effect message
             case PacketID.EffectMessage:
             {
-                // Let this client handle the effect message
                 var itemId = reader.ReadInt16();
                 var message = reader.ReadString();
                 var severity = (EffectSeverity)reader.ReadInt32();
                 TerrariaUtils.WriteEffectMessage(itemId, message, severity);
                 break;
             }
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void HandleServerPacket(BinaryReader reader, int sender)
+    private void HandleServerPacket([NotNull] BinaryReader reader, int sender)
     {
-        // Let the server handle the effect packet
+        // Read the packet and determine what to do with it (server-side)
         var packetId = (PacketID)reader.ReadByte();
         var player = Terraria.Main.player[sender].GetModPlayer<CrowdControlPlayer>();
-        if (packetId == PacketID.ConfigState)
+        switch (packetId)
         {
-            // Update config state for client
-            player.ServerDisableTombstones = reader.ReadBoolean();
-            TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
-            return;
-        }
+            // Client is letting the server know about their configuration settings
+            case PacketID.ConfigState:
+                player.ServerDisableTombstones = reader.ReadBoolean();
+                TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
+                break;
+            
+            // Client wants to trigger an effect on the server
+            case PacketID.HandleEffect:
+            {
+                var effectId = reader.ReadString();
 
-        var effectId = reader.ReadString();
+                // Check that the effect exists
+                if (player != null && !string.IsNullOrEmpty(effectId) && _effects.TryGetValue(effectId, out var effect))
+                {
+                    // Let the effect handle the packet
+                    effect.ReceivePacket(packetId, player, reader);
+                    TerrariaUtils.WriteDebug($"'{effectId}' responded to packet '{packetId}' from client '{player.Player.name}'");
+                }
 
-        // Check that the effect exists
-        if (player != null && !string.IsNullOrEmpty(effectId) && _effects.TryGetValue(effectId, out var effect))
-        {
-            // Let the effect handle the packet
-            effect.ReceivePacket(packetId, player, reader);
-            TerrariaUtils.WriteDebug($"'{effectId}' responded to packet '{packetId}' from client '{player.Player.name}'");
+                break;
+            }
         }
     }
 
     private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
     {
+        // If the session is paused, just perform the normal Terraria update
         if (IsSessionPaused())
         {
             orig.Invoke(self, gameTime);
@@ -313,6 +332,7 @@ public sealed class CrowdControlMod : Mod
             effect.Update(delta);
         }
 
+        // Make sure to perform the normal Terraria update (important!)
         orig.Invoke(self, gameTime);
     }
 
@@ -329,7 +349,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
-        if (Terraria.Main.netMode == NetmodeID.MultiplayerClient)
+        if (_isSessionRunning && Terraria.Main.netMode == NetmodeID.MultiplayerClient)
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();
@@ -479,6 +499,7 @@ public sealed class CrowdControlMod : Mod
 
     private bool IsSessionPaused()
     {
+        // Effects should be paused if the session is not running or Terraria is paused or the player is dead
         return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
     }
 

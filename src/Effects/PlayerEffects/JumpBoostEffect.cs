@@ -5,6 +5,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Artificially increase the jump-boost of the player.
+/// </summary>
 public sealed class JumpBoostEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

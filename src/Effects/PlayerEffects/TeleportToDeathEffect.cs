@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Teleport the player to their previous death position, if there is one.
+/// </summary>
 public sealed class TeleportToDeathEffect : CrowdControlEffect
 {
     #region Fields

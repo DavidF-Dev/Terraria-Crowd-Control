@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Provide the player with infinite ammo and mana for a short duration.
+/// </summary>
 public sealed class InfiniteAmmoEffect : CrowdControlEffect
 {
     #region Static Methods

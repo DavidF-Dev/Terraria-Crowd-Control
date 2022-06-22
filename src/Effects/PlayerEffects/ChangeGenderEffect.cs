@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Change the player's gender between male and female.
+/// </summary>
 public sealed class ChangeGenderEffect : CrowdControlEffect
 {
     #region Constructors

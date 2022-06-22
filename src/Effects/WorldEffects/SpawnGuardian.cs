@@ -11,6 +11,10 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Spawn a real or fake dungeon guardian at the edge of the player's screen.
+///     The dungeon guardian will de-spawn after a short duration.
+/// </summary>
 public sealed class SpawnGuardian : CrowdControlEffect
 {
     #region Static Fields and Constants

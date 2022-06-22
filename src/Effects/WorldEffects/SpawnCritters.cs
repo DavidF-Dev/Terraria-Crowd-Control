@@ -10,6 +10,9 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Spawn a cluster of critters at the player's position.
+/// </summary>
 public sealed class SpawnCritters : CrowdControlEffect
 {
     #region Static Fields and Constants

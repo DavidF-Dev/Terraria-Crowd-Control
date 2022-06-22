@@ -8,6 +8,10 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Paint the tiles underneath the player's feet rainbow colours for a short duration.
+///     Projectiles shot by the player will also paint tiles upon de-spawning.
+/// </summary>
 public sealed class RainbowFeetEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

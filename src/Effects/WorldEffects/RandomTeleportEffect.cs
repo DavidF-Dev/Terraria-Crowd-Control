@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Force the player to consume a random teleport potion.
+/// </summary>
 public sealed class RandomTeleportEffect : CrowdControlEffect
 {
     #region Constructors

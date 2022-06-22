@@ -5,6 +5,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Fully heal the player's health.
+/// </summary>
 public sealed class HealPlayerEffect : CrowdControlEffect
 {
     #region Constructors

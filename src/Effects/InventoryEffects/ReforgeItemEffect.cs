@@ -8,6 +8,9 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Attempts to randomly reforge the held weapon.
+/// </summary>
 public sealed class ReforgeItemEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

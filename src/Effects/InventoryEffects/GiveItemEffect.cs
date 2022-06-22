@@ -9,6 +9,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Spawns in an item at the player's position, chosen from a set depending on the world progression.
+/// </summary>
 public sealed class GiveItemEffect : CrowdControlEffect
 {
     #region Enums

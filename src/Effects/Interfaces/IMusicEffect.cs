@@ -1,5 +1,8 @@
 ﻿namespace CrowdControlMod.Effects.Interfaces;
 
+/// <summary>
+///     Any active effect that implements this interface can play music for the duration of the effect.
+/// </summary>
 public interface IMusicEffect
 {
     #region Properties

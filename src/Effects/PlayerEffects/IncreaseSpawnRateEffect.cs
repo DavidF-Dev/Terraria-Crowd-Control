@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Drastically increase the spawn-rate around the player for a short duration.
+/// </summary>
 public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

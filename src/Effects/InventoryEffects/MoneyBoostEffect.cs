@@ -8,6 +8,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Gives the player some coins and boosts enemy money drop-rates for a short duration.
+/// </summary>
 public sealed class MoneyBoostEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

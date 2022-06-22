@@ -5,6 +5,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Decreases horizontal acceleration to mimic a slippery effect.
+/// </summary>
 public sealed class IcyFeetEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

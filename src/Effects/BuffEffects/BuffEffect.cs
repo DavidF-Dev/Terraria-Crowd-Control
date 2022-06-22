@@ -8,6 +8,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.BuffEffects;
 
+/// <summary>
+///     Timed effect that forces a set of buffs upon the player.
+/// </summary>
 public sealed class BuffEffect : CrowdControlEffect
 {
     #region Delegates

@@ -6,6 +6,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Artificially increase the player run-speed for a short duration.
+/// </summary>
 public sealed class RunBoostEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

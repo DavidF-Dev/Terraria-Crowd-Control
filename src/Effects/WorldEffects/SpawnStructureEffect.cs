@@ -9,6 +9,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Spawn a structure in the world based on the player's position.
+/// </summary>
 public sealed class SpawnStructureEffect : CrowdControlEffect
 {
     #region Enums

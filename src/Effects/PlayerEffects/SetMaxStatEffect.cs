@@ -5,6 +5,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
+/// <summary>
+///     Increase or decrease the player's max health or max mana.
+/// </summary>
 public sealed class SetMaxStatEffect : CrowdControlEffect
 {
     #region Static Fields and Constants

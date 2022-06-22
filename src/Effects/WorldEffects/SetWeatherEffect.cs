@@ -9,6 +9,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Set the weather in the world (either sunny, rainy, windy or stormy).
+/// </summary>
 public sealed class SetWeatherEffect : CrowdControlEffect
 {
     #region Static Methods
