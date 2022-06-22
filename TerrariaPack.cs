@@ -107,10 +107,10 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn King Slime", "spawn_king_slime"),
                 new Effect("Spawn critters", "spawn_critters"),
                 new Effect("Wall of Fish", "wall_of_fish"),
-                new Effect("Set the weather to Clear", "weather_clear"),
-                new Effect("Set the weather to Rainy", "weather_rain"),
-                new Effect("Set the weather to Stormy", "weather_storm"),
-                new Effect("Set the weather to Windy", "weather_windy"),
+                // new Effect("Set the weather to Clear", "weather_clear"),
+                // new Effect("Set the weather to Rainy", "weather_rain"),
+                // new Effect("Set the weather to Stormy", "weather_storm"),
+                // new Effect("Set the weather to Windy", "weather_windy"),
                 
                 // --- Challenge effects
                 new Effect("Challenges", "challenges_folder", ItemKind.Folder),
