@@ -15,6 +15,7 @@ using CrowdControlMod.Effects.InventoryEffects;
 using CrowdControlMod.Effects.PlayerEffects;
 using CrowdControlMod.Effects.WorldEffects;
 using CrowdControlMod.ID;
+using CrowdControlMod.SpecialEffectHandlers;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -72,6 +73,12 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     [NotNull]
     private readonly Dictionary<string, CrowdControlEffect> _effects = new();
+
+    /// <summary>
+    ///     Special effect handlers that this mod recognises.
+    /// </summary>
+    [NotNull]
+    private readonly Dictionary<string, ISpecialEffectHandler> _specialEffectsHandler = new();
 
     #endregion
 
@@ -472,6 +479,29 @@ public sealed class CrowdControlMod : Mod
             return CrowdControlResponseStatus.Failure;
         }
 
+        // Check if this effect code should be handled specially
+        if (_specialEffectsHandler.TryGetValue(code, out var handler))
+        {
+            // Get the handler ids and attempt to process them, grouping them by the results
+            var results = handler.GetEffectIds(requestType)
+                .Where(x => !string.IsNullOrEmpty(x) && !_specialEffectsHandler.ContainsKey(x))
+                .Distinct()
+                .GroupBy(x => ProcessEffect(x, viewer, requestType))
+                .ToDictionary(x => x.Key, x => x.Count());
+
+            TerrariaUtils.WriteDebug($"Processed {results.Sum(x => x.Value)} handler request(s) '{requestType}' '{code}': " +
+                                     $"(suc={results.GetValueOrDefault(CrowdControlResponseStatus.Success)}, " +
+                                     $"retry={results.GetValueOrDefault(CrowdControlResponseStatus.Retry)}, " +
+                                     $"fail={results.GetValueOrDefault(CrowdControlResponseStatus.Failure)}, " +
+                                     $"unavailable={results.GetValueOrDefault(CrowdControlResponseStatus.Unavailable)})");
+
+            // Choose an appropriate course of action based on the results
+            return results.ContainsKey(CrowdControlResponseStatus.Success) ? CrowdControlResponseStatus.Success
+                : results.ContainsKey(CrowdControlResponseStatus.Retry) ? CrowdControlResponseStatus.Retry
+                : results.ContainsKey(CrowdControlResponseStatus.Failure) || !results.Any() ? CrowdControlResponseStatus.Failure
+                : CrowdControlResponseStatus.Unavailable;
+        }
+
         // Ensure the effect is supported
         if (!_effects.TryGetValue(code, out var effect))
         {
@@ -512,6 +542,17 @@ public sealed class CrowdControlMod : Mod
         }
 
         _effects.Add(effect.Id, effect);
+    }
+
+    private void AddSpecialEffectHandler([NotNull] string id, [NotNull] ISpecialEffectHandler handler)
+    {
+        if (_specialEffectsHandler.ContainsKey(id))
+        {
+            TerrariaUtils.WriteDebug($"Special effect handler '{id}' is already added");
+            return;
+        }
+
+        _specialEffectsHandler.Add(id, handler);
     }
 
     private void AddAllEffects()
@@ -617,6 +658,9 @@ public sealed class CrowdControlMod : Mod
 
         // --- Challenge effects
         AddEffect(new SwimChallenge(20f));
+
+        // --- Special effect handlers
+        AddSpecialEffectHandler(EffectID.RandomChallenge, new RandomChallengeEffectHandler());
     }
 
     #endregion

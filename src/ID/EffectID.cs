@@ -76,6 +76,7 @@ public static class EffectID
     public const string SetWeatherWindy = "weather_windy";
 
     // --- Challenge effects
+    public const string RandomChallenge = "random_challenge";
     public const string SwimChallenge = "swim_challenge";
 
     #endregion
