@@ -61,8 +61,6 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase jump height", "jump_boost"),
                 new Effect("Increase movement speed", "run_boost"),
                 new Effect("Slippery boots", "icy_feet"),
-                new Effect("Zoom in", "zoom_in"),
-                new Effect("Zoom out", "zoom_out"),
                 new Effect("Teleport to death point", "death_tp"),
 
                 // --- Buff effects (positive)
@@ -106,11 +104,17 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian"),
                 new Effect("Spawn King Slime", "spawn_king_slime"),
                 new Effect("Spawn critters", "spawn_critters"),
-                new Effect("Wall of Fish", "wall_of_fish"),
                 // new Effect("Set the weather to Clear", "weather_clear"),
                 // new Effect("Set the weather to Rainy", "weather_rain"),
                 // new Effect("Set the weather to Stormy", "weather_storm"),
                 // new Effect("Set the weather to Windy", "weather_windy"),
+                
+                // --- Screen effects
+                new Effect("Screen effects", "screen_folder", ItemKind.Folder),
+                new Effect("Flip the screen", "flip_screen"),
+                new Effect("Zoom in", "zoom_in"),
+                new Effect("Zoom out", "zoom_out"),
+                new Effect("Wall of Fish", "wall_of_fish"),
                 
                 // --- Challenge effects
                 new Effect("Challenges", "challenges_folder", ItemKind.Folder),

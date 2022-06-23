@@ -13,6 +13,7 @@ using CrowdControlMod.Effects.Challenges;
 using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.Effects.InventoryEffects;
 using CrowdControlMod.Effects.PlayerEffects;
+using CrowdControlMod.Effects.ScreenEffects;
 using CrowdControlMod.Effects.WorldEffects;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -99,12 +100,6 @@ public sealed class CrowdControlMod : Mod
     {
         _instance = this;
 
-        // Load stuff if not running on a server
-        if (Terraria.Main.netMode != NetmodeID.Server)
-        {
-            // TODO: Load shaders
-        }
-
         // Add effects
         AddAllEffects();
 
@@ -126,11 +121,6 @@ public sealed class CrowdControlMod : Mod
         }
 
         _effects.Clear();
-
-        if (Terraria.Main.netMode != NetmodeID.Server)
-        {
-            // TODO: Unload shaders
-        }
 
         _instance = null!;
     }
@@ -488,7 +478,7 @@ public sealed class CrowdControlMod : Mod
                 .GroupBy(x => ProcessEffect(x, viewer, requestType))
                 .ToDictionary(x => x.Key, x => x.Count());
 
-            TerrariaUtils.WriteDebug($"Processed {results.Sum(x => x.Value)} handler request(s) '{requestType}' '{code}': " +
+            TerrariaUtils.WriteDebug($"Processed {results.Sum(x => x.Value)} handler request(s) '{requestType} {code}': " +
                                      $"(suc={results.GetValueOrDefault(CrowdControlResponseStatus.Success)}, " +
                                      $"retry={results.GetValueOrDefault(CrowdControlResponseStatus.Retry)}, " +
                                      $"fail={results.GetValueOrDefault(CrowdControlResponseStatus.Failure)}, " +
@@ -577,8 +567,6 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new JumpBoostEffect(20f));
         AddEffect(new RunBoostEffect(20f));
         AddEffect(new IcyFeetEffect(20f));
-        AddEffect(new ZoomEffect(15f, true));
-        AddEffect(new ZoomEffect(15f, false));
         AddEffect(new TeleportToDeathEffect());
 
         // --- Buff effects (positive)
@@ -649,11 +637,16 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnGuardian(true));
         AddEffect(new SpawnKingSlime());
         AddEffect(new SpawnCritters());
-        AddEffect(new WallOfFishEffect(20f));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Clear));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Storm));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
+
+        // --- Screen effects
+        AddEffect(new FlipScreenEffect(20f));
+        AddEffect(new ZoomEffect(15f, true));
+        AddEffect(new ZoomEffect(15f, false));
+        AddEffect(new WallOfFishEffect(20f));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());

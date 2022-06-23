@@ -26,8 +26,6 @@ public static class EffectID
     public const string JumpBoost = "jump_boost";
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
-    public const string ZoomIn = "zoom_in";
-    public const string ZoomOut = "zoom_out";
     public const string DeathTeleport = "death_tp";
 
     // --- Buff effects (positive)
@@ -69,11 +67,16 @@ public static class EffectID
     public const string SpawnFakeGuardian = "spawn_fake_guardian";
     public const string SpawnKingSlime = "spawn_king_slime";
     public const string SpawnCritters = "spawn_critters";
-    public const string WallOfFish = "wall_of_fish";
     public const string SetWeatherClear = "weather_clear";
     public const string SetWeatherRain = "weather_rain";
     public const string SetWeatherStorm = "weather_storm";
     public const string SetWeatherWindy = "weather_windy";
+
+    // --- Screen effects
+    public const string FlipScreen = "flip_screen";
+    public const string ZoomIn = "zoom_in";
+    public const string ZoomOut = "zoom_out";
+    public const string WallOfFish = "wall_of_fish";
 
     // --- Challenge effects
     public const string RandomChallenge = "random_challenge";

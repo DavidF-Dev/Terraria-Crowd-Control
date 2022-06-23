@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria.Graphics;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects.PlayerEffects;
+namespace CrowdControlMod.Effects.ScreenEffects;
 
 /// <summary>
 ///     Zoom the screen in or out by a huge factor for a short duration.

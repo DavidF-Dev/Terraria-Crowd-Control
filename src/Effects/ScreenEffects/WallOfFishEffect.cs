@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects.WorldEffects;
+namespace CrowdControlMod.Effects.ScreenEffects;
 
 /// <summary>
 ///     Draw a wall of fish over the player's screen (client-side).
