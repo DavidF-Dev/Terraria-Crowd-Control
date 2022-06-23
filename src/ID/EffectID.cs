@@ -74,6 +74,7 @@ public static class EffectID
 
     // --- Screen effects
     public const string FlipScreen = "flip_screen";
+    public const string DrunkMode = "drunk_mode";
     public const string ZoomIn = "zoom_in";
     public const string ZoomOut = "zoom_out";
     public const string WallOfFish = "wall_of_fish";

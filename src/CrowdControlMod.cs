@@ -644,6 +644,7 @@ public sealed class CrowdControlMod : Mod
 
         // --- Screen effects
         AddEffect(new FlipScreenEffect(15f));
+        AddEffect(new DrunkModeEffect(15f));
         AddEffect(new ZoomEffect(15f, true));
         AddEffect(new ZoomEffect(15f, false));
         AddEffect(new WallOfFishEffect(20f));

@@ -112,6 +112,7 @@ public sealed class Terraria : SimpleTCPPack
                 // --- Screen effects
                 new Effect("Screen effects", "screen_folder", ItemKind.Folder),
                 new Effect("Flip the screen", "flip_screen"),
+                new Effect("Drunk mode", "drunk_mode"),
                 new Effect("Zoom in", "zoom_in"),
                 new Effect("Zoom out", "zoom_out"),
                 new Effect("Wall of Fish", "wall_of_fish"),

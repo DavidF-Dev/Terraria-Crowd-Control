@@ -6,19 +6,22 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 
-namespace CrowdControlMod.Effects.ScreenEffects;
+namespace CrowdControlMod.Shaders;
 
 /// <summary>
-///     Used by screen effects that want to manage a screen shader.
+///     Represents a screen shader that can be enabled and disabled.
+///     Shader data can be edited whilst active.
 /// </summary>
-public abstract class ScreenShaderEffect : CrowdControlEffect
+public sealed class ScreenShader
 {
     #region Fields
 
     /// <summary>
     ///     Loaded shader (effect) asset.
     /// </summary>
+    [CanBeNull]
     private Ref<Effect> _effect;
 
     /// <summary>
@@ -35,7 +38,7 @@ public abstract class ScreenShaderEffect : CrowdControlEffect
     private readonly string _shaderPassName;
 
     /// <summary>
-    ///     Name of the scene filter that the shader asset is loaded in to.
+    ///     Name of the scene filter that the shader is attached to.
     /// </summary>
     [NotNull]
     private readonly string _filterName;
@@ -44,33 +47,46 @@ public abstract class ScreenShaderEffect : CrowdControlEffect
 
     #region Constructors
 
-    protected ScreenShaderEffect([NotNull] string id, float? duration, EffectSeverity severity,
-        [NotNull]
-        string shaderAssetName, [NotNull] string shaderPassName) : base(id, duration, severity)
+    public ScreenShader([NotNull] string shaderAssetName, [NotNull] string shaderPassName, [NotNull] string filterName)
     {
         _shaderAssetPath = $"src/Shaders/{shaderAssetName}";
         _shaderPassName = shaderPassName;
-        _filterName = $"{Id}_Shader";
+        _filterName = filterName;
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    ///     Shader is currently active.
+    /// </summary>
+    private bool IsActive => _effect != null && Filters.Scene[_filterName].IsActive();
 
     #endregion
 
     #region Methods
 
     /// <summary>
-    ///     Enable the screen shader, returning false if the shader asset couldn't be loaded.
+    ///     Enable the screen shader, returning null if unable to load the shader at all.
     /// </summary>
-    protected bool EnableScreenShader()
+    [PublicAPI] [CanBeNull]
+    public ScreenShaderData Enable()
     {
-        if (_effect != null && Filters.Scene[_filterName].IsActive())
+        if (IsActive)
         {
-            // Already active
-            return true;
+            return Filters.Scene[_filterName].GetShader();
         }
 
         if (_effect == null)
         {
-            // Load the shader and apply to a screen filter
+            if (Main.netMode == NetmodeID.Server)
+            {
+                TerrariaUtils.WriteDebug($"Failed to load shader asset '{_shaderAssetPath}': cannot be used on a server");
+                return null;
+            }
+
+            // Load the shader and apply to a scene filter
             try
             {
                 _effect = new Ref<Effect>(CrowdControlMod.GetInstance().Assets.Request<Effect>(_shaderAssetPath, AssetRequestMode.ImmediateLoad).Value);
@@ -80,29 +96,38 @@ public abstract class ScreenShaderEffect : CrowdControlEffect
             catch (Exception)
             {
                 _effect = null;
-                TerrariaUtils.WriteDebug($"Failed to load shader asset '{_shaderAssetPath}' for effect '{Id}'");
-                return false;
+                TerrariaUtils.WriteDebug($"Failed to load shader asset '{_shaderAssetPath}'");
+                return null;
             }
         }
 
-        // Active the screen shader filter
-        Filters.Scene.Activate(_filterName);
-        return true;
+        // Activate the scene filter
+        return Filters.Scene.Activate(_filterName).GetShader();
     }
 
     /// <summary>
     ///     Disable the screen shader.
     /// </summary>
-    protected void DisableScreenShader()
+    [PublicAPI]
+    public void Disable()
     {
-        if (_effect == null || !Filters.Scene[_filterName].IsActive())
+        if (!IsActive)
         {
-            // Already inactive
+            // Already disabled
             return;
         }
 
-        // Disable the screen shader filter
+        // Disable the scene filter
         Filters.Scene.Deactivate(_filterName);
+    }
+
+    /// <summary>
+    ///     Get the screen shader data used, if the shader is active.
+    /// </summary>
+    [PublicAPI] [CanBeNull] [Pure]
+    public ScreenShaderData GetShader()
+    {
+        return !IsActive ? null : Filters.Scene[_filterName].GetShader();
     }
 
     #endregion
