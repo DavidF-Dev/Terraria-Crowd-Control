@@ -2,7 +2,7 @@
 using CrowdControlMod.CrowdControlService;
 using JetBrains.Annotations;
 
-namespace CrowdControlMod.SpecialEffectHandlers;
+namespace CrowdControlMod.Effects.Interfaces;
 
 /// <summary>
 ///     Can be used to start/stop one or more regular effects in a specialised way.

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using JetBrains.Annotations;
 using Terraria;
 
-namespace CrowdControlMod.SpecialEffectHandlers;
+namespace CrowdControlMod.Effects.Challenges;
 
 /// <summary>
 ///     Choose a random challenge effect to trigger.

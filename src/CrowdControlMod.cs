@@ -15,7 +15,6 @@ using CrowdControlMod.Effects.InventoryEffects;
 using CrowdControlMod.Effects.PlayerEffects;
 using CrowdControlMod.Effects.WorldEffects;
 using CrowdControlMod.ID;
-using CrowdControlMod.SpecialEffectHandlers;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
