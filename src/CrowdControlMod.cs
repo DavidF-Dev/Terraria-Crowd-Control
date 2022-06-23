@@ -643,7 +643,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
 
         // --- Screen effects
-        AddEffect(new FlipScreenEffect(20f));
+        AddEffect(new FlipScreenEffect(15f));
         AddEffect(new ZoomEffect(15f, true));
         AddEffect(new ZoomEffect(15f, false));
         AddEffect(new WallOfFishEffect(20f));

@@ -16,14 +16,27 @@ public abstract class ScreenShaderEffect : CrowdControlEffect
 {
     #region Fields
 
+    /// <summary>
+    ///     Loaded shader (effect) asset.
+    /// </summary>
     private Ref<Effect> _effect;
 
+    /// <summary>
+    ///     Local path to the shader asset.<br />
+    ///     E.g. src/Shaders/SH_MyShader
+    /// </summary>
     [NotNull]
     private readonly string _shaderAssetPath;
 
+    /// <summary>
+    ///     Name of the pass method in the shader asset to use.
+    /// </summary>
     [NotNull]
     private readonly string _shaderPassName;
 
+    /// <summary>
+    ///     Name of the scene filter that the shader asset is loaded in to.
+    /// </summary>
     [NotNull]
     private readonly string _filterName;
 
