@@ -20,7 +20,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
     private readonly string _timeString;
 
     private readonly int _time;
-    
+
     private readonly bool _isDay;
 
     #endregion

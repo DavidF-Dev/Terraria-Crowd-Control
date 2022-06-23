@@ -50,12 +50,12 @@ public sealed class GivePetEffect : CrowdControlEffect
     #region Fields
 
     private readonly PetType _petType;
-    
+
     private readonly int _slot;
 
     [NotNull]
     private IList<int> _petOptions;
-    
+
     private int _chosenId;
 
     #endregion

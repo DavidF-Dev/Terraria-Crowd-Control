@@ -27,9 +27,9 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     [NotNull]
     private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
-    
+
     private int _paintIndex;
-    
+
     private int _trackedPaintedTilesCounter;
 
     #endregion
