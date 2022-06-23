@@ -74,10 +74,10 @@ public sealed class CrowdControlMod : Mod
     private readonly Dictionary<string, CrowdControlEffect> _effects = new();
 
     /// <summary>
-    ///     Special effect handlers that this mod recognises.
+    ///     Special effect providers that this mod recognises.
     /// </summary>
     [NotNull]
-    private readonly Dictionary<string, ISpecialEffectHandler> _specialEffectsHandler = new();
+    private readonly Dictionary<string, IEffectProvider> _effectProviders = new();
 
     #endregion
 
@@ -479,11 +479,11 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Check if this effect code should be handled specially
-        if (_specialEffectsHandler.TryGetValue(code, out var handler))
+        if (_effectProviders.TryGetValue(code, out var provider))
         {
-            // Get the handler ids and attempt to process them, grouping them by the results
-            var results = handler.GetEffectIds(requestType)
-                .Where(x => !string.IsNullOrEmpty(x) && !_specialEffectsHandler.ContainsKey(x))
+            // Get the provided ids and attempt to process them, grouping them by the results
+            var results = provider.GetEffectIds(requestType)
+                .Where(x => !string.IsNullOrEmpty(x) && !_effectProviders.ContainsKey(x))
                 .Distinct()
                 .GroupBy(x => ProcessEffect(x, viewer, requestType))
                 .ToDictionary(x => x.Key, x => x.Count());
@@ -543,15 +543,15 @@ public sealed class CrowdControlMod : Mod
         _effects.Add(effect.Id, effect);
     }
 
-    private void AddSpecialEffectHandler([NotNull] string id, [NotNull] ISpecialEffectHandler handler)
+    private void AddEffectProvider([NotNull] string id, [NotNull] IEffectProvider provider)
     {
-        if (_specialEffectsHandler.ContainsKey(id))
+        if (_effectProviders.ContainsKey(id))
         {
-            TerrariaUtils.WriteDebug($"Special effect handler '{id}' is already added");
+            TerrariaUtils.WriteDebug($"Effect provider '{id}' is already added");
             return;
         }
 
-        _specialEffectsHandler.Add(id, handler);
+        _effectProviders.Add(id, provider);
     }
 
     private void AddAllEffects()
@@ -656,10 +656,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
 
         // --- Challenge effects
+        AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());
         AddEffect(new SwimChallenge(20f));
-
-        // --- Special effect handlers
-        AddSpecialEffectHandler(EffectID.RandomChallenge, new RandomChallengeEffectHandler());
     }
 
     #endregion

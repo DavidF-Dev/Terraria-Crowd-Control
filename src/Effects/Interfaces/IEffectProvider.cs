@@ -7,7 +7,7 @@ namespace CrowdControlMod.Effects.Interfaces;
 /// <summary>
 ///     Can be used to start/stop one or more regular effects in a specialised way.
 /// </summary>
-public interface ISpecialEffectHandler
+public interface IEffectProvider
 {
     #region Methods
 

@@ -12,7 +12,7 @@ namespace CrowdControlMod.Effects.Challenges;
 /// <summary>
 ///     Choose a random challenge effect to trigger.
 /// </summary>
-public sealed class RandomChallengeEffectHandler : ISpecialEffectHandler
+public sealed class RandomChallengeEffectProvider : IEffectProvider
 {
     #region Static Fields and Constants
 
@@ -27,13 +27,31 @@ public sealed class RandomChallengeEffectHandler : ISpecialEffectHandler
 
     #endregion
 
+    #region Static Methods
+
+    private static IEnumerable<string> GetShuffledChallengeIds()
+    {
+        // Shuffle the challenge ids
+        return ChallengeIds.OrderBy(_ => Main.rand.Next());
+    }
+
+    #endregion
+
+    #region Fields
+
     [NotNull]
     private List<string> _choices;
 
-    public RandomChallengeEffectHandler()
+    #endregion
+
+    #region Constructors
+
+    public RandomChallengeEffectProvider()
     {
         _choices = GetShuffledChallengeIds().ToList();
     }
+
+    #endregion
 
     #region Methods
 
@@ -71,12 +89,6 @@ public sealed class RandomChallengeEffectHandler : ISpecialEffectHandler
         }
 
         return new[] {choice};
-    }
-
-    private static IEnumerable<string> GetShuffledChallengeIds()
-    {
-        // Shuffle the challenge ids
-        return ChallengeIds.OrderBy(_ => Main.rand.Next());
     }
 
     #endregion
