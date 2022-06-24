@@ -654,6 +654,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SwimChallenge(30f));
         AddEffect(new StandOnBlockChallenge(50f));
         AddEffect(new CraftItemChallenge(40f));
+        AddEffect(new SleepChallenge(30f));
     }
 
     #endregion

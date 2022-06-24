@@ -84,6 +84,7 @@ public static class EffectID
     public const string SwimChallenge = "swim_challenge";
     public const string StandOnBlockChallenge = "stand_on_block_challenge";
     public const string CraftItemChallenge = "craft_item_challenge";
+    public const string SleepChallenge = "sleep_challenge";
 
     #endregion
 }

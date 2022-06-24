@@ -123,6 +123,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Start swim challenge", "swim_challenge"),
                 new Effect("Start stand on block challenge", "stand_on_block_challenge"),
                 new Effect("Start craft item challenge", "craft_item_challenge"),
+                new Effect("Start sleep challenge", "sleep_challenge"),
             };
         }
     }
