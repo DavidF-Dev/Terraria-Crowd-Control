@@ -505,8 +505,8 @@ public sealed class CrowdControlMod : Mod
             return CrowdControlResponseStatus.Retry;
         }
 
-        // If the viewer name is blank, or cannot be displayed, then default to 'Chat'
-        if (string.IsNullOrEmpty(viewer) || NetworkText.FromLiteral(viewer) == NetworkText.Empty)
+        // If the viewer name should be anonymous, or is empty, then default to 'Chat'
+        if (CrowdControlConfig.GetInstance().UseAnonymousNamesInChat || string.IsNullOrEmpty(viewer) || NetworkText.FromLiteral(viewer) == NetworkText.Empty)
         {
             viewer = "Chat";
         }

@@ -41,6 +41,12 @@ public sealed class CrowdControlConfig : ModConfig
     public bool ShowEffectMessagesInChat;
 
     [UsedImplicitly]
+    [Label("Use anonymous names in chat")]
+    [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names getting through.")]
+    [DefaultValue(false)]
+    public bool UseAnonymousNamesInChat;
+
+    [UsedImplicitly]
     [Label("Disable Tombstones")]
     [Description("Enable this to prevent your tombstones from spawning when you die.")]
     [DefaultValue(false)]
