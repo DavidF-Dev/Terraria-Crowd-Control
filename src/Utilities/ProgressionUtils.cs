@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Terraria;
 
@@ -96,6 +97,61 @@ public static class ProgressionUtils
     public static T ChooseAtProgression<T>(T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
     {
         return ChooseAtProgression(GetProgression(), preEye, preSkeletron, preWall, preMech, preGolem, preLunar, preMoonLord, postGame);
+    }
+
+    /// <summary>
+    ///     Choose the appropriate method arguments based on the current progression of the world.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IReadOnlyList<T> ChooseUpToProgression<T>(Progression progression, T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    {
+        List<T> list = new() {preEye};
+
+        if ((int)progression >= (int)Progression.PreSkeletron)
+        {
+            list.Add(preSkeletron);
+        }
+
+        if ((int)progression >= (int)Progression.PreWall)
+        {
+            list.Add(preWall);
+        }
+
+        if ((int)progression >= (int)Progression.PreMech)
+        {
+            list.Add(preMech);
+        }
+
+        if ((int)progression >= (int)Progression.PreGolem)
+        {
+            list.Add(preGolem);
+        }
+
+        if ((int)progression >= (int)Progression.PreLunar)
+        {
+            list.Add(preLunar);
+        }
+
+        if ((int)progression >= (int)Progression.PreMoonLord)
+        {
+            list.Add(preMoonLord);
+        }
+
+        if (progression == Progression.PostGame)
+        {
+            list.Add(postGame);
+        }
+
+        return list;
+    }
+
+    /// <summary>
+    ///     Choose the appropriate method arguments based on the provided progression.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IReadOnlyList<T> ChooseUpToProgression<T>(T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    {
+        return ChooseUpToProgression(GetProgression(), preEye, preSkeletron, preWall, preMech, preGolem, preLunar, preMoonLord, postGame);
     }
 
     #endregion
