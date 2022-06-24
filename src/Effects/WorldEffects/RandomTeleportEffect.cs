@@ -1,16 +1,23 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
 /// <summary>
-///     Force the player to consume a random teleport potion.
+///     Force the player to randomly teleport (either using random tp potion or conch).
 /// </summary>
 public sealed class RandomTeleportEffect : CrowdControlEffect
 {
+    #region Static Fields and Constants
+
+    private const int RandomPotionChance = 40;
+
+    #endregion
+
     #region Constructors
 
     public RandomTeleportEffect() : base(EffectID.RandomTeleport, null, EffectSeverity.Neutral)
@@ -24,7 +31,22 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        player.Player.TeleportationPotion();
+        if (Main.rand.Next(100) < RandomPotionChance)
+        {
+            // Teleport somewhere random
+            player.Player.TeleportationPotion();
+        }
+        else if (Main.rand.Next(100) < 50)
+        {
+            // Teleport to hell
+            player.Player.DemonConch();
+        }
+        else
+        {
+            // Teleport to the ocean
+            player.Player.MagicConch();
+        }
+
         SoundEngine.PlaySound(SoundID.Item6, player.Player.position);
         PlayerUtils.SetHairDye(player, ItemID.BiomeHairDye);
         return CrowdControlResponseStatus.Success;
