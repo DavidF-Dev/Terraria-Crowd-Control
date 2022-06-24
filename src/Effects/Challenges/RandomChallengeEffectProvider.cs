@@ -22,7 +22,7 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
     [NotNull]
     private static readonly string[] ChallengeIds =
     {
-        EffectID.SwimChallenge
+        EffectID.SwimChallenge, EffectID.StandOnBlockChallenge
     };
 
     #endregion
