@@ -653,6 +653,7 @@ public sealed class CrowdControlMod : Mod
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());
         AddEffect(new SwimChallenge(30f));
         AddEffect(new StandOnBlockChallenge(50f));
+        AddEffect(new CraftItemChallenge(40f));
     }
 
     #endregion

@@ -83,6 +83,7 @@ public static class EffectID
     public const string RandomChallenge = "random_challenge";
     public const string SwimChallenge = "swim_challenge";
     public const string StandOnBlockChallenge = "stand_on_block_challenge";
+    public const string CraftItemChallenge = "craft_item_challenge";
 
     #endregion
 }
