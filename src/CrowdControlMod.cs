@@ -81,6 +81,9 @@ public sealed class CrowdControlMod : Mod
     [NotNull]
     private readonly Dictionary<string, IEffectProvider> _effectProviders = new();
 
+    /// <summary>
+    ///     Features that this mod handles.
+    /// </summary>
     private readonly List<IFeature> _features = new();
 
     #endregion
