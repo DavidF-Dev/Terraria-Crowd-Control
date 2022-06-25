@@ -83,6 +83,21 @@ public sealed class CrowdControlConfig : ModConfig
     public bool AllowTimeChangeDuringBoss;
 
     [UsedImplicitly]
+    [Label("Allow Teleporting to Other Players Anytime")]
+    [Description("Enable to allow yourself to teleport to other players on a server at any time using the fullscreen map.")]
+    [DefaultValue(false)]
+    public bool AllowPlayerTeleportation;
+
+    [UsedImplicitly]
+    [Label("Teleportation Cooldown")]
+    [Description("Cooldown, in minutes, between usages of the teleportation to other players feature.")]
+    [Range(0f, 10f)]
+    [Increment(0.25f)]
+    [DrawTicks]
+    [DefaultValue(0.25)]
+    public float PlayerTeleportationCooldown;
+
+    [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]

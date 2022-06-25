@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
+using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
@@ -11,7 +12,7 @@ using Terraria.ID;
 
 namespace CrowdControlMod;
 
-public abstract class CrowdControlEffect
+public abstract class CrowdControlEffect : IFeature
 {
     #region Static Methods
 

@@ -15,6 +15,7 @@ using CrowdControlMod.Effects.InventoryEffects;
 using CrowdControlMod.Effects.PlayerEffects;
 using CrowdControlMod.Effects.ScreenEffects;
 using CrowdControlMod.Effects.WorldEffects;
+using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
@@ -80,6 +81,8 @@ public sealed class CrowdControlMod : Mod
     [NotNull]
     private readonly Dictionary<string, IEffectProvider> _effectProviders = new();
 
+    private readonly List<IFeature> _features = new();
+
     #endregion
 
     #region Properties
@@ -103,6 +106,9 @@ public sealed class CrowdControlMod : Mod
         // Add effects
         AddAllEffects();
 
+        // Add features
+        _features.Add(new PlayerTeleportationFeature());
+
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
@@ -121,6 +127,14 @@ public sealed class CrowdControlMod : Mod
         }
 
         _effects.Clear();
+
+        // Dispose the features before clearing them
+        foreach (var feature in _features)
+        {
+            feature.Dispose();
+        }
+
+        _features.Clear();
 
         _instance = null!;
     }
@@ -172,6 +186,12 @@ public sealed class CrowdControlMod : Mod
             effect.SessionStarted();
         }
 
+        // Initialise the features
+        foreach (var feature in _features)
+        {
+            feature.SessionStarted();
+        }
+
         // Start the connection thread
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
@@ -204,6 +224,12 @@ public sealed class CrowdControlMod : Mod
         foreach (var effect in _effects.Values)
         {
             effect.SessionStopped();
+        }
+
+        // Notify features that the session has been stopped
+        foreach (var feature in _features)
+        {
+            feature.SessionStopped();
         }
 
         _player = null!;
@@ -310,26 +336,6 @@ public sealed class CrowdControlMod : Mod
                 break;
             }
         }
-    }
-
-    private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
-    {
-        // If the session is paused, just perform the normal Terraria update
-        if (IsSessionPaused())
-        {
-            orig.Invoke(self, gameTime);
-            return;
-        }
-
-        // Update the active effects (so that their timers are reduced)
-        var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        foreach (var effect in _effects.Values.Where(x => x.IsActive && x.ShouldUpdate()))
-        {
-            effect.Update(delta);
-        }
-
-        // Make sure to perform the normal Terraria update (important!)
-        orig.Invoke(self, gameTime);
     }
 
     private void HandleSessionConnection()
@@ -516,12 +522,6 @@ public sealed class CrowdControlMod : Mod
         return result;
     }
 
-    private bool IsSessionPaused()
-    {
-        // Effects should be paused if the session is not running or Terraria is paused or the player is dead
-        return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
-    }
-
     private void AddEffect([NotNull] CrowdControlEffect effect)
     {
         if (_effects.ContainsKey(effect.Id))
@@ -655,6 +655,32 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new StandOnBlockChallenge(50f));
         AddEffect(new CraftItemChallenge(40f));
         AddEffect(new SleepChallenge(30f));
+    }
+
+    private bool IsSessionPaused()
+    {
+        // Effects should be paused if the session is not running or Terraria is paused or the player is dead
+        return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
+    }
+
+    private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
+    {
+        // If the session is paused, just perform the normal Terraria update
+        if (IsSessionPaused())
+        {
+            orig.Invoke(self, gameTime);
+            return;
+        }
+
+        // Update the active effects (so that their timers are reduced)
+        var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        foreach (var effect in _effects.Values.Where(x => x.IsActive && x.ShouldUpdate()))
+        {
+            effect.Update(delta);
+        }
+
+        // Make sure to perform the normal Terraria update (important!)
+        orig.Invoke(self, gameTime);
     }
 
     #endregion
