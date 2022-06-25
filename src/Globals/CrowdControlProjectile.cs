@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
@@ -16,24 +13,8 @@ public sealed class CrowdControlProjectile : GlobalProjectile
     /// <inheritdoc cref="Kill" />
     public delegate void KillDelegate(Projectile projectile, int timeLeft);
 
-    #endregion
-
-    #region Static Fields and Constants
-
-    private static readonly HashSet<int> TombstoneProjectileIds = new()
-    {
-        ProjectileID.Tombstone,
-        ProjectileID.GraveMarker,
-        ProjectileID.CrossGraveMarker,
-        ProjectileID.Headstone,
-        ProjectileID.Gravestone,
-        ProjectileID.Obelisk,
-        ProjectileID.RichGravestone1,
-        ProjectileID.RichGravestone2,
-        ProjectileID.RichGravestone3,
-        ProjectileID.RichGravestone4,
-        ProjectileID.RichGravestone5
-    };
+    /// <inheritdoc cref="OnSpawn" />
+    public delegate void OnSpawnDelegate(Projectile projectile, IEntitySource source);
 
     #endregion
 
@@ -42,6 +23,10 @@ public sealed class CrowdControlProjectile : GlobalProjectile
     /// <inheritdoc cref="Kill" />
     [PublicAPI]
     public static event KillDelegate KillHook;
+
+    /// <inheritdoc cref="OnSpawn" />
+    [PublicAPI]
+    public static event OnSpawnDelegate OnSpawnHook;
 
     #endregion
 
@@ -54,33 +39,7 @@ public sealed class CrowdControlProjectile : GlobalProjectile
 
     public override void OnSpawn(Projectile projectile, IEntitySource source)
     {
-        if ((Main.netMode == NetmodeID.SinglePlayer && !CrowdControlMod.GetInstance().IsSessionActive) || Main.netMode == NetmodeID.MultiplayerClient || !TombstoneProjectileIds.Contains(projectile.type))
-        {
-            // Normal behaviour
-            return;
-        }
-
-        // Check if the the tombstone should be disabled (in single-player or on server)
-        var playerIndex = Main.netMode == NetmodeID.Server ? PlayerUtils.FindClosestPlayer(projectile.Center, out _) : projectile.owner;
-        var player = Main.player[playerIndex].GetModPlayer<CrowdControlPlayer>();
-        if (!player.DisableTombstones)
-        {
-            // Normal behaviour
-            return;
-        }
-
-        // Destroy the projectile
-        projectile.active = false;
-        projectile.timeLeft = 1;
-        projectile.Kill();
-        if (Main.netMode != NetmodeID.Server)
-        {
-            return;
-        }
-
-        // Notify clients if we're running on the server
-        NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.whoAmI);
-        TerrariaUtils.WriteDebug($"Removed tombstone of '{player.Player.name}'");
+        OnSpawnHook?.Invoke(projectile, source);
     }
 
     #endregion

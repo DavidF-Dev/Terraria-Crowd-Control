@@ -108,6 +108,7 @@ public sealed class CrowdControlMod : Mod
 
         // Add features
         _features.Add(new PlayerTeleportationFeature());
+        _features.Add(new RemoveTombstoneFeature());
 
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
