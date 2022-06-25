@@ -107,8 +107,9 @@ public sealed class CrowdControlMod : Mod
         AddAllEffects();
 
         // Add features
-        _features.Add(new PlayerTeleportationFeature());
+        _features.Add(new ReduceRespawnTimeFeature());
         _features.Add(new RemoveTombstoneFeature());
+        _features.Add(new PlayerTeleportationFeature());
 
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
