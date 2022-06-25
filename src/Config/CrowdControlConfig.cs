@@ -36,24 +36,24 @@ public sealed class CrowdControlConfig : ModConfig
 
     [UsedImplicitly]
     [Label("Show effect messages in chat")]
-    [Tooltip("Disable this to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
+    [Tooltip("Disable to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
     [UsedImplicitly]
     [Label("Use anonymous names in chat")]
-    [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names getting through.")]
+    [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names showing.")]
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
     [UsedImplicitly]
-    [Label("Disable Tombstones")]
-    [Description("Enable this to prevent your tombstones from spawning when you die.")]
+    [Label("Disable tombstones")]
+    [Tooltip("Enable to prevent your tombstone from spawning when you die.")]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
     [UsedImplicitly]
-    [Label("Respawn Timer")]
+    [Label("Respawn timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
     [Range(0.4f, 1f)]
     [Increment(0.1f)]
@@ -62,14 +62,14 @@ public sealed class CrowdControlConfig : ModConfig
     public float RespawnTimeFactor;
 
     [UsedImplicitly]
-    [Label("Enable Spawn Protection for Explosive Effects")]
-    [Tooltip("When enabled, explosive-related effects will be delayed when the player is too close to spawn.")]
+    [Label("Enable spawn protection for explosive effects")]
+    [Tooltip("Enable to delay explosive-related effects if you are too close to spawn.")]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
     [UsedImplicitly]
-    [Label("Spawn Protection Radius")]
-    [Tooltip("If spawn protection is enabled, then this is the range around the world spawn that will be protected.")]
+    [Label("Spawn protection radius")]
+    [Tooltip("If spawn protection is enabled, then this is the range around your spawn point that will be protected.")]
     [Range(10, 100)]
     [Increment(10)]
     [DrawTicks]
@@ -77,20 +77,20 @@ public sealed class CrowdControlConfig : ModConfig
     public int SpawnProtectionRadius;
 
     [UsedImplicitly]
-    [Label("Allow Time-Changing Effects During Bosses")]
-    [Description("Disable this to prevent time-changing effects during boss fights, invasions or events.")]
+    [Label("Allow time-changing effects during bosses")]
+    [Tooltip("Disable to prevent time-changing effects during boss fights, invasions or events.")]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
 
     [UsedImplicitly]
-    [Label("Allow Teleporting to Other Players Anytime")]
-    [Description("Enable to allow yourself to teleport to other players on a server at any time using the fullscreen map.")]
+    [Label("Allow teleporting to other players")]
+    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.")]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
     [UsedImplicitly]
-    [Label("Teleportation Cooldown")]
-    [Description("Cooldown, in minutes, between usages of the teleportation to other players feature.")]
+    [Label("Teleportation cooldown (minutes)")]
+    [Tooltip("Cooldown, in minutes, between usages of the teleportation to other players feature.")]
     [Range(0f, 10f)]
     [Increment(0.25f)]
     [DrawTicks]
@@ -99,7 +99,7 @@ public sealed class CrowdControlConfig : ModConfig
 
     [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
-    [Tooltip("Enable this to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
+    [Tooltip("Enable to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
     public bool DeveloperMode;
 
