@@ -22,7 +22,8 @@ public sealed class GiveItemEffect : CrowdControlEffect
         Sword,
         Armour,
         HealingPotion,
-        Potion
+        Potion,
+        Kite
     }
 
     #endregion
@@ -150,13 +151,27 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Potion, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
                 {
-                    ProgressionUtils.Progression.PreEye, new short[]
+                    ProgressionUtils.Progression.PreEye, new[]
                     {
-                        ItemID.AmmoReservationPotion, ItemID.ArcheryPotion, ItemID.BattlePotion, ItemID.BuilderPotion, ItemID.CalmingPotion, 2329, ItemID.EndurancePotion,
+                        ItemID.AmmoReservationPotion, ItemID.ArcheryPotion, ItemID.BattlePotion, ItemID.BuilderPotion, ItemID.CalmingPotion, (short)2329, ItemID.EndurancePotion,
                         ItemID.FeatherfallPotion, ItemID.FlipperPotion, ItemID.GillsPotion, ItemID.GravitationPotion, ItemID.HunterPotion, ItemID.InfernoPotion,
                         ItemID.IronskinPotion, ItemID.LifeforcePotion, ItemID.NightOwlPotion, ItemID.ObsidianSkinPotion, ItemID.RagePotion, ItemID.RegenerationPotion,
                         ItemID.ShinePotion, ItemID.SpelunkerPotion, ItemID.SummoningPotion, ItemID.SwiftnessPotion, ItemID.ThornsPotion, ItemID.TitanPotion, ItemID.WrathPotion,
                         ItemID.FlaskofCursedFlames, ItemID.FlaskofFire, ItemID.FlaskofGold, ItemID.FlaskofIchor, ItemID.FlaskofNanites, ItemID.FlaskofParty, ItemID.FlaskofPoison, ItemID.FlaskofVenom
+                    }
+                }
+            }
+        },
+        {
+            GiveItem.Kite, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {
+                    ProgressionUtils.Progression.PreEye, new[]
+                    {
+                        ItemID.KiteBlue, ItemID.KiteRed, ItemID.KiteYellow, ItemID.KiteBunny, ItemID.KiteCrawltipede, ItemID.KiteGoldfish, ItemID.KiteKoi,
+                        ItemID.KitePigron, ItemID.KiteShark, ItemID.KiteSpectrum, ItemID.KiteUnicorn, ItemID.KiteWyvern, ItemID.KiteAngryTrapper,
+                        ItemID.KiteBoneSerpent, ItemID.KiteBunnyCorrupt, ItemID.KiteBunnyCrimson, ItemID.KiteJellyfishBlue, ItemID.KiteJellyfishPink,
+                        ItemID.KiteManEater, ItemID.KiteSandShark, ItemID.KiteWanderingEye, ItemID.KiteWorldFeeder, ItemID.KiteBlueAndYellow, ItemID.KiteRedAndYellow
                     }
                 }
             }
@@ -177,6 +192,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Armour => EffectID.GiveArmour,
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
+            GiveItem.Kite => EffectID.GiveKite,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -190,6 +206,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Armour => EffectSeverity.Positive,
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
+            GiveItem.Kite => EffectSeverity.Neutral,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -203,6 +220,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Armour => 1,
             GiveItem.HealingPotion => 2,
             GiveItem.Potion => 1,
+            GiveItem.Kite => 1,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }

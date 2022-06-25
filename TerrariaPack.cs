@@ -91,6 +91,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give armour", "give_armour"),
                 new Effect("Give healing potion", "give_healing_potion"),
                 new Effect("Give random potion", "give_potion"),
+                new Effect("Give random kite", "give_kite"),
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),
