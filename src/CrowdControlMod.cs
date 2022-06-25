@@ -560,16 +560,17 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxMana, false, false));
         AddEffect(new IncreaseSpawnRateEffect(20f));
         AddEffect(new InfiniteAmmoEffect(20f));
-        AddEffect(new ForceMountEffect(20f));
+        AddEffect(new TeleportToDeathEffect());
         AddEffect(new GivePetEffect(GivePetEffect.PetType.Pet));
         AddEffect(new GivePetEffect(GivePetEffect.PetType.LightPet));
         AddEffect(new ChangeGenderEffect());
+        AddEffect(new ForceMountEffect(20f));
         AddEffect(new ShootExplosives(15f, ShootExplosives.Shoot.Bombs));
         AddEffect(new ShootExplosives(20f, ShootExplosives.Shoot.Grenades));
         AddEffect(new JumpBoostEffect(20f));
         AddEffect(new RunBoostEffect(20f));
         AddEffect(new IcyFeetEffect(20f));
-        AddEffect(new TeleportToDeathEffect());
+        AddEffect(new NoItemPickupEffect(20f));
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,

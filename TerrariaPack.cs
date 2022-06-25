@@ -62,6 +62,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase jump height", "jump_boost"),
                 new Effect("Increase movement speed", "run_boost"),
                 new Effect("Slippery boots", "icy_feet"),
+                new Effect("Cannot pickup items", "no_item_pickup"),
 
                 // --- Buff effects (positive)
                 new Effect("Buff Effects", "buff_folder", ItemKind.Folder),

@@ -17,16 +17,17 @@ public static class EffectID
     public const string DecreaseMaxMana = "decrease_mana";
     public const string IncreaseSpawnRate = "increase_spawn_rate";
     public const string InfiniteAmmo = "infinite_ammo";
-    public const string ForceMount = "force_mount";
+    public const string DeathTeleport = "death_tp";
     public const string GivePet = "give_pet";
     public const string GiveLightPet = "give_light_pet";
     public const string ChangeGender = "change_gender";
+    public const string ForceMount = "force_mount";
     public const string ShootBombs = "shoot_bombs";
     public const string ShootGrenades = "shoot_grenades";
     public const string JumpBoost = "jump_boost";
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
-    public const string DeathTeleport = "death_tp";
+    public const string NoItemPickup = "no_item_pickup";
 
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";

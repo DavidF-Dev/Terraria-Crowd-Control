@@ -8,6 +8,13 @@ namespace CrowdControlMod.Globals;
 [UsedImplicitly]
 public sealed class CrowdControlItem : GlobalItem
 {
+    #region Delegates
+
+    /// <inheritdoc cref="CanPickup" />
+    public delegate bool CanPickupDelegate(Item item, Player player);
+
+    #endregion
+
     #region Events
 
     /// <summary>
@@ -15,6 +22,10 @@ public sealed class CrowdControlItem : GlobalItem
     /// </summary>
     [PublicAPI]
     public static event Action<Recipe> OnCraftedHook;
+
+    /// <inheritdoc cref="CanPickup" />
+    [PublicAPI]
+    public static event CanPickupDelegate CanPickupHook;
 
     #endregion
 
@@ -26,6 +37,11 @@ public sealed class CrowdControlItem : GlobalItem
         {
             OnCraftedHook?.Invoke(recipeCreationContext.recipe);
         }
+    }
+
+    public override bool CanPickup(Item item, Player player)
+    {
+        return CanPickupHook?.Invoke(item, player) ?? base.CanPickup(item, player);
     }
 
     #endregion
