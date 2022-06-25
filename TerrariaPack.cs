@@ -95,6 +95,7 @@ public sealed class Terraria : SimpleTCPPack
                 
                 // --- World effects
                 new Effect("World Effects", "world_folder", ItemKind.Folder),
+                new Effect("Use a sun dial", "sun_dial"),
                 new Effect("Set to noon", "time_noon"),
                 new Effect("Set to midnight", "time_midnight"),
                 new Effect("Set to sunrise", "time_sunrise"),

@@ -633,6 +633,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Kite));
 
         // --- World effects
+        AddEffect(new UseSundialEffect());
         AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
