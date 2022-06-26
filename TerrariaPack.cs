@@ -40,7 +40,7 @@ public sealed class Terraria : SimpleTCPPack
     /// <summary>
     ///     Game details.
     /// </summary>
-    public override Game Game { get; } = new Game(uint.MaxValue, "Terraria Crowd Control", "Terraria", "PC", CrowdControl.Common.ConnectorType.SimpleTCPConnector);
+    public override Game Game { get; } = new Game(66, "Terraria Crowd Control", "Terraria", "PC", CrowdControl.Common.ConnectorType.SimpleTCPConnector);
 
     /// <summary>
     ///     List of the supported effects and their corresponding ids.
