@@ -31,7 +31,7 @@ public sealed class SpawnBossEffect : CrowdControlEffect
             NPCID.SkeletronHead => EffectID.SpawnSkeletron,
             NPCID.Deerclops => EffectID.SpawnDeerclops,
             NPCID.WallofFlesh => EffectID.SpawnWallOfFlesh,
-            NPCID.QueenSlimeBoss => EffectID.SpawnQueenBee,
+            NPCID.QueenSlimeBoss => EffectID.SpawnQueenSlime,
             NPCID.Retinazer => EffectID.SpawnTwins,
             NPCID.TheDestroyer => EffectID.SpawnDestroyer,
             NPCID.SkeletronPrime => EffectID.SpawnSkeletronPrime,
