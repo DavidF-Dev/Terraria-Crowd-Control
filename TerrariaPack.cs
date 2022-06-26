@@ -1,3 +1,5 @@
+#define EXPOSE_CHALLENGES
+
 using System;
 using System.Collections.Generic;
 using CrowdControl.Common;
@@ -83,7 +85,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Provide light buffs", "buff_light", BuffFolder),
                 new Effect("Help search for treasure", "buff_treasure", BuffFolder),
                 new Effect("Boost movement speed", "buff_movement", BuffFolder),
-                
+
                 // --- Buff effects (negative)
                 new Effect("Freeze", "buff_freeze", BuffFolder),
                 new Effect("Set on fire", "buff_fire", BuffFolder),
@@ -91,7 +93,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Levitate", "buff_levitate", BuffFolder),
                 new Effect("Confuse", "buff_confuse", BuffFolder),
                 new Effect("Make invisible", "buff_invisible", BuffFolder),
-                
+
                 // --- Inventory effects
                 new Effect("Inventory effects", "inventory_folder", ItemKind.Folder),
                 new Effect("Drop item", "drop_item", InventoryFolder),
@@ -104,7 +106,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give healing potion", "give_healing_potion", InventoryFolder),
                 new Effect("Give random potion", "give_potion", InventoryFolder),
                 new Effect("Give random kite", "give_kite", InventoryFolder),
-                
+
                 // --- World effects
                 new Effect("World effects", WorldFolder, ItemKind.Folder),
                 new Effect("Use a sun dial", "sun_dial", WorldFolder),
@@ -122,7 +124,7 @@ public sealed class Terraria : SimpleTCPPack
                 // new Effect("Set the weather to Rainy", "weather_rain", WorldFolder),
                 // new Effect("Set the weather to Stormy", "weather_storm", WorldFolder),
                 // new Effect("Set the weather to Windy", "weather_windy", WorldFolder),
-                
+
                 // --- Boss effects
                 new Effect("Boss effects", BossFolder, ItemKind.Folder),
                 new Effect("Spawn a boss", "random_boss", BossFolder),
@@ -143,7 +145,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn Duke Fishron", "spawn_duke_fishron", BossFolder),
                 new Effect("Spawn Empress of Light", "spawn_empress_of_light", BossFolder),
                 new Effect("Spawn Moon Lord", "spawn_moon_lord", BossFolder),
-                
+
                 // --- Screen effects
                 new Effect("Screen effects", ScreenFolder, ItemKind.Folder),
                 new Effect("Flip the screen", "flip_screen", ScreenFolder),
@@ -151,15 +153,19 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Zoom in", "zoom_in", ScreenFolder),
                 new Effect("Zoom out", "zoom_out", ScreenFolder),
                 new Effect("Wall of fish", "wall_of_fish", ScreenFolder),
-                
+
                 // --- Challenge effects
+#if EXPOSE_CHALLENGES
                 new Effect("Challenges", ChallengesFolder, ItemKind.Folder),
+#endif
                 new Effect("Issue a challenge", "random_challenge", ChallengesFolder),
+#if EXPOSE_CHALLENGES
                 new Effect("Start swim challenge", "swim_challenge", ChallengesFolder),
                 new Effect("Start stand on block challenge", "stand_on_block_challenge", ChallengesFolder),
                 new Effect("Start craft item challenge", "craft_item_challenge", ChallengesFolder),
                 new Effect("Start sleep challenge", "sleep_challenge", ChallengesFolder),
                 new Effect("Start minecart challenge", "minecart_challenge", ChallengesFolder),
+#endif
             };
         }
     }
