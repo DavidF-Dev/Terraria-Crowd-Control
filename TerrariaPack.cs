@@ -165,6 +165,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Start craft item challenge", "craft_item_challenge", ChallengesFolder),
                 new Effect("Start sleep challenge", "sleep_challenge", ChallengesFolder),
                 new Effect("Start minecart challenge", "minecart_challenge", ChallengesFolder),
+                new Effect("Start touch grass challenge", "touch_grass_challenge", ChallengesFolder),
 #endif
             };
         }

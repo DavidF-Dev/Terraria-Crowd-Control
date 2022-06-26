@@ -684,6 +684,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new CraftItemChallenge(40f));
         AddEffect(new SleepChallenge(30f));
         AddEffect(new MinecartChallenge(30f));
+        AddEffect(new TouchGrassChallenge(10f));
     }
 
     private bool IsSessionPaused()
