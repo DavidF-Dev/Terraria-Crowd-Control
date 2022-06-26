@@ -84,6 +84,7 @@ public sealed class RemoveTombstoneFeature : IFeature
         }
 
         // Notify clients if we're running on the server
+        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
         NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.whoAmI);
         TerrariaUtils.WriteDebug($"Removed tombstone of '{player.Player.name}'");
     }
