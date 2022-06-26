@@ -36,15 +36,29 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
             // Teleport somewhere random
             player.Player.TeleportationPotion();
         }
-        else if (Main.rand.Next(100) < 50)
+        else if (Main.rand.Next(100) < 50 && !player.Player.ZoneUnderworldHeight)
         {
             // Teleport to hell
-            player.Player.DemonConch();
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                player.Player.DemonConch();
+            }
+            else
+            {
+                NetMessage.SendData(MessageID.RequestTeleportationByServer, number: 2);
+            }
         }
         else
         {
             // Teleport to the ocean
-            player.Player.MagicConch();
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                player.Player.MagicConch();
+            }
+            else
+            {
+                NetMessage.SendData(MessageID.RequestTeleportationByServer, number: 1);
+            }
         }
 
         SoundEngine.PlaySound(SoundID.Item6, player.Player.position);
