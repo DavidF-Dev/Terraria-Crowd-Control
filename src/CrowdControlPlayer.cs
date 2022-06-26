@@ -31,6 +31,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     [PublicAPI]
     public delegate bool ShootDelegate(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback);
 
+    /// <inheritdoc cref="ModifyDrawInfo" />
+    [PublicAPI]
+    public delegate void ModifyDrawInfoDelegate(ref PlayerDrawSet drawInfo);
+
     #endregion
 
     #region Fields
@@ -109,6 +113,10 @@ public sealed class CrowdControlPlayer : ModPlayer
     [PublicAPI]
     public event ShootDelegate ShootHook;
 
+    /// <inheritdoc cref="ModifyDrawInfo" />
+    [PublicAPI]
+    public event ModifyDrawInfoDelegate ModifyDrawInfoHook;
+
     #endregion
 
     #region Methods
@@ -181,6 +189,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
     {
         return ShootHook?.Invoke(item, source, position, velocity, type, damage, knockback) ?? base.Shoot(item, source, position, velocity, type, damage, knockback);
+    }
+
+    public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+    {
+        ModifyDrawInfoHook?.Invoke(ref drawInfo);
     }
 
     #endregion

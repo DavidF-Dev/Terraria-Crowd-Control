@@ -4,6 +4,7 @@ using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
+using Terraria.DataStructures;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.BuffEffects;
@@ -37,6 +38,8 @@ public sealed class BuffEffect : CrowdControlEffect
 
     private readonly bool _hasFrozenBuff;
 
+    private readonly bool _hasInvisibilityBuff;
+
     #endregion
 
     #region Constructors
@@ -49,6 +52,7 @@ public sealed class BuffEffect : CrowdControlEffect
         _buffs = new HashSet<int>(buffs);
         _hasConfusedBuff = _buffs.Contains(BuffID.Confused);
         _hasFrozenBuff = _buffs.Contains(BuffID.Frozen);
+        _hasInvisibilityBuff = _buffs.Contains(BuffID.Invisibility);
     }
 
     #endregion
@@ -67,12 +71,15 @@ public sealed class BuffEffect : CrowdControlEffect
 
         _onStart?.Invoke(player);
         player.PreUpdateBuffsHook += PreUpdateBuffs;
+        player.ModifyDrawInfoHook += ModifyDrawInfo;
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
     {
-        GetLocalPlayer().PreUpdateBuffsHook -= PreUpdateBuffs;
+        var player = GetLocalPlayer();
+        player.PreUpdateBuffsHook -= PreUpdateBuffs;
+        player.ModifyDrawInfoHook -= ModifyDrawInfo;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string _)
@@ -116,6 +123,18 @@ public sealed class BuffEffect : CrowdControlEffect
 
             player.Player.AddBuff(buffId, (int)Math.Ceiling(60 * TimeLeft));
         }
+    }
+
+    private void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+    {
+        if (!_hasInvisibilityBuff)
+        {
+            return;
+        }
+
+        // Draw the player off the screen if the invisibility buff is active
+        drawInfo.Position.X = 0f;
+        drawInfo.Position.Y = 0f;
     }
 
     #endregion
