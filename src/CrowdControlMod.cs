@@ -8,6 +8,7 @@ using System.Threading;
 using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
+using CrowdControlMod.Effects.BossEffects;
 using CrowdControlMod.Effects.BuffEffects;
 using CrowdControlMod.Effects.Challenges;
 using CrowdControlMod.Effects.Interfaces;
@@ -643,12 +644,31 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new RainbowFeetEffect(20f));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));
-        AddEffect(new SpawnKingSlime());
         AddEffect(new SpawnCritters());
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Clear));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Storm));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
+
+        // --- Boss effects
+        AddEffect(new SpawnRandomBossEffect());
+        AddEffect(new SpawnBossEffect(NPCID.KingSlime));
+        AddEffect(new SpawnBossEffect(NPCID.EyeofCthulhu));
+        AddEffect(new SpawnBossEffect(NPCID.EaterofWorldsHead));
+        AddEffect(new SpawnBossEffect(NPCID.BrainofCthulhu));
+        AddEffect(new SpawnBossEffect(NPCID.QueenBee));
+        AddEffect(new SpawnBossEffect(NPCID.SkeletronHead));
+        AddEffect(new SpawnBossEffect(NPCID.Deerclops));
+        AddEffect(new SpawnBossEffect(NPCID.WallofFlesh));
+        AddEffect(new SpawnBossEffect(NPCID.QueenSlimeBoss));
+        AddEffect(new SpawnBossEffect(NPCID.Retinazer));
+        AddEffect(new SpawnBossEffect(NPCID.TheDestroyer));
+        AddEffect(new SpawnBossEffect(NPCID.SkeletronPrime));
+        AddEffect(new SpawnBossEffect(NPCID.Plantera));
+        AddEffect(new SpawnBossEffect(NPCID.Golem));
+        AddEffect(new SpawnBossEffect(NPCID.DukeFishron));
+        AddEffect(new SpawnBossEffect(NPCID.HallowBoss));
+        AddEffect(new SpawnBossEffect(NPCID.MoonLordCore));
 
         // --- Screen effects
         AddEffect(new FlipScreenEffect(15f));

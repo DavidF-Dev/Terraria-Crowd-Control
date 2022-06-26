@@ -68,12 +68,31 @@ public static class EffectID
     public const string RainbowFeet = "rainbow_feet";
     public const string SpawnGuardian = "spawn_guardian";
     public const string SpawnFakeGuardian = "spawn_fake_guardian";
-    public const string SpawnKingSlime = "spawn_king_slime";
     public const string SpawnCritters = "spawn_critters";
     public const string SetWeatherClear = "weather_clear";
     public const string SetWeatherRain = "weather_rain";
     public const string SetWeatherStorm = "weather_storm";
     public const string SetWeatherWindy = "weather_windy";
+
+    // --- Boss effects
+    public const string RandomBoss = "random_boss";
+    public const string SpawnKingSlime = "spawn_king_slime";
+    public const string SpawnEyeOfCthulhu = "spawn_eye_of_cthulhu";
+    public const string SpawnEaterOfWorlds = "spawn_eater_of_worlds";
+    public const string SpawnBrainOfCthulhu = "spawn_brain_of_cthulhu";
+    public const string SpawnQueenBee = "spawn_queen_bee";
+    public const string SpawnSkeletron = "spawn_skeletron";
+    public const string SpawnDeerclops = "spawn_deerclops";
+    public const string SpawnWallOfFlesh = "spawn_wall_of_flesh";
+    public const string SpawnQueenSlime = "spawn_queen_slime";
+    public const string SpawnTwins = "spawn_twins";
+    public const string SpawnDestroyer = "spawn_destroyer";
+    public const string SpawnSkeletronPrime = "spawn_skeletron_prime";
+    public const string SpawnPlantera = "spawn_plantera";
+    public const string SpawnGolem = "spawn_golem";
+    public const string SpawnDukeFishron = "spawn_duke_fishron";
+    public const string SpawnEmpressOfLight = "spawn_empress_of_light";
+    public const string SpawnMoonLord = "spawn_moon_lord";
 
     // --- Screen effects
     public const string FlipScreen = "flip_screen";
