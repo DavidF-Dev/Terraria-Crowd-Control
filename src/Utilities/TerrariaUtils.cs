@@ -138,12 +138,31 @@ public static class TerrariaUtils
     {
         if (Main.netMode == NetmodeID.Server)
         {
-            // Create a packet to send to all clients
-            var packet = CrowdControlMod.GetInstance().GetPacket(3);
-            packet.Write((byte)PacketID.DebugMessage);
-            packet.Write(message);
-            packet.Write(colour.GetValueOrDefault(Color.Yellow).PackedValue);
-            packet.Send();
+            try
+            {
+                if (Main.gameMenu)
+                {
+                    // Ignore if on the game menu
+                    return;
+                }
+
+                // Create a packet to send to all clients
+                var packet = CrowdControlMod.GetInstance().GetPacket(3);
+                packet.Write((byte)PacketID.DebugMessage);
+                packet.Write(message);
+                packet.Write(colour.GetValueOrDefault(Color.Yellow).PackedValue);
+                packet.Send();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+            finally
+            {
+                // Always log the message to the server log file
+                CrowdControlMod.GetInstance().Logger.Debug(message);
+            }
+
             return;
         }
 
