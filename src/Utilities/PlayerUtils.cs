@@ -47,6 +47,15 @@ public static class PlayerUtils
     }
 
     /// <summary>
+    ///     Check if the player is currently riding a minecart.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public static bool IsInMinecart([NotNull] CrowdControlPlayer player)
+    {
+        return player.Player.mount.Cart;
+    }
+
+    /// <summary>
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [PublicAPI] [Pure]

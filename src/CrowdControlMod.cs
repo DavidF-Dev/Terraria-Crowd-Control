@@ -680,9 +680,10 @@ public sealed class CrowdControlMod : Mod
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());
         AddEffect(new SwimChallenge(30f));
-        AddEffect(new StandOnBlockChallenge(50f));
+        AddEffect(new StandOnBlockChallenge(40f));
         AddEffect(new CraftItemChallenge(40f));
         AddEffect(new SleepChallenge(30f));
+        AddEffect(new MinecartChallenge(30f));
     }
 
     private bool IsSessionPaused()
