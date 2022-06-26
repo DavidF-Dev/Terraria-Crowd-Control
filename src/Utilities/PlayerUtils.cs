@@ -191,5 +191,25 @@ public static class PlayerUtils
         return closestPlayer;
     }
 
+    /// <summary>
+    ///     Check if the player is standing on or in the given tile type.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public static bool IsStandingOn([NotNull] CrowdControlPlayer player, int id)
+    {
+        for (var x = player.TileX; x < player.TileX + 1; x++)
+        {
+            for (var y = player.TileY + 2; y < player.TileY + 4; y++)
+            {
+                if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     #endregion
 }

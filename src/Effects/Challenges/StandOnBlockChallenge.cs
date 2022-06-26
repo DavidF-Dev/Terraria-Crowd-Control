@@ -42,28 +42,6 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     #endregion
 
-    #region Static Methods
-
-    private static bool IsStandingOn(int id)
-    {
-        // Check if any of the player is standing on or in the given tile
-        var player = GetLocalPlayer();
-        for (var x = player.TileX; x < player.TileX + 1; x++)
-        {
-            for (var y = player.TileY + 2; y < player.TileY + 4; y++)
-            {
-                if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    #endregion
-
     #region Fields
 
     private Item _chosenTileItem;
@@ -83,10 +61,11 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
         // Choose a random placeable item
+        var player = GetLocalPlayer();
         _chosenTileItem = new Item(Main.rand.Next(ProgressionUtils.ChooseUpToProgression(
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
-        ).SelectMany(x => x).Distinct().ToList()));
+        ).SelectMany(x => x).Distinct().Where(x => PlayerUtils.IsStandingOn(player, x)).ToList()));
 
         return CrowdControlResponseStatus.Success;
     }
@@ -98,7 +77,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (!IsStandingOn(_chosenTileItem.createTile))
+        if (!PlayerUtils.IsStandingOn(GetLocalPlayer(), _chosenTileItem.createTile))
         {
             return;
         }
