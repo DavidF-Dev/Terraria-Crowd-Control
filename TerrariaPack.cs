@@ -80,19 +80,19 @@ public sealed class Terraria : SimpleTCPPack
 
                 // --- Buff effects (positive)
                 new Effect("Buff effects", BuffFolder, ItemKind.Folder),
-                new Effect("Boost survivability", "buff_survivability", BuffFolder) {Price = 25, Description = "Temporarily give the streamer survivability buffs"},
-                new Effect("Boost health regeneration", "buff_regen", BuffFolder) {Price = 25, Description = "Temporarily give the streamer regeneration buffs"},
-                new Effect("Provide light buffs", "buff_light", BuffFolder) {Price = 25, Description = "Temporarily give the streamer light buffs"},
-                new Effect("Help search for treasure", "buff_treasure", BuffFolder) {Price = 25, Description = "Temporarily give the streamer treasure-seeking buffs"},
-                new Effect("Boost movement speed", "buff_movement", BuffFolder) {Price = 25, Description = "Temporarily give the streamer movement buffs"},
+                new Effect("Boost survivability", "buff_survivability", BuffFolder) {Price = 20, Description = "Temporarily give the streamer survivability buffs"},
+                new Effect("Boost health regeneration", "buff_regen", BuffFolder) {Price = 20, Description = "Temporarily give the streamer regeneration buffs"},
+                new Effect("Provide light buffs", "buff_light", BuffFolder) {Price = 20, Description = "Temporarily give the streamer light buffs"},
+                new Effect("Help search for treasure", "buff_treasure", BuffFolder) {Price = 20, Description = "Temporarily give the streamer treasure-seeking buffs"},
+                new Effect("Boost movement speed", "buff_movement", BuffFolder) {Price = 20, Description = "Temporarily give the streamer movement buffs"},
 
                 // --- Buff effects (negative)
-                new Effect("Freeze", "buff_freeze", BuffFolder) {Price = 50, Description = "Temporarily freeze the streamer"},
-                new Effect("Set on fire", "buff_fire", BuffFolder) {Price = 50, Description = "Temporarily set the streamer on fire"},
-                new Effect("Daze", "buff_daze", BuffFolder) {Price = 50, Description = "Temporarily daze the streamer"},
+                new Effect("Freeze", "buff_freeze", BuffFolder) {Price = 20, Description = "Temporarily freeze the streamer"},
+                new Effect("Set on fire", "buff_fire", BuffFolder) {Price = 40, Description = "Temporarily set the streamer on fire"},
+                new Effect("Daze", "buff_daze", BuffFolder) {Price = 40, Description = "Temporarily daze the streamer"},
                 new Effect("Levitate", "buff_levitate", BuffFolder) {Price = 50, Description = "Temporarily cause the streamer to levitate"},
-                new Effect("Confuse", "buff_confuse", BuffFolder) {Price = 75, Description = "Temporarily reverse the streamer's controls"},
-                new Effect("Make invisible", "buff_invisible", BuffFolder) {Price = 75, Description = "Temporarily make the streamer invisible"},
+                new Effect("Confuse", "buff_confuse", BuffFolder) {Price = 50, Description = "Temporarily reverse the streamer's controls"},
+                new Effect("Make invisible", "buff_invisible", BuffFolder) {Price = 50, Description = "Temporarily make the streamer invisible"},
 
                 // --- Inventory effects
                 new Effect("Inventory effects", "inventory_folder", ItemKind.Folder),
@@ -104,7 +104,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give sword", "give_sword", InventoryFolder) {Price = 50, Description = "Provide the streamer with a sword"},
                 new Effect("Give armour", "give_armour", InventoryFolder) {Price = 30, Description = "Provide the streamer with an armour piece"},
                 new Effect("Give healing potion", "give_healing_potion", InventoryFolder) {Price = 10, Description = "Provide the streamer with a healing potion"},
-                new Effect("Give random potion", "give_potion", InventoryFolder) {Price = 30, Description = "Provide the streamer with a random potion"},
+                new Effect("Give random potion", "give_potion", InventoryFolder) {Price = 25, Description = "Provide the streamer with a random potion"},
                 new Effect("Give random kite", "give_kite", InventoryFolder) {Price = 10, Description = "Provide the streamer with a kite"},
 
                 // --- World effects
@@ -115,10 +115,10 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set to sunrise", "time_sunrise", WorldFolder) {Price = 50, Description = "Set the time to sunrise"},
                 new Effect("Set to sunset", "time_sunset", WorldFolder) {Price = 50, Description = "Set the time to sunset"},
                 new Effect("Spawn structure", "spawn_structure", WorldFolder) {Price = 150, Description = "Spawn a structure around the streamer"},
-                new Effect("Random teleport", "random_teleport", WorldFolder) {Price = 250, Description = "Randomly teleport the streamer"},
+                new Effect("Random teleport", "random_teleport", WorldFolder) {Price = 200, Description = "Randomly teleport the streamer"},
                 new Effect("Rainbow feet", "rainbow_feet", WorldFolder) {Price = 20, Description = "Temporarily cause the streamer to paint rainbows wherever they walk"},
                 new Effect("Spawn a Dungeon Guardian", "spawn_guardian", WorldFolder) {Price = 1000, Description = "Spawn a real Dungeon Guardian"},
-                new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian", WorldFolder) {Price = 50, Description = "Spawn a fake Dungeon Guardian to scare the streamer"},
+                new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian", WorldFolder) {Price = 20, Description = "Spawn a fake Dungeon Guardian to scare the streamer"},
                 new Effect("Spawn critters", "spawn_critters", WorldFolder) {Price = 5, Description = "Spawn a group of critters on the streamer"},
                 // new Effect("Set the weather to Clear", "weather_clear", WorldFolder) {Price = 50, Description = "Set the weather to clear"},
                 // new Effect("Set the weather to Rainy", "weather_rain", WorldFolder) {Price = 50, Description = "Set the weather to rainy"},
@@ -149,16 +149,16 @@ public sealed class Terraria : SimpleTCPPack
                 // --- Screen effects
                 new Effect("Screen effects", ScreenFolder, ItemKind.Folder),
                 new Effect("Flip the screen", "flip_screen", ScreenFolder) {Price = 100, Description = "Temporarily flip the streamer's screen"},
-                new Effect("Drunk mode", "drunk_mode", ScreenFolder) {Price = 100, Description = "Temporarily cause the screen to become wobbly."},
-                new Effect("Zoom in", "zoom_in", ScreenFolder) {Price = 100, Description = "Temporarily zoom the camera in"},
-                new Effect("Zoom out", "zoom_out", ScreenFolder) {Price = 50, Description = "Temporarily zoom the camera out"},
+                new Effect("Drunk mode", "drunk_mode", ScreenFolder) {Price = 100, Description = "Temporarily cause the screen to become wobbly"},
+                new Effect("Zoom in", "zoom_in", ScreenFolder) {Price = 100, Description = "Temporarily zoom the screen in"},
+                new Effect("Zoom out", "zoom_out", ScreenFolder) {Price = 50, Description = "Temporarily zoom the screen out"},
                 new Effect("Wall of fish", "wall_of_fish", ScreenFolder) {Price = 25, Description = "Temporarily draw a wall of fish across the streamer's screen"},
 
                 // --- Challenge effects
 #if EXPOSE_CHALLENGES
                 new Effect("Challenges", ChallengesFolder, ItemKind.Folder),
 #endif
-                new Effect("Do-or-die challenge", "random_challenge", ChallengesFolder) {Price = 100, Description = "Issue a timed challenge to the streamer"},
+                new Effect("Do-or-die challenge", "random_challenge", ChallengesFolder) {Price = 100, Description = "Issue a timed challenge to the streamer which they must complete, or they will die"},
 #if EXPOSE_CHALLENGES
                 new Effect("Start swim challenge", "swim_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go for a swim"},
                 new Effect("Start stand on block challenge", "stand_on_block_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to stand on a specific block"},
