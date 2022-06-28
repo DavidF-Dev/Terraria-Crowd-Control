@@ -116,6 +116,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set to sunset", "time_sunset", WorldFolder) {Price = 50, Description = "Set the time to sunset"},
                 new Effect("Spawn structure", "spawn_structure", WorldFolder) {Price = 150, Description = "Spawn a structure around the streamer"},
                 new Effect("Random teleport", "random_teleport", WorldFolder) {Price = 200, Description = "Randomly teleport the streamer"},
+                new Effect("Summon all NPCs", "summon_npcs", WorldFolder) {Price = 200, Description = "Summon all alive NPCs to the streamer's position"},
                 new Effect("Rainbow feet", "rainbow_feet", WorldFolder) {Price = 20, Description = "Temporarily cause the streamer to paint rainbows wherever they walk"},
                 new Effect("Spawn a Dungeon Guardian", "spawn_guardian", WorldFolder) {Price = 1000, Description = "Spawn a real Dungeon Guardian"},
                 new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian", WorldFolder) {Price = 20, Description = "Spawn a fake Dungeon Guardian to scare the streamer"},

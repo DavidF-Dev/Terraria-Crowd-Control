@@ -653,6 +653,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         AddEffect(new SpawnStructureEffect());
         AddEffect(new RandomTeleportEffect());
+        AddEffect(new SummonNpcsEffect());
         AddEffect(new RainbowFeetEffect(20f));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));
