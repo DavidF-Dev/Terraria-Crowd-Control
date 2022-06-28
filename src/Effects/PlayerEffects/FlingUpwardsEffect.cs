@@ -13,7 +13,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const float FlingSpeed = 24f;
+    private const float FlingSpeed = 69f;
 
     #endregion
 
@@ -49,7 +49,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.Abeemination, $"{viewerString} flung {playerString} upwards into the air", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.KOCannon, $"{viewerString} flung {playerString} upwards into the air", Severity);
     }
 
     #endregion
