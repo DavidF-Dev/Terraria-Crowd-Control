@@ -19,6 +19,12 @@ public enum PacketID : byte
     EffectMessage,
 
     /// <summary>
+    ///     Sync the weather on the client (from the server).<br />
+    ///     Packet data: (float)cloudAlpha (float)windSpeedTarget (int)windCounter (int)extremeWindCounter
+    /// </summary>
+    SyncWeather,
+
+    /// <summary>
     ///     Notify the server about the status of an effect (from the client).<br />
     ///     Packet data: (bool)status
     /// </summary>

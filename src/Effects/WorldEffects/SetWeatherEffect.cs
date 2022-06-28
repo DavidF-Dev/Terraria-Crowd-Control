@@ -29,6 +29,14 @@ public sealed class SetWeatherEffect : CrowdControlEffect
         };
     }
 
+    private static bool CanBeAWindyDay()
+    {
+        // Numbers extracted from the Terraria source code -> Main.UpdateWindyDayState()
+        // Max time is reduced slightly so a windy day can at least last a little while
+        const double reduce = 1500.0;
+        return !(Main.time < 10800.0 - reduce || Main.time > 43200.0 || !Main.dayTime);
+    }
+
     #endregion
 
     #region Fields
@@ -52,6 +60,12 @@ public sealed class SetWeatherEffect : CrowdControlEffect
     {
         if (WorldUtils.GetWeather() == _weather)
         {
+            return CrowdControlResponseStatus.Failure;
+        }
+
+        if (_weather == WorldUtils.Weather.Windy && !CanBeAWindyDay())
+        {
+            TerrariaUtils.WriteDebug("Failed to set the weather to windy because it isn't day time");
             return CrowdControlResponseStatus.Failure;
         }
 

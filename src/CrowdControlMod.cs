@@ -310,6 +310,18 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteEffectMessage(itemId, message, severity);
                 break;
             }
+
+            // Sync the weather sent from the server
+            case PacketID.SyncWeather:
+            {
+                Terraria.Main.cloudAlpha = reader.ReadSingle();
+                Terraria.Main.windSpeedTarget = reader.ReadSingle();
+                // Terraria.Main.windSpeedCurrent = Terraria.Main.windSpeedTarget;
+                Terraria.Main.windCounter = reader.ReadInt32();
+                Terraria.Main.extremeWindCounter = reader.ReadInt32();
+                TerrariaUtils.WriteDebug($"Synced weather from server (cloud={Terraria.Main.cloudAlpha}, speed={Terraria.Main.windSpeedTarget}, wind={Terraria.Main.windCounter} extreme={Terraria.Main.extremeWindCounter})");
+                break;
+            }
         }
     }
 
