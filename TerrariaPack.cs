@@ -77,6 +77,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase movement speed", "run_boost", PlayerFolder) {Price = 200, Description = "Temporarily increase the streamer's movement speed"},
                 new Effect("Slippery boots", "icy_feet", PlayerFolder) {Price = 200, Description = "Temporarily make the ground very slippery under the streamer"},
                 new Effect("Cannot pickup items", "no_item_pickup", PlayerFolder) {Price = 250, Description = "Temporarily prevent the streamer from picking up any items"},
+                new Effect("Fling upwards", "fling_upwards", PlayerFolder) {Price = 75, Description = "Fling the streamer upwards violently"},
 
                 // --- Buff effects (positive)
                 new Effect("Buff effects", BuffFolder, ItemKind.Folder),
