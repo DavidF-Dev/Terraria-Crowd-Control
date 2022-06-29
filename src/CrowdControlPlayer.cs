@@ -60,6 +60,12 @@ public sealed class CrowdControlPlayer : ModPlayer
     [PublicAPI]
     public int TileY => (int)(Player.position.Y / 16);
 
+    [PublicAPI]
+    public int CenterTileX => (int)(Player.Center.X / 16);
+
+    [PublicAPI]
+    public int CenterTileY => (int)(Player.Center.Y / 16);
+
     /// <summary>
     ///     Whether tombstones are disabled for this player. Correct for client and server.
     /// </summary>

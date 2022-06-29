@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using CrowdControlMod.ID;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -132,6 +134,54 @@ public static class WorldUtils
         packet.Write(Main.windCounter);
         packet.Write(Main.extremeWindCounter);
         packet.Send();
+    }
+
+    /// <summary>
+    ///     Get the tiles in a radial area around the given center position.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround(int centerX, int centerY, int radius)
+    {
+        List<(int, int)> result = new(radius * radius);
+        var radiusSquared = radius * radius;
+        for (var x = centerX - radius; x < centerX + radius; x++)
+        {
+            for (var y = centerY - radius; y < centerY + radius; y++)
+            {
+                if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY || Vector2.DistanceSquared(new Vector2(centerX, centerY), new Vector2(x, y)) > radiusSquared)
+                {
+                    // Ignore if out of bounds or not within the radius
+                    continue;
+                }
+
+                result.Add((x, y));
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    ///     Get the tiles in a rectangular area around the given center position.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround(int centerX, int centerY, int halfWidth, int halfHeight)
+    {
+        List<(int, int)> result = new(halfWidth * halfHeight);
+        for (var x = centerX - halfWidth; x < centerX + halfWidth; x++)
+        {
+            for (var y = centerY - halfHeight; y < centerY + halfHeight; y++)
+            {
+                if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY)
+                {
+                    continue;
+                }
+
+                result.Add((x, y));
+            }
+        }
+
+        return result;
     }
 
     #endregion
