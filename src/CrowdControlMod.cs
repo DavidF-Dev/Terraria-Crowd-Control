@@ -630,7 +630,7 @@ public sealed class CrowdControlMod : Mod
             ItemID.InvisibilityPotion, (v, p) => $"{v} stole {p}'s body...", null,
             BuffID.Invisibility));
         AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 10f,
-            ItemID.Sunglasses, (v, p) => $"{v} obstructed {p}'s screen",
+            ItemID.Blindfold, (v, p) => $"{v} obstructed {p}'s screen",
             p => PlayerUtils.SetHairDye(p, ItemID.TwilightHairDye),
             BuffID.Obstructed));
 
