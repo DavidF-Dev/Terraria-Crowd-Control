@@ -18,7 +18,7 @@ public sealed class CrowdControlSceneEffect : ModSceneEffect
 
     public override int Music => _musicId;
 
-    public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
+    public override SceneEffectPriority Priority => (SceneEffectPriority)int.MaxValue;
 
     #endregion
 
