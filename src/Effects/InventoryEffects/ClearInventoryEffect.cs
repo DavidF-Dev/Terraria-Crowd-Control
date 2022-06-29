@@ -28,10 +28,10 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
 
         // Iterate over a portion of the player's inventory and add the slot indexes to be cleared
         // 10 is the first slot in the main inventory (after the hot bar)
-        // 57 is the last ammo slot
-        // https://tshock.readme.io/docs/slot-indexes
+        // 49 is the last main inventory slot
+        // https://tshock.readme.io/docs/slot-indexes (out-dated)
         List<int> slotsToClear = new();
-        for (var i = 10; i <= 57; i++)
+        for (var i = 10; i < 50; i++)
         {
             if (player.Player.inventory[i].active)
             {
@@ -48,7 +48,7 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
         // Clear the slots
         foreach (var slot in slotsToClear)
         {
-            player.Player.inventory[slot].active = false;
+            player.Player.inventory[slot].TurnToAir();
         }
 
         return CrowdControlResponseStatus.Success;

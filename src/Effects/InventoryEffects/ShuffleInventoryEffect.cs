@@ -29,11 +29,11 @@ public sealed class ShuffleInventoryEffect : CrowdControlEffect
 
         // Iterate over a portion of the player's inventory and add all slot indexes to a list
         // 0 is the first slot in the the hot bar
-        // 98 is the last dye slot
-        // https://tshock.readme.io/docs/slot-indexes
+        // 57 is the last coin slot
+        // https://tshock.readme.io/docs/slot-indexes (out-dated)
         List<int> allSlots = new();
         var hasItem = false;
-        for (var i = 0; i <= 98; i++)
+        for (var i = 0; i < 58; i++)
         {
             allSlots.Add(i);
 
@@ -51,7 +51,7 @@ public sealed class ShuffleInventoryEffect : CrowdControlEffect
 
         // Shuffle and swap the items around
         var slot = 0;
-        foreach (var shuffledSlot in allSlots.OrderBy(x => Main.rand.Next()))
+        foreach (var shuffledSlot in allSlots.OrderBy(_ => Main.rand.Next()))
         {
             // Swap the items at 'slot' and 'shuffledSlot'
             (player.Player.inventory[slot], player.Player.inventory[shuffledSlot]) = (player.Player.inventory[shuffledSlot], player.Player.inventory[slot]);
