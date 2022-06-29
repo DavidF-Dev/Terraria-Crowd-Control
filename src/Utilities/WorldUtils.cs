@@ -185,4 +185,22 @@ public static class WorldUtils
     }
 
     #endregion
+
+    #region Properties
+
+    [PublicAPI]
+    public static bool IsForTheWorthy
+    {
+        get => Main.getGoodWorld;
+        set => Main.getGoodWorld = value;
+    }
+
+    [PublicAPI]
+    public static bool IsDontStarve
+    {
+        get => Main.dontStarveWorld;
+        set => Main.dontStarveWorld = value;
+    }
+
+    #endregion
 }

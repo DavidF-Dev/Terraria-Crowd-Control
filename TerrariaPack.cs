@@ -133,6 +133,10 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Set the weather to Rainy", "weather_rain", WorldFolder) {Price = 50, Description = "Set the weather to rainy"},
                 new Effect("Set the weather to Stormy", "weather_storm", WorldFolder) {Price = 50, Description = "Set the weather to stormy"},
                 new Effect("Set the weather to Windy", "weather_windy", WorldFolder) {Price = 50, Description = "Set the weather to windy"},
+                new Effect("Enable \"For the Worthy\" mode", "enable_for_the_worthy", WorldFolder) {Price = 1200, Description = "Enable \"For the Worthy\" mode in the streamer's world"},
+                new Effect("Disable \"For the Worthy\" mode", "disable_for_the_worthy", WorldFolder) {Price = 1000, Description = "Disable \"For the Worthy\" mode in the streamer's world"},
+                new Effect("Enable \"Don't Starve\" mode", "enable_the_constant", WorldFolder) {Price = 1000, Description = "Enable \"Don't Starve\" mode in the streamer's world"},
+                new Effect("Disable \"Don't Starve\" mode", "disable_the_constant", WorldFolder) {Price = 800, Description = "Disable \"Don't Starve\" mode in the streamer's world"},
 
                 // --- Boss effects
                 new Effect("Boss effects", BossFolder, ItemKind.Folder),

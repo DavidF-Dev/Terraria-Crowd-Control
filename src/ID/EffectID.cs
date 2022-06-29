@@ -82,6 +82,10 @@ public static class EffectID
     public const string SetWeatherRain = "weather_rain";
     public const string SetWeatherStorm = "weather_storm";
     public const string SetWeatherWindy = "weather_windy";
+    public const string EnableForTheWorthy = "enable_for_the_worthy";
+    public const string DisableForTheWorthy = "disable_for_the_worthy";
+    public const string EnableTheConstant = "enable_the_constant";
+    public const string DisableTheConstant = "disable_the_constant";
 
     // --- Boss effects
     public const string RandomBoss = "random_boss";

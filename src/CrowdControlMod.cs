@@ -670,6 +670,10 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Storm));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, true));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, false));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, true));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, false));
 
         // --- Boss effects
         AddEffect(new SpawnRandomBossEffect());
