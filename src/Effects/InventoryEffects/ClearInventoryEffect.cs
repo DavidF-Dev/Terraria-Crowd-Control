@@ -7,6 +7,9 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
+/// <summary>
+///     Clear the contents of the player's main inventory (excluding the hot bar).
+/// </summary>
 public sealed class ClearInventoryEffect : CrowdControlEffect
 {
     #region Constructors
