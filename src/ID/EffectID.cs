@@ -50,6 +50,7 @@ public static class EffectID
     public const string DropItem = "drop_item";
     public const string ExplodeInventory = "explode_inventory";
     public const string ClearInventory = "clear_inventory";
+    public const string ShuffleInventory = "shuffle_inventory";
     public const string ReforgeItem = "item_prefix";
     public const string MoneyBoost = "boost_money";
     public const string GivePickaxe = "give_pickaxe";
