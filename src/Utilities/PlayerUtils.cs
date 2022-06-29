@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CrowdControlMod.Config;
 using CrowdControlMod.ID;
 using JetBrains.Annotations;
@@ -209,6 +210,56 @@ public static class PlayerUtils
         }
 
         return false;
+    }
+
+    /// <summary>
+    ///     Get the tiles in a radial area around the player.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround([NotNull] CrowdControlPlayer player, int radius)
+    {
+        List<(int, int)> result = new(radius * radius);
+        var radiusSquared = radius * radius;
+        var center = new Vector2((int)(player.Player.Center.X / 16), (int)(player.Player.Center.Y / 16));
+        for (var x = (int)center.X - radius; x < center.X + radius; x++)
+        {
+            for (var y = (int)center.Y - radius; y < center.Y + radius; y++)
+            {
+                if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY || Vector2.DistanceSquared(center, new Vector2(x, y)) > radiusSquared)
+                {
+                    // Ignore if out of bounds or not within the radius
+                    continue;
+                }
+
+                result.Add((x, y));
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    ///     Get the tiles in a rectangular area around the player.
+    /// </summary>
+    [PublicAPI] [NotNull] [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround([NotNull] CrowdControlPlayer player, int halfWidth, int halfHeight)
+    {
+        List<(int, int)> result = new(halfWidth * halfHeight);
+        var center = new Vector2((int)(player.Player.Center.X / 16), (int)(player.Player.Center.Y / 16));
+        for (var x = (int)center.X - halfWidth; x < center.X + halfWidth; x++)
+        {
+            for (var y = (int)center.Y - halfHeight; y < center.Y + halfHeight; y++)
+            {
+                if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY)
+                {
+                    continue;
+                }
+
+                result.Add((x, y));
+            }
+        }
+
+        return result;
     }
 
     #endregion

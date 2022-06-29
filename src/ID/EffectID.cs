@@ -67,6 +67,11 @@ public static class EffectID
     public const string SetTimeSunrise = "time_sunrise";
     public const string SetTimeSunset = "time_sunset";
     public const string SpawnStructure = "spawn_structure";
+    public const string CobwebTrap = "cobweb_trap";
+    public const string SandTrap = "sand_trap";
+    public const string WaterTrap = "water_trap";
+    public const string HoneyTrap = "honey_trap";
+    public const string LavaTrap = "lava_trap";
     public const string RandomTeleport = "random_teleport";
     public const string SummonNpcs = "summon_npcs";
     public const string RainbowFeet = "rainbow_feet";

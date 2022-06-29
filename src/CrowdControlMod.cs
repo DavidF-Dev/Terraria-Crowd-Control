@@ -655,6 +655,11 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         AddEffect(new SpawnStructureEffect());
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Cobweb));
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Sand));
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Water));
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Honey));
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Lava));
         AddEffect(new RandomTeleportEffect());
         AddEffect(new SummonNpcsEffect());
         AddEffect(new RainbowFeetEffect(20f));
