@@ -637,6 +637,7 @@ public sealed class CrowdControlMod : Mod
         // -- Inventory effects
         AddEffect(new DropItemEffect());
         AddEffect(new ExplodeInventoryEffect());
+        AddEffect(new ClearInventoryEffect());
         AddEffect(new ReforgeItemEffect());
         AddEffect(new MoneyBoostEffect(25f));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Pickaxe));
