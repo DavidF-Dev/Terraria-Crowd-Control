@@ -78,6 +78,7 @@ public static class EffectID
     public const string SpawnGuardian = "spawn_guardian";
     public const string SpawnFakeGuardian = "spawn_fake_guardian";
     public const string SpawnCritters = "spawn_critters";
+    public const string GoldenSlimeRain = "golden_slime_rain";
     public const string SetWeatherClear = "weather_clear";
     public const string SetWeatherRain = "weather_rain";
     public const string SetWeatherStorm = "weather_storm";

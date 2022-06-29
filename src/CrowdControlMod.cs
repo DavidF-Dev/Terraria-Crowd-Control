@@ -665,6 +665,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new RainbowFeetEffect(20f));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));
+        AddEffect(new GoldenSlimeRainEffect(60f));
         AddEffect(new SpawnCritters());
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Clear));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));

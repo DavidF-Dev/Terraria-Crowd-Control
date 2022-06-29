@@ -129,6 +129,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn a Dungeon Guardian", "spawn_guardian", WorldFolder) {Price = 1000, Description = "Spawn a real Dungeon Guardian"},
                 new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian", WorldFolder) {Price = 20, Description = "Spawn a fake Dungeon Guardian to scare the streamer"},
                 new Effect("Spawn critters", "spawn_critters", WorldFolder) {Price = 5, Description = "Spawn a group of critters on the streamer"},
+                new Effect("Rain Golden Slimes", "golden_slime_rain", WorldFolder) {Price = 200, Description = "Rain Golden Slimes above the streamer"},
                 new Effect("Set the weather to Clear", "weather_clear", WorldFolder) {Price = 50, Description = "Set the weather to clear"},
                 new Effect("Set the weather to Rainy", "weather_rain", WorldFolder) {Price = 50, Description = "Set the weather to rainy"},
                 new Effect("Set the weather to Stormy", "weather_storm", WorldFolder) {Price = 50, Description = "Set the weather to stormy"},
