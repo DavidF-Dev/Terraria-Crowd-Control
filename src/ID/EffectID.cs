@@ -87,6 +87,7 @@ public static class EffectID
     public const string DisableForTheWorthy = "disable_for_the_worthy";
     public const string EnableTheConstant = "enable_the_constant";
     public const string DisableTheConstant = "disable_the_constant";
+    public const string SwitchSoundtrack = "switch_soundtrack";
 
     // --- Boss effects
     public const string RandomBoss = "random_boss";
