@@ -2,6 +2,7 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -14,6 +15,7 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 {
     #region Fields
 
+    [CanBeNull]
     private readonly FieldInfo _swapMusicField;
 
     #endregion
@@ -31,8 +33,8 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 
     private bool SwapMusic
     {
-        get => (bool)_swapMusicField.GetValue(null)!;
-        set => _swapMusicField.SetValue(null, value);
+        get => (bool)_swapMusicField?.GetValue(null)!;
+        set => _swapMusicField?.SetValue(null, value);
     }
 
     #endregion
@@ -41,18 +43,16 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        if (_swapMusicField == null)
-        {
-            return CrowdControlResponseStatus.Unavailable;
-        }
-
+        // Simply toggle Main.swapMusic
         SwapMusic = !SwapMusic;
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)
     {
-        var playingOtherworld = (!Main.drunkWorld && SwapMusic) || (Main.drunkWorld && !SwapMusic);
+        // Check which soundtrack is playing (flipped on the drunk world seed)
+        var playingOtherworld = (!WorldUtils.IsDrunkWorld && SwapMusic) || (WorldUtils.IsDrunkWorld && !SwapMusic);
+
         if (playingOtherworld)
         {
             TerrariaUtils.WriteEffectMessage(ItemID.MusicBoxOWDay, $"{viewerString} started playing the Terraria Otherworld soundtrack", Severity);

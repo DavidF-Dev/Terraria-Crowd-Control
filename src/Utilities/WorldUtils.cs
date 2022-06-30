@@ -202,5 +202,12 @@ public static class WorldUtils
         set => Main.dontStarveWorld = value;
     }
 
+    [PublicAPI]
+    public static bool IsDrunkWorld
+    {
+        get => Main.drunkWorld;
+        set => Main.drunkWorld = value;
+    }
+
     #endregion
 }
