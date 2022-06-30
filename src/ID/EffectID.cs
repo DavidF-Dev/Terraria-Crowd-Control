@@ -29,6 +29,7 @@ public static class EffectID
     public const string IcyFeet = "icy_feet";
     public const string NoItemPickup = "no_item_pickup";
     public const string FlingUpwards = "fling_upwards";
+    public const string FartSound = "fart_sound";
 
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";
