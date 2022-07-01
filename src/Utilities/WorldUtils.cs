@@ -184,6 +184,16 @@ public static class WorldUtils
         return result;
     }
 
+    /// <summary>
+    ///     Check if the provided tile is solid.
+    /// </summary>
+    [PublicAPI] [Pure]
+    public static bool IsTileSolid(int x, int y)
+    {
+        return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+               Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tile[x, y].IsActuated;
+    }
+
     #endregion
 
     #region Properties

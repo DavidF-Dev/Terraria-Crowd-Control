@@ -72,7 +72,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     private void SetRainbowOnTile(int x, int y, bool trulyRandom)
     {
-        if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY || !Main.tile[x, y].HasTile)
+        if (!WorldUtils.IsTileSolid(x, y))
         {
             // Ignore if invalid tile
             return;
