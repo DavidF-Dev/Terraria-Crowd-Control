@@ -1,3 +1,9 @@
+/// <summary>
+/// Crowd Control for Terraria.
+/// Developed by David F Dev.
+/// Source: https://github.com/DavidF-Dev/Terraria-Crowd-Control
+/// </summary>
+
 #define EXPOSE_CHALLENGES
 
 using System;
@@ -174,7 +180,13 @@ public sealed class Terraria : SimpleTCPPack
 #if EXPOSE_CHALLENGES
                 new Effect("Challenges", ChallengesFolder, ItemKind.Folder),
 #endif
-                new Effect("Do-or-die challenge", "random_challenge", ChallengesFolder) {Price = 100, Description = "Issue a timed challenge to the streamer which they must complete, or they will die"},
+                new Effect("Do-or-die challenge", "random_challenge",
+#if EXPOSE_CHALLENGES
+                    ChallengesFolder
+#else
+                    PlayerFolder
+#endif
+                    ) {Price = 100, Description = "Issue a timed challenge to the streamer which they must complete, or they will die"},
 #if EXPOSE_CHALLENGES
                 new Effect("Start swim challenge", "swim_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go for a swim"},
                 new Effect("Start stand on block challenge", "stand_on_block_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to stand on a specific block"},
