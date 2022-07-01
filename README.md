@@ -4,7 +4,7 @@
 ![File Size](https://img.shields.io/steam/size/0?style=flat-square)
 [![Issues](https://img.shields.io/github/issues/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues)
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
-[![Discord](https://img.shields.io/discord/168430302954258433.svg?style=flat-square)](https://discord.warp.world/)
+[![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
 **TODO: ^ Update id in Downloads and File Size button with Steam Workshop Id**
 
