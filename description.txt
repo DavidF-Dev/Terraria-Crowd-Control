@@ -1,5 +1,6 @@
 A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control Twitch extension.
 - Effects and prices can be customised through the Crowd Control application.
 - Built for Terraria 1.4: Journey's End.
-- Supports single-player **and** multi-player.
+- Supports single-player and multi-player.
+- Friendly towards newer Terraria players - your viewers can provide helpful effects.
 - A fun way to earn revenue and grow your community!
