@@ -50,8 +50,8 @@ in [TerrariaPack.cs](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/m
 
 Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4, which can be downloaded for free on
 Steam.<br>
-Older versions are not supported.<br>
-<br>**TODO: Insert image of mod in Installed Mods section**<br>
+Older versions are not supported.<br><br>
+<img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
 
 - [Steam Workshop]() **(recommended)**
