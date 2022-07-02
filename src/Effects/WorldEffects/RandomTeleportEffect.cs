@@ -14,7 +14,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const int RandomPotionChance = 40;
+    private const int RandomPotionChance = 85;
 
     #endregion
 
