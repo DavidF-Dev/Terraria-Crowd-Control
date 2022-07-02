@@ -73,7 +73,7 @@ public abstract class CrowdControlEffect : IFeature
     public string Id { get; }
 
     /// <summary>
-    ///     Effect is currently active.
+    ///     Effect is currently active (client-side).
     /// </summary>
     public bool IsActive { get; private set; }
 
@@ -221,6 +221,20 @@ public abstract class CrowdControlEffect : IFeature
     public virtual bool ShouldUpdate()
     {
         return true;
+    }
+
+    /// <summary>
+    ///     Check if the effect is active for the specified player (server-side).
+    /// </summary>
+    [Pure]
+    public bool IsActiveOnServer([NotNull] Player player)
+    {
+        if (Main.netMode != NetmodeID.Server)
+        {
+            throw new Exception($"{nameof(IsActiveOnServer)} can only be called on the server.");
+        }
+
+        return _activeOnServer.Contains(player.whoAmI);
     }
 
     /// <summary>

@@ -30,7 +30,7 @@ public static class PlayerUtils
     }
 
     /// <summary>
-    ///     Check if the player is currently invincible.
+    ///     Check if the player is currently invincible (client-side).
     /// </summary>
     [PublicAPI] [Pure]
     public static bool IsInvincible([NotNull] CrowdControlPlayer player)

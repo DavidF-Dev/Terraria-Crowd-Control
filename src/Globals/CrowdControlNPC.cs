@@ -1,4 +1,6 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -16,6 +18,14 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="StrikeNPC" />
     public delegate bool StrikeNpcDelegate(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit);
 
+    /// <inheritdoc cref="PreDraw" />
+    [PublicAPI]
+    public delegate bool PreDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
+
+    /// <inheritdoc cref="PostDraw" />
+    [PublicAPI]
+    public delegate void PostDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
+
     #endregion
 
     #region Events
@@ -27,6 +37,14 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="StrikeNPC" />
     [PublicAPI]
     public static event StrikeNpcDelegate StrikeNpcHook;
+
+    /// <inheritdoc cref="PreDraw" />
+    [PublicAPI]
+    public static event PreDrawDelegate PreDrawHook;
+
+    /// <inheritdoc cref="PostDraw" />
+    [PublicAPI]
+    public static event PostDrawDelegate PostDrawHook;
 
     #endregion
 
@@ -40,6 +58,16 @@ public sealed class CrowdControlNPC : GlobalNPC
     public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
     {
         return StrikeNpcHook?.Invoke(npc, ref damage, defense, ref knockback, hitDirection, ref crit) ?? base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+    }
+
+    public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+    {
+        return PreDrawHook?.Invoke(npc, spriteBatch, screenPos, drawColor) ?? base.PreDraw(npc, spriteBatch, screenPos, drawColor);
+    }
+
+    public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+    {
+        PostDrawHook?.Invoke(npc, spriteBatch, screenPos, drawColor);
     }
 
     #endregion

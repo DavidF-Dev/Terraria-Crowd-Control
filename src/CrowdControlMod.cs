@@ -262,6 +262,15 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
+    ///     Get an effect instance by id.
+    /// </summary>
+    [PublicAPI] [CanBeNull] [Pure]
+    public CrowdControlEffect GetEffect([NotNull] string id)
+    {
+        return _effects.TryGetValue(id, out var effect) ? effect : null;
+    }
+
+    /// <summary>
     ///     Check if any of the effects want to play music.
     /// </summary>
     [PublicAPI]
@@ -707,6 +716,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ZoomEffect(15f, true));
         AddEffect(new ZoomEffect(15f, false));
         AddEffect(new WallOfFishEffect(20f));
+        AddEffect(new CritterTakeoverEffect(30f));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());

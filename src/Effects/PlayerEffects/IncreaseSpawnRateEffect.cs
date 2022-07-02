@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CrowdControlMod.Globals;
+﻿using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
@@ -22,18 +21,14 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     public IncreaseSpawnRateEffect(float duration) : base(EffectID.IncreaseSpawnRate, duration, EffectSeverity.Negative)
     {
+        CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
     }
 
     #endregion
 
     #region Methods
 
-    protected override void OnSessionStarted()
-    {
-        CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
-    }
-
-    protected override void OnSessionStopped()
+    protected override void OnDisposed()
     {
         CrowdControlNPC.EditSpawnRateHook -= EditSpawnRate;
     }
@@ -45,10 +40,10 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     private void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
     {
-        // Set the spawn rate if the effect is active for the player
-        if ((Main.netMode == NetmodeID.SinglePlayer && IsActive) ||
-            (Main.netMode == NetmodeID.Server && ActiveOnServer.Contains(player.whoAmI)))
+        if ((Main.netMode == NetmodeID.SinglePlayer && CrowdControlMod.GetInstance().IsSessionActive && IsActive) ||
+            (Main.netMode == NetmodeID.Server && IsActiveOnServer(player)))
         {
+            // Set the spawn rate if the effect is active for the player
             spawnRate = (int)(spawnRate / Factor);
             maxSpawns *= (int)(maxSpawns * Factor);
         }

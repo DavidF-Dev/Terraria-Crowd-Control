@@ -117,6 +117,7 @@ public static class EffectID
     public const string ZoomIn = "zoom_in";
     public const string ZoomOut = "zoom_out";
     public const string WallOfFish = "wall_of_fish";
+    public const string CritterTakeover = "critter_takeover";
 
     // --- Challenge effects
     public const string RandomChallenge = "random_challenge";

@@ -176,6 +176,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Zoom in", "zoom_in", ScreenFolder) {Price = 100, Description = "Temporarily zoom the screen in"},
                 new Effect("Zoom out", "zoom_out", ScreenFolder) {Price = 50, Description = "Temporarily zoom the screen out"},
                 new Effect("Wall of fish", "wall_of_fish", ScreenFolder) {Price = 25, Description = "Temporarily draw a wall of fish across the streamer's screen"},
+                new Effect("Critter takeover", "critter_takeover", ScreenFolder) {Price = 100, Description = "Temporarily draw critters instead of normal NPCs"},
 
                 // --- Challenge effects
 #if EXPOSE_CHALLENGES
