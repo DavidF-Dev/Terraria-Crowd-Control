@@ -44,7 +44,11 @@ public static class PlayerUtils
     [PublicAPI] [Pure]
     public static bool IsGrounded([NotNull] CrowdControlPlayer player)
     {
-        return Main.tileSolid[Main.tile[player.TileX, player.TileY + 3].TileType] && player.Player.velocity.Y == 0f;
+        var x = player.TileX;
+        var y = player.TileY + 3;
+        return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+               Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] &&
+               player.Player.velocity.Y == 0f;
     }
 
     /// <summary>
