@@ -609,6 +609,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
             ItemID.Aglet, (v, p) => $"{v} boosted the movement speed of {p}", null,
             BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
+        AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 45f,
+            ItemID.ObsidianSkull, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
+            BuffID.ObsidianSkin, BuffID.Warmth));
 
         // --- Buff effects (negative)
         AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 6f,
