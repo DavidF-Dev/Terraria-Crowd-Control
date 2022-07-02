@@ -52,7 +52,7 @@ public sealed class PlayerTeleportationFeature : IFeature
 
     private bool HasUnityPotion(Player.orig_HasUnityPotion orig, Terraria.Player self)
     {
-        if (CrowdControlMod.GetInstance().GetLocalPlayer().Player != self || !IsAllowed || DateTime.Now < _nextUsageTime)
+        if (CrowdControlMod.GetLocalPlayer().Player != self || !IsAllowed || DateTime.Now < _nextUsageTime)
         {
             return orig.Invoke(self);
         }
@@ -66,7 +66,7 @@ public sealed class PlayerTeleportationFeature : IFeature
     private void TakeUnityPotion(Player.orig_TakeUnityPotion orig, Terraria.Player self)
     {
         // Do not take the potion if a free teleportation was used
-        if (CrowdControlMod.GetInstance().GetLocalPlayer().Player == self && _teleported)
+        if (CrowdControlMod.GetLocalPlayer().Player == self && _teleported)
         {
             _teleported = false;
             return;

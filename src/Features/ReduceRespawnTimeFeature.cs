@@ -13,7 +13,7 @@ public sealed class ReduceRespawnTimeFeature : IFeature
     private static void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
     {
         // Reduce the respawn timer by the mod configuration factor
-        var player = CrowdControlMod.GetInstance().GetLocalPlayer();
+        var player = CrowdControlMod.GetLocalPlayer();
         player.Player.respawnTimer = (int)(player.Player.respawnTimer * CrowdControlConfig.GetInstance().RespawnTimeFactor);
     }
 
@@ -23,12 +23,12 @@ public sealed class ReduceRespawnTimeFeature : IFeature
 
     public void SessionStarted()
     {
-        CrowdControlMod.GetInstance().GetLocalPlayer().KillHook += Kill;
+        CrowdControlMod.GetLocalPlayer().KillHook += Kill;
     }
 
     public void SessionStopped()
     {
-        CrowdControlMod.GetInstance().GetLocalPlayer().KillHook -= Kill;
+        CrowdControlMod.GetLocalPlayer().KillHook -= Kill;
     }
 
     public void Dispose()

@@ -1,6 +1,5 @@
 ﻿using System;
 using CrowdControlMod.Config;
-using CrowdControlMod.Utilities;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,7 +51,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     ///     Is this player instance the local player / client?
     /// </summary>
     [PublicAPI]
-    public bool IsLocalPlayer => PlayerUtils.IsLocalPlayer(this);
+    public bool IsLocalPlayer => Player.whoAmI == Main.myPlayer;
 
     [PublicAPI]
     public int TileX => (int)(Player.position.X / 16);
@@ -132,7 +131,7 @@ public sealed class CrowdControlPlayer : ModPlayer
         if (IsLocalPlayer)
         {
             // Start the crowd control session upon entering a world
-            CrowdControlMod.GetInstance().StartCrowdControlSession(this);
+            CrowdControlMod.GetInstance().StartCrowdControlSession();
         }
     }
 

@@ -32,13 +32,6 @@ namespace CrowdControlMod;
 [UsedImplicitly]
 public sealed class CrowdControlMod : Mod
 {
-    #region Static Fields and Constants
-
-    [NotNull]
-    private static CrowdControlMod _instance = null!;
-
-    #endregion
-
     #region Static Methods
 
     /// <summary>
@@ -47,15 +40,21 @@ public sealed class CrowdControlMod : Mod
     [PublicAPI] [Pure] [NotNull]
     public static CrowdControlMod GetInstance()
     {
-        return _instance;
+        return ModContent.GetInstance<CrowdControlMod>();
+    }
+
+    /// <summary>
+    ///     Get the local crowd control player instance (client-side).
+    /// </summary>
+    [PublicAPI] [Pure] [NotNull]
+    public static CrowdControlPlayer GetLocalPlayer()
+    {
+        return Terraria.Main.LocalPlayer.GetModPlayer<CrowdControlPlayer>();
     }
 
     #endregion
 
     #region Fields
-
-    [NotNull]
-    private CrowdControlPlayer _player = null!;
 
     [CanBeNull]
     private Thread _sessionThread;
@@ -118,7 +117,6 @@ public sealed class CrowdControlMod : Mod
 
     public override void Load()
     {
-        _instance = this;
         _terrariaThread = Thread.CurrentThread;
 
         // Add effects
@@ -156,7 +154,6 @@ public sealed class CrowdControlMod : Mod
 
         _features.Clear();
 
-        _instance = null!;
         _terrariaThread = null;
     }
 
@@ -189,7 +186,7 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Start the crowd control session. Wait after stopping, otherwise the thread might not be ready (client-side).
     /// </summary>
-    public void StartCrowdControlSession([NotNull] CrowdControlPlayer player)
+    public void StartCrowdControlSession()
     {
         // Cannot start if already running, or the thread is active in the background, or we're on a server
         if (_isSessionRunning || _sessionThread != null || Terraria.Main.netMode == NetmodeID.Server)
@@ -198,7 +195,6 @@ public sealed class CrowdControlMod : Mod
             return;
         }
 
-        _player = player;
         _isSessionRunning = true;
 
         // Initialise the effects
@@ -253,18 +249,7 @@ public sealed class CrowdControlMod : Mod
             feature.SessionStopped();
         }
 
-        _player = null!;
-
         Main.Update -= OnUpdate;
-    }
-
-    /// <summary>
-    ///     Get the local crowd control player instance (client-side).
-    /// </summary>
-    [PublicAPI] [Pure] [NotNull]
-    public CrowdControlPlayer GetLocalPlayer()
-    {
-        return _player;
     }
 
     /// <summary>
@@ -383,6 +368,8 @@ public sealed class CrowdControlMod : Mod
 
     private void HandleSessionConnection()
     {
+        // Note, this is run on a managed thread
+
         // Initialisation
         _isSessionConnected = false;
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -525,6 +512,7 @@ public sealed class CrowdControlMod : Mod
         if (_effectProviders.TryGetValue(code, out var provider))
         {
             // Get the provided ids and attempt to process them, grouping them by the results
+            // Note, an infinite loop is possible if the provider processes another (or the same) provider
             var results = provider.GetEffectIds(requestType)
                 .Where(x => !string.IsNullOrEmpty(x) && !_effectProviders.ContainsKey(x))
                 .Distinct()

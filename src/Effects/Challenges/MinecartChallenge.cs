@@ -1,6 +1,5 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
-using CrowdControlMod.Utilities;
 
 namespace CrowdControlMod.Effects.Challenges;
 
@@ -26,12 +25,12 @@ public sealed class MinecartChallenge : ChallengeEffect
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
-        return !PlayerUtils.IsInMinecart(GetLocalPlayer()) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
+        return !GetLocalPlayer().Player.mount.Cart ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
     }
 
     protected override void OnUpdate(float delta)
     {
-        if (!PlayerUtils.IsInMinecart(GetLocalPlayer()))
+        if (!GetLocalPlayer().Player.mount.Cart)
         {
             return;
         }

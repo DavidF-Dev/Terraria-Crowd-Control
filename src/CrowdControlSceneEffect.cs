@@ -1,5 +1,4 @@
-﻿using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -27,7 +26,7 @@ public sealed class CrowdControlSceneEffect : ModSceneEffect
     public override bool IsSceneEffectActive(Player player)
     {
         // Check if any of the effects want to play music
-        return PlayerUtils.IsLocalPlayer(player) && CrowdControlMod.GetInstance().TryGetEffectMusic(out _musicId) && _musicId > 0;
+        return player.whoAmI == Main.myPlayer && CrowdControlMod.GetInstance().TryGetEffectMusic(out _musicId) && _musicId > 0;
     }
 
     #endregion

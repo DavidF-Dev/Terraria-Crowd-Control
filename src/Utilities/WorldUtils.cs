@@ -198,6 +198,9 @@ public static class WorldUtils
 
     #region Properties
 
+    /// <summary>
+    ///     'For the Worthy' mode is enabled in the world.
+    /// </summary>
     [PublicAPI]
     public static bool IsForTheWorthy
     {
@@ -205,6 +208,9 @@ public static class WorldUtils
         set => Main.getGoodWorld = value;
     }
 
+    /// <summary>
+    ///     'Don't Starve' mode is enabled in the world.
+    /// </summary>
     [PublicAPI]
     public static bool IsDontStarve
     {
@@ -212,6 +218,9 @@ public static class WorldUtils
         set => Main.dontStarveWorld = value;
     }
 
+    /// <summary>
+    ///     'Drunk mode' is enabled in the world.
+    /// </summary>
     [PublicAPI]
     public static bool IsDrunkWorld
     {

@@ -22,7 +22,7 @@ public abstract class CrowdControlEffect : IFeature
     [Pure] [NotNull]
     protected static CrowdControlPlayer GetLocalPlayer()
     {
-        return CrowdControlMod.GetInstance().GetLocalPlayer();
+        return CrowdControlMod.GetLocalPlayer();
     }
 
     #endregion
@@ -40,7 +40,9 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     private readonly bool _isTimedEffect;
 
-    /// <inheritdoc cref="ActiveOnServer" />
+    /// <summary>
+    ///     Collection of players with this timed effect active (server-side).
+    /// </summary>
     [NotNull]
     private readonly HashSet<int> _activeOnServer = new();
 
@@ -86,12 +88,6 @@ public abstract class CrowdControlEffect : IFeature
     ///     Severity of the effect on the streamer. Can be used by implementing classes when writing their effect message.
     /// </summary>
     protected EffectSeverity Severity { get; }
-
-    /// <summary>
-    ///     Collection of players with this timed effect active (server-side).
-    /// </summary>
-    [NotNull]
-    protected IEnumerable<int> ActiveOnServer => _activeOnServer;
 
     #endregion
 
