@@ -349,6 +349,7 @@ public sealed class CrowdControlMod : Mod
 
             // Client wants to trigger an effect on the server
             case PacketID.HandleEffect:
+            case PacketID.EffectStatus:
             {
                 var effectId = reader.ReadString();
 

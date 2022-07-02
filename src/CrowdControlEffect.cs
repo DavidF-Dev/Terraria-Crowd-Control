@@ -381,8 +381,10 @@ public abstract class CrowdControlEffect : IFeature
     {
         // Server-side
         // Remove player from server-side collection
-        _activeOnServer.Remove(player.whoAmI);
-        TerrariaUtils.WriteDebug($"Removed '{player.name}' from effect '{Id}' active collection");
+        if (_activeOnServer.Remove(player.whoAmI))
+        {
+            TerrariaUtils.WriteDebug($"Removed '{player.name} ({player.whoAmI})' from effect '{Id}' active collection");
+        }
     }
 
     #endregion
