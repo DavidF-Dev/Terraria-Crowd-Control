@@ -60,6 +60,9 @@ public sealed class CrowdControlMod : Mod
     [CanBeNull]
     private Thread _sessionThread;
 
+    [CanBeNull]
+    private Thread _terrariaThread;
+
     /// <summary>
     ///     Session is running, but might not be connected.
     /// </summary>
@@ -99,6 +102,16 @@ public sealed class CrowdControlMod : Mod
 
     public override uint ExtraPlayerBuffSlots => 32;
 
+    /// <summary>
+    ///     Should the session thread continue operating.
+    /// </summary>
+    private bool ShouldSessionThreadContinue => _isSessionRunning && IsTerrariaAlive;
+
+    /// <summary>
+    ///     Terraria thread is alive.
+    /// </summary>
+    private bool IsTerrariaAlive => _terrariaThread is {IsAlive: true};
+
     #endregion
 
     #region Methods
@@ -106,6 +119,7 @@ public sealed class CrowdControlMod : Mod
     public override void Load()
     {
         _instance = this;
+        _terrariaThread = Thread.CurrentThread;
 
         // Add effects
         AddAllEffects();
@@ -143,6 +157,7 @@ public sealed class CrowdControlMod : Mod
         _features.Clear();
 
         _instance = null!;
+        _terrariaThread = null;
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -374,19 +389,19 @@ public sealed class CrowdControlMod : Mod
         var writeAttempt = true;
 
         // Wait for the world to load
-        while (_isSessionRunning && Terraria.Main.gameMenu)
+        while (ShouldSessionThreadContinue && Terraria.Main.gameMenu)
         {
         }
 
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
-        if (_isSessionRunning && Terraria.Main.netMode == NetmodeID.MultiplayerClient)
+        if (ShouldSessionThreadContinue && Terraria.Main.netMode == NetmodeID.MultiplayerClient)
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();
         }
 
         // Connection loop
-        while (_isSessionRunning)
+        while (ShouldSessionThreadContinue)
         {
             // Attempt to connect the socket to the crowd control service
             try
@@ -404,7 +419,7 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Connected to Crowd Control", Color.Green);
 
                 // Connection successful, so keep polling the socket for incoming packets
-                while (_isSessionRunning && socket.Connected && socket.Poll(1000, SelectMode.SelectWrite))
+                while (ShouldSessionThreadContinue && socket.Connected && socket.Poll(1000, SelectMode.SelectWrite))
                 {
                     // Check if there is any data to receive
                     if (!socket.Poll(1000, SelectMode.SelectRead))
@@ -467,7 +482,7 @@ public sealed class CrowdControlMod : Mod
                 _isSessionConnected = false;
                 writeAttempt = true;
 
-                if (_isSessionRunning)
+                if (ShouldSessionThreadContinue)
                 {
                     TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
                 }
@@ -490,7 +505,11 @@ public sealed class CrowdControlMod : Mod
         // Clean up
         socket.Dispose();
         _sessionThread = null;
-        TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
+
+        if (IsTerrariaAlive)
+        {
+            TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
+        }
     }
 
     private CrowdControlResponseStatus ProcessEffect([NotNull] string code, [NotNull] string viewer, CrowdControlRequestType requestType)
