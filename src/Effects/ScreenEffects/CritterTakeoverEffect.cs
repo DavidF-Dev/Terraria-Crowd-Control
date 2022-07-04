@@ -76,7 +76,6 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         _seed = Main.rand.Next(CritterOptions.Length);
 
         CrowdControlNPC.PreDrawHook += PreDraw;
-        CrowdControlNPC.PostDrawHook += PostDraw;
         return CrowdControlResponseStatus.Success;
     }
 
@@ -85,7 +84,6 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         _seed = 0;
 
         CrowdControlNPC.PreDrawHook -= PreDraw;
-        CrowdControlNPC.PostDrawHook -= PostDraw;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string durationString)
@@ -99,18 +97,6 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         {
             // Ignore critters
             return true;
-        }
-
-        // Prevent the npc from being drawn normally
-        return false;
-    }
-
-    private void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour)
-    {
-        if (npc.CountsAsACritter)
-        {
-            // Ignore critters
-            return;
         }
 
         // Get the critter that will be drawn instead of the npc 
@@ -141,6 +127,8 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
             scale,
             npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
             0);
+
+        return false;
     }
 
     private void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)

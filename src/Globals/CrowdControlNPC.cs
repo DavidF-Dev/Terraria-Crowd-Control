@@ -22,10 +22,6 @@ public sealed class CrowdControlNPC : GlobalNPC
     [PublicAPI]
     public delegate bool PreDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
 
-    /// <inheritdoc cref="PostDraw" />
-    [PublicAPI]
-    public delegate void PostDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
-
     #endregion
 
     #region Events
@@ -41,10 +37,6 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="PreDraw" />
     [PublicAPI]
     public static event PreDrawDelegate PreDrawHook;
-
-    /// <inheritdoc cref="PostDraw" />
-    [PublicAPI]
-    public static event PostDrawDelegate PostDrawHook;
 
     #endregion
 
@@ -63,11 +55,6 @@ public sealed class CrowdControlNPC : GlobalNPC
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
     {
         return PreDrawHook?.Invoke(npc, spriteBatch, screenPos, drawColor) ?? base.PreDraw(npc, spriteBatch, screenPos, drawColor);
-    }
-
-    public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-    {
-        PostDrawHook?.Invoke(npc, spriteBatch, screenPos, drawColor);
     }
 
     #endregion
