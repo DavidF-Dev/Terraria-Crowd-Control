@@ -82,10 +82,6 @@ A few to highlight include:
 - Disable tombstones, so that you're world does not become one big graveyard.
 - Enable the ability to teleport to other players in multi-player freely (or with a cooldown).
 
-## F.A.Q
-
-**TODO: Add FAQ**
-
 ## Contact & Support
 
 If you have any questions or would like to get in contact, shoot me an email at `contact@davidfdev.com`. Alternatively,
