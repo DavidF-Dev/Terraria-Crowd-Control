@@ -1,6 +1,6 @@
 /// <summary>
 /// Crowd Control for Terraria.
-/// Developed by David F Dev.
+/// Author: David F Dev.
 /// Source: https://github.com/DavidF-Dev/Terraria-Crowd-Control
 /// </summary>
 
