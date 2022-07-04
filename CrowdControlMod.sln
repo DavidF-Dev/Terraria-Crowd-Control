@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdControlMod", "..\..\..\..\..\..\Games\Saves\Terraria\tModLoader\ModSources\CrowdControlMod\CrowdControlMod.csproj", "{A0060C07-8ECE-48AE-B1E0-CBD2D4993B80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdControlMod", "CrowdControlMod.csproj", "{A0060C07-8ECE-48AE-B1E0-CBD2D4993B80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
