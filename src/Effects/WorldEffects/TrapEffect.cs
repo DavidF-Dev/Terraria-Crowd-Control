@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -29,7 +29,7 @@ public sealed class TrapEffect : CrowdControlEffect
 
     #region Static Methods
 
-    [NotNull]
+    [Pure]
     private static string GetId(TrapType type)
     {
         return type switch
@@ -83,7 +83,7 @@ public sealed class TrapEffect : CrowdControlEffect
         SpawnTrap(player);
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         var itemId = _type switch
         {
@@ -108,7 +108,7 @@ public sealed class TrapEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(itemId, message, Severity);
     }
 
-    private void SpawnTrap([NotNull] CrowdControlPlayer player)
+    private void SpawnTrap(CrowdControlPlayer player)
     {
         int halfWidth;
         int halfHeight;

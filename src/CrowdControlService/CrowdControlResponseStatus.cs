@@ -1,8 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿namespace CrowdControlMod.CrowdControlService;
 
-namespace CrowdControlMod.CrowdControlService;
-
-[PublicAPI]
 public enum CrowdControlResponseStatus
 {
     Success,

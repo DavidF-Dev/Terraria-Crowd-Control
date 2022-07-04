@@ -1,10 +1,9 @@
-﻿using JetBrains.Annotations;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod;
 
-[UsedImplicitly]
+// ReSharper disable once UnusedType.Global
 public sealed class CrowdControlSceneEffect : ModSceneEffect
 {
     #region Fields

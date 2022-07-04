@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 namespace CrowdControlMod.Globals;
 
 // ReSharper disable once InconsistentNaming
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlNPC : GlobalNPC
 {
     #region Delegates
@@ -19,7 +18,6 @@ public sealed class CrowdControlNPC : GlobalNPC
     public delegate bool StrikeNpcDelegate(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit);
 
     /// <inheritdoc cref="PreDraw" />
-    [PublicAPI]
     public delegate bool PreDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
 
     #endregion
@@ -27,16 +25,13 @@ public sealed class CrowdControlNPC : GlobalNPC
     #region Events
 
     /// <inheritdoc cref="EditSpawnRate" />
-    [PublicAPI]
-    public static event EditSpawnRateDelegate EditSpawnRateHook;
+    public static event EditSpawnRateDelegate? EditSpawnRateHook;
 
     /// <inheritdoc cref="StrikeNPC" />
-    [PublicAPI]
-    public static event StrikeNpcDelegate StrikeNpcHook;
+    public static event StrikeNpcDelegate? StrikeNpcHook;
 
     /// <inheritdoc cref="PreDraw" />
-    [PublicAPI]
-    public static event PreDrawDelegate PreDrawHook;
+    public static event PreDrawDelegate? PreDrawHook;
 
     #endregion
 

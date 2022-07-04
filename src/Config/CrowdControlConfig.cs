@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader.Config;
 
+// ReSharper disable UnassignedField.Global
+
 namespace CrowdControlMod.Config;
 
-[UsedImplicitly]
 [Label("Configuration")]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlConfig : ModConfig
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static CrowdControlConfig _instance = null!;
 
     #endregion
@@ -24,7 +25,7 @@ public sealed class CrowdControlConfig : ModConfig
     /// <summary>
     ///     Get the crowd control config instance.
     /// </summary>
-    [PublicAPI] [Pure] [NotNull]
+    [Pure]
     public static CrowdControlConfig GetInstance()
     {
         return _instance;
@@ -34,25 +35,21 @@ public sealed class CrowdControlConfig : ModConfig
 
     #region Fields
 
-    [UsedImplicitly]
     [Label("Show effect messages in chat")]
     [Tooltip("Disable to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
-    [UsedImplicitly]
     [Label("Use anonymous names in chat")]
     [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names showing.")]
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
-    [UsedImplicitly]
     [Label("Disable tombstones")]
     [Tooltip("Enable to prevent your tombstone from spawning when you die.")]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
-    [UsedImplicitly]
     [Label("Respawn timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
     [Range(0.4f, 1f)]
@@ -61,13 +58,11 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
-    [UsedImplicitly]
     [Label("Enable spawn protection for explosive effects")]
     [Tooltip("Enable to delay explosive-related effects if you are too close to spawn.")]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
-    [UsedImplicitly]
     [Label("Spawn protection radius")]
     [Tooltip("If spawn protection is enabled, then this is the range around your spawn point that will be protected.")]
     [Range(10, 100)]
@@ -76,19 +71,16 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(30)]
     public int SpawnProtectionRadius;
 
-    [UsedImplicitly]
     [Label("Allow time-changing effects during bosses")]
     [Tooltip("Disable to prevent time-changing effects during boss fights, invasions or events.")]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
 
-    [UsedImplicitly]
     [Label("Allow teleporting to other players")]
     [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.")]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
-    [UsedImplicitly]
     [Label("Teleportation cooldown (minutes)")]
     [Tooltip("Cooldown, in minutes, between usages of the teleportation to other players feature.")]
     [Range(0f, 10f)]
@@ -97,7 +89,6 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.25)]
     public float PlayerTeleportationCooldown;
 
-    [UsedImplicitly]
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
@@ -132,7 +123,6 @@ public sealed class CrowdControlConfig : ModConfig
     /// <summary>
     ///     As a client, update the server with the relevant config values for our player.
     /// </summary>
-    [PublicAPI]
     public void SendConfigToServer()
     {
         if (Main.netMode != NetmodeID.MultiplayerClient)

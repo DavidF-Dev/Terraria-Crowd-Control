@@ -42,7 +42,7 @@ public sealed class NoItemPickupEffect : CrowdControlEffect
         CrowdControlItem.CanPickupHook -= CanPickup;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.EncumberingStone, $"{viewerString} prevented {playerString} from picking up any items for {durationString} seconds", Severity);
     }

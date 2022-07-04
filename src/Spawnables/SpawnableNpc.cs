@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -17,7 +16,6 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly Dictionary<short, SpawnableNpc> CachedNpcs = new();
 
     #endregion
@@ -27,7 +25,6 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
     /// <summary>
     ///     Get an existing spawnable npc instance, or create a new one.
     /// </summary>
-    [PublicAPI] [NotNull]
     public static SpawnableNpc Get(short npcType)
     {
         // Check the cached npcs (might be cached between mod reloads)
@@ -86,20 +83,17 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
     /// <summary>
     ///     Npc type of the spawnable.
     /// </summary>
-    [PublicAPI]
     public readonly short NpcType;
 
-    [CanBeNull]
-    private readonly Func<CrowdControlPlayer, bool> _shouldSpawn;
+    private readonly Func<CrowdControlPlayer, bool>? _shouldSpawn;
 
-    [CanBeNull]
-    private readonly Action<CrowdControlPlayer, NPC> _onSpawn;
+    private readonly Action<CrowdControlPlayer, NPC>? _onSpawn;
 
     #endregion
 
     #region Constructors
 
-    private SpawnableNpc(short npcType, [CanBeNull] Func<CrowdControlPlayer, bool> shouldSpawn = null, [CanBeNull] Action<CrowdControlPlayer, NPC> onSpawn = null)
+    private SpawnableNpc(short npcType, Func<CrowdControlPlayer, bool>? shouldSpawn = null, Action<CrowdControlPlayer, NPC>? onSpawn = null)
     {
         NpcType = npcType;
         _shouldSpawn = shouldSpawn;
@@ -113,7 +107,6 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
     /// <summary>
     ///     Name of the npc.
     /// </summary>
-    [PublicAPI]
     public string DisplayName => NpcType != NPCID.Retinazer ? Lang.GetNPCName(NpcType).Value : "Twins";
 
     #endregion

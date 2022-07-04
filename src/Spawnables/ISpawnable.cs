@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -14,14 +14,13 @@ public interface ISpawnable<out T> where T : Entity
     /// <summary>
     ///     Check if the spawnable can be spawned for the given player.
     /// </summary>
-    [PublicAPI] [Pure]
-    bool CanSpawn([NotNull] CrowdControlPlayer player);
+    [Pure]
+    bool CanSpawn(CrowdControlPlayer player);
 
     /// <summary>
     ///     Spawn the spawnable for the given player at the provided position (single-player or server-side).
     /// </summary>
-    [PublicAPI] [NotNull]
-    T Spawn([NotNull] CrowdControlPlayer player, Vector2 position);
+    T Spawn(CrowdControlPlayer player, Vector2 position);
 
     #endregion
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -30,7 +29,6 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> Items = new()
     {
         {
@@ -182,7 +180,6 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Static Methods
 
-    [NotNull]
     private static string GetId(GiveItem giveItem)
     {
         return giveItem switch
@@ -231,7 +228,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     private readonly GiveItem _giveItem;
     private readonly int _stack;
-    private Item _item;
+    private Item? _item;
 
     #endregion
 
@@ -280,9 +277,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
         _item = null;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage((short)_item.type, $"{viewerString} gave {playerString} a {_item.Name}", Severity);
+        TerrariaUtils.WriteEffectMessage((short)(_item?.type ?? 0), $"{viewerString} gave {playerString} a {_item?.Name}", Severity);
     }
 
     #endregion

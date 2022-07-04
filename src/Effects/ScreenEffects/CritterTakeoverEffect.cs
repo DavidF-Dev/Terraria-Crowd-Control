@@ -3,7 +3,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -21,7 +20,6 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
 
     private const float SpawnRateFactor = 4;
 
-    [NotNull]
     private static readonly short[] CritterOptions =
     {
         NPCID.Bunny, NPCID.CorruptBunny, NPCID.CrimsonBunny, NPCID.GoldBunny, NPCID.ExplosiveBunny, NPCID.BunnySlimed,
@@ -86,7 +84,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         CrowdControlNPC.PreDrawHook -= PreDraw;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.ExplosiveBunny, $"{viewerString} started a critter uprising for {durationString} seconds", Severity);
     }

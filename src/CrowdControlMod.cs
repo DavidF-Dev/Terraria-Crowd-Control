@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -19,7 +20,6 @@ using CrowdControlMod.Effects.WorldEffects;
 using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using On.Terraria;
 using Terraria.ID;
@@ -29,7 +29,7 @@ using Projectile = Terraria.Projectile;
 
 namespace CrowdControlMod;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlMod : Mod
 {
     #region Static Methods
@@ -37,7 +37,7 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Get the crowd control mod instance.
     /// </summary>
-    [PublicAPI] [Pure] [NotNull]
+    [Pure]
     public static CrowdControlMod GetInstance()
     {
         return ModContent.GetInstance<CrowdControlMod>();
@@ -46,7 +46,7 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Get the local crowd control player instance (client-side).
     /// </summary>
-    [PublicAPI] [Pure] [NotNull]
+    [Pure]
     public static CrowdControlPlayer GetLocalPlayer()
     {
         return Terraria.Main.LocalPlayer.GetModPlayer<CrowdControlPlayer>();
@@ -56,11 +56,9 @@ public sealed class CrowdControlMod : Mod
 
     #region Fields
 
-    [CanBeNull]
-    private Thread _sessionThread;
+    private Thread? _sessionThread;
 
-    [CanBeNull]
-    private Thread _terrariaThread;
+    private Thread? _terrariaThread;
 
     /// <summary>
     ///     Session is running, but might not be connected.
@@ -75,13 +73,11 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Effects that this mod handles.
     /// </summary>
-    [NotNull]
     private readonly Dictionary<string, CrowdControlEffect> _effects = new();
 
     /// <summary>
     ///     Special effect providers that this mod recognises.
     /// </summary>
-    [NotNull]
     private readonly Dictionary<string, IEffectProvider> _effectProviders = new();
 
     /// <summary>
@@ -96,7 +92,6 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Session is active if started and successfully connected to the crowd control service.
     /// </summary>
-    [PublicAPI]
     public bool IsSessionActive => _isSessionRunning && _isSessionConnected;
 
     public override uint ExtraPlayerBuffSlots => 32;
@@ -255,8 +250,8 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Check whether the provided effect is currently active (client-side).
     /// </summary>
-    [PublicAPI] [Pure]
-    public bool IsEffectActive([NotNull] string id)
+    [Pure]
+    public bool IsEffectActive(string id)
     {
         return _effects.TryGetValue(id, out var effect) && effect.IsActive;
     }
@@ -264,8 +259,8 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Get an effect instance by id.
     /// </summary>
-    [PublicAPI] [CanBeNull] [Pure]
-    public CrowdControlEffect GetEffect([NotNull] string id)
+    [Pure]
+    public CrowdControlEffect? GetEffect(string id)
     {
         return _effects.TryGetValue(id, out var effect) ? effect : null;
     }
@@ -273,7 +268,6 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Check if any of the effects want to play music.
     /// </summary>
-    [PublicAPI]
     public bool TryGetEffectMusic(out int musicId)
     {
         var priority = int.MinValue;
@@ -294,7 +288,7 @@ public sealed class CrowdControlMod : Mod
         return musicId != 0;
     }
 
-    private void HandleClientPacket([NotNull] BinaryReader reader)
+    private void HandleClientPacket(BinaryReader reader)
     {
         // Determine what to do with the incoming packet (client-side)
         // Note, this runs even if the session is not active
@@ -334,7 +328,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private void HandleServerPacket([NotNull] BinaryReader reader, int sender)
+    private void HandleServerPacket(BinaryReader reader, int sender)
     {
         // Read the packet and determine what to do with it (server-side)
         var packetId = (PacketID)reader.ReadByte();
@@ -499,7 +493,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private CrowdControlResponseStatus ProcessEffect([NotNull] string code, [NotNull] string viewer, CrowdControlRequestType requestType)
+    private CrowdControlResponseStatus ProcessEffect(string code, string viewer, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
@@ -557,7 +551,7 @@ public sealed class CrowdControlMod : Mod
         return result;
     }
 
-    private void AddEffect([NotNull] CrowdControlEffect effect)
+    private void AddEffect(CrowdControlEffect effect)
     {
         if (_effects.ContainsKey(effect.Id))
         {
@@ -568,7 +562,7 @@ public sealed class CrowdControlMod : Mod
         _effects.Add(effect.Id, effect);
     }
 
-    private void AddEffectProvider([NotNull] string id, [NotNull] IEffectProvider provider)
+    private void AddEffectProvider(string id, IEffectProvider provider)
     {
         if (_effectProviders.ContainsKey(id))
         {

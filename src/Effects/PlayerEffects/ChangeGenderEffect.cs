@@ -31,7 +31,7 @@ public sealed class ChangeGenderEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Confetti, $"{viewerString} changed {playerString} to a {(GetLocalPlayer().Player.Male ? "boy" : "girl")}", Severity);
     }

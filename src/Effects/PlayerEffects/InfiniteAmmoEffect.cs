@@ -64,7 +64,7 @@ public sealed class InfiniteAmmoEffect : CrowdControlEffect
         base.OnStop();
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.EndlessQuiver, $"{viewerString} provided infinite ammo and mana to {playerString} for {durationString} seconds", Severity);
     }

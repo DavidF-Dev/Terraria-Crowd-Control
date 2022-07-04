@@ -1,11 +1,10 @@
-﻿using JetBrains.Annotations;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlProjectile : GlobalProjectile
 {
     #region Delegates
@@ -21,12 +20,10 @@ public sealed class CrowdControlProjectile : GlobalProjectile
     #region Events
 
     /// <inheritdoc cref="Kill" />
-    [PublicAPI]
-    public static event KillDelegate KillHook;
+    public static event KillDelegate? KillHook;
 
     /// <inheritdoc cref="OnSpawn" />
-    [PublicAPI]
-    public static event OnSpawnDelegate OnSpawnHook;
+    public static event OnSpawnDelegate? OnSpawnHook;
 
     #endregion
 

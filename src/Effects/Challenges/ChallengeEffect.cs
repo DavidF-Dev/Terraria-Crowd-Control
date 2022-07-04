@@ -1,7 +1,6 @@
 ﻿using System;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -39,7 +38,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
 
     #region Constructors
 
-    protected ChallengeEffect([NotNull] string id, float duration) : base(id, duration, EffectSeverity.Neutral)
+    protected ChallengeEffect(string id, float duration) : base(id, duration, EffectSeverity.Neutral)
     {
     }
 
@@ -89,7 +88,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         OnChallengeStop();
     }
 
-    protected sealed override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected sealed override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Write normal message
         var challengeString = TerrariaUtils.GetColouredRichText($"{GetChallengeDescription()} within {durationString} seconds", Color.Yellow);
@@ -144,7 +143,6 @@ public abstract class ChallengeEffect : CrowdControlEffect
     ///     Get the challenge description string.<br />
     ///     e.g. "Craft a pickaxe"
     /// </summary>
-    [NotNull]
     protected abstract string GetChallengeDescription();
 
     private void PostDrawInterface(SpriteBatch spriteBatch)

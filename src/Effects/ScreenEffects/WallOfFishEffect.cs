@@ -4,7 +4,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,7 +25,6 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     #region Fields
 
-    [NotNull]
     private readonly List<int> _fishIds;
 
     #endregion
@@ -79,7 +77,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
         CrowdControlModSystem.PostDrawTilesHook -= PostDrawTiles;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Tuna, $"{viewerString} covered the screen with fish for {durationString} seconds", Severity);
     }

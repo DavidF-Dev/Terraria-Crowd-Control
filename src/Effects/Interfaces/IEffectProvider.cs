@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
-using JetBrains.Annotations;
 
 namespace CrowdControlMod.Effects.Interfaces;
 
@@ -14,7 +13,6 @@ public interface IEffectProvider
     /// <summary>
     ///     Get a collection of effect ids that should be started or stopped.
     /// </summary>
-    [PublicAPI] [NotNull]
     public IEnumerable<string> GetEffectIds(CrowdControlRequestType requestType);
 
     #endregion

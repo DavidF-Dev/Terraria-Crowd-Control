@@ -1,11 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlItem : GlobalItem
 {
     #region Delegates
@@ -20,12 +19,10 @@ public sealed class CrowdControlItem : GlobalItem
     /// <summary>
     ///     Invoked when an item is crafted by the local player (client-side).
     /// </summary>
-    [PublicAPI]
-    public static event Action<Recipe> OnCraftedHook;
+    public static event Action<Recipe>? OnCraftedHook;
 
     /// <inheritdoc cref="CanPickup" />
-    [PublicAPI]
-    public static event CanPickupDelegate CanPickupHook;
+    public static event CanPickupDelegate? CanPickupHook;
 
     #endregion
 

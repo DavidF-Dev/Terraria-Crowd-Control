@@ -52,7 +52,7 @@ public sealed class IcyFeetEffect : CrowdControlEffect
         GetLocalPlayer().PostUpdateRunSpeedsHook -= PostUpdateRunSpeeds;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.IceSkates, $"{viewerString} made the ground very slippery", Severity);
     }

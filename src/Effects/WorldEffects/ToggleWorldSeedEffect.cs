@@ -3,7 +3,6 @@ using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -26,7 +25,6 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
 
     #region Static Methods
 
-    [NotNull]
     private static string GetId(SeedType seedType, bool enable)
     {
         return seedType switch
@@ -104,7 +102,7 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
         PerformToggle();
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         var itemId = _seedType switch
         {

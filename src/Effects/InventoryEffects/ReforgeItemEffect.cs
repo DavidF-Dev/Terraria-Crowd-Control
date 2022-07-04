@@ -2,7 +2,6 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +15,6 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly Dictionary<int, IReadOnlyList<int>> PrefixIdsByClass = new()
     {
         {
@@ -58,7 +56,6 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         }
     };
 
-    [NotNull]
     private static readonly IReadOnlyList<int> UniversalPrefixIds = new[]
     {
         PrefixID.Keen, PrefixID.Superior, PrefixID.Forceful, PrefixID.Broken, PrefixID.Damaged, PrefixID.Shoddy, PrefixID.Hurtful, PrefixID.Strong,
@@ -70,7 +67,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
     #region Fields
 
     private int _chosenPrefix;
-    private Item _item;
+    private Item? _item;
 
     #endregion
 
@@ -137,10 +134,10 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         _item = null;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         var prefixName = Lang.prefix[_chosenPrefix].Value;
-        TerrariaUtils.WriteEffectMessage((short)_item.type, $"{viewerString} changed {playerString}'s {_item.Name} to be {prefixName}", Severity);
+        TerrariaUtils.WriteEffectMessage((short)(_item?.type ?? 0), $"{viewerString} changed {playerString}'s {_item?.Name} to be {prefixName}", Severity);
     }
 
     #endregion

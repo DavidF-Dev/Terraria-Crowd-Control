@@ -40,7 +40,7 @@ public sealed class FlipScreenEffect : CrowdControlEffect
         _flipScreenShader.Disable();
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.GravityGlobe, $"{viewerString} flipped {playerString}'s screen for {durationString} seconds", Severity);
     }

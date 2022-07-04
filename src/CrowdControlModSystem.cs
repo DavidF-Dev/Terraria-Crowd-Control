@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlModSystem : ModSystem
 {
     #region Delegates
@@ -21,20 +20,16 @@ public sealed class CrowdControlModSystem : ModSystem
     #region Events
 
     /// <inheritdoc cref="PostDrawTiles" />
-    [PublicAPI]
-    public static event Action PostDrawTilesHook;
+    public static event Action? PostDrawTilesHook;
 
     /// <inheritdoc cref="PostDrawInterface" />
-    [PublicAPI]
-    public static event Action<SpriteBatch> PostDrawInterfaceHook;
+    public static event Action<SpriteBatch>? PostDrawInterfaceHook;
 
     /// <inheritdoc cref="ModifyTransformMatrix" />
-    [PublicAPI]
-    public static event ModifyTransformMatrixDelegate ModifyTransformMatrixHook;
+    public static event ModifyTransformMatrixDelegate? ModifyTransformMatrixHook;
 
     /// <inheritdoc cref="PostUpdateEverything" />
-    [PublicAPI]
-    public static event Action PostUpdateEverythingHook;
+    public static event Action? PostUpdateEverythingHook;
 
     #endregion
 

@@ -3,7 +3,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -25,7 +24,6 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     #region Fields
 
-    [NotNull]
     private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
 
     private int _paintIndex;
@@ -65,7 +63,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         CrowdControlProjectile.KillHook -= ProjectileKill;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(0, $"{viewerString} caused a rainbow to form underneath {playerString} for {durationString} seconds", Severity);
     }

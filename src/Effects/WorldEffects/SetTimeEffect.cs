@@ -3,7 +3,6 @@ using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -16,7 +15,6 @@ public sealed class SetTimeEffect : CrowdControlEffect
 {
     #region Fields
 
-    [NotNull]
     private readonly string _timeString;
 
     private readonly int _time;
@@ -27,7 +25,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetTimeEffect([NotNull] string id, [NotNull] string timeString, int time, bool isDay) : base(id, null, EffectSeverity.Neutral)
+    public SetTimeEffect(string id, string timeString, int time, bool isDay) : base(id, null, EffectSeverity.Neutral)
     {
         _timeString = timeString;
         _time = time;
@@ -61,7 +59,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(_isDay ? ItemID.SunMask : ItemID.MoonMask, $"{viewerString} set the time to {_timeString}", EffectSeverity.Neutral);
     }

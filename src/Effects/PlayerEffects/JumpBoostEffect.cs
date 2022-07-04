@@ -48,7 +48,7 @@ public sealed class JumpBoostEffect : CrowdControlEffect
         GetLocalPlayer().PostUpdateEquipsHook -= PostUpdateEquips;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.FrogLeg, $"{viewerString} made it so {playerString} can jump very high for {durationString} seconds", Severity);
     }

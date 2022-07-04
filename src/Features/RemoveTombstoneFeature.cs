@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.Globals;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -15,7 +14,6 @@ public sealed class RemoveTombstoneFeature : IFeature
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly HashSet<int> TombstoneProjectileIds = new()
     {
         ProjectileID.Tombstone,

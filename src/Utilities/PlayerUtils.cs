@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.Config;
 using CrowdControlMod.ID;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,8 +16,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Check if the player is currently invincible (client-side).
     /// </summary>
-    [PublicAPI] [Pure]
-    public static bool IsInvincible([NotNull] CrowdControlPlayer player)
+    [Pure]
+    public static bool IsInvincible(CrowdControlPlayer player)
     {
         return player.Player.dead || player.Player.creativeGodMode || CrowdControlMod.GetInstance().IsEffectActive(EffectID.GodModePlayer);
     }
@@ -25,8 +25,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Check if the player is currently grounded.
     /// </summary>
-    [PublicAPI] [Pure]
-    public static bool IsGrounded([NotNull] CrowdControlPlayer player)
+    [Pure]
+    public static bool IsGrounded(CrowdControlPlayer player)
     {
         var x = player.TileX;
         var y = player.TileY + 3;
@@ -38,8 +38,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Check if the player is standing on or in the given tile type.
     /// </summary>
-    [PublicAPI] [Pure]
-    public static bool IsStandingOn([NotNull] CrowdControlPlayer player, int id)
+    [Pure]
+    public static bool IsStandingOn(CrowdControlPlayer player, int id)
     {
         for (var x = player.TileX; x < player.TileX + 1; x++)
         {
@@ -58,8 +58,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
-    [PublicAPI] [Pure]
-    public static bool IsWithinSpawnProtection([NotNull] CrowdControlPlayer player)
+    [Pure]
+    public static bool IsWithinSpawnProtection(CrowdControlPlayer player)
     {
         if (!CrowdControlConfig.GetInstance().EnableSpawnProtection)
         {
@@ -76,8 +76,7 @@ public static class PlayerUtils
     /// <summary>
     ///     Set the hair dye of the player.
     /// </summary>
-    [PublicAPI]
-    public static void SetHairDye([NotNull] CrowdControlPlayer player, int hairDyeItemId)
+    public static void SetHairDye(CrowdControlPlayer player, int hairDyeItemId)
     {
         var item = new Item(hairDyeItemId);
         player.Player.hairDye = item.hairDye;
@@ -91,8 +90,7 @@ public static class PlayerUtils
     /// <summary>
     ///     Give the player coins.
     /// </summary>
-    [PublicAPI]
-    public static void GiveCoins([NotNull] CrowdControlPlayer player, int coins)
+    public static void GiveCoins(CrowdControlPlayer player, int coins)
     {
         // Copied from the Terraria source code
         while (coins > 0)
@@ -150,7 +148,7 @@ public static class PlayerUtils
     ///     Find the closest player to the specified center.<br />
     ///     Returns the whoAmI value.
     /// </summary>
-    [PublicAPI] [Pure]
+    [Pure]
     public static int FindClosestPlayer(Vector2 center, out float distanceToPlayer)
     {
         // Copied from the terraria source code
@@ -194,8 +192,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Get the tiles in a radial area around the player.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround([NotNull] CrowdControlPlayer player, int radius)
+    [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround(CrowdControlPlayer player, int radius)
     {
         return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, radius);
     }
@@ -203,8 +201,8 @@ public static class PlayerUtils
     /// <summary>
     ///     Get the tiles in a rectangular area around the player.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround([NotNull] CrowdControlPlayer player, int halfWidth, int halfHeight)
+    [Pure]
+    public static IEnumerable<(int x, int y)> GetTilesAround(CrowdControlPlayer player, int halfWidth, int halfHeight)
     {
         return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, halfWidth, halfHeight);
     }

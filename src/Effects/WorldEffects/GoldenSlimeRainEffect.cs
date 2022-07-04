@@ -3,7 +3,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +23,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
     #region Static Methods
 
-    private static void Spawn([NotNull] ModPlayer player)
+    private static void Spawn(ModPlayer player)
     {
         // Determine spawn position
         var x = (int)(player.Player.position.X - Main.LogicCheckScreenWidth / 2f + Main.rand.Next(Main.LogicCheckScreenWidth));
@@ -81,7 +80,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         Spawn(player);
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.GoldDust, $"{viewerString} caused it to rain Golden Slimes above {playerString} for {durationString} seconds", Severity);
     }

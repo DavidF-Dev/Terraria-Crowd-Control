@@ -75,7 +75,7 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
         CrowdControlNPC.StrikeNpcHook -= StrikeNpc;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.LuckyCoin, $"{viewerString} donated {Main.ValueToCoins(_coins)} to {playerString} and increased coins drops from enemies for {durationString} seconds", Severity);
     }

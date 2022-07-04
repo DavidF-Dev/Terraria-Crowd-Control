@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
 using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -19,7 +19,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Get the local player to be effected (client-side).
     /// </summary>
-    [Pure] [NotNull]
+    [Pure]
     protected static CrowdControlPlayer GetLocalPlayer()
     {
         return CrowdControlMod.GetLocalPlayer();
@@ -32,7 +32,6 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     How long the effect lasts for, or null if the effect is instantaneous.
     /// </summary>
-    [CanBeNull]
     private readonly float? _duration;
 
     /// <summary>
@@ -43,14 +42,13 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Collection of players with this timed effect active (server-side).
     /// </summary>
-    [NotNull]
     private readonly HashSet<int> _activeOnServer = new();
 
     #endregion
 
     #region Constructors
 
-    protected CrowdControlEffect([NotNull] string id, [CanBeNull] float? duration, EffectSeverity severity)
+    protected CrowdControlEffect(string id, float? duration, EffectSeverity severity)
     {
         Id = id;
         _duration = duration;
@@ -71,7 +69,6 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Unique id that correlates to the crowd control effect ids.
     /// </summary>
-    [NotNull]
     public string Id { get; }
 
     /// <summary>
@@ -125,7 +122,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Start the effect (client-side).
     /// </summary>
-    public CrowdControlResponseStatus Start([NotNull] string viewer)
+    public CrowdControlResponseStatus Start(string viewer)
     {
         if (IsActive)
         {
@@ -223,7 +220,7 @@ public abstract class CrowdControlEffect : IFeature
     ///     Check if the effect is active for the specified player (server-side).
     /// </summary>
     [Pure]
-    public bool IsActiveOnServer([NotNull] Player player)
+    public bool IsActiveOnServer(Player player)
     {
         if (Main.netMode != NetmodeID.Server)
         {
@@ -236,7 +233,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Receive a packet meant for this effect, sent from a client (server-side).
     /// </summary>
-    public void ReceivePacket(PacketID packetId, [NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
+    public void ReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
     {
         if (Main.netMode != NetmodeID.Server)
         {
@@ -272,7 +269,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Send a packet to be handled by the effect on the server-side (client-side).
     /// </summary>
-    protected void SendPacket(PacketID packetId, [NotNull] params object[] args)
+    protected void SendPacket(PacketID packetId, params object[] args)
     {
         if (Main.netMode == NetmodeID.Server)
         {
@@ -347,7 +344,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Send an effect message when the effect is triggered (client-side).
     /// </summary>
-    protected virtual void SendStartMessage([NotNull] string viewerString, [NotNull] string playerString, [CanBeNull] string durationString)
+    protected virtual void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
     }
@@ -362,14 +359,14 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Invoked when a packet is received, meant for this effect to handle on the server-side (server-side).
     /// </summary>
-    protected virtual void OnReceivePacket([NotNull] CrowdControlPlayer player, [NotNull] BinaryReader reader)
+    protected virtual void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
     }
 
     /// <summary>
     ///     Invoked when a client notifies the server about a change in effect status (server-side).
     /// </summary>
-    protected virtual void OnEffectStatusChanged([NotNull] CrowdControlPlayer player, bool isActive)
+    protected virtual void OnEffectStatusChanged(CrowdControlPlayer player, bool isActive)
     {
     }
 

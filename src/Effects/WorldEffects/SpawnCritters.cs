@@ -3,7 +3,6 @@ using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +22,6 @@ public sealed class SpawnCritters : CrowdControlEffect
     private const int SpawnMin = 3;
     private const int SpawnMax = 8;
 
-    [NotNull]
     private static readonly IReadOnlyList<short> CritterIds = new[]
     {
         NPCID.Bird, NPCID.BirdBlue, NPCID.Buggy, NPCID.Bunny, NPCID.ExplosiveBunny, NPCID.GemBunnyAmethyst, NPCID.GemBunnyTopaz, NPCID.GemBunnySapphire,
@@ -44,7 +42,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     #region Static Methods
 
-    private static void Spawn([NotNull] ModPlayer player)
+    private static void Spawn(ModPlayer player)
     {
         var x = (int)player.Player.Center.X;
         var y = (int)player.Player.Center.Y;
@@ -95,7 +93,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.BugNet, $"{viewerString} spawned a bunch of critters", Severity);
     }

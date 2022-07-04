@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.ID;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ public static class WorldUtils
     /// <summary>
     ///     Check if there is an active boss or invasion in the world.
     /// </summary>
-    [PublicAPI] [Pure]
+    [Pure]
     public static bool ActiveBossEventOrInvasion(bool includeBloodMoon = true, bool includeEclipse = true)
     {
         // Check events
@@ -52,7 +52,7 @@ public static class WorldUtils
     /// <summary>
     ///     Get the weather in the world.
     /// </summary>
-    [PublicAPI] [Pure]
+    [Pure]
     public static Weather GetWeather()
     {
         return Main.IsItStorming ? Weather.Storm : Main.IsItRaining ? Weather.Rain : Main.IsItAHappyWindyDay ? Weather.Windy : Weather.Clear;
@@ -61,7 +61,6 @@ public static class WorldUtils
     /// <summary>
     ///     Set the weather in the world (single-player or server-side).
     /// </summary>
-    [PublicAPI]
     public static void SetWeather(Weather weather)
     {
         if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -139,7 +138,7 @@ public static class WorldUtils
     /// <summary>
     ///     Get the tiles in a radial area around the given center position.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
+    [Pure]
     public static IEnumerable<(int x, int y)> GetTilesAround(int centerX, int centerY, int radius)
     {
         List<(int, int)> result = new(radius * radius);
@@ -164,7 +163,7 @@ public static class WorldUtils
     /// <summary>
     ///     Get the tiles in a rectangular area around the given center position.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
+    [Pure]
     public static IEnumerable<(int x, int y)> GetTilesAround(int centerX, int centerY, int halfWidth, int halfHeight)
     {
         List<(int, int)> result = new(halfWidth * halfHeight);
@@ -187,7 +186,7 @@ public static class WorldUtils
     /// <summary>
     ///     Check if the provided tile is solid.
     /// </summary>
-    [PublicAPI] [Pure]
+    [Pure]
     public static bool IsTileSolid(int x, int y)
     {
         return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
@@ -201,7 +200,6 @@ public static class WorldUtils
     /// <summary>
     ///     'For the Worthy' mode is enabled in the world.
     /// </summary>
-    [PublicAPI]
     public static bool IsForTheWorthy
     {
         get => Main.getGoodWorld;
@@ -211,7 +209,6 @@ public static class WorldUtils
     /// <summary>
     ///     'Don't Starve' mode is enabled in the world.
     /// </summary>
-    [PublicAPI]
     public static bool IsDontStarve
     {
         get => Main.dontStarveWorld;
@@ -221,7 +218,6 @@ public static class WorldUtils
     /// <summary>
     ///     'Drunk mode' is enabled in the world.
     /// </summary>
-    [PublicAPI]
     public static bool IsDrunkWorld
     {
         get => Main.drunkWorld;

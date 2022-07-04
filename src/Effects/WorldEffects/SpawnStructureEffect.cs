@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -30,7 +30,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
     #region Static Methods
 
     [Pure]
-    private static Structure ChooseStructure([NotNull] CrowdControlPlayer player)
+    private static Structure ChooseStructure(CrowdControlPlayer player)
     {
         // Choose the structure based on the player's location in the world
         var tileY = player.TileY;
@@ -138,7 +138,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         base.OnStop();
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         var message = _chosenStructure switch
         {

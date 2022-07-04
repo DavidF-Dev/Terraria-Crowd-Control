@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿using System.Diagnostics.Contracts;
 using Newtonsoft.Json;
 
 namespace CrowdControlMod.CrowdControlService;
@@ -7,7 +7,7 @@ public readonly struct CrowdControlRequest
 {
     #region Static Methods
 
-    [PublicAPI] [Pure]
+    [Pure]
     public static CrowdControlRequest FromJson(string data)
     {
         return JsonConvert.DeserializeObject<CrowdControlRequest>(data);
@@ -21,11 +21,9 @@ public readonly struct CrowdControlRequest
     public readonly int Id;
 
     [JsonProperty("code")]
-    [NotNull]
     public readonly string Code;
 
     [JsonProperty("viewer")]
-    [NotNull]
     public readonly string Viewer;
 
     [JsonProperty("type")]
@@ -36,7 +34,7 @@ public readonly struct CrowdControlRequest
     #region Constructors
 
     [JsonConstructor]
-    public CrowdControlRequest(int id, [NotNull] string code, [NotNull] string viewer, int type)
+    public CrowdControlRequest(int id, string code, string viewer, int type)
     {
         Id = id;
         Code = code;

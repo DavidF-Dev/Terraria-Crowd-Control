@@ -115,7 +115,7 @@ public sealed class MysteryBlocksEffect : CrowdControlEffect
         CrowdControlWall.PreDrawHook -= PreDrawWall;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Actuator, $"{viewerString} turned all the blocks invisible for {durationString} seconds", Severity);
     }

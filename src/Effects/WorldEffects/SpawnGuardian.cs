@@ -3,7 +3,6 @@ using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -58,7 +57,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, $"{viewerString} spawned a Dungeon Guardian", Severity);
     }
@@ -69,7 +68,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         Spawn(player);
     }
 
-    private void Spawn([NotNull] CrowdControlPlayer player)
+    private void Spawn(CrowdControlPlayer player)
     {
         // Determine spawn position
         var circleEdge = Main.rand.NextVector2CircularEdge(HalfRangeWidth, HalfRangeHeight);
@@ -113,8 +112,8 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #region Nested Types
 
-    [UsedImplicitly]
-    public sealed class CrowdControlGuardian : ModNPC
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class CrowdControlGuardian : ModNPC
     {
         #region Fields
 
@@ -139,7 +138,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         #region Events
 
-        public event Action FakeGuardianDied;
+        public event Action? FakeGuardianDied;
 
         #endregion
 

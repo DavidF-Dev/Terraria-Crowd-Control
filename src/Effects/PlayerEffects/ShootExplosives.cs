@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -32,7 +32,6 @@ public sealed class ShootExplosives : CrowdControlEffect
     private const float MaxExplosiveSpeed = 11f;
     private const int ShootChance = 85;
 
-    [NotNull]
     private static readonly Dictionary<Shoot, IReadOnlyList<short>> ExplosiveIds = new()
     {
         {
@@ -54,7 +53,6 @@ public sealed class ShootExplosives : CrowdControlEffect
         }
     };
 
-    [NotNull]
     private static readonly Dictionary<Shoot, (int, int)> SpawnDelays = new()
     {
         {Shoot.Bombs, (60, 120)},
@@ -65,7 +63,7 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #region Static Methods
 
-    [NotNull]
+    [Pure]
     private static string GetId(Shoot shoot)
     {
         return shoot switch
@@ -76,6 +74,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         };
     }
 
+    [Pure]
     private static EffectSeverity GetSeverity(Shoot shoot)
     {
         return shoot switch
@@ -138,7 +137,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         player.ShootHook -= PlayerShoot;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         short itemId = _shoot switch
         {

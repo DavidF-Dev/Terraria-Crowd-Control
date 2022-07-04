@@ -1,7 +1,6 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.DataStructures;
 
@@ -14,7 +13,6 @@ public sealed class KillPlayerEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly string[] KillVerbs =
     {
         "killed", "slapped really hard", "pulverised", "slain", "assassinated", "discombobulated",
@@ -45,7 +43,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
         return !PlayerUtils.IsInvincible(GetLocalPlayer()) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Kill the player here (choose a random verb to use)
         GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was {KillVerbs[Main.rand.Next(KillVerbs.Length)]} by {viewerString}"), 1000, 0);

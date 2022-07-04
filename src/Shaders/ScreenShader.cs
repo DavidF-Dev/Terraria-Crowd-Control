@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -21,33 +21,29 @@ public sealed class ScreenShader
     /// <summary>
     ///     Loaded shader (effect) asset.
     /// </summary>
-    [CanBeNull]
-    private Ref<Effect> _effect;
+    private Ref<Effect>? _effect;
 
     /// <summary>
     ///     Local path to the shader asset.<br />
     ///     E.g. src/Shaders/SH_MyShader
     /// </summary>
-    [NotNull]
     private readonly string _shaderAssetPath;
 
     /// <summary>
     ///     Name of the pass method in the shader asset to use.
     /// </summary>
-    [NotNull]
     private readonly string _shaderPassName;
 
     /// <summary>
     ///     Name of the scene filter that the shader is attached to.
     /// </summary>
-    [NotNull]
     private readonly string _filterName;
 
     #endregion
 
     #region Constructors
 
-    public ScreenShader([NotNull] string shaderAssetName, [NotNull] string shaderPassName, [NotNull] string filterName)
+    public ScreenShader(string shaderAssetName, string shaderPassName, string filterName)
     {
         _shaderAssetPath = $"src/Shaders/{shaderAssetName}";
         _shaderPassName = shaderPassName;
@@ -70,8 +66,7 @@ public sealed class ScreenShader
     /// <summary>
     ///     Enable the screen shader, returning null if unable to load the shader at all.
     /// </summary>
-    [PublicAPI] [CanBeNull]
-    public ScreenShaderData Enable()
+    public ScreenShaderData? Enable()
     {
         if (IsActive)
         {
@@ -108,7 +103,6 @@ public sealed class ScreenShader
     /// <summary>
     ///     Disable the screen shader.
     /// </summary>
-    [PublicAPI]
     public void Disable()
     {
         if (!IsActive)
@@ -124,8 +118,8 @@ public sealed class ScreenShader
     /// <summary>
     ///     Get the screen shader data used, if the shader is active.
     /// </summary>
-    [PublicAPI] [CanBeNull] [Pure]
-    public ScreenShaderData GetShader()
+    [Pure]
+    public ScreenShaderData? GetShader()
     {
         return !IsActive ? null : Filters.Scene[_filterName].GetShader();
     }

@@ -2,7 +2,6 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Shaders;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.ScreenEffects;
@@ -22,10 +21,8 @@ public sealed class DrunkModeEffect : CrowdControlEffect
 
     #region Fields
 
-    [NotNull]
     private readonly ScreenShader _sineShader;
 
-    [NotNull]
     private readonly ScreenShader _glitchShader;
 
     #endregion
@@ -75,7 +72,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect
         _glitchShader.GetShader()?.UseIntensity(GlitchIntensity);
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Ale, $"{viewerString} made {playerString} feel drunk for {durationString} seconds", Severity);
     }

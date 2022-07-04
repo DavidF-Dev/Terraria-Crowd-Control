@@ -1,7 +1,6 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -39,7 +38,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Kill the player here
         GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was brutally torn apart by {viewerString}'s explosive"), 1000, 0);
@@ -49,8 +48,8 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
 
     #region Nested Types
 
-    [UsedImplicitly]
-    public sealed class InstantDynamite : ModProjectile
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class InstantDynamite : ModProjectile
     {
         #region Properties
 

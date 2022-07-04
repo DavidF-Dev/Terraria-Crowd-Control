@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -24,7 +23,6 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly int[] Pets =
     {
         BuffID.BabyDinosaur, BuffID.BabyEater, BuffID.BabyFaceMonster, BuffID.BabyGrinch, BuffID.BabyHornet, BuffID.BabyImp, BuffID.BabyPenguin, BuffID.BabyRedPanda,
@@ -38,7 +36,6 @@ public sealed class GivePetEffect : CrowdControlEffect
         BuffID.DukeFishronPet
     };
 
-    [NotNull]
     private static readonly int[] LightPets =
     {
         BuffID.ShadowOrb, BuffID.CrimsonHeart, BuffID.MagicLantern, BuffID.FairyBlue, BuffID.FairyGreen, BuffID.FairyRed, BuffID.PetDD2Ghost, BuffID.Wisp,
@@ -53,7 +50,6 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     private readonly int _slot;
 
-    [NotNull]
     private IList<int> _petOptions;
 
     private int _chosenId;
@@ -121,7 +117,7 @@ public sealed class GivePetEffect : CrowdControlEffect
         player.Player.AddBuff(_chosenId, 1);
     }
 
-    private void HideExistingPet([NotNull] Player player)
+    private void HideExistingPet(Player player)
     {
         if (!player.hideMisc[_slot])
         {

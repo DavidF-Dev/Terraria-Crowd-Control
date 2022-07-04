@@ -44,7 +44,7 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.PsychoKnife, $"{viewerString} severely damaged {playerString}", Severity);
     }

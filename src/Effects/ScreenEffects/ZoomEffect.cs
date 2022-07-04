@@ -55,7 +55,7 @@ public sealed class ZoomEffect : CrowdControlEffect
         CrowdControlModSystem.ModifyTransformMatrixHook -= ModifyTransformMatrix;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         if (_zoomIn)
         {

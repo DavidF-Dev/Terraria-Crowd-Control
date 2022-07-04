@@ -15,7 +15,7 @@ public sealed class DropItemEffect : CrowdControlEffect
 {
     #region Fields
 
-    private Item _droppedItem;
+    private Item? _droppedItem;
 
     #endregion
 
@@ -79,8 +79,13 @@ public sealed class DropItemEffect : CrowdControlEffect
         _droppedItem = null;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        if (_droppedItem == null)
+        {
+            return;
+        }
+
         if (_droppedItem.stack > 1)
         {
             TerrariaUtils.WriteEffectMessage((short)_droppedItem.type, $"{viewerString} caused {playerString} to fumble and drop {_droppedItem.stack} {_droppedItem.Name}", Severity);

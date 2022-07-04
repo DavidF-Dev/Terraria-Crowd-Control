@@ -1,6 +1,5 @@
 ﻿using System;
 using CrowdControlMod.Config;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlPlayer : ModPlayer
 {
     #region Delegates
@@ -27,11 +26,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
 
     /// <inheritdoc cref="Shoot" />
-    [PublicAPI]
     public delegate bool ShootDelegate(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback);
 
     /// <inheritdoc cref="ModifyDrawInfo" />
-    [PublicAPI]
     public delegate void ModifyDrawInfoDelegate(ref PlayerDrawSet drawInfo);
 
     #endregion
@@ -50,19 +47,14 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <summary>
     ///     Is this player instance the local player / client?
     /// </summary>
-    [PublicAPI]
     public bool IsLocalPlayer => Player.whoAmI == Main.myPlayer;
 
-    [PublicAPI]
     public int TileX => (int)(Player.position.X / 16);
 
-    [PublicAPI]
     public int TileY => (int)(Player.position.Y / 16);
 
-    [PublicAPI]
     public int CenterTileX => (int)(Player.Center.X / 16);
 
-    [PublicAPI]
     public int CenterTileY => (int)(Player.Center.Y / 16);
 
     /// <summary>
@@ -75,52 +67,40 @@ public sealed class CrowdControlPlayer : ModPlayer
     #region Events
 
     /// <inheritdoc cref="PlayerDisconnect" />
-    [PublicAPI]
-    public static event Action<Player> PlayerDisconnectHook;
+    public static event Action<Player>? PlayerDisconnectHook;
 
     /// <inheritdoc cref="OnRespawn" />
-    [PublicAPI]
-    public event Action OnRespawnHook;
+    public event Action? OnRespawnHook;
 
     /// <inheritdoc cref="Kill" />
-    [PublicAPI]
-    public event KillDelegate KillHook;
+    public event KillDelegate? KillHook;
 
     /// <inheritdoc cref="CanBeHitByNPC" />
-    [PublicAPI]
-    public event CanBeHitByNpcDelegate CanBeHitByNpcHook;
+    public event CanBeHitByNpcDelegate? CanBeHitByNpcHook;
 
     /// <inheritdoc cref="CanBeHitByProjectile" />
-    [PublicAPI]
-    public event CanBeHitByProjectileDelegate CanBeHitByProjectileHook;
+    public event CanBeHitByProjectileDelegate? CanBeHitByProjectileHook;
 
     /// <inheritdoc cref="CanConsumeAmmo" />
-    [PublicAPI]
-    public event CanConsumeAmmoDelegate CanConsumeAmmoHook;
+    public event CanConsumeAmmoDelegate? CanConsumeAmmoHook;
 
     /// <inheritdoc cref="PreUpdateBuffs" />
-    [PublicAPI]
-    public event Action PreUpdateBuffsHook;
+    public event Action? PreUpdateBuffsHook;
 
     /// <inheritdoc cref="PostUpdateEquips" />
-    [PublicAPI]
-    public event Action PostUpdateEquipsHook;
+    public event Action? PostUpdateEquipsHook;
 
     /// <inheritdoc cref="PostUpdateRunSpeeds" />
-    [PublicAPI]
-    public event Action PostUpdateRunSpeedsHook;
+    public event Action? PostUpdateRunSpeedsHook;
 
     /// <inheritdoc cref="PostUpdate" />
-    [PublicAPI]
-    public event Action PostUpdateHook;
+    public event Action? PostUpdateHook;
 
     /// <inheritdoc cref="Shoot" />
-    [PublicAPI]
-    public event ShootDelegate ShootHook;
+    public event ShootDelegate? ShootHook;
 
     /// <inheritdoc cref="ModifyDrawInfo" />
-    [PublicAPI]
-    public event ModifyDrawInfoDelegate ModifyDrawInfoHook;
+    public event ModifyDrawInfoDelegate? ModifyDrawInfoHook;
 
     #endregion
 

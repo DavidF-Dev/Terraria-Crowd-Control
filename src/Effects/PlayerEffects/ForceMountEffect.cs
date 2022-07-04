@@ -63,7 +63,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
         player.OnRespawnHook -= OnRespawn;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         var mountName = Lang.GetBuffName(_chosenMount);
         TerrariaUtils.WriteEffectMessage(ItemID.MajesticHorseSaddle, $"{viewerString} is forcing {playerString} to ride a {mountName}", Severity);

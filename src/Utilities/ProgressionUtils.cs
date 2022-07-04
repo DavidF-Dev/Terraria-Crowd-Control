@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+using System.Diagnostics.Contracts;
 using Terraria;
 
 namespace CrowdControlMod.Utilities;
@@ -9,7 +9,6 @@ public static class ProgressionUtils
 {
     #region Enums
 
-    [PublicAPI]
     public enum Progression
     {
         PreEye,
@@ -29,7 +28,7 @@ public static class ProgressionUtils
     /// <summary>
     ///     Get the current progression of the world.
     /// </summary>
-    [PublicAPI] [Pure]
+    [Pure]
     public static Progression GetProgression()
     {
         if (NPC.downedMoonlord)
@@ -73,8 +72,8 @@ public static class ProgressionUtils
     /// <summary>
     ///     Choose the appropriate method argument based on the provided progression.
     /// </summary>
-    [PublicAPI] [CanBeNull] [Pure]
-    public static T ChooseAtProgression<T>(Progression progression, T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    [Pure]
+    public static T? ChooseAtProgression<T>(Progression progression, T? preEye, T? preSkeletron, T? preWall, T? preMech, T? preGolem, T? preLunar, T? preMoonLord, T? postGame)
     {
         return progression switch
         {
@@ -93,8 +92,8 @@ public static class ProgressionUtils
     /// <summary>
     ///     Choose the appropriate method argument based on the current progression of the world.
     /// </summary>
-    [PublicAPI] [CanBeNull] [Pure]
-    public static T ChooseAtProgression<T>(T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    [Pure]
+    public static T? ChooseAtProgression<T>(T? preEye, T? preSkeletron, T? preWall, T? preMech, T? preGolem, T? preLunar, T? preMoonLord, T? postGame)
     {
         return ChooseAtProgression(GetProgression(), preEye, preSkeletron, preWall, preMech, preGolem, preLunar, preMoonLord, postGame);
     }
@@ -102,44 +101,44 @@ public static class ProgressionUtils
     /// <summary>
     ///     Choose the appropriate method arguments based on the current progression of the world.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
-    public static IReadOnlyList<T> ChooseUpToProgression<T>(Progression progression, T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    [Pure]
+    public static IReadOnlyList<T> ChooseUpToProgression<T>(Progression progression, T? preEye, T? preSkeletron, T? preWall, T? preMech, T? preGolem, T? preLunar, T? preMoonLord, T? postGame)
     {
-        List<T> list = new() {preEye};
+        List<T> list = new() {preEye!};
 
         if ((int)progression >= (int)Progression.PreSkeletron)
         {
-            list.Add(preSkeletron);
+            list.Add(preSkeletron!);
         }
 
         if ((int)progression >= (int)Progression.PreWall)
         {
-            list.Add(preWall);
+            list.Add(preWall!);
         }
 
         if ((int)progression >= (int)Progression.PreMech)
         {
-            list.Add(preMech);
+            list.Add(preMech!);
         }
 
         if ((int)progression >= (int)Progression.PreGolem)
         {
-            list.Add(preGolem);
+            list.Add(preGolem!);
         }
 
         if ((int)progression >= (int)Progression.PreLunar)
         {
-            list.Add(preLunar);
+            list.Add(preLunar!);
         }
 
         if ((int)progression >= (int)Progression.PreMoonLord)
         {
-            list.Add(preMoonLord);
+            list.Add(preMoonLord!);
         }
 
         if (progression == Progression.PostGame)
         {
-            list.Add(postGame);
+            list.Add(postGame!);
         }
 
         return list;
@@ -148,8 +147,8 @@ public static class ProgressionUtils
     /// <summary>
     ///     Choose the appropriate method arguments based on the provided progression.
     /// </summary>
-    [PublicAPI] [NotNull] [Pure]
-    public static IReadOnlyList<T> ChooseUpToProgression<T>(T preEye, T preSkeletron, T preWall, T preMech, T preGolem, T preLunar, T preMoonLord, T postGame)
+    [Pure]
+    public static IReadOnlyList<T> ChooseUpToProgression<T>(T? preEye, T? preSkeletron, T? preWall, T? preMech, T? preGolem, T? preLunar, T? preMoonLord, T? postGame)
     {
         return ChooseUpToProgression(GetProgression(), preEye, preSkeletron, preWall, preMech, preGolem, preLunar, preMoonLord, postGame);
     }

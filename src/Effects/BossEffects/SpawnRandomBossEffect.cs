@@ -6,7 +6,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Spawnables;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +19,6 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly Dictionary<ProgressionUtils.Progression, short[]> TypesByProgression = new()
     {
         {
@@ -94,7 +92,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     #region Static Methods
 
-    private static void Spawn([NotNull] CrowdControlPlayer player, short npcType)
+    private static void Spawn(CrowdControlPlayer player, short npcType)
     {
         // Spawn above the player and to the side
         var boss = SpawnableNpc.Get(npcType);
@@ -106,7 +104,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     #region Fields
 
-    private SpawnableNpc _chosenSpawnableNpc;
+    private SpawnableNpc? _chosenSpawnableNpc;
 
     #endregion
 
@@ -161,9 +159,9 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         Spawn(player, reader.ReadInt16());
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, $"{viewerString} summoned {_chosenSpawnableNpc.DisplayName} on {playerString}", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, $"{viewerString} summoned {_chosenSpawnableNpc?.DisplayName} on {playerString}", Severity);
     }
 
     #endregion

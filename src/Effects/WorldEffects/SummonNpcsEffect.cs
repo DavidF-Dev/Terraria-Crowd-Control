@@ -3,7 +3,6 @@ using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -22,7 +21,7 @@ public sealed class SummonNpcsEffect : CrowdControlEffect
 
     #region Static Methods
 
-    private static bool CanBeSummoned([NotNull] NPC npc)
+    private static bool CanBeSummoned(NPC npc)
     {
         return npc.active;
     }
@@ -83,7 +82,7 @@ public sealed class SummonNpcsEffect : CrowdControlEffect
         }
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.KingStatue, $"{viewerString} summoned all the alive NPCs to {playerString}'s position", Severity);
     }

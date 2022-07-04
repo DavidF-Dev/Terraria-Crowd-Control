@@ -2,7 +2,6 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -15,8 +14,7 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 {
     #region Fields
 
-    [CanBeNull]
-    private readonly FieldInfo _swapMusicField;
+    private readonly FieldInfo? _swapMusicField;
 
     #endregion
 
@@ -48,7 +46,7 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Check which soundtrack is playing (flipped on the drunk world seed)
         var playingOtherworld = (!WorldUtils.IsDrunkWorld && SwapMusic) || (WorldUtils.IsDrunkWorld && !SwapMusic);

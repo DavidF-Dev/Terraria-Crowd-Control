@@ -42,7 +42,7 @@ public sealed class GodModeEffect : CrowdControlEffect
         player.CanBeHitByProjectileHook -= CanBeHitByProjectile;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.EoCShield, $"{viewerString} made {playerString} invulnerable to enemy attacks for {durationString} seconds", Severity);
     }

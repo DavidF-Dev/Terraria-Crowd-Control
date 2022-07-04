@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.Audio;
 
@@ -14,17 +13,15 @@ public sealed class PlaySoundEffect : CrowdControlEffect
 {
     #region Fields
 
-    [CanBeNull]
     private readonly float? _overrideVolume;
 
-    [NotNull]
     private readonly SoundStyle[] _soundStyles;
 
     #endregion
 
     #region Constructors
 
-    public PlaySoundEffect([NotNull] string id, float? overrideVolume, [NotNull] params SoundStyle[] soundStyles) : base(id, null, EffectSeverity.Neutral)
+    public PlaySoundEffect(string id, float? overrideVolume, params SoundStyle[] soundStyles) : base(id, null, EffectSeverity.Neutral)
     {
         _overrideVolume = overrideVolume;
         _soundStyles = soundStyles;

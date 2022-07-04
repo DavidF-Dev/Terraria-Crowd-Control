@@ -52,7 +52,7 @@ public sealed class UseSundialEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Sundial, $"{viewerString} fast-forward time to the next morning", Severity);
     }

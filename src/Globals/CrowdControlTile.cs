@@ -1,16 +1,14 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
 
-[UsedImplicitly]
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlTile : GlobalTile
 {
     #region Delegates
 
     /// <inheritdoc cref="PreDraw" />
-    [PublicAPI]
     public delegate bool PreDrawDelegate(int i, int j, int type, SpriteBatch spriteBatch);
 
     #endregion
@@ -18,8 +16,7 @@ public sealed class CrowdControlTile : GlobalTile
     #region Events
 
     /// <inheritdoc cref="PreDraw" />
-    [PublicAPI]
-    public static event PreDrawDelegate PreDrawHook;
+    public static event PreDrawDelegate? PreDrawHook;
 
     #endregion
 

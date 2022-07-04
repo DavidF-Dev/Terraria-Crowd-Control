@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria.DataStructures;
 using Terraria.ID;
 
@@ -16,8 +15,7 @@ public sealed class BuffEffect : CrowdControlEffect
 {
     #region Delegates
 
-    [NotNull]
-    public delegate string GetStartMessageDelegate([NotNull] string viewerString, [NotNull] string playerString);
+    public delegate string GetStartMessageDelegate(string viewerString, string playerString);
 
     #endregion
 
@@ -25,13 +23,10 @@ public sealed class BuffEffect : CrowdControlEffect
 
     private readonly short _itemId;
 
-    [NotNull]
     private readonly GetStartMessageDelegate _getStartMessage;
 
-    [CanBeNull]
-    private readonly Action<CrowdControlPlayer> _onStart;
+    private readonly Action<CrowdControlPlayer>? _onStart;
 
-    [NotNull]
     private readonly HashSet<int> _buffs;
 
     private readonly bool _hasConfusedBuff;
@@ -44,7 +39,7 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect([NotNull] string id, EffectSeverity severity, float duration, short itemId, [NotNull] GetStartMessageDelegate getStartMessage, [CanBeNull] Action<CrowdControlPlayer> onStart, [NotNull] params int[] buffs) : base(id, duration, severity)
+    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, GetStartMessageDelegate getStartMessage, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
     {
         _itemId = itemId;
         _onStart = onStart;
@@ -82,7 +77,7 @@ public sealed class BuffEffect : CrowdControlEffect
         player.ModifyDrawInfoHook -= ModifyDrawInfo;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string _)
+    protected override void SendStartMessage(string viewerString, string playerString, string? _)
     {
         TerrariaUtils.WriteEffectMessage(_itemId, _getStartMessage(viewerString, playerString), Severity);
     }

@@ -59,7 +59,7 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.SmokeBomb, $"{viewerString} exploded {playerString}'s inventory", Severity);
     }

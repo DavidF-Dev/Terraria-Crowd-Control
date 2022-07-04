@@ -1,6 +1,5 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -25,7 +24,7 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetMaxStatEffect([NotNull] string id, bool increase, bool life) : base(id, null, increase ? EffectSeverity.Positive : EffectSeverity.Negative)
+    public SetMaxStatEffect(string id, bool increase, bool life) : base(id, null, increase ? EffectSeverity.Positive : EffectSeverity.Negative)
     {
         _increase = increase;
         _life = life;
@@ -81,7 +80,7 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Send the appropriate effect message
         var type = _life ? "health" : "mana";

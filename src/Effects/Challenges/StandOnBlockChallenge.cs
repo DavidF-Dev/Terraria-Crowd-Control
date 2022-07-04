@@ -3,7 +3,6 @@ using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using JetBrains.Annotations;
 using Terraria;
 using Terraria.ID;
 
@@ -16,35 +15,27 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 {
     #region Static Fields and Constants
 
-    [NotNull]
     private static readonly short[] PreEyeTiles = {ItemID.DirtBlock, ItemID.StoneBlock, ItemID.ClayBlock, ItemID.MudBlock, ItemID.SandBlock, ItemID.Wood, ItemID.Sunflower};
 
-    [NotNull]
     private static readonly short[] PreSkeletronTiles = {ItemID.SnowBlock, ItemID.IceBlock, ItemID.Cloud, ItemID.RichMahogany, ItemID.BorealWood, ItemID.Campfire};
 
-    [NotNull]
     private static readonly short[] PreWallTiles = {ItemID.GrayBrick, ItemID.Glass, ItemID.PalmWood};
 
-    [NotNull]
     private static readonly short[] PreMechTiles = {ItemID.PearlstoneBlock, ItemID.PearlsandBlock};
 
-    [NotNull]
     private static readonly short[] PreGolemTiles = {ItemID.SnowBrick, ItemID.IceBrick};
 
-    [NotNull]
     private static readonly short[] PreLunarTiles = {ItemID.SiltBlock, ItemID.AshBlock};
 
-    [NotNull]
     private static readonly short[] PreMoonLordTiles = Array.Empty<short>();
 
-    [NotNull]
     private static readonly short[] PostGameTiles = Array.Empty<short>();
 
     #endregion
 
     #region Fields
 
-    private Item _chosenTileItem;
+    private Item? _chosenTileItem;
 
     #endregion
 
@@ -77,7 +68,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (!PlayerUtils.IsStandingOn(GetLocalPlayer(), _chosenTileItem.createTile))
+        if (_chosenTileItem != null && !PlayerUtils.IsStandingOn(GetLocalPlayer(), _chosenTileItem.createTile))
         {
             return;
         }
@@ -87,7 +78,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return $"Stand on a {_chosenTileItem.Name}";
+        return $"Stand on a {_chosenTileItem?.Name}";
     }
 
     #endregion

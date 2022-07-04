@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using CrowdControlMod.Config;
 using CrowdControlMod.Effects;
 using CrowdControlMod.ID;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Chat;
@@ -20,8 +20,7 @@ public static class TerrariaUtils
     ///     Write a message to the game chat.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>
-    [PublicAPI]
-    public static void WriteMessage([NotNull] string message, Color? colour = null, bool doLog = true)
+    public static void WriteMessage(string message, Color? colour = null, bool doLog = true)
     {
         var netText = NetworkText.FromLiteral(message);
         if (netText == NetworkText.Empty)
@@ -58,8 +57,7 @@ public static class TerrariaUtils
     ///     Write a message to the game chat, prefixed with the provided item.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>
-    [PublicAPI]
-    public static void WriteMessage(short itemId, [NotNull] string message, Color? colour = null, bool doLog = true)
+    public static void WriteMessage(short itemId, string message, Color? colour = null, bool doLog = true)
     {
         if (itemId == 0)
         {
@@ -75,8 +73,7 @@ public static class TerrariaUtils
     ///     Server will notify clients of the effect message, letting them handle it.
     ///     Message will only appear if configured to.
     /// </summary>
-    [PublicAPI]
-    public static void WriteEffectMessage(short itemId, [NotNull] string message, EffectSeverity severity)
+    public static void WriteEffectMessage(short itemId, string message, EffectSeverity severity)
     {
         if (Main.netMode == NetmodeID.Server)
         {
@@ -111,8 +108,7 @@ public static class TerrariaUtils
     ///     Send an effect message to a client's game chat, prefixed with the provided item.<br />
     ///     Message will only appear if configured to.
     /// </summary>
-    [PublicAPI]
-    public static void SendEffectMessage([NotNull] CrowdControlPlayer player, short itemId, [NotNull] string message, EffectSeverity severity)
+    public static void SendEffectMessage(CrowdControlPlayer player, short itemId, string message, EffectSeverity severity)
     {
         if (Main.netMode != NetmodeID.Server)
         {
@@ -133,8 +129,7 @@ public static class TerrariaUtils
     ///     Write a message to the game chat, only if in a debug build.<br />
     ///     Server will notify clients of the debug message, letting them handle it.
     /// </summary>
-    [PublicAPI]
-    public static void WriteDebug([NotNull] string message, Color? colour = null)
+    public static void WriteDebug(string message, Color? colour = null)
     {
         if (Main.netMode == NetmodeID.Server)
         {
@@ -166,13 +161,11 @@ public static class TerrariaUtils
             return;
         }
 
-#if !DEBUG
         // Ignore if not in developer mode        
         if (!CrowdControlConfig.GetInstance().DeveloperMode)
         {
             return;
         }
-#endif
 
         WriteMessage(ItemID.Cog, message, colour.GetValueOrDefault(Color.Yellow));
     }
@@ -180,7 +173,7 @@ public static class TerrariaUtils
     /// <summary>
     ///     Get the rich text tag for the specified item id.
     /// </summary>
-    [PublicAPI] [Pure] [NotNull]
+    [Pure]
     public static string GetItemRichText(short itemId)
     {
         return $"[i:{itemId}]";
@@ -189,8 +182,8 @@ public static class TerrariaUtils
     /// <summary>
     ///     Colour the provided message using rich text tags.
     /// </summary>
-    [PublicAPI] [Pure] [NotNull]
-    public static string GetColouredRichText([NotNull] string message, Color colour)
+    [Pure]
+    public static string GetColouredRichText(string message, Color colour)
     {
         return $"[c/{colour.Hex3()}:{message}]";
     }
@@ -198,8 +191,7 @@ public static class TerrariaUtils
     /// <summary>
     ///     Attempt to write the provided data to a packet.
     /// </summary>
-    [PublicAPI]
-    public static void WriteToPacket([NotNull] ModPacket packet, object data)
+    public static void WriteToPacket(ModPacket packet, object data)
     {
         switch (data)
         {

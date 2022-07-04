@@ -4,7 +4,6 @@ using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
-using JetBrains.Annotations;
 using Terraria;
 
 namespace CrowdControlMod.Effects.Challenges;
@@ -19,7 +18,6 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
     /// <summary>
     ///     Ids of the challenges that can be chosen from.
     /// </summary>
-    [NotNull]
     private static readonly string[] ChallengeIds =
     {
         EffectID.SwimChallenge, EffectID.StandOnBlockChallenge, EffectID.CraftItemChallenge, EffectID.SleepChallenge, EffectID.MinecartChallenge,
@@ -40,7 +38,6 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
 
     #region Fields
 
-    [NotNull]
     private List<string> _choices;
 
     #endregion

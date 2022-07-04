@@ -55,7 +55,7 @@ public sealed class RunBoostEffect : CrowdControlEffect
         GetLocalPlayer().PostUpdateRunSpeedsHook -= PostUpdateRunSpeeds;
     }
 
-    protected override void SendStartMessage(string viewerString, string playerString, string durationString)
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.HermesBoots, $"{viewerString} made {playerString} really, really fast for {durationString} seconds", Severity);
     }
