@@ -6,8 +6,6 @@
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
-**TODO: ^ Update id in Downloads and File Size button with Steam Workshop Id**
-
 A mod, for streamers, which allows viewers to spend money on in-game effects via
 the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
 
@@ -54,7 +52,7 @@ Older versions are not supported.<br><br>
 <img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
 
-- [Steam Workshop]() **(recommended)**
+- [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=0) **(recommended)**
 - tModLoader in-game Mod Browser: search for, and download `Crowd Control for Terraria`
 - GitHub [Releases](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases): place the `.tmod` file
   in `Documents/My Games/Terraria/tModLoader/Mods`
