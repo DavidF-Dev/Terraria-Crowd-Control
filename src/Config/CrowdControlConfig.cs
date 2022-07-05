@@ -45,6 +45,11 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
+    [Label("Use effect music")]
+    [Tooltip("A few effects override the music whilst active.\nDisable this to stop effects from overriding the music.")]
+    [DefaultValue(true)]
+    public bool UseEffectMusic;
+
     [Label("Disable tombstones")]
     [Tooltip("Enable to prevent your tombstone from spawning when you die.")]
     [DefaultValue(false)]

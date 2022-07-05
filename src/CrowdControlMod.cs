@@ -270,6 +270,13 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     public bool TryGetEffectMusic(out int musicId)
     {
+        if (!CrowdControlConfig.GetInstance().UseEffectMusic)
+        {
+            // No music if disabled in the mod configuration
+            musicId = 0;
+            return false;
+        }
+        
         var priority = int.MinValue;
         musicId = 0;
         foreach (var effect in _effects.Values.Where(x => x.IsActive))
