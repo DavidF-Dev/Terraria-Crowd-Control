@@ -121,6 +121,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(new ReduceRespawnTimeFeature());
         _features.Add(new RemoveTombstoneFeature());
         _features.Add(new PlayerTeleportationFeature());
+        _features.Add(new TimedEffectDisplayFeature());
 
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
@@ -263,6 +264,15 @@ public sealed class CrowdControlMod : Mod
     public CrowdControlEffect? GetEffect(string id)
     {
         return _effects.TryGetValue(id, out var effect) ? effect : null;
+    }
+
+    /// <summary>
+    ///     Get all the effects supported by the mod.
+    /// </summary>
+    [Pure]
+    public IEnumerable<CrowdControlEffect> GetEffects(bool active)
+    {
+        return _effects.Values.Where(x => x.IsActive);
     }
 
     /// <summary>

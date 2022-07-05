@@ -79,7 +79,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Current time remaining on the effect.
     /// </summary>
-    protected float TimeLeft { get; private set; }
+    public float TimeLeft { get; private set; }
 
     /// <summary>
     ///     Severity of the effect on the streamer. Can be used by implementing classes when writing their effect message.
