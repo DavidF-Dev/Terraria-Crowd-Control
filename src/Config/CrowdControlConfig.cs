@@ -52,15 +52,15 @@ public sealed class CrowdControlConfig : ModConfig
 
     [Label("Respawn timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
-    [Range(0.4f, 1f)]
+    [Range(0.2f, 1f)]
     [Increment(0.1f)]
     [DrawTicks]
-    [DefaultValue(0.5f)]
+    [DefaultValue(1f)]
     public float RespawnTimeFactor;
 
     [Label("Enable spawn protection for explosive effects")]
     [Tooltip("Enable to delay explosive-related effects if you are too close to spawn.")]
-    [DefaultValue(true)]
+    [DefaultValue(false)]
     public bool EnableSpawnProtection;
 
     [Label("Spawn protection radius")]
