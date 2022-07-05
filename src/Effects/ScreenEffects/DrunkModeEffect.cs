@@ -1,4 +1,5 @@
 ﻿using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Shaders;
 using CrowdControlMod.Utilities;
@@ -9,7 +10,7 @@ namespace CrowdControlMod.Effects.ScreenEffects;
 /// <summary>
 ///     Induces a drunken feeling by swaying the screen using shaders for a short duration.
 /// </summary>
-public sealed class DrunkModeEffect : CrowdControlEffect
+public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 {
     #region Static Fields and Constants
 
@@ -34,6 +35,14 @@ public sealed class DrunkModeEffect : CrowdControlEffect
         _sineShader = new ScreenShader("SH_Sine", "CreateSine", $"{Id}_1");
         _glitchShader = new ScreenShader("SH_Glitch", "CreateGlitch", $"{Id}_2");
     }
+
+    #endregion
+
+    #region Properties
+
+    public int MusicId => MusicID.Mushrooms;
+
+    public int MusicPriority => 10;
 
     #endregion
 
