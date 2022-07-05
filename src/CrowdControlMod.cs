@@ -621,7 +621,7 @@ public sealed class CrowdControlMod : Mod
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
             ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs", null,
-            BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast, BuffID.BunnyMount));
+            BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
             ItemID.Heart, (v, p) => $"{v} provided {p} with regeneration buffs",
             p => PlayerUtils.SetHairDye(p, ItemID.LifeHairDye),
