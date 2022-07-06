@@ -58,7 +58,7 @@ public sealed class CrowdControlMod : Mod
 
     private Thread? _sessionThread;
 
-    private Thread? _terrariaThread;
+    private Thread? _sessionCallerThread;
 
     /// <summary>
     ///     Session is running, but might not be connected.
@@ -99,12 +99,12 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Should the session thread continue operating.
     /// </summary>
-    private bool ShouldSessionThreadContinue => _isSessionRunning && IsTerrariaAlive;
+    private bool ShouldSessionThreadContinue => _isSessionRunning && IsSessionCallerAlive;
 
     /// <summary>
-    ///     Terraria thread is alive.
+    ///     Thread that started the session thread is alive.
     /// </summary>
-    private bool IsTerrariaAlive => _terrariaThread is {IsAlive: true};
+    private bool IsSessionCallerAlive => _sessionCallerThread is {IsAlive: true};
 
     #endregion
 
@@ -112,8 +112,6 @@ public sealed class CrowdControlMod : Mod
 
     public override void Load()
     {
-        _terrariaThread = Thread.CurrentThread;
-
         // Add effects
         AddAllEffects();
 
@@ -149,8 +147,6 @@ public sealed class CrowdControlMod : Mod
         }
 
         _features.Clear();
-
-        _terrariaThread = null;
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -192,6 +188,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         _isSessionRunning = true;
+        _sessionCallerThread = Thread.CurrentThread;
 
         // Initialise the effects
         foreach (var effect in _effects.Values)
@@ -222,9 +219,10 @@ public sealed class CrowdControlMod : Mod
         {
             return;
         }
-
+        
         // Allow the threaded method to clean up itself when it exits its loop
         _isSessionRunning = false;
+        _sessionCallerThread = null;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
 
         // Stop effects
@@ -272,7 +270,7 @@ public sealed class CrowdControlMod : Mod
     [Pure]
     public IEnumerable<CrowdControlEffect> GetEffects(bool active)
     {
-        return _effects.Values.Where(x => x.IsActive);
+        return active ? _effects.Values.Where(x => x.IsActive) : _effects.Values;
     }
 
     /// <summary>
@@ -504,7 +502,7 @@ public sealed class CrowdControlMod : Mod
         socket.Dispose();
         _sessionThread = null;
 
-        if (IsTerrariaAlive)
+        if (IsSessionCallerAlive)
         {
             TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
         }
