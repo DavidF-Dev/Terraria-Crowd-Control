@@ -222,7 +222,6 @@ public sealed class CrowdControlMod : Mod
         
         // Allow the threaded method to clean up itself when it exits its loop
         _isSessionRunning = false;
-        _sessionCallerThread = null;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
 
         // Stop effects
@@ -506,6 +505,9 @@ public sealed class CrowdControlMod : Mod
         {
             TerrariaUtils.WriteDebug("Exited the Crowd Control session thread");
         }
+
+        // Thread is about to end, so null the caller thread reference here
+        _sessionCallerThread = null;
     }
 
     private CrowdControlResponseStatus ProcessEffect(string code, string viewer, CrowdControlRequestType requestType)
