@@ -60,7 +60,7 @@ public sealed class CrowdControlConfig : ModConfig
     [Range(0.2f, 1f)]
     [Increment(0.1f)]
     [DrawTicks]
-    [DefaultValue(1f)]
+    [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
     [Label("Enable spawn protection for explosive effects")]
