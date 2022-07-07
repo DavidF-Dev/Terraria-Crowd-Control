@@ -21,11 +21,10 @@ using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
-using On.Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Projectile = Terraria.Projectile;
 
 namespace CrowdControlMod;
 
@@ -49,7 +48,7 @@ public sealed class CrowdControlMod : Mod
     [Pure]
     public static CrowdControlPlayer GetLocalPlayer()
     {
-        return Terraria.Main.LocalPlayer.GetModPlayer<CrowdControlPlayer>();
+        return Main.LocalPlayer.GetModPlayer<CrowdControlPlayer>();
     }
 
     #endregion
@@ -153,7 +152,7 @@ public sealed class CrowdControlMod : Mod
     {
         try
         {
-            switch (Terraria.Main.netMode)
+            switch (Main.netMode)
             {
                 case NetmodeID.MultiplayerClient:
                 {
@@ -181,7 +180,7 @@ public sealed class CrowdControlMod : Mod
     public void StartCrowdControlSession()
     {
         // Cannot start if already running, or the thread is active in the background, or we're on a server
-        if (_isSessionRunning || _sessionThread != null || Terraria.Main.netMode == NetmodeID.Server)
+        if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
         {
             TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
             return;
@@ -206,7 +205,7 @@ public sealed class CrowdControlMod : Mod
         _sessionThread = new Thread(HandleSessionConnection);
         _sessionThread.Start();
 
-        Main.Update += OnUpdate;
+        CrowdControlModSystem.GameUpdateHook += OnGameUpdate;
     }
 
     /// <summary>
@@ -219,7 +218,7 @@ public sealed class CrowdControlMod : Mod
         {
             return;
         }
-        
+
         // Allow the threaded method to clean up itself when it exits its loop
         _isSessionRunning = false;
         TerrariaUtils.WriteDebug("Stopped the Crowd Control session");
@@ -242,7 +241,7 @@ public sealed class CrowdControlMod : Mod
             feature.SessionStopped();
         }
 
-        Main.Update -= OnUpdate;
+        CrowdControlModSystem.GameUpdateHook -= OnGameUpdate;
     }
 
     /// <summary>
@@ -283,7 +282,7 @@ public sealed class CrowdControlMod : Mod
             musicId = 0;
             return false;
         }
-        
+
         var priority = int.MinValue;
         musicId = 0;
         foreach (var effect in _effects.Values.Where(x => x.IsActive))
@@ -331,12 +330,12 @@ public sealed class CrowdControlMod : Mod
             // Sync the weather sent from the server
             case PacketID.SyncWeather:
             {
-                Terraria.Main.cloudAlpha = reader.ReadSingle();
-                Terraria.Main.windSpeedTarget = reader.ReadSingle();
+                Main.cloudAlpha = reader.ReadSingle();
+                Main.windSpeedTarget = reader.ReadSingle();
                 // Terraria.Main.windSpeedCurrent = Terraria.Main.windSpeedTarget;
-                Terraria.Main.windCounter = reader.ReadInt32();
-                Terraria.Main.extremeWindCounter = reader.ReadInt32();
-                TerrariaUtils.WriteDebug($"Synced weather from server (cloud={Terraria.Main.cloudAlpha}, speed={Terraria.Main.windSpeedTarget}, wind={Terraria.Main.windCounter} extreme={Terraria.Main.extremeWindCounter})");
+                Main.windCounter = reader.ReadInt32();
+                Main.extremeWindCounter = reader.ReadInt32();
+                TerrariaUtils.WriteDebug($"Synced weather from server (cloud={Main.cloudAlpha}, speed={Main.windSpeedTarget}, wind={Main.windCounter} extreme={Main.extremeWindCounter})");
                 break;
             }
         }
@@ -346,7 +345,7 @@ public sealed class CrowdControlMod : Mod
     {
         // Read the packet and determine what to do with it (server-side)
         var packetId = (PacketID)reader.ReadByte();
-        var player = Terraria.Main.player[sender].GetModPlayer<CrowdControlPlayer>();
+        var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
         switch (packetId)
         {
             // Client is letting the server know about their configuration settings
@@ -384,12 +383,12 @@ public sealed class CrowdControlMod : Mod
         var writeAttempt = true;
 
         // Wait for the world to load
-        while (ShouldSessionThreadContinue && Terraria.Main.gameMenu)
+        while (ShouldSessionThreadContinue && Main.gameMenu)
         {
         }
 
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
-        if (ShouldSessionThreadContinue && Terraria.Main.netMode == NetmodeID.MultiplayerClient)
+        if (ShouldSessionThreadContinue && Main.netMode == NetmodeID.MultiplayerClient)
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();
@@ -751,15 +750,14 @@ public sealed class CrowdControlMod : Mod
     private bool IsSessionPaused()
     {
         // Effects should be paused if the session is not running or Terraria is paused or the player is dead
-        return !IsSessionActive || Terraria.Main.gamePaused || GetLocalPlayer().Player.dead;
+        return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
     }
 
-    private void OnUpdate(Main.orig_Update orig, Terraria.Main self, GameTime gameTime)
+    private void OnGameUpdate(GameTime gameTime)
     {
-        // If the session is paused, just perform the normal Terraria update
         if (IsSessionPaused())
         {
-            orig.Invoke(self, gameTime);
+            // Ignore if the session is paused
             return;
         }
 
@@ -769,9 +767,6 @@ public sealed class CrowdControlMod : Mod
         {
             effect.Update(delta);
         }
-
-        // Make sure to perform the normal Terraria update (important!)
-        orig.Invoke(self, gameTime);
     }
 
     #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics;
@@ -28,8 +29,8 @@ public sealed class CrowdControlModSystem : ModSystem
     /// <inheritdoc cref="ModifyTransformMatrix" />
     public static event ModifyTransformMatrixDelegate? ModifyTransformMatrixHook;
 
-    /// <inheritdoc cref="PostUpdateEverything" />
-    public static event Action? PostUpdateEverythingHook;
+    /// <inheritdoc cref="UpdateUI" />
+    public static event Action<GameTime>? GameUpdateHook;
 
     #endregion
 
@@ -59,9 +60,9 @@ public sealed class CrowdControlModSystem : ModSystem
         ModifyTransformMatrixHook?.Invoke(ref transform);
     }
 
-    public override void PostUpdateEverything()
+    public override void UpdateUI(GameTime gameTime)
     {
-        PostUpdateEverythingHook?.Invoke();
+        GameUpdateHook?.Invoke(gameTime);
     }
 
     #endregion
