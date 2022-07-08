@@ -87,7 +87,7 @@ public static class WorldUtils
         Main.cloudAlpha = weather is Weather.Clear or Weather.Windy
             ? 0f
             : weather == Weather.Storm
-                ? maxRain * 2f * Main.rand.NextFloat(1f, 1.25f)
+                ? maxRain * 2f
                 : minRain;
 
         // Determine wind direction
