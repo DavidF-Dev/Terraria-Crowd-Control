@@ -736,6 +736,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ZoomEffect(15f, false));
         AddEffect(new WallOfFishEffect(20f));
         AddEffect(new CritterTakeoverEffect(30f));
+        AddEffect(new ScreenShakeEffect(20f));
+        AddEffect(new SniperModeEffect(15f));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());

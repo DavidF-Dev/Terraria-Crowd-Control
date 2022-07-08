@@ -102,6 +102,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="ModifyDrawInfo" />
     public event ModifyDrawInfoDelegate? ModifyDrawInfoHook;
 
+    /// <inheritdoc cref="ModifyScreenPosition"/>
+    public event Action? ModifyScreenPositionHook;
+
     #endregion
 
     #region Methods
@@ -179,6 +182,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
         ModifyDrawInfoHook?.Invoke(ref drawInfo);
+    }
+
+    public override void ModifyScreenPosition()
+    {
+        ModifyScreenPositionHook?.Invoke();
     }
 
     #endregion
