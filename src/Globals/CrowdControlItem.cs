@@ -12,6 +12,9 @@ public sealed class CrowdControlItem : GlobalItem
     /// <inheritdoc cref="CanPickup" />
     public delegate bool CanPickupDelegate(Item item, Player player);
 
+    /// <inheritdoc cref="OnConsumeItem" />
+    public delegate void OnItemConsumed(Item item, Player player);
+
     #endregion
 
     #region Events
@@ -23,6 +26,9 @@ public sealed class CrowdControlItem : GlobalItem
 
     /// <inheritdoc cref="CanPickup" />
     public static event CanPickupDelegate? CanPickupHook;
+
+    /// <inheritdoc cref="OnConsumeItem" />
+    public static event OnItemConsumed? OnItemConsumedHook;
 
     #endregion
 
@@ -39,6 +45,11 @@ public sealed class CrowdControlItem : GlobalItem
     public override bool CanPickup(Item item, Player player)
     {
         return CanPickupHook?.Invoke(item, player) ?? base.CanPickup(item, player);
+    }
+
+    public override void OnConsumeItem(Item item, Player player)
+    {
+        OnItemConsumedHook?.Invoke(item, player);
     }
 
     #endregion

@@ -130,6 +130,7 @@ public static class EffectID
     public const string SleepChallenge = "sleep_challenge";
     public const string MinecartChallenge = "minecart_challenge";
     public const string TouchGrassChallenge = "touch_grass_challenge";
+    public const string EatFoodChallenge = "eat_food_challenge";
 
     #endregion
 }

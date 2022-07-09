@@ -193,12 +193,13 @@ public sealed class Terraria : SimpleTCPPack
 #endif
                     ) {Price = 100, Description = "Issue a timed challenge to the streamer which they must complete, or they will die"},
 #if EXPOSE_CHALLENGES
-                new Effect("Start swim challenge", "swim_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go for a swim"},
-                new Effect("Start stand on block challenge", "stand_on_block_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to stand on a specific block"},
-                new Effect("Start craft item challenge", "craft_item_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to craft a specific item"},
-                new Effect("Start sleep challenge", "sleep_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go to sleep"},
-                new Effect("Start minecart challenge", "minecart_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to ride in a minecart"},
-                new Effect("Start touch grass challenge", "touch_grass_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to touch a grass block"},
+                new Effect("Start \"swim\" challenge", "swim_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go for a swim"},
+                new Effect("Start \"stand on block\" challenge", "stand_on_block_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to stand on a specific block"},
+                new Effect("Start \"craft item\" challenge", "craft_item_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to craft a specific item"},
+                new Effect("Start \"sleep\" challenge", "sleep_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to go to sleep"},
+                new Effect("Start \"minecart\" challenge", "minecart_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to ride in a minecart"},
+                new Effect("Start \"touch grass\" challenge", "touch_grass_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to touch a grass block"},
+                new Effect("Start \"eat food\" challenge", "eat_food_challenge", ChallengesFolder) {Price = 100, Description = "Challenge the streamer to consume any food"},
 #endif
             };
         }
