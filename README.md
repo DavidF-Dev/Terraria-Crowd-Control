@@ -1,7 +1,7 @@
 <img src=".github/banner.png"></src>
 [![Release](https://img.shields.io/github/v/release/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases/latest)
-[![Downloads](https://img.shields.io/steam/downloads/0?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=0)
-![File Size](https://img.shields.io/steam/size/0?style=flat-square)
+[![Downloads](https://img.shields.io/steam/downloads/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
+![File Size](https://img.shields.io/steam/size/2833108684?style=flat-square)
 [![Issues](https://img.shields.io/github/issues/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues)
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
@@ -52,7 +52,7 @@ Older versions are not supported.<br><br>
 <img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
 
-- [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=0) **(recommended)**
+- [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684) **(recommended)**
 - tModLoader in-game Mod Browser: search for, and download `Crowd Control for Terraria`
 - GitHub [Releases](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases): place the `.tmod` file
   in `Documents/My Games/Terraria/tModLoader/Mods`
