@@ -1,7 +1,7 @@
 <img src=".github/banner.png"></src>
 [![Release](https://img.shields.io/github/v/release/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases/latest)
 [![Downloads](https://img.shields.io/steam/downloads/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
-![File Size](https://img.shields.io/steam/size/2833108684?style=flat-square)
+[![File Size](https://img.shields.io/steam/size/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
 [![Issues](https://img.shields.io/github/issues/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues)
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
