@@ -53,7 +53,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
     {
         #region Properties
 
-        public override string Texture => $"Terraria/Images/Projectile_{ItemID.Dynamite}";
+        public override string Texture => $"Terraria/Images/Projectile_{ProjectileID.Dynamite}";
 
         #endregion
 
