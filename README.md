@@ -6,8 +6,7 @@
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
-A mod, for streamers, which allows viewers to spend money on in-game effects via
-the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
+A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
 
 - Effects and prices can be customised through the Crowd Control application.
 - Built for Terraria 1.4: Journey's End.
@@ -17,8 +16,7 @@ the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
 
 ## Effects
 
-The mod features a wide variety of effects. It's up to the viewers whether they want to help you on your Terraria quest,
-or try to set you back as much as possible.<br>
+The mod features a wide variety of effects. It's up to the viewers whether they want to help you on your Terraria quest, or try to set you back as much as possible.<br>
 Here is just a taste of the effects that this mod has to offer:
 
 - Explode the player
@@ -39,15 +37,12 @@ Here is just a taste of the effects that this mod has to offer:
 - Summon a giant wall of fish
 - Challenge the player to complete a goal within a short time
 
-Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can
-also edit the pricing per effect.
-Alternatively, those that are comfortable reading a little bit of code can view a full list of effects
-in [TerrariaPack.cs](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/TerrariaPack.cs).
+Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can also edit the pricing per effect.
+Alternatively, those that are comfortable reading a little bit of code can view a full list of effects in [TerrariaPack.cs](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/TerrariaPack.cs).
 
 ## Usage
 
-Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4, which can be downloaded for free on
-Steam.<br>
+Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4, which can be downloaded for free on Steam.<br>
 Older versions are not supported.<br><br>
 <img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
@@ -61,16 +56,13 @@ The mod can be installed in a few ways:
 
 To begin playing, simply join a single-player or multi-player world (*the server must also have the mod installed*).
 Upon entering the world, the mod will begin attempting to connect to the Crowd Control application.
-Ensure that you have the application set up and running correctly by
-following [this guide](https://crowdcontrol.live/setup).
+Ensure that you have the application set up and running correctly by following [this guide](https://crowdcontrol.live/setup).
 <br><br>
-You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this
-point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
+You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
 
 ### Configuration
 
-The effects and prices can be configured through the Crowd Control application, however the mod also offers additional
-options through the in-game configuration menu.<br>
+The effects and prices can be configured through the Crowd Control application, however the mod also offers additional options through the in-game configuration menu.<br>
 A few to highlight include:
 
 - Disable effect messages in chat. This is useful if you would like to use the Crowd Control Browser Source.
@@ -82,7 +74,6 @@ A few to highlight include:
 
 ## Contact & Support
 
-If you have any questions or would like to get in contact, shoot me an email at `contact@davidfdev.com`. Alternatively,
-you can send me a direct message on Twitter at [@DavidF_Dev](https://twitter.com/DavidF_Dev).</br></br>
-For support with the Crowd Control application or Twitch extension, head over to
-the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.
+If you have any questions or would like to get in contact, shoot me an email at `contact@davidfdev.com`.<br>
+Alternatively, you can send me a direct message on Twitter at [@DavidF_Dev](https://twitter.com/DavidF_Dev).<br><br>
+For support with the Crowd Control application or Twitch extension, head over to the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.
