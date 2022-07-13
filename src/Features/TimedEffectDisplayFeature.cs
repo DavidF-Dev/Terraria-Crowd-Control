@@ -23,24 +23,17 @@ public sealed class TimedEffectDisplayFeature : IFeature
             return;
         }
         
-        const float padding = 25f;
-        var pos = new Vector2(Main.screenWidth / 2f + 175f, Main.screenHeight - padding);
-        var font = FontAssets.MouseText.Value;
+        const float padding = 18f;
+        var pos = new Vector2(Main.screenWidth / 2f + 175f, Main.screenHeight - padding + 8f);
 
         // Iterate over the active effects and draw per line
         foreach (var effect in CrowdControlMod.GetInstance().GetEffects(true).Where(x => x.TimeLeft > 0f))
         {
-            spriteBatch.DrawString(
-                font,
+            Utils.DrawBorderString(
+                spriteBatch,
                 $"{effect.Id}: {effect.TimeLeft:0.0}s",
-                pos,
-                Color.White,
-                0f,
-                Vector2.Zero,
-                Vector2.One,
-                SpriteEffects.None,
-                0f);
-
+                pos, Color.White, 0.8f, 0f, 0.5f);
+            
             // Increase padding per line
             pos.Y -= padding;
         }

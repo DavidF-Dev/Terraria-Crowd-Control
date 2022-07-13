@@ -3,11 +3,9 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.Challenges;
@@ -148,36 +146,24 @@ public abstract class ChallengeEffect : CrowdControlEffect
     private void PostDrawInterface(SpriteBatch spriteBatch)
     {
         var center = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
-        var font = FontAssets.MouseText.Value;
         const float scale = 0.95f;
-
-        // Determine 'challenge description' string size and set scale 'bob' values
-        var str1 = GetChallengeDescription();
-        var str1Size = font.MeasureString(str1);
         const float scaleMagnitude = 0.12f;
         const float scaleFrequency = 0.75f;
 
         // Draw 'challenge description' string
-        spriteBatch.DrawString(
-            font,
-            str1,
+        Utils.DrawBorderString(
+            spriteBatch,
+            GetChallengeDescription(),
             new Vector2(center.X, center.Y + 45f),
             Color.Yellow,
-            0f,
-            str1Size * 0.5f,
-            Vector2.One * (scale + Math.Abs((float)Math.Sin(Main.GlobalTimeWrappedHourly * scaleFrequency) * scaleMagnitude)),
-            SpriteEffects.None,
-            0f);
+            scale + Math.Abs((float)Math.Sin(Main.GlobalTimeWrappedHourly * scaleFrequency) * scaleMagnitude),
+            0.5f, 0.5f);
 
-        // Determine 'time left' string size and set colour timings
-        var str2 = $"{TimeLeft:0.0} seconds remaining";
-        var str2Size = font.MeasureString(str2);
+        // Choose colour based on time left
         const float redStart = 5.5f;
         const float redEnd = 2.5f;
         const float yellowStart = 8.5f;
         const float yellowEnd = 5.5f;
-
-        // Choose colour based on time left
         Color colour;
         if (TimeLeft < redEnd)
         {
@@ -203,16 +189,13 @@ public abstract class ChallengeEffect : CrowdControlEffect
         }
 
         // Draw 'time left' string
-        spriteBatch.DrawString(
-            font,
-            str2,
-            new Vector2(center.X, center.Y + 70f),
+        Utils.DrawBorderString(
+            spriteBatch,
+            $"{TimeLeft:0.0} seconds remaining",
+            new Vector2(center.X, center.Y + 66f),
             colour,
-            0f,
-            str2Size * 0.5f,
-            Vector2.One * scale,
-            SpriteEffects.None,
-            0f);
+            scale,
+            0.5f, 0.5f);
     }
 
     #endregion
