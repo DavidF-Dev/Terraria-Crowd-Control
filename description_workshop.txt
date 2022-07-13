@@ -1,0 +1,52 @@
+﻿[img]https://github.com/DavidF-Dev/Terraria-Crowd-Control/raw/main/.github/banner.png[/img]
+A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control Twitch extension.
+[list]
+[*] Effects and prices can be customised through the Crowd Control application.
+[*] Built for Terraria 1.4: Journey's End.
+[*] Supports single-player and multi-player.
+[*] Friendly towards newer Terraria players - your viewers can provide helpful effects.
+[*] A fun way to earn revenue and grow your community![/list]
+
+[h1]Effects[/h1]
+The mod features a wide variety of effects. It's up to the viewers whether they want to help you on your Terraria quest, or try to set you back as much as possible.
+Here is just a taste of the effects that this mod has to offer:
+[list]
+[*] Explode the player
+[*] Spawn bosses
+[*] Enable 'god-mode'
+[*] Reforge weapons and tools
+[*] Drop the player's items
+[*] Drastically increase the spawn-rate
+[*] Provide buffs and de-buffs
+[*] Toggle "For the Worthy" and "Don't Starve" mode
+[*] Increase movement speed and jump-height
+[*] Flip the screen
+[*] Spawn traps
+[*] Provide weapons, armour & tools
+[*] Change the weather
+[*] Heal the player
+[*] Hurt the player
+[*] Summon a giant wall of fish
+[*] Challenge the player to complete a goal within a short time[/list]
+
+Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can also edit the pricing per effect.
+
+[h1]Usage[/h1]
+To begin playing, simply join a single-player or multi-player world ([b]the server must also have the mod installed[/b]). Upon entering the world, the mod will begin attempting to connect to the Crowd Control application. Ensure that you have the application set up and running correctly by following [url=https://crowdcontrol.live/setup]this guide[/url].
+
+You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
+
+[h2]Configuration[/h2]
+The effects and prices can be configured through the Crowd Control application, however the mod also offers additional options through the in-game configuration menu.
+A few to highlight include:
+[list]
+[*] Disable effect messages in chat. This is useful if you would like to use the Crowd Control Browser Source.
+[*] Display anonymous viewer names in chat.
+[*] Alter the respawn time, so that you can get back into the gameplay sooner after dying.
+[*] Enable spawn protection. Useful in stopping your spawn point from becoming a massive crater.
+[*] Disable tombstones, so that you're world does not become one big graveyard.
+[*] Enable the ability to teleport to other players in multi-player freely (or with a cooldown).[/list]
+
+[h1]Contact & Support[/h1]
+Source is available on GitHub [url=https://github.com/DavidF-Dev/Terraria-Crowd-Control]here[/url].
+For support with the Crowd Control application or Twitch extension, head over to the [url=https://forum.warp.world/c/crowdcontrol]forums[/url] or join the [url=https://discord.warp.world/]Discord[/url] server.
