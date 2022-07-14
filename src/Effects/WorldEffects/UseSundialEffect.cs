@@ -48,7 +48,7 @@ public sealed class UseSundialEffect : CrowdControlEffect
             SendPacket(PacketID.HandleEffect);
         }
 
-        PlayerUtils.SetHairDye(GetLocalPlayer(), ItemID.TimeHairDye);
+        GetLocalPlayer().SetHairDye(ItemID.TimeHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

@@ -27,7 +27,7 @@ public sealed class ChangeGenderEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         player.Player.Male = !player.Player.Male;
         SoundEngine.PlaySound(SoundID.Item6, player.Player.position);
-        PlayerUtils.SetHairDye(player, ItemID.PartyHairDye);
+        player.SetHairDye(ItemID.PartyHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

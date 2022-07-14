@@ -102,7 +102,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="ModifyDrawInfo" />
     public event ModifyDrawInfoDelegate? ModifyDrawInfoHook;
 
-    /// <inheritdoc cref="ModifyScreenPosition"/>
+    /// <inheritdoc cref="ModifyScreenPosition" />
     public event Action? ModifyScreenPositionHook;
 
     #endregion

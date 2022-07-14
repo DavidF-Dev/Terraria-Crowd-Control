@@ -2,9 +2,7 @@
 using CrowdControlMod.Config;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
-using Terraria.GameContent;
 
 namespace CrowdControlMod.Features;
 
@@ -22,7 +20,7 @@ public sealed class TimedEffectDisplayFeature : IFeature
             // Ignore if developer mode is disabled in the mod configuration
             return;
         }
-        
+
         const float padding = 18f;
         var pos = new Vector2(Main.screenWidth / 2f + 175f, Main.screenHeight - padding + 8f);
 
@@ -33,7 +31,7 @@ public sealed class TimedEffectDisplayFeature : IFeature
                 spriteBatch,
                 $"{effect.Id}: {effect.TimeLeft:0.0}s",
                 pos, Color.White, 0.8f, 0f, 0.5f);
-            
+
             // Increase padding per line
             pos.Y -= padding;
         }

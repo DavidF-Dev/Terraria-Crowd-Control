@@ -107,7 +107,7 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     public override bool ShouldUpdate()
     {
-        return !PlayerUtils.IsWithinSpawnProtection(GetLocalPlayer());
+        return !GetLocalPlayer().IsWithinSpawnProtection();
     }
 
     protected override CrowdControlResponseStatus OnStart()
@@ -119,7 +119,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         }
 
         var player = GetLocalPlayer();
-        if (PlayerUtils.IsWithinSpawnProtection(player))
+        if (player.IsWithinSpawnProtection())
         {
             return CrowdControlResponseStatus.Retry;
         }
@@ -164,7 +164,7 @@ public sealed class ShootExplosives : CrowdControlEffect
     private void PostUpdate()
     {
         var player = GetLocalPlayer();
-        if (PlayerUtils.IsWithinSpawnProtection(player))
+        if (player.IsWithinSpawnProtection())
         {
             return;
         }

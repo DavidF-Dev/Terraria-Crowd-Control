@@ -121,7 +121,7 @@ public sealed class TrapEffect : CrowdControlEffect
                 halfHeight = halfWidth;
 
                 // Set the empty tiles around the player radially to cobwebs
-                foreach (var (x, y) in PlayerUtils.GetTilesAround(player, halfWidth))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -140,7 +140,7 @@ public sealed class TrapEffect : CrowdControlEffect
                 halfHeight = 14;
 
                 // Set the empty tiles around the player to sand blocks
-                foreach (var (x, y) in PlayerUtils.GetTilesAround(player, halfWidth, halfHeight))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -171,7 +171,7 @@ public sealed class TrapEffect : CrowdControlEffect
 
                 // Set the tiles around the player to contain liquid
                 // PlaceLiquid() syncs with the clients
-                foreach (var (x, y) in PlayerUtils.GetTilesAround(player, halfWidth, halfHeight))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
                 {
                     WorldGen.PlaceLiquid(x, y, (byte)liquidId, 255);
                 }

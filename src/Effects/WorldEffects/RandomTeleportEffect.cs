@@ -62,7 +62,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
         }
 
         SoundEngine.PlaySound(SoundID.Item6, player.Player.position);
-        PlayerUtils.SetHairDye(player, ItemID.BiomeHairDye);
+        player.SetHairDye(ItemID.BiomeHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

@@ -14,10 +14,34 @@ public static class PlayerUtils
     #region Static Methods
 
     /// <summary>
+    ///     Remove the player's held item and return an out-of-world clone of it.
+    /// </summary>
+    public static Item RemoveHeldItem(this Player player)
+    {
+        var item = player.HeldItem;
+        if (item.IsAir)
+        {
+            // Not holding an item, so return "air"
+            return new Item(0, 0);
+        }
+
+        // Clone the held item by performing a memberwise clone
+        var copy = item.Clone();
+        copy.noGrabDelay = 100;
+        copy.newAndShiny = false;
+        copy.velocity = Vector2.Zero;
+
+        // Remove the held item from the inventory
+        item.TurnToAir();
+
+        return copy;
+    }
+
+    /// <summary>
     ///     Check if the player is currently invincible (client-side).
     /// </summary>
     [Pure]
-    public static bool IsInvincible(CrowdControlPlayer player)
+    public static bool IsInvincible(this CrowdControlPlayer player)
     {
         return player.Player.dead || player.Player.creativeGodMode || CrowdControlMod.GetInstance().IsEffectActive(EffectID.GodModePlayer);
     }
@@ -26,7 +50,7 @@ public static class PlayerUtils
     ///     Check if the player is currently grounded.
     /// </summary>
     [Pure]
-    public static bool IsGrounded(CrowdControlPlayer player)
+    public static bool IsGrounded(this CrowdControlPlayer player)
     {
         var x = player.TileX;
         var y = player.TileY + 3;
@@ -39,7 +63,7 @@ public static class PlayerUtils
     ///     Check if the player is standing on or in the given tile type.
     /// </summary>
     [Pure]
-    public static bool IsStandingOn(CrowdControlPlayer player, int id)
+    public static bool IsStandingOn(this CrowdControlPlayer player, int id)
     {
         for (var x = player.TileX; x < player.TileX + 1; x++)
         {
@@ -59,7 +83,7 @@ public static class PlayerUtils
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [Pure]
-    public static bool IsWithinSpawnProtection(CrowdControlPlayer player)
+    public static bool IsWithinSpawnProtection(this CrowdControlPlayer player)
     {
         if (!CrowdControlConfig.GetInstance().EnableSpawnProtection)
         {
@@ -76,7 +100,7 @@ public static class PlayerUtils
     /// <summary>
     ///     Set the hair dye of the player.
     /// </summary>
-    public static void SetHairDye(CrowdControlPlayer player, int hairDyeItemId)
+    public static void SetHairDye(this CrowdControlPlayer player, int hairDyeItemId)
     {
         var item = new Item(hairDyeItemId);
         player.Player.hairDye = item.hairDye;
@@ -90,7 +114,7 @@ public static class PlayerUtils
     /// <summary>
     ///     Give the player coins.
     /// </summary>
-    public static void GiveCoins(CrowdControlPlayer player, int coins)
+    public static void GiveCoins(this CrowdControlPlayer player, int coins)
     {
         // Copied from the Terraria source code
         while (coins > 0)
@@ -193,7 +217,7 @@ public static class PlayerUtils
     ///     Get the tiles in a radial area around the player.
     /// </summary>
     [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround(CrowdControlPlayer player, int radius)
+    public static IEnumerable<(int x, int y)> GetTilesAround(this CrowdControlPlayer player, int radius)
     {
         return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, radius);
     }
@@ -202,7 +226,7 @@ public static class PlayerUtils
     ///     Get the tiles in a rectangular area around the player.
     /// </summary>
     [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround(CrowdControlPlayer player, int halfWidth, int halfHeight)
+    public static IEnumerable<(int x, int y)> GetTilesAround(this CrowdControlPlayer player, int halfWidth, int halfHeight)
     {
         return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, halfWidth, halfHeight);
     }

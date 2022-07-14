@@ -26,10 +26,10 @@ public sealed class SniperModeEffect : CrowdControlEffect
     {
         // Get the target position (mouse world position, clamped to within the window)
         var target = Main.screenPosition + Vector2.Clamp(Main.MouseScreen, Vector2.Zero, new Vector2(Main.screenWidth, Main.screenHeight));
-        
+
         // Get the current position (use player center)
         var current = GetLocalPlayer().Player.Center;
-        
+
         if (target == current)
         {
             // Ignore if the same

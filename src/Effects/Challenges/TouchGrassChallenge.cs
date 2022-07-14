@@ -26,7 +26,7 @@ public sealed class TouchGrassChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (!PlayerUtils.IsStandingOn(GetLocalPlayer(), TileID.Grass))
+        if (!GetLocalPlayer().IsStandingOn(TileID.Grass))
         {
             return;
         }

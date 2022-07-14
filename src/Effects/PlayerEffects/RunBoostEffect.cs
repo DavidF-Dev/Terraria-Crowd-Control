@@ -46,7 +46,7 @@ public sealed class RunBoostEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         player.PostUpdateRunSpeedsHook += PostUpdateRunSpeeds;
-        PlayerUtils.SetHairDye(player, ItemID.SpeedHairDye);
+        player.SetHairDye(ItemID.SpeedHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

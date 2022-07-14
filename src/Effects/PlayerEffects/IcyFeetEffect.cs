@@ -24,7 +24,7 @@ public sealed class IcyFeetEffect : CrowdControlEffect
     private static void PostUpdateRunSpeeds()
     {
         var player = GetLocalPlayer();
-        var isGrounded = PlayerUtils.IsGrounded(player);
+        var isGrounded = player.IsGrounded();
         player.Player.runAcceleration *= isGrounded ? GroundedAccelerationFactor : InAirAccelerationFactor;
         player.Player.runSlowdown = isGrounded ? GroundRunSlowdown : InAirRunSlowdown;
     }
