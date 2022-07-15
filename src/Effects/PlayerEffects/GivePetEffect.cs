@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
 
@@ -96,6 +97,11 @@ public sealed class GivePetEffect : CrowdControlEffect
         _petOptions.Remove(_chosenId);
         player.Player.AddBuff(_chosenId, 1);
         return CrowdControlResponseStatus.Success;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.Bunny, $"{viewerString} provided {playerString} with a {Lang.GetBuffName(_chosenId)} companion", Severity);
     }
 
     private void OnRespawn()
