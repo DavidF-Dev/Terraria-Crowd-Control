@@ -52,7 +52,6 @@ public static class PlayerUtils
     [Pure]
     public static bool IsGrounded(this Player player)
     {
-        // TODO: Test this works
         return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 32, 8, true);
     }
 
