@@ -5,7 +5,7 @@ using Terraria.ID;
 namespace CrowdControlMod.Effects.PlayerEffects;
 
 /// <summary>
-///     Increase or decrease the player's max health or max mana.
+///     Increase or decrease the player's current max health or max mana.
 /// </summary>
 public sealed class SetMaxStatEffect : CrowdControlEffect
 {
@@ -37,10 +37,10 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if ((_life && _increase && player.Player.statLifeMax >= 500) ||
-            (_life && !_increase && player.Player.statLifeMax <= 20) ||
-            (!_life && _increase && player.Player.statManaMax >= 200) ||
-            (!_life && !_increase && player.Player.statLifeMax <= 20))
+        if ((_life && _increase && player.Player.statLifeMax2 >= 500) ||
+            (_life && !_increase && player.Player.statLifeMax2 <= 20) ||
+            (!_life && _increase && player.Player.statManaMax2 >= 200) ||
+            (!_life && !_increase && player.Player.statManaMax2 <= 20))
         {
             // Ignore if the stat cannot be further altered
             return CrowdControlResponseStatus.Failure;
@@ -50,29 +50,29 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
         {
             if (_increase)
             {
-                // Increase the max health
-                player.Player.statLifeMax += Amount;
+                // Increase the player's current max health
+                player.Player.statLifeMax2 += Amount;
                 player.Player.statLife += Amount;
                 player.Player.AddBuff(BuffID.Lovestruck, 60 * 5);
             }
             else
             {
-                // Decrease the max health
-                player.Player.statLifeMax -= Amount;
+                // Decrease the player's current max health
+                player.Player.statLifeMax2 -= Amount;
             }
         }
         else
         {
             if (_increase)
             {
-                // Increase the max mana
-                player.Player.statManaMax += Amount;
+                // Increase the player's current max mana
+                player.Player.statManaMax2 += Amount;
                 player.Player.statMana += Amount;
             }
             else
             {
-                // Decrease the max mana
-                player.Player.statManaMax -= Amount;
+                // Decrease the player's current max mana
+                player.Player.statManaMax2 -= Amount;
             }
         }
 
