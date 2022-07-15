@@ -54,9 +54,9 @@ public static class PlayerUtils
     {
         var x = player.TileX;
         var y = player.TileY + 3;
-        return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
-               Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] &&
-               player.Player.velocity.Y == 0f;
+        return player.Player.velocity.Y == 0f && x >= 0 && x + 1 < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+               (Main.tile[x, y].HasTile && !Main.tile[x, y].IsActuated && Main.tileSolid[Main.tile[x, y].TileType] ||
+                Main.tile[x + 1, y].HasTile && !Main.tile[x + 1, y].IsActuated && Main.tileSolid[Main.tile[x + 1, y].TileType]);
     }
 
     /// <summary>
