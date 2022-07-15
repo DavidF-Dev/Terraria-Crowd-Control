@@ -45,7 +45,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
         {
             // Set the spawn rate if the effect is active for the player
             spawnRate = (int)(spawnRate / Factor);
-            maxSpawns *= (int)(maxSpawns * Factor);
+            maxSpawns = (int)(maxSpawns * Factor);
         }
     }
 
