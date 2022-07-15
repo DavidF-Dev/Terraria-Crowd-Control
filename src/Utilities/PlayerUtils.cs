@@ -63,7 +63,7 @@ public static class PlayerUtils
     public static bool IsStandingOn(this Player player, int id)
     {
         var tile = player.position.ToTileCoordinates();
-        for (var x = tile.X; x < tile.X + 1; x++)
+        for (var x = tile.X; x <= tile.X + 1; x++)
         {
             for (var y = tile.Y + 2; y < tile.Y + 4; y++)
             {

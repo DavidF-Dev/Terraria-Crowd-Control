@@ -53,11 +53,20 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     {
         // Choose a random placeable item
         var player = GetLocalPlayer();
-        _chosenTileItem = new Item(Main.rand.Next(ProgressionUtils.ChooseUpToProgression(
+        
+        // Get options
+        var options = ProgressionUtils.ChooseUpToProgression(
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
-        ).SelectMany(x => x).Distinct().Where(x => player.Player.IsStandingOn(x)).ToList()));
-
+        ).SelectMany(x => x).Distinct().Where(x => !player.Player.IsStandingOn(x)).ToList();
+        if (!options.Any())
+        {
+            // Fail if there are no options (this shouldn't happen!)
+            TerrariaUtils.WriteDebug($"No item options for {Id} challenge to start");
+            return CrowdControlResponseStatus.Failure;
+        }
+        
+        _chosenTileItem = new Item(Main.rand.Next(options));
         return CrowdControlResponseStatus.Success;
     }
 
