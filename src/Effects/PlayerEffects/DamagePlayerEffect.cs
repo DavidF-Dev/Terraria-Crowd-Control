@@ -32,7 +32,7 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.IsInvincible() || player.Player.statLife <= Health + Buffer)
+        if (player.Player.IsInvincible() || player.Player.statLife <= Health + Buffer)
         {
             // Retry if invincible or already severely damaged
             return CrowdControlResponseStatus.Retry;

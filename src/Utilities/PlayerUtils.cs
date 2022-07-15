@@ -41,35 +41,54 @@ public static class PlayerUtils
     ///     Check if the player is currently invincible (client-side).
     /// </summary>
     [Pure]
-    public static bool IsInvincible(this CrowdControlPlayer player)
+    public static bool IsInvincible(this Player player)
     {
-        return player.Player.dead || player.Player.creativeGodMode || CrowdControlMod.GetInstance().IsEffectActive(EffectID.GodModePlayer);
+        return player.dead || player.creativeGodMode || CrowdControlMod.GetInstance().IsEffectActive(EffectID.GodModePlayer);
     }
 
     /// <summary>
     ///     Check if the player is currently grounded.
     /// </summary>
     [Pure]
-    public static bool IsGrounded(this CrowdControlPlayer player)
+    public static bool IsGrounded(this Player player)
     {
-        var x = player.TileX;
-        var y = player.TileY + 3;
-        return player.Player.velocity.Y == 0f && x >= 0 && x + 1 < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
-               (Main.tile[x, y].HasTile && !Main.tile[x, y].IsActuated && Main.tileSolid[Main.tile[x, y].TileType] ||
-                Main.tile[x + 1, y].HasTile && !Main.tile[x + 1, y].IsActuated && Main.tileSolid[Main.tile[x + 1, y].TileType]);
+        // TODO: Test this works
+        return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 32, 8, true);
     }
 
     /// <summary>
     ///     Check if the player is standing on or in the given tile type.
     /// </summary>
     [Pure]
-    public static bool IsStandingOn(this CrowdControlPlayer player, int id)
+    public static bool IsStandingOn(this Player player, int id)
     {
-        for (var x = player.TileX; x < player.TileX + 1; x++)
+        var tile = player.position.ToTileCoordinates();
+        for (var x = tile.X; x < tile.X + 1; x++)
         {
-            for (var y = player.TileY + 2; y < player.TileY + 4; y++)
+            for (var y = tile.Y + 2; y < tile.Y + 4; y++)
             {
                 if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Check if any of the tiles around the player are liquid.
+    /// </summary>
+    [Pure]
+    public static bool IsInLiquid(this Player player, int type = -1)
+    {
+        var tile = player.position.ToTileCoordinates();
+        for (var x = tile.X; x < tile.X + 1; x++)
+        {
+            for (var y = tile.Y; y < tile.Y + 3; y++)
+            {
+                if (Main.tile[x, y].LiquidAmount > 0 && (type == -1 || Main.tile[x, y].LiquidType == type))
                 {
                     return true;
                 }
@@ -83,7 +102,7 @@ public static class PlayerUtils
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [Pure]
-    public static bool IsWithinSpawnProtection(this CrowdControlPlayer player)
+    public static bool IsWithinSpawnProtection(this Player player)
     {
         if (!CrowdControlConfig.GetInstance().EnableSpawnProtection)
         {
@@ -91,30 +110,30 @@ public static class PlayerUtils
         }
 
         float radius = CrowdControlConfig.GetInstance().SpawnProtectionRadius;
-        var playerTile = new Vector2(player.TileX, player.TileY);
+        var playerTile = player.Center.ToTileCoordinates().ToVector2();
         var spawnTile = new Vector2(Main.spawnTileX, Main.spawnTileY);
-        var bedTile = new Vector2(player.Player.SpawnX, player.Player.SpawnY);
+        var bedTile = new Vector2(player.SpawnX, player.SpawnY);
         return playerTile.Distance(spawnTile) < radius || playerTile.Distance(bedTile) < radius;
     }
 
     /// <summary>
     ///     Set the hair dye of the player.
     /// </summary>
-    public static void SetHairDye(this CrowdControlPlayer player, int hairDyeItemId)
+    public static void SetHairDye(this Player player, int hairDyeItemId)
     {
         var item = new Item(hairDyeItemId);
-        player.Player.hairDye = item.hairDye;
+        player.hairDye = item.hairDye;
 
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
-            NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);
+            NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
         }
     }
 
     /// <summary>
     ///     Give the player coins.
     /// </summary>
-    public static void GiveCoins(this CrowdControlPlayer player, int coins)
+    public static void GiveCoins(this Player player, int coins)
     {
         // Copied from the Terraria source code
         while (coins > 0)
@@ -123,7 +142,7 @@ public static class PlayerUtils
             {
                 var num12 = coins / 1000000;
                 coins -= 1000000 * num12;
-                var number7 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 74, num12);
+                var number7 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 74, num12);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number7, 1f);
@@ -136,7 +155,7 @@ public static class PlayerUtils
             {
                 var num11 = coins / 10000;
                 coins -= 10000 * num11;
-                var number6 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 73, num11);
+                var number6 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 73, num11);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number6, 1f);
@@ -149,7 +168,7 @@ public static class PlayerUtils
             {
                 var num10 = coins / 100;
                 coins -= 100 * num10;
-                var number5 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 72, num10);
+                var number5 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 72, num10);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number5, 1f);
@@ -160,7 +179,7 @@ public static class PlayerUtils
 
             var num9 = coins;
             coins -= num9;
-            var number4 = Item.NewItem(null, (int)player.Player.position.X, (int)player.Player.position.Y, player.Player.width, player.Player.height, 71, num9);
+            var number4 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 71, num9);
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
@@ -217,18 +236,20 @@ public static class PlayerUtils
     ///     Get the tiles in a radial area around the player.
     /// </summary>
     [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround(this CrowdControlPlayer player, int radius)
+    public static IEnumerable<(int x, int y)> GetTilesAround(this Player player, int radius)
     {
-        return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, radius);
+        var centerTile = player.Center.ToTileCoordinates();
+        return WorldUtils.GetTilesAround(centerTile.X, centerTile.Y, radius);
     }
 
     /// <summary>
     ///     Get the tiles in a rectangular area around the player.
     /// </summary>
     [Pure]
-    public static IEnumerable<(int x, int y)> GetTilesAround(this CrowdControlPlayer player, int halfWidth, int halfHeight)
+    public static IEnumerable<(int x, int y)> GetTilesAround(this Player player, int halfWidth, int halfHeight)
     {
-        return WorldUtils.GetTilesAround(player.CenterTileX, player.CenterTileY, halfWidth, halfHeight);
+        var centerTile = player.Center.ToTileCoordinates();
+        return WorldUtils.GetTilesAround(centerTile.X, centerTile.Y, halfWidth, halfHeight);
     }
 
     #endregion

@@ -623,15 +623,15 @@ public sealed class CrowdControlMod : Mod
             BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
             ItemID.Heart, (v, p) => $"{v} provided {p} with regeneration buffs",
-            p => p.SetHairDye(ItemID.LifeHairDye),
+            p => p.Player.SetHairDye(ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
         AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 25f,
             ItemID.MagicLantern, (v, p) => $"{v} provided {p} with light",
-            p => p.SetHairDye(ItemID.MartianHairDye),
+            p => p.Player.SetHairDye(ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
         AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 25f,
             ItemID.GoldChest, (v, p) => $"{v} helped {p} to search for treasure",
-            p => p.SetHairDye(ItemID.DepthHairDye),
+            p => p.Player.SetHairDye(ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
             ItemID.Aglet, (v, p) => $"{v} boosted the movement speed of {p}", null,
@@ -662,7 +662,7 @@ public sealed class CrowdControlMod : Mod
             BuffID.Invisibility));
         AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 10f,
             ItemID.Blindfold, (v, p) => $"{v} obstructed {p}'s screen",
-            p => p.SetHairDye(ItemID.TwilightHairDye),
+            p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
 
         // -- Inventory effects

@@ -121,7 +121,7 @@ public sealed class TrapEffect : CrowdControlEffect
                 halfHeight = halfWidth;
 
                 // Set the empty tiles around the player radially to cobwebs
-                foreach (var (x, y) in player.GetTilesAround(halfWidth))
+                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -140,7 +140,7 @@ public sealed class TrapEffect : CrowdControlEffect
                 halfHeight = 14;
 
                 // Set the empty tiles around the player to sand blocks
-                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
+                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth, halfHeight))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -171,7 +171,7 @@ public sealed class TrapEffect : CrowdControlEffect
 
                 // Set the tiles around the player to contain liquid
                 // PlaceLiquid() syncs with the clients
-                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
+                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth, halfHeight))
                 {
                     WorldGen.PlaceLiquid(x, y, (byte)liquidId, 255);
                 }
@@ -182,15 +182,16 @@ public sealed class TrapEffect : CrowdControlEffect
                 throw new ArgumentOutOfRangeException();
         }
 
+        var tile = player.Player.position.ToTileCoordinates();
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Update framing
-            WorldGen.RangeFrame(player.TileX - halfWidth, player.TileY - halfHeight, halfWidth * 2, halfHeight * 2);
+            WorldGen.RangeFrame(tile.X - halfWidth, tile.Y - halfHeight, halfWidth * 2, halfHeight * 2);
         }
         else
         {
             // Update clients on change
-            NetMessage.SendTileSquare(-1, player.TileX - halfWidth, player.TileY - halfHeight, halfWidth * 2, halfHeight * 2);
+            NetMessage.SendTileSquare(-1, tile.X - halfWidth, tile.Y - halfHeight, halfWidth * 2, halfHeight * 2);
         }
     }
 

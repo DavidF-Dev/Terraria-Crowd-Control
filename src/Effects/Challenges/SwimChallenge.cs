@@ -1,6 +1,6 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
-using Terraria;
+using CrowdControlMod.Utilities;
 
 namespace CrowdControlMod.Effects.Challenges;
 
@@ -9,28 +9,6 @@ namespace CrowdControlMod.Effects.Challenges;
 /// </summary>
 public sealed class SwimChallenge : ChallengeEffect
 {
-    #region Static Methods
-
-    private static bool IsInLiquid()
-    {
-        // Check if any of the player tiles are in a liquid tile
-        var player = GetLocalPlayer();
-        for (var x = player.TileX; x < player.TileX + 1; x++)
-        {
-            for (var y = player.TileY; y < player.TileY + 3; y++)
-            {
-                if (Main.tile[x, y].LiquidAmount > 0)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    #endregion
-
     #region Constructors
 
     public SwimChallenge(float duration) : base(EffectID.SwimChallenge, duration)
@@ -43,7 +21,7 @@ public sealed class SwimChallenge : ChallengeEffect
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
-        return IsInLiquid() ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
+        return GetLocalPlayer().Player.IsInLiquid() ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
     }
 
     protected override string GetChallengeDescription()
@@ -53,7 +31,7 @@ public sealed class SwimChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (!IsInLiquid())
+        if (!GetLocalPlayer().Player.IsInLiquid())
         {
             return;
         }

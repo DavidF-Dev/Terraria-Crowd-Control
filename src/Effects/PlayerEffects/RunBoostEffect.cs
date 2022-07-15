@@ -25,7 +25,7 @@ public sealed class RunBoostEffect : CrowdControlEffect
     private static void PostUpdateRunSpeeds()
     {
         var player = GetLocalPlayer();
-        var aboveSurface = player.TileY < Main.worldSurface;
+        var aboveSurface = player.Player.position.ToTileCoordinates().Y < Main.worldSurface;
         player.Player.maxRunSpeed = aboveSurface ? SurfaceSpeed : CavernSpeed;
         player.Player.runAcceleration = aboveSurface ? SurfaceAcceleration : CavernAcceleration;
     }
@@ -46,7 +46,7 @@ public sealed class RunBoostEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         player.PostUpdateRunSpeedsHook += PostUpdateRunSpeeds;
-        player.SetHairDye(ItemID.SpeedHairDye);
+        player.Player.SetHairDye(ItemID.SpeedHairDye);
         return CrowdControlResponseStatus.Success;
     }
 

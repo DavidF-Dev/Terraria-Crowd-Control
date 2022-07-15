@@ -86,8 +86,12 @@ public sealed class MysteryBlocksEffect : CrowdControlEffect
         return Main.player
             .Where(x => x.active)
             .Select(player => player.GetModPlayer<CrowdControlPlayer>())
-            .Any(moddedPlayer => i >= moddedPlayer.TileX - revealRange && i <= moddedPlayer.TileX + 1 + revealRange &&
-                                 j >= moddedPlayer.TileY - revealRange && j <= moddedPlayer.TileY + 2 + revealRange);
+            .Any(moddedPlayer =>
+            {
+                var tile = moddedPlayer.Player.position.ToTileCoordinates();
+                return i >= tile.X - revealRange && i <= tile.X + 1 + revealRange &&
+                       j >= tile.Y - revealRange && j <= tile.Y + 2 + revealRange;
+            });
     }
 
     #endregion

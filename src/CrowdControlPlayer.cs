@@ -45,19 +45,6 @@ public sealed class CrowdControlPlayer : ModPlayer
     #region Properties
 
     /// <summary>
-    ///     Is this player instance the local player / client?
-    /// </summary>
-    public bool IsLocalPlayer => Player.whoAmI == Main.myPlayer;
-
-    public int TileX => (int)(Player.position.X / 16);
-
-    public int TileY => (int)(Player.position.Y / 16);
-
-    public int CenterTileX => (int)(Player.Center.X / 16);
-
-    public int CenterTileY => (int)(Player.Center.Y / 16);
-
-    /// <summary>
     ///     Whether tombstones are disabled for this player. Correct for client and server.
     /// </summary>
     public bool DisableTombstones => Main.netMode == NetmodeID.Server ? ServerDisableTombstones : CrowdControlConfig.GetInstance().DisableTombstones;
@@ -111,7 +98,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override void OnEnterWorld(Player player)
     {
-        if (IsLocalPlayer)
+        if (Main.myPlayer == player.whoAmI)
         {
             // Start the crowd control session upon entering a world
             CrowdControlMod.GetInstance().StartCrowdControlSession();
@@ -120,7 +107,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override void PlayerDisconnect(Player player)
     {
-        if (IsLocalPlayer)
+        if (Main.myPlayer == player.whoAmI)
         {
             // Stop the crowd control session upon disconnecting from a server
             CrowdControlMod.GetInstance().StopCrowdControlSession();

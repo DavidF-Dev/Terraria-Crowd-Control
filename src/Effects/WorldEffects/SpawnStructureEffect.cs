@@ -30,17 +30,17 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
     #region Static Methods
 
     [Pure]
-    private static Structure ChooseStructure(CrowdControlPlayer player)
+    private static Structure ChooseStructure(Player player)
     {
         // Choose the structure based on the player's location in the world
-        var tileY = player.TileY;
+        var tileY = player.position.ToTileCoordinates().Y;
 
-        if (player.Player.ZoneCorrupt || player.Player.ZoneCrimson)
+        if (player.ZoneCorrupt || player.ZoneCrimson)
         {
             return Structure.DeepChasm;
         }
 
-        if (player.Player.ZoneUnderworldHeight)
+        if (player.ZoneUnderworldHeight)
         {
             return Structure.HellHouse;
         }
@@ -112,21 +112,22 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         var player = GetLocalPlayer();
 
         // Determine which structure to generate based on the player's location
-        _chosenStructure = ChooseStructure(player);
+        _chosenStructure = ChooseStructure(player.Player);
         if (_chosenStructure == Structure.None)
         {
             return CrowdControlResponseStatus.Retry;
         }
 
+        var tile = player.Player.position.ToTileCoordinates();
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn the structure if we're in single-player
-            SpawnStructure(_chosenStructure, player.TileX, player.TileY);
+            SpawnStructure(_chosenStructure, tile.X, tile.Y);
         }
         else
         {
             // Let the server generate the structure if we are a client
-            SendPacket(PacketID.HandleEffect, (int)_chosenStructure, player.TileX, player.TileY);
+            SendPacket(PacketID.HandleEffect, (int)_chosenStructure, tile.X, tile.Y);
         }
 
         return CrowdControlResponseStatus.Success;

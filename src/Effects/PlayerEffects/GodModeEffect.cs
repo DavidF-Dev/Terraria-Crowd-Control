@@ -24,7 +24,7 @@ public sealed class GodModeEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.IsInvincible())
+        if (player.Player.IsInvincible())
         {
             // Ignore if the player ins invincible
             return CrowdControlResponseStatus.Retry;

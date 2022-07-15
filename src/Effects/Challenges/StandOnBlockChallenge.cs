@@ -56,7 +56,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
         _chosenTileItem = new Item(Main.rand.Next(ProgressionUtils.ChooseUpToProgression(
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
-        ).SelectMany(x => x).Distinct().Where(x => player.IsStandingOn(x)).ToList()));
+        ).SelectMany(x => x).Distinct().Where(x => player.Player.IsStandingOn(x)).ToList()));
 
         return CrowdControlResponseStatus.Success;
     }
@@ -68,7 +68,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (_chosenTileItem != null && !GetLocalPlayer().IsStandingOn(_chosenTileItem.createTile))
+        if (_chosenTileItem != null && !GetLocalPlayer().Player.IsStandingOn(_chosenTileItem.createTile))
         {
             return;
         }

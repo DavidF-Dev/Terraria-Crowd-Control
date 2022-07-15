@@ -46,7 +46,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         _paintIndex = Main.rand.Next(PaintIds.Length);
-        player.SetHairDye(ItemID.RainbowHairDye);
+        player.Player.SetHairDye(ItemID.RainbowHairDye);
 
         player.PostUpdateHook += PostUpdate;
         CrowdControlProjectile.KillHook += ProjectileKill;
@@ -118,10 +118,9 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         }
 
         // Set rainbow colours on the tiles below the player
-        var tileX = player.TileX;
-        var tileY = player.TileY;
-        SetRainbowOnTile(tileX, tileY + 3, false);
-        SetRainbowOnTile(tileX + 1, tileY + 3, false);
+        var tile = player.Player.position.ToTileCoordinates();
+        SetRainbowOnTile(tile.X, tile.Y + 3, false);
+        SetRainbowOnTile(tile.X + 1, tile.Y + 3, false);
     }
 
     private void ProjectileKill(Projectile projectile, int timeLeft)

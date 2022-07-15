@@ -59,8 +59,8 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 
         // Give coins to the player (at least 1 gold)
         _coins = Item.buyPrice(0, Math.Max(Main.rand.Next(-7, 2), 0), Main.rand.Next(100, 200));
-        player.GiveCoins(_coins);
-        player.SetHairDye(ItemID.MoneyHairDye);
+        player.Player.GiveCoins(_coins);
+        player.Player.SetHairDye(ItemID.MoneyHairDye);
 
         // Boost coin drops from enemies
         player.PostUpdateEquipsHook += PostUpdateEquips;
