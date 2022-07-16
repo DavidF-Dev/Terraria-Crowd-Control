@@ -191,6 +191,21 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {ProgressionUtils.Progression.PreMoonLord, new[] { "" }},
                 {ProgressionUtils.Progression.PostGame, new[] { "" }}
             }
+        },
+        {
+            GiveItem.Potion, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<string>>
+            {
+                {
+                    ProgressionUtils.Progression.PreEye, new[]
+                    {
+                        "AstralInjection", "AureusCell", "Baguette", "BoundingPotion", "CalamitasBrew", "CalciumPotion",
+                        "DeliciousMeat", "DraconicElixir", "HolyWrathPotion", "PhotosynthesisPotion", "PotionofOmniscience",
+                        "TeslaPotion", "TitanScalePotion", "TriumphPotion", "ZenPotion", "ZergPotion", "Everclear",
+                        "FabsolsVodka", "Moonshine", "Tequila", "TequilaSunrise", "Vodka", "Whiskey", "YharimsStimulants",
+                        "Bloodfin", "GrapeBeer", "HadalStew"
+                    }
+                }
+            }
         }
     };
 
