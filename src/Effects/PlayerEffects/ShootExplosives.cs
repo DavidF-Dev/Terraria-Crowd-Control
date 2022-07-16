@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using CrowdControlMod.CrowdControlService;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
@@ -32,7 +34,7 @@ public sealed class ShootExplosives : CrowdControlEffect
     private const float MaxExplosiveSpeed = 11f;
     private const int ShootChance = 85;
 
-    private static readonly Dictionary<Shoot, IReadOnlyList<short>> ExplosiveIds = new()
+    private static readonly Dictionary<Shoot, short[]> VanillaExplosives = new()
     {
         {
             Shoot.Bombs, new[]
@@ -49,6 +51,24 @@ public sealed class ShootExplosives : CrowdControlEffect
                 ProjectileID.SmokeBomb, ProjectileID.ConfettiGun, ProjectileID.FlowerPetal, ProjectileID.OrnamentFriendly,
                 ProjectileID.SantaBombs, ProjectileID.DD2GoblinBomb, ProjectileID.DryGrenade, ProjectileID.WetGrenade, ProjectileID.HoneyGrenade,
                 ProjectileID.LavaGrenade
+            }
+        }
+    };
+
+    private static readonly Dictionary<Shoot, string[]> CalamityExplosives = new()
+    {
+        {
+            Shoot.Bombs, new[]
+            {
+                "PlasmaGrenadeProjectile", "PenumbraBomb", "SealedSingularityProj", "SupernovaBomb", "WavePounderProjectile"
+            }
+        },
+        {
+            Shoot.Grenades, new[]
+            {
+                "BallisticPoisonBombProj", "BlastBarrelProjectile", "BettyExplosion", "BrackishFlaskProj", "ContaminatedBileFlask",
+                "DesecratedWaterProj", "DuststormInABottleProj", "ExorcismProj", "MeteorFistProj", "PlaguenadeProj",
+                "SeafoamBombProj", "ShockGrenadeProjectile", "DestructionStar", "TotalityFlask"
             }
         }
     };
@@ -89,6 +109,7 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #region Fields
 
+    private readonly Dictionary<Shoot, IReadOnlyList<short>> _allExplosiveOptions = new();
     private readonly Shoot _shoot;
     private int _delay;
 
@@ -99,6 +120,36 @@ public sealed class ShootExplosives : CrowdControlEffect
     public ShootExplosives(float duration, Shoot shoot) : base(GetId(shoot), duration, GetSeverity(shoot))
     {
         _shoot = shoot;
+
+        var allBombOptions = VanillaExplosives[Shoot.Bombs].ToList();
+        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        {
+            // Add calamity bombs
+            foreach (var calamityProjName in CalamityExplosives[Shoot.Bombs])
+            {
+                if(calamity.TryFind<ModProjectile>(calamityProjName, out var calamityProj))
+                {
+                    allBombOptions.Add((short)calamityProj.Type);
+                }
+            }
+        }
+        
+        _allExplosiveOptions[Shoot.Bombs] = allBombOptions;
+        
+        var allGrenadeOptions = VanillaExplosives[Shoot.Grenades].ToList();
+        if (calamity != null)
+        {
+            // Add calamity grenades
+            foreach (var calamityProjName in CalamityExplosives[Shoot.Grenades])
+            {
+                if(calamity.TryFind<ModProjectile>(calamityProjName, out var calamityProj))
+                {
+                    allGrenadeOptions.Add((short)calamityProj.Type);
+                }
+            }
+        }
+        
+        _allExplosiveOptions[Shoot.Grenades] = allGrenadeOptions;
     }
 
     #endregion
@@ -112,7 +163,7 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        if (!ExplosiveIds.ContainsKey(_shoot) || !SpawnDelays.ContainsKey(_shoot))
+        if (!_allExplosiveOptions.ContainsKey(_shoot) || !SpawnDelays.ContainsKey(_shoot))
         {
             // Unsupported
             return CrowdControlResponseStatus.Failure;
@@ -180,7 +231,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         _delay = Main.rand.Next(spawnDelay.Item1, spawnDelay.Item2);
 
         // Choose explosive settings
-        var explosiveIds = ExplosiveIds[_shoot];
+        var explosiveIds = _allExplosiveOptions[_shoot];
         var explosiveId = explosiveIds[Main.rand.Next(explosiveIds.Count)];
         var speed = Main.rand.NextFloat(MinExplosiveSpeed, MaxExplosiveSpeed);
 
@@ -207,7 +258,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         var player = GetLocalPlayer();
 
         // Choose explosive settings
-        var explosiveIds = ExplosiveIds[_shoot];
+        var explosiveIds = _allExplosiveOptions[_shoot];
         var explosiveId = explosiveIds[Main.rand.Next(explosiveIds.Count)];
         var speed = Main.rand.NextFloat(MinExplosiveSpeed, MaxExplosiveSpeed);
 
