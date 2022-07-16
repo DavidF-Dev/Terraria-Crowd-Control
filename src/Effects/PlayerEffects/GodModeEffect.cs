@@ -26,7 +26,7 @@ public sealed class GodModeEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         if (player.Player.IsInvincible())
         {
-            // Ignore if the player ins invincible
+            // Ignore if the player is invincible
             return CrowdControlResponseStatus.Retry;
         }
 
@@ -44,7 +44,7 @@ public sealed class GodModeEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.EoCShield, $"{viewerString} made {playerString} invulnerable to enemy attacks for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.TorchGodsFavor, $"{viewerString} made {playerString} invulnerable to enemy attacks for {durationString} seconds", Severity);
     }
 
     protected override void SendStopMessage()

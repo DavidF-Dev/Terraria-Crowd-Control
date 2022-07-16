@@ -263,7 +263,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         var speed = Main.rand.NextFloat(MinExplosiveSpeed, MaxExplosiveSpeed);
 
         // Spawn the explosive
-        Projectile.NewProjectile(null, player.Player.Center, Main.rand.NextVector2Unit() * speed, explosiveId, 10, 1f, player.Player.whoAmI);
+        Projectile.NewProjectile(source, player.Player.Center, Main.rand.NextVector2Unit() * speed, explosiveId, 10, 1f, player.Player.whoAmI);
 
         // Prevent vanilla item from shooting
         return false;

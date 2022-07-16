@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System.IO;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
@@ -14,10 +15,17 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 /// </summary>
 public sealed class ExplodePlayerEffect : CrowdControlEffect
 {
+    #region Fields
+
+    private readonly int _instantDynamiteType;
+
+    #endregion
+
     #region Constructors
 
     public ExplodePlayerEffect() : base(EffectID.ExplodePlayer, null, EffectSeverity.Negative)
     {
+        _instantDynamiteType = ModContent.ProjectileType<InstantDynamite>();
     }
 
     #endregion
@@ -34,7 +42,17 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
         }
 
         // Spawn an explosion (kill the player when the start message is sent)
-        Projectile.NewProjectile(null, player.Player.Center, Vector2.Zero, CrowdControlMod.GetInstance().Find<ModProjectile>(nameof(InstantDynamite)).Type, 1, 1f, player.Player.whoAmI);
+        if (Main.netMode == NetmodeID.SinglePlayer)
+        {
+            // Simply spawn the projectile in single-player
+            Projectile.NewProjectile(new EntitySource_Misc(Id), player.Player.Center, Vector2.Zero, _instantDynamiteType, 1, 1f, player.Player.whoAmI);
+        }
+        else
+        {
+            // Handle on the server
+            SendPacket(PacketID.HandleEffect);
+        }
+
         return CrowdControlResponseStatus.Success;
     }
 
@@ -42,6 +60,13 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
     {
         // Kill the player here
         GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was brutally torn apart by {viewerString}'s explosive"), 1000, 0);
+    }
+
+    protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
+    {
+        // Spawn the explosion on the server and let the clients know
+        var index = Projectile.NewProjectile(null, player.Player.Center, Vector2.Zero, _instantDynamiteType, 1, 1f, player.Player.whoAmI);
+        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
     }
 
     #endregion

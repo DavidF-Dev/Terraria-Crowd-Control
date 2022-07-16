@@ -94,8 +94,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        var mountName = Lang.GetBuffName(_chosenMount);
-        TerrariaUtils.WriteEffectMessage(ItemID.MajesticHorseSaddle, $"{viewerString} is forcing {playerString} to ride a {mountName}", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.MajesticHorseSaddle, $"{viewerString} is forcing {playerString} to ride a {Lang.GetBuffName(_chosenMount)}", Severity);
     }
 
     private void PreUpdateBuffs()

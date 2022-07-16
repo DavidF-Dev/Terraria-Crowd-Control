@@ -4,6 +4,7 @@ using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
