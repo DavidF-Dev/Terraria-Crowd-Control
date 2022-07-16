@@ -29,7 +29,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     private static readonly int[] VanillaPets =
     {
         BuffID.BabyDinosaur, BuffID.BabyEater, BuffID.BabyFaceMonster, BuffID.BabyGrinch, BuffID.BabyHornet, BuffID.BabyImp, BuffID.BabyPenguin, BuffID.BabyRedPanda,
-        BuffID.BabySkeletronHead, BuffID.BabySnowman, BuffID.BabyTruffle, BuffID.BabyWerewolf, BuffID.BerniePet, BuffID.BlackCat, BuffID.PetBunny, BuffID.ChesterPet,
+        BuffID.BabySkeletronHead, BuffID.BabySnowman, BuffID.BabyTruffle, BuffID.BabyWerewolf, BuffID.BerniePet, BuffID.BlackCat, /*BuffID.PetBunny,*/ BuffID.ChesterPet,
         BuffID.CompanionCube, BuffID.CursedSapling, BuffID.DynamiteKitten, BuffID.UpbeatStar, BuffID.EyeballSpring, BuffID.FennecFox, BuffID.GlitteryButterfly,
         BuffID.GlommerPet, BuffID.PetDD2Dragon, BuffID.LilHarpy, BuffID.PetLizard, BuffID.MiniMinotaur, BuffID.PetParrot, BuffID.PigPet, BuffID.Plantero, BuffID.PetDD2Gato,
         BuffID.Puppy, BuffID.PetSapling, BuffID.PetSpider, BuffID.ShadowMimic, BuffID.SharkPup, BuffID.Squashling, BuffID.SugarGlider, BuffID.TikiSpirit,
@@ -132,7 +132,7 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.Bunny, $"{viewerString} provided {playerString} with a {Lang.GetBuffName(_chosenId)} companion", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.DogWhistle, $"{viewerString} provided {playerString} with a {Lang.GetBuffName(_chosenId)} companion", Severity);
     }
 
     private void OnRespawn()
