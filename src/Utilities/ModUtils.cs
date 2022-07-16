@@ -61,6 +61,27 @@ public static class ModUtils
     }
     
     /// <summary>
+    ///     List items in provided mod.
+    /// </summary>
+    public static void ListItems(string modId, Predicate<ModItem>? predicate = null)
+    {
+        if (!ModLoader.TryGetMod(modId, out var mod))
+        {
+            TerrariaUtils.WriteDebug($"Could not find mod: '{modId}'");
+            return;
+        }
+
+        for (var i = 0; i < ItemLoader.ItemCount; i++)
+        {
+            var item = ItemLoader.GetItem(i);
+            if (item != null && item.Mod == mod && (predicate?.Invoke(item) ?? true))
+            {
+                TerrariaUtils.WriteDebug($"[{item.Type}] {item.DisplayName.GetDefault()} ({item.Name})");
+            }
+        }
+    }
+    
+    /// <summary>
     ///     List NPCs in provided mod.
     /// </summary>
     // ReSharper disable once InconsistentNaming

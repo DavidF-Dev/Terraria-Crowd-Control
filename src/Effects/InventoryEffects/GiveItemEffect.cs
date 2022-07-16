@@ -5,6 +5,7 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
@@ -29,7 +30,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
-    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> Items = new()
+    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> VanillaItems = new()
     {
         {
             GiveItem.Pickaxe, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
@@ -176,6 +177,23 @@ public sealed class GiveItemEffect : CrowdControlEffect
         }
     };
 
+    private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<string>>> CalamityItems = new()
+    {
+        {
+            GiveItem.Sword, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<string>>
+            {
+                {ProgressionUtils.Progression.PreEye, new[] { "" }},
+                {ProgressionUtils.Progression.PreSkeletron, new[] { "" }},
+                {ProgressionUtils.Progression.PreWall, new[] { "" }},
+                {ProgressionUtils.Progression.PreMech, new[] { "" }},
+                {ProgressionUtils.Progression.PreGolem, new[] { "" }},
+                {ProgressionUtils.Progression.PreLunar, new[] { "" }},
+                {ProgressionUtils.Progression.PreMoonLord, new[] { "" }},
+                {ProgressionUtils.Progression.PostGame, new[] { "" }}
+            }
+        }
+    };
+
     #endregion
 
     #region Static Methods
@@ -248,17 +266,36 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         // Load the item id collection (try PreEye for cases that don't use progression)
         var progress = ProgressionUtils.GetProgression();
-        if (!Items.TryGetValue(_giveItem, out var itemsByProgression) ||
-            (!itemsByProgression.TryGetValue(progress, out var itemIds) &&
-             !itemsByProgression.TryGetValue(ProgressionUtils.Progression.PreEye, out itemIds)))
+        List<short> availableOptions = new();
+
+        if (!VanillaItems.TryGetValue(_giveItem, out var vanillaItemsByProgression) ||
+            (!vanillaItemsByProgression.TryGetValue(progress, out var vanillaItems) &&
+             !vanillaItemsByProgression.TryGetValue(progress = ProgressionUtils.Progression.PreEye, out vanillaItems)))
         {
             // Not supported
             return CrowdControlResponseStatus.Failure;
         }
 
+        // Add vanilla items
+        availableOptions.AddRange(vanillaItems);
+        
+        // Add calamity items
+        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity) &&
+            CalamityItems.TryGetValue(_giveItem, out var calamityItemsByProgression) &&
+            calamityItemsByProgression.TryGetValue(progress, out var calamityItems))
+        {
+            foreach (var calamityItemName in calamityItems)
+            {
+                if (calamity.TryFind(calamityItemName, out ModItem calamityItem))
+                {
+                    availableOptions.Add((short)calamityItem.Type);
+                }
+            }
+        }
+
         // Choose the item and spawn it in
         var player = GetLocalPlayer();
-        var chosenId = itemIds[Main.rand.Next(itemIds.Count)];
+        var chosenId = availableOptions[Main.rand.Next(availableOptions.Count)];
         var itemId = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height,
             chosenId, _stack, noGrabDelay: true);
         _item = Main.item[itemId];
