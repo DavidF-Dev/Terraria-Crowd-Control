@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
@@ -24,7 +26,7 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     #region Static Fields and Constants
 
-    private static readonly int[] Pets =
+    private static readonly int[] VanillaPets =
     {
         BuffID.BabyDinosaur, BuffID.BabyEater, BuffID.BabyFaceMonster, BuffID.BabyGrinch, BuffID.BabyHornet, BuffID.BabyImp, BuffID.BabyPenguin, BuffID.BabyRedPanda,
         BuffID.BabySkeletronHead, BuffID.BabySnowman, BuffID.BabyTruffle, BuffID.BabyWerewolf, BuffID.BerniePet, BuffID.BlackCat, BuffID.PetBunny, BuffID.ChesterPet,
@@ -37,22 +39,31 @@ public sealed class GivePetEffect : CrowdControlEffect
         BuffID.DukeFishronPet
     };
 
-    private static readonly int[] LightPets =
+    private static readonly string[] CalamityPets =
+    {
+        "AkatoBuff", "AstrophageBuff", "BearBuff", "BrimlingBuff", "ChibiiDoGBuff", "DannyDevito", "ElectricTroublemaker", "FlakHermitBuff",
+        "FoxPetBuff", "FurtasticDuoBuff", "Kendra", "LadBuff", "LeviBuff", "PineappleBuff", "PlaguebringerBabBuff", "YharonSonBuff",
+        "ClassicSCalPetBuff", "ThirdSageBuff", "BloodBound", "MiniMindBuff"
+    };
+
+    private static readonly int[] VanillaLightPets =
     {
         BuffID.ShadowOrb, BuffID.CrimsonHeart, BuffID.MagicLantern, BuffID.FairyBlue, BuffID.FairyGreen, BuffID.FairyRed, BuffID.PetDD2Ghost, BuffID.Wisp,
         BuffID.SuspiciousTentacle, BuffID.PumpkingPet, BuffID.GolemPet, BuffID.FairyQueenPet
     };
 
+    private static readonly string[] CalamityLightPets =
+    {
+        "Dreamfog", "SparksBuff", "LittleLightBuff", "RadiatorBuff", "BabyGhostBellBuff", "OceanSpiritBuff"
+    };
+
     #endregion
 
     #region Fields
-
-    private readonly PetType _petType;
-
+    
     private readonly int _slot;
-
-    private IList<int> _petOptions;
-
+    private readonly IReadOnlyList<int> _allPetOptions;
+    private List<int> _petOptions;
     private int _chosenId;
 
     #endregion
@@ -61,9 +72,24 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     public GivePetEffect(PetType petType) : base(petType == PetType.Pet ? EffectID.GivePet : EffectID.GiveLightPet, null, EffectSeverity.Neutral)
     {
-        _petType = petType;
-        _slot = _petType == PetType.Pet ? 0 : 1;
-        _petOptions = new List<int>(_petType == PetType.Pet ? Pets : LightPets);
+        _slot = petType == PetType.Pet ? 0 : 1;
+        
+        // Create a list of ALL the pets
+        var allPetOptions = (petType == PetType.Pet ? VanillaPets : VanillaLightPets).ToList();
+        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        {
+            // Add calamity pets
+            foreach (var calamityPetName in petType == PetType.Pet ? CalamityPets : CalamityLightPets)
+            {
+                if(calamity.TryFind<ModBuff>(calamityPetName, out var calamityPetBuff))
+                {
+                    allPetOptions.Add(calamityPetBuff.Type);
+                }
+            }
+        }
+
+        _allPetOptions = allPetOptions;
+        _petOptions = _allPetOptions.ToList();
     }
 
     #endregion
@@ -82,6 +108,11 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        if (!_petOptions.Any())
+        {
+            return CrowdControlResponseStatus.Failure;
+        }
+        
         var player = GetLocalPlayer();
         HideExistingPet(player.Player);
 
@@ -91,7 +122,7 @@ public sealed class GivePetEffect : CrowdControlEffect
         // If there are no more options, regenerate the collection
         if (_petOptions.Count == 1)
         {
-            _petOptions = new List<int>(_petType == PetType.Pet ? Pets : LightPets);
+            _petOptions = _allPetOptions.ToList();
         }
 
         _petOptions.Remove(_chosenId);
