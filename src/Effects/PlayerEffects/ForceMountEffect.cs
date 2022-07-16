@@ -1,8 +1,11 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
@@ -13,7 +16,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private static readonly int[] MountIds =
+    private static readonly int[] VanillaMounts =
     {
         BuffID.SlimeMount, BuffID.BeeMount, BuffID.TurtleMount, BuffID.BunnyMount, BuffID.PogoStickMount, BuffID.GolfCartMount,
         BuffID.Flamingo, BuffID.DarkHorseMount, BuffID.MajesticHorseMount, BuffID.PaintedHorseMount, BuffID.LavaSharkMount,
@@ -22,10 +25,17 @@ public sealed class ForceMountEffect : CrowdControlEffect
         BuffID.PirateShipMount, BuffID.SpookyWoodMount, BuffID.SantankMount, BuffID.MinecartRightMech, BuffID.MeowmereMinecartRight
     };
 
+    private static readonly string[] CalamityMounts =
+    {
+        "OnyxExcavatorBuff", "RimehoundBuff", "BrimroseMount", "BumbledogeMount", "SquishyBeanBuff", "AlicornBuff",
+        "GazeOfCrysthamyrBuff", "DraedonGamerChairBuff"
+    };
+
     #endregion
 
     #region Fields
 
+    private readonly List<int> _allMountOptions;
     private int _chosenMount;
 
     #endregion
@@ -34,6 +44,18 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     public ForceMountEffect(float duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
     {
+        _allMountOptions = VanillaMounts.ToList();
+        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        {
+            // Add calamity mounts
+            foreach (var calamityPetName in CalamityMounts)
+            {
+                if(calamity.TryFind<ModBuff>(calamityPetName, out var calamityPetBuff))
+                {
+                    _allMountOptions.Add(calamityPetBuff.Type);
+                }
+            }
+        }
     }
 
     #endregion
@@ -42,12 +64,17 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        if (!_allMountOptions.Any())
+        {
+            return CrowdControlResponseStatus.Failure;
+        }
+        
         var player = GetLocalPlayer();
 
         // Choose random mount (that isn't already enabled)
         do
         {
-            _chosenMount = MountIds[Main.rand.Next(MountIds.Length)];
+            _chosenMount = Main.rand.Next(_allMountOptions);
         } while (player.Player.HasBuff(_chosenMount));
 
         player.PreUpdateBuffsHook += PreUpdateBuffs;
