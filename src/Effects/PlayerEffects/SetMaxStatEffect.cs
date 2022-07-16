@@ -37,10 +37,10 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if ((_life && _increase && player.Player.statLifeMax2 >= 500) ||
-            (_life && !_increase && player.Player.statLifeMax2 <= 20) ||
-            (!_life && _increase && player.Player.statManaMax2 >= 200) ||
-            (!_life && !_increase && player.Player.statManaMax2 <= 20))
+        if ((_life && _increase && player.Player.statLifeMax >= 500) ||
+            (_life && !_increase && player.Player.statLifeMax <= 20) ||
+            (!_life && _increase && player.Player.statManaMax >= 200) ||
+            (!_life && !_increase && player.Player.statManaMax <= 20))
         {
             // Ignore if the stat cannot be further altered
             return CrowdControlResponseStatus.Failure;
@@ -51,14 +51,14 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
             if (_increase)
             {
                 // Increase the player's current max health
-                player.Player.statLifeMax2 += Amount;
+                player.Player.statLifeMax += Amount;
                 player.Player.statLife += Amount;
                 player.Player.AddBuff(BuffID.Lovestruck, 60 * 5);
             }
             else
             {
                 // Decrease the player's current max health
-                player.Player.statLifeMax2 -= Amount;
+                player.Player.statLifeMax -= Amount;
             }
         }
         else
@@ -66,13 +66,13 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
             if (_increase)
             {
                 // Increase the player's current max mana
-                player.Player.statManaMax2 += Amount;
+                player.Player.statManaMax += Amount;
                 player.Player.statMana += Amount;
             }
             else
             {
                 // Decrease the player's current max mana
-                player.Player.statManaMax2 -= Amount;
+                player.Player.statManaMax -= Amount;
             }
         }
 
