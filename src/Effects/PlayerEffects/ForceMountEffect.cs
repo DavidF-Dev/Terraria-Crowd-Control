@@ -48,11 +48,11 @@ public sealed class ForceMountEffect : CrowdControlEffect
         if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
         {
             // Add calamity mounts
-            foreach (var calamityPetName in CalamityMounts)
+            foreach (var calamityMountName in CalamityMounts)
             {
-                if(calamity.TryFind<ModBuff>(calamityPetName, out var calamityPetBuff))
+                if(calamity.TryFind<ModBuff>(calamityMountName, out var calamityMountBuff))
                 {
-                    allMountOptions.Add(calamityPetBuff.Type);
+                    allMountOptions.Add(calamityMountBuff.Type);
                 }
             }
         }

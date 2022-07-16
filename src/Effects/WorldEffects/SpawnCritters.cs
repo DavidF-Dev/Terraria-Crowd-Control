@@ -61,9 +61,9 @@ public sealed class SpawnCritters : CrowdControlEffect
             // Add calamity critters
             foreach (var calamityCritterName in CalamityCritters)
             {
-                if(calamity.TryFind<ModNPC>(calamityCritterName, out var calamityPetBuff))
+                if(calamity.TryFind<ModNPC>(calamityCritterName, out var calamityCritter))
                 {
-                    allCritterOptions.Add((short)calamityPetBuff.Type);
+                    allCritterOptions.Add((short)calamityCritter.Type);
                 }
             }
         }
