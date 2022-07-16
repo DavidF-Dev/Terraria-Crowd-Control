@@ -35,7 +35,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     #region Fields
 
-    private readonly List<int> _allMountOptions;
+    private readonly IReadOnlyList<int> _allMountOptions;
     private int _chosenMount;
 
     #endregion
@@ -44,7 +44,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     public ForceMountEffect(float duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
     {
-        _allMountOptions = VanillaMounts.ToList();
+        var allMountOptions = VanillaMounts.ToList();
         if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
         {
             // Add calamity mounts
@@ -52,10 +52,12 @@ public sealed class ForceMountEffect : CrowdControlEffect
             {
                 if(calamity.TryFind<ModBuff>(calamityPetName, out var calamityPetBuff))
                 {
-                    _allMountOptions.Add(calamityPetBuff.Type);
+                    allMountOptions.Add(calamityPetBuff.Type);
                 }
             }
         }
+
+        _allMountOptions = allMountOptions;
     }
 
     #endregion
@@ -74,7 +76,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
         // Choose random mount (that isn't already enabled)
         do
         {
-            _chosenMount = Main.rand.Next(_allMountOptions);
+            _chosenMount = Main.rand.Next((List<int>)_allMountOptions);
         } while (player.Player.HasBuff(_chosenMount));
 
         player.PreUpdateBuffsHook += PreUpdateBuffs;

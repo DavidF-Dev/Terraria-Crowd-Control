@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -22,7 +23,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     private const int SpawnMin = 3;
     private const int SpawnMax = 8;
 
-    private static readonly IReadOnlyList<short> CritterIds = new[]
+    private static readonly short[] VanillaCritters =
     {
         NPCID.Bird, NPCID.BirdBlue, NPCID.Buggy, NPCID.Bunny, NPCID.ExplosiveBunny, NPCID.GemBunnyAmethyst, NPCID.GemBunnyTopaz, NPCID.GemBunnySapphire,
         NPCID.GemBunnyEmerald, NPCID.GemBunnyRuby, NPCID.GemBunnyDiamond, NPCID.BirdRed, NPCID.Duck, NPCID.Duck2, NPCID.EnchantedNightcrawler, NPCID.FairyCritterBlue,
@@ -37,32 +38,16 @@ public sealed class SpawnCritters : CrowdControlEffect
         NPCID.PartyBunny, NPCID.Dolphin, NPCID.SeaTurtle, NPCID.CrimsonBunny, NPCID.CorruptBunny
     };
 
+    private static readonly string[] CalamityCritters =
+    {
+        "BabyFlakCrab", "BloodwormNormal", "Twinkler", "BabyGhostBell", "SeaMinnow", "Piggy", "RepairUnitCritter"
+    };
+
     #endregion
 
-    #region Static Methods
+    #region Fields
 
-    private static void Spawn(ModPlayer player)
-    {
-        var x = (int)player.Player.Center.X;
-        var y = (int)player.Player.Center.Y;
-        var n = Main.rand.Next(100) <= ClusterChance ? Main.rand.Next(ClusterSpawnMin, ClusterSpawnMax) : Main.rand.Next(SpawnMin, SpawnMax);
-        for (var i = 0; i < n; i++)
-        {
-            var index = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - Main.rand.Next(16), CritterIds[Main.rand.Next(CritterIds.Count)]);
-            var npc = Main.npc[index];
-            npc.lifeMax += Main.rand.Next(25);
-            npc.life = npc.lifeMax;
-            npc.target = player.Player.whoAmI;
-            npc.AddBuff(BuffID.Lovestruck, 60 * 2);
-            npc.loveStruck = true;
-
-            if (Main.netMode == NetmodeID.Server)
-            {
-                // Notify clients if spawned on server
-                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
-            }
-        }
-    }
+    private readonly IReadOnlyList<short> _allCritterOptions;
 
     #endregion
 
@@ -70,6 +55,20 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     public SpawnCritters() : base(EffectID.SpawnCritters, null, EffectSeverity.Neutral)
     {
+        var allCritterOptions = VanillaCritters.ToList();
+        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        {
+            // Add calamity critters
+            foreach (var calamityCritterName in CalamityCritters)
+            {
+                if(calamity.TryFind<ModNPC>(calamityCritterName, out var calamityPetBuff))
+                {
+                    allCritterOptions.Add((short)calamityPetBuff.Type);
+                }
+            }
+        }
+        
+        _allCritterOptions = allCritterOptions;
     }
 
     #endregion
@@ -78,6 +77,11 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        if (!_allCritterOptions.Any())
+        {
+            return CrowdControlResponseStatus.Failure;
+        }
+        
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn in single-player
@@ -101,6 +105,29 @@ public sealed class SpawnCritters : CrowdControlEffect
     {
         // Spawn the critters on the server
         Spawn(player);
+    }
+
+    private void Spawn(ModPlayer player)
+    {
+        var x = (int)player.Player.Center.X;
+        var y = (int)player.Player.Center.Y;
+        var n = Main.rand.Next(100) <= ClusterChance ? Main.rand.Next(ClusterSpawnMin, ClusterSpawnMax) : Main.rand.Next(SpawnMin, SpawnMax);
+        for (var i = 0; i < n; i++)
+        {
+            var index = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - Main.rand.Next(16), Main.rand.Next((List<short>)_allCritterOptions));
+            var npc = Main.npc[index];
+            npc.lifeMax += Main.rand.Next(25);
+            npc.life = npc.lifeMax;
+            npc.target = player.Player.whoAmI;
+            npc.AddBuff(BuffID.Lovestruck, 60 * 2);
+            npc.loveStruck = true;
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                // Notify clients if spawned on server
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+            }
+        }
     }
 
     #endregion

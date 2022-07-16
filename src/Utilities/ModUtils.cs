@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using System;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Utilities;
 
@@ -20,7 +21,7 @@ public static class ModUtils
     /// <summary>
     ///     List buffs in provided mod.
     /// </summary>
-    public static void ListBuffs(string modId)
+    public static void ListBuffs(string modId, Predicate<ModBuff>? predicate = null)
     {
         if (!ModLoader.TryGetMod(modId, out var mod))
         {
@@ -31,12 +32,34 @@ public static class ModUtils
         for (var i = 0; i < BuffLoader.BuffCount; i++)
         {
             var buff = BuffLoader.GetBuff(i);
-            if (buff != null && buff.Mod == mod)
+            if (buff != null && buff.Mod == mod && (predicate?.Invoke(buff) ?? true))
             {
                 TerrariaUtils.WriteDebug($"[{buff.Type}] {buff.DisplayName.GetDefault()} ({buff.Name}): {buff.Description.GetDefault()}");
             }
         }
     }
 
+    /// <summary>
+    ///     List NPCs in provided mod.
+    /// </summary>
+    // ReSharper disable once InconsistentNaming
+    public static void ListNPCs(string modId, Predicate<ModNPC>? predicate = null)
+    {
+        if (!ModLoader.TryGetMod(modId, out var mod))
+        {
+            TerrariaUtils.WriteDebug($"Could not find mod: '{modId}'");
+            return;
+        }
+
+        for (var i = 0; i < NPCLoader.NPCCount; i++)
+        {
+            var npc = NPCLoader.GetNPC(i);
+            if (npc != null && npc.Mod == mod && (predicate?.Invoke(npc) ?? true))
+            {
+                TerrariaUtils.WriteDebug($"[{npc.Type}] {npc.DisplayName.GetDefault()} ({npc.Name})");
+            }
+        }
+    }
+    
     #endregion
 }
