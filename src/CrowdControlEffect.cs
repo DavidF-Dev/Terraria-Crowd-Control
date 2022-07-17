@@ -346,7 +346,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     protected virtual void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
+        // TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
     }
 
     /// <summary>
