@@ -35,27 +35,27 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Pickaxe, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtils.Progression.PreEye, new short[] {3509, 3503, 1, 3497, 3515, 3491, 882, 3485}},
-                {ProgressionUtils.Progression.PreSkeletron, new short[] {3521, 1917, 1320}},
-                {ProgressionUtils.Progression.PreWall, new short[] {103, 798}},
-                {ProgressionUtils.Progression.PreMech, new short[] {122, 776, 1188, 777, 1195}},
-                {ProgressionUtils.Progression.PreGolem, new short[] {778, 1202, 1506, 1230, 990, 2176}},
-                {ProgressionUtils.Progression.PreLunar, new short[] {1294, 2176, 990}},
-                {ProgressionUtils.Progression.PreMoonLord, new short[] {1294, 2176}},
-                {ProgressionUtils.Progression.PostGame, new short[] {2776, 2781, 2786, 3466}}
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.CopperPickaxe, ItemID.TinPickaxe, ItemID.IronPickaxe, ItemID.LeadPickaxe, ItemID.SilverPickaxe, ItemID.TungstenPickaxe, ItemID.CactusPickaxe, ItemID.PlatinumPickaxe}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.GoldPickaxe, ItemID.CnadyCanePickaxe, ItemID.BonePickaxe}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.NightmarePickaxe, ItemID.DeathbringerPickaxe}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.MoltenPickaxe, ItemID.CobaltPickaxe, ItemID.PalladiumPickaxe, ItemID.MythrilPickaxe, ItemID.OrichalcumPickaxe}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.AdamantitePickaxe, ItemID.TitaniumPickaxe, ItemID.SpectrePickaxe, ItemID.ChlorophytePickaxe, ItemID.PickaxeAxe, ItemID.ShroomiteDiggingClaw}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.Picksaw, ItemID.ShroomiteDiggingClaw, ItemID.PickaxeAxe}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.Picksaw, ItemID.ShroomiteDiggingClaw}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.VortexPickaxe, ItemID.NebulaPickaxe, ItemID.SolarFlarePickaxe, ItemID.StardustPickaxe}}
             }
         },
         {
             GiveItem.Sword, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtils.Progression.PreEye, new short[] {1827, 4, 3496, 3490, 1304, 3772, 881}},
-                {ProgressionUtils.Progression.PreSkeletron, new short[] {3520, 3484, 1166, 1909, 2273, 724, 46, 795}},
-                {ProgressionUtils.Progression.PreWall, new short[] {155, 3349, 65, 1123, 190, 121, 273}},
-                {ProgressionUtils.Progression.PreMech, new short[] {3258, 483, 1185, 1192, 484, 3823, 1306, 426, 672, 482, 1199, 676, 723, 3013, 3211}},
-                {ProgressionUtils.Progression.PreGolem, new short[] {368, 1227, 674, 1327, 3106, 671, 1226, 1826, 1928, 675, 3018}},
-                {ProgressionUtils.Progression.PreLunar, new short[] {3018, 3827, 757, 2880}},
-                {ProgressionUtils.Progression.PreMoonLord, new short[] {3827, 757, 2880}},
-                {ProgressionUtils.Progression.PostGame, new short[] {3065, 3063}}
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.BladedGlove, ItemID.IronBroadsword, ItemID.LeadBroadsword, ItemID.TungstenBroadsword, ItemID.ZombieArm, ItemID.AntlionClaw, ItemID.CactusSword}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.GoldBroadsword, ItemID.PlatinumBroadsword, ItemID.BoneSword, ItemID.CandyCaneSword, ItemID.Katana, ItemID.IceBlade, ItemID.LightsBane, ItemID.BloodButcherer}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.Muramasa, ItemID.DyeTradersScimitar, ItemID.Starfury, ItemID.BeeKeeper, ItemID.BladeofGrass, ItemID.FieryGreatsword, ItemID.NightsEdge}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.SlapHand, ItemID.CobaltSword, ItemID.PalladiumSword, ItemID.OrichalcumSword, ItemID.MythrilSword, ItemID.DD2SquireDemonSword, ItemID.IceSickle, ItemID.BreakerBlade, ItemID.Cutlass, ItemID.AdamantiteSword, ItemID.TitaniumSword, ItemID.Frostbrand, ItemID.BeamSword, ItemID.FetidBaghnakhs, ItemID.Bladetongue}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.Excalibur, ItemID.ChlorophyteSaber, ItemID.TrueExcalibur, ItemID.DeathSickle, ItemID.PsychoKnife, ItemID.Keybrand, ItemID.ChlorophyteClaymore, ItemID.TheHorsemansBlade, ItemID.ChristmasTreeSword, ItemID.TrueNightsEdge, ItemID.Seedler}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.Seedler, ItemID.DD2SquireBetsySword, ItemID.TerraBlade, ItemID.InfluxWaver}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.DD2SquireBetsySword, ItemID.TerraBlade, ItemID.InfluxWaver}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.StarWrath, ItemID.Meowmere}}
             }
         },
         {
