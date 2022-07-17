@@ -53,7 +53,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     {
         // Choose a random placeable item
         var player = GetLocalPlayer();
-        
+
         // Get options
         var options = ProgressionUtils.ChooseUpToProgression(
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
@@ -65,7 +65,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
             TerrariaUtils.WriteDebug($"No item options for {Id} challenge to start");
             return CrowdControlResponseStatus.Failure;
         }
-        
+
         _chosenTileItem = new Item(Main.rand.Next(options));
         return CrowdControlResponseStatus.Success;
     }

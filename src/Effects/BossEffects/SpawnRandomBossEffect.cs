@@ -149,7 +149,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
             }
         }
     };
-    
+
     #endregion
 
     #region Static Methods
@@ -197,7 +197,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
                     // Add a dictionary entry if one doesn't exist (unlikely)
                     _allTypesByProgression.Add(progression, new List<short>());
                 }
-                        
+
                 // Add the calamity boss to the dictionary
                 _allTypesByProgression[progression].Add((short)x.Type);
             });
@@ -207,7 +207,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
     #endregion
 
     #region Methods
-    
+
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();

@@ -65,7 +65,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
         {
             return CrowdControlResponseStatus.Failure;
         }
-        
+
         var player = GetLocalPlayer();
 
         // Choose random mount (that isn't already enabled)

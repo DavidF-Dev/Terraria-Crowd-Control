@@ -60,7 +60,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     #endregion
 
     #region Fields
-    
+
     private readonly int _slot;
     private readonly IReadOnlyList<int> _allPetOptions;
     private List<int> _petOptions;
@@ -73,7 +73,7 @@ public sealed class GivePetEffect : CrowdControlEffect
     public GivePetEffect(PetType petType) : base(petType == PetType.Pet ? EffectID.GivePet : EffectID.GiveLightPet, null, EffectSeverity.Neutral)
     {
         _slot = petType == PetType.Pet ? 0 : 1;
-        
+
         // Create a list of ALL the pets
         var allPetOptions = (petType == PetType.Pet ? VanillaPets : VanillaLightPets).ToList();
         if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
@@ -107,7 +107,7 @@ public sealed class GivePetEffect : CrowdControlEffect
         {
             return CrowdControlResponseStatus.Failure;
         }
-        
+
         var player = GetLocalPlayer();
         HideExistingPet(player.Player);
 

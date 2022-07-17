@@ -62,7 +62,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             // Add calamity critters
             ModUtils.IterateTypes<ModNPC>(calamity, CalamityCritters, x => allCritterOptions.Add((short)x.Type));
         }
-        
+
         _allCritterOptions = allCritterOptions;
     }
 
@@ -76,7 +76,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         {
             return CrowdControlResponseStatus.Failure;
         }
-        
+
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn in single-player

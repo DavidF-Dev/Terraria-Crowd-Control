@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -88,7 +87,7 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
                 _ => new SpawnableNpc(npcType)
             };
         }
-        
+
         CachedNpcs.Add(npcType, spawnableNpc);
         return spawnableNpc;
     }

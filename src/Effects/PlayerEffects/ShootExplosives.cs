@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -128,9 +128,9 @@ public sealed class ShootExplosives : CrowdControlEffect
             // Add calamity bombs
             ModUtils.IterateTypes<ModProjectile>(calamity, CalamityExplosives[Shoot.Bombs], x => allBombOptions.Add((short)x.Type));
         }
-        
+
         _allExplosiveOptions[Shoot.Bombs] = allBombOptions;
-        
+
         // Create a list of all the grenades
         var allGrenadeOptions = VanillaExplosives[Shoot.Grenades].ToList();
         if (calamity != null)
@@ -138,7 +138,7 @@ public sealed class ShootExplosives : CrowdControlEffect
             // Add calamity grenades
             ModUtils.IterateTypes<ModProjectile>(calamity, CalamityExplosives[Shoot.Grenades], x => allGrenadeOptions.Add((short)x.Type));
         }
-        
+
         _allExplosiveOptions[Shoot.Grenades] = allGrenadeOptions;
     }
 

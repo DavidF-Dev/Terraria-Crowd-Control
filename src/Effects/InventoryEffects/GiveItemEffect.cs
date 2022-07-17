@@ -182,50 +182,64 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Sword, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<string>>
             {
-                {ProgressionUtils.Progression.PreEye, new[]
                 {
-                    "AmidiasTrident", "AquaticDischarge", "BallOFugu", "BladecrestOathsword", "FellerofEvergreens",
-                    "FracturedArk", "MycelialClaws", "WulfrumBlade", "YateveoBloom", "MarniteSpear"
-                }},
-                {ProgressionUtils.Progression.PreSkeletron, new[]
+                    ProgressionUtils.Progression.PreEye, new[]
+                    {
+                        "AmidiasTrident", "AquaticDischarge", "BallOFugu", "BladecrestOathsword", "FellerofEvergreens",
+                        "FracturedArk", "MycelialClaws", "WulfrumBlade", "YateveoBloom", "MarniteSpear"
+                    }
+                },
                 {
-                    "AirSpinner", "Basher", "Bonebreaker", "CausticEdge", "GoldplumeSpear",
-                    "PerfectDark", "RedtideSpear", "SeashineSword", "TeardropCleaver", "VeinBurster",
-                    "WindBlade", "TheGodsGambit", "Riptide", "SausageMaker", "UrchinFlail", "MonstrousKnives"
-                }},
-                {ProgressionUtils.Progression.PreWall, new[] { "BloodyEdge", "GaussDagger", "GeliticBlade", "OldLordOathsword" }},
-                {ProgressionUtils.Progression.PreMech, new[]
+                    ProgressionUtils.Progression.PreSkeletron, new[]
+                    {
+                        "AirSpinner", "Basher", "Bonebreaker", "CausticEdge", "GoldplumeSpear",
+                        "PerfectDark", "RedtideSpear", "SeashineSword", "TeardropCleaver", "VeinBurster",
+                        "WindBlade", "TheGodsGambit", "Riptide", "SausageMaker", "UrchinFlail", "MonstrousKnives"
+                    }
+                },
+                {ProgressionUtils.Progression.PreWall, new[] {"BloodyEdge", "GaussDagger", "GeliticBlade", "OldLordOathsword"}},
                 {
-                    "AbsoluteZero", "Aftershock", "Carnage", "CelestialClaymore", "EarthenPike", "EvilSmasher",
-                    "FlarefrostBlade", "ForsakenSaber", "MajesticGuard", "Roxcalibur", "StormSaber", "TitanArm",
-                    "ClamCrusher", "Nebulash"
-                }},
-                {ProgressionUtils.Progression.PreGolem, new[]
+                    ProgressionUtils.Progression.PreMech, new[]
+                    {
+                        "AbsoluteZero", "Aftershock", "Carnage", "CelestialClaymore", "EarthenPike", "EvilSmasher",
+                        "FlarefrostBlade", "ForsakenSaber", "MajesticGuard", "Roxcalibur", "StormSaber", "TitanArm",
+                        "ClamCrusher", "Nebulash"
+                    }
+                },
                 {
-                    "AbyssBlade", "AnarchyBlade", "Aorta", "Avalanche", "TrueBiomeBlade", "Brimlance",
-                    "Brimlash", "BrimstoneSword", "CatastropheClaymore", "CometQuasher", "DarklightGreatsword",
-                    "DepthCrusher", "FeralthornClaymore", "Floodtide", "ForbiddenOathblade", "GalvanizingGlaive",
-                    "Greentide", "InfernaCutter", "MantisClaws", "Tumbleweed"
-                }},
-                {ProgressionUtils.Progression.PreLunar, new[]
+                    ProgressionUtils.Progression.PreGolem, new[]
+                    {
+                        "AbyssBlade", "AnarchyBlade", "Aorta", "Avalanche", "TrueBiomeBlade", "Brimlance",
+                        "Brimlash", "BrimstoneSword", "CatastropheClaymore", "CometQuasher", "DarklightGreatsword",
+                        "DepthCrusher", "FeralthornClaymore", "Floodtide", "ForbiddenOathblade", "GalvanizingGlaive",
+                        "Greentide", "InfernaCutter", "MantisClaws", "Tumbleweed"
+                    }
+                },
                 {
-                    "AegisBlade", "BrinyBaron", "DiseasedPike", "FaultLine", "TrueTyrantYharimsUltisword",
-                    "SoulHarvester", "TrueBloodyEdge", "TrueForbiddenOathblade", "UltimusCleaver"
-                }},
-                {ProgressionUtils.Progression.PreMoonLord, new[]
+                    ProgressionUtils.Progression.PreLunar, new[]
+                    {
+                        "AegisBlade", "BrinyBaron", "DiseasedPike", "FaultLine", "TrueTyrantYharimsUltisword",
+                        "SoulHarvester", "TrueBloodyEdge", "TrueForbiddenOathblade", "UltimusCleaver"
+                    }
+                },
                 {
-                    "AstralBlade", "AstralPike", "AstralScythe", "FallenPaladinsHammer",
-                    "StormRuler", "OmegaBiomeBlade", "Virulence"
-                }},
-                {ProgressionUtils.Progression.PostGame, new[]
+                    ProgressionUtils.Progression.PreMoonLord, new[]
+                    {
+                        "AstralBlade", "AstralPike", "AstralScythe", "FallenPaladinsHammer",
+                        "StormRuler", "OmegaBiomeBlade", "Virulence"
+                    }
+                },
                 {
-                    "ArkoftheCosmos", "ArkoftheElements", "Ataraxia", "Azathoth", "BansheeHook",
-                    "CosmicDischarge", "CosmicShiv", "CrescentMoon", "Devastation", "DevilsDevastation",
-                    "DevilsSunrise", "DraconicDestruction", "Earth", "ElementalExcalibur", "ElementalLance",
-                    "ElementalShiv", "EmpyreanKnives", "EntropicClaymore", "EssenceFlayer", "Excelsus",
-                    "Exoblade", "GaelsGreatsword", "GalactusBlade", "GalileoGladius", "GrandGuardian",
-                    "GreatswordofBlah", "GreatswordofJudgement", "Grax"
-                }}
+                    ProgressionUtils.Progression.PostGame, new[]
+                    {
+                        "ArkoftheCosmos", "ArkoftheElements", "Ataraxia", "Azathoth", "BansheeHook",
+                        "CosmicDischarge", "CosmicShiv", "CrescentMoon", "Devastation", "DevilsDevastation",
+                        "DevilsSunrise", "DraconicDestruction", "Earth", "ElementalExcalibur", "ElementalLance",
+                        "ElementalShiv", "EmpyreanKnives", "EntropicClaymore", "EssenceFlayer", "Excelsus",
+                        "Exoblade", "GaelsGreatsword", "GalactusBlade", "GalileoGladius", "GrandGuardian",
+                        "GreatswordofBlah", "GreatswordofJudgement", "Grax"
+                    }
+                }
             }
         },
         {
