@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CrowdControlMod.Config;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Utilities;
@@ -14,7 +15,14 @@ public static class ModUtils
 #nullable disable
     public static bool TryGetMod(string modId, out Mod mod)
     {
-        return ModLoader.TryGetMod(modId, out mod);
+        if (IsSupported(modId))
+        {
+            return ModLoader.TryGetMod(modId, out mod);
+        }
+
+        // Mod not supported
+        mod = null;
+        return false;
     }
 #nullable restore
 
@@ -133,6 +141,15 @@ public static class ModUtils
                 TerrariaUtils.WriteDebug($"[{npc.Type}] {npc.DisplayName.GetDefault()} ({npc.Name})");
             }
         }
+    }
+
+    private static bool IsSupported(string modId)
+    {
+        return modId switch
+        {
+            Calamity.Name => CrowdControlConfig.GetInstance().AllowCalamity,
+            _ => true
+        };
     }
 
     #endregion

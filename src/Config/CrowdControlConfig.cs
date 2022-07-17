@@ -94,6 +94,11 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.25)]
     public float PlayerTeleportationCooldown;
 
+    [Label("Calamity mod integration")]
+    [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
+    [DefaultValue(true)]
+    public bool AllowCalamity;
+
     [Label("[Advanced] Show developer messages in chat")]
     [Tooltip("Enable to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
     [DefaultValue(false)]
