@@ -15,8 +15,8 @@ public sealed class SniperModeEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const float SinglePlayerRange = 16f * 1.3f;
-    private const float ClientRange = 16f * 0.4f;
+    private const float SinglePlayerRange = 16f * 0.12f; // 16f * 1.3f;
+    private const float ClientRange = 16f * 0.12f; // 16f * 0.4f;
 
     #endregion
 
