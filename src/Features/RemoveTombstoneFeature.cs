@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using CrowdControlMod.Globals;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -31,11 +31,33 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     #endregion
 
+    #region Static Methods
+
+    private static int NewProjectile(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1)
+    {
+        // Default spawning behaviour
+        var proj = Main.projectile[orig.Invoke(spawnSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1)];
+        
+        // Check if the projectile is a tombstone that should be removed straight away
+        if (TombstoneProjectileIds.Contains(proj.type) &&
+            ((Main.netMode == NetmodeID.SinglePlayer && proj.owner != -1 && Main.player[proj.owner].GetModPlayer<CrowdControlPlayer>().DisableTombstones) ||
+             (Main.netMode == NetmodeID.Server && PlayerUtils.TryFindClosestPlayer(proj.Center, out var playerIndex, out _) && Main.player[playerIndex].GetModPlayer<CrowdControlPlayer>().DisableTombstones)))
+        {
+            // Kill the projectile (this will automatically let the clients know if on a server)
+            proj.Kill();
+        }
+        
+        // Make sure to return the projectile's index
+        return proj.whoAmI;
+    }
+    
+    #endregion
+
     #region Constructors
 
     public RemoveTombstoneFeature()
     {
-        CrowdControlProjectile.OnSpawnHook += OnSpawn;
+        On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += NewProjectile;
     }
 
     #endregion
@@ -52,52 +74,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public void Dispose()
     {
-        CrowdControlProjectile.OnSpawnHook -= OnSpawn;
-    }
-
-    private void OnSpawn(Projectile projectile, IEntitySource __)
-    {
-        if (!TombstoneProjectileIds.Contains(projectile.type))
-        {
-            // Normal behaviour if the projectile is not a tombstone
-            return;
-        }
-
-        switch (Main.netMode)
-        {
-            case NetmodeID.SinglePlayer or NetmodeID.MultiplayerClient when CrowdControlMod.GetInstance().IsSessionActive:
-            {
-                var player = Main.player[projectile.owner].GetModPlayer<CrowdControlPlayer>();
-                if (!player.DisableTombstones)
-                {
-                    // Normal behaviour
-                    return;
-                }
-
-                // Destroy the projectile (local)
-                projectile.active = false;
-                projectile.Kill();
-                break;
-            }
-            case NetmodeID.Server:
-            {
-                var player = Main.player[PlayerUtils.FindClosestPlayer(projectile.Center, out _)].GetModPlayer<CrowdControlPlayer>();
-                if (!player.DisableTombstones)
-                {
-                    // Normal behaviour
-                    return;
-                }
-
-                // Destroy the projectile (server)
-                projectile.active = false;
-                projectile.Kill();
-
-                // Notify clients that the projectile should be killed
-                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
-                NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.whoAmI);
-                break;
-            }
-        }
+        On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= NewProjectile;
     }
 
     #endregion

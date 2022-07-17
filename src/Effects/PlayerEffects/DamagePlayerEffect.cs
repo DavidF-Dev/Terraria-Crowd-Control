@@ -14,8 +14,8 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const int Health = 10;
-    private const int Buffer = 15;
+    private const int Health = 12;
+    private const int Buffer = 18;
 
     #endregion
 
@@ -37,10 +37,13 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
             // Retry if invincible or already severely damaged
             return CrowdControlResponseStatus.Retry;
         }
-
-        // Damage the player so that they end up at the desired health
+        
+        // Determine amount to damage the player
         var damage = Math.Abs(Health - player.Player.statLife);
-        player.Player.Hurt(PlayerDeathReason.LegacyEmpty(), damage, 0);
+        
+        // Damage the player so that they end up at the desired health
+        player.Player.HurtDirect(damage);
+        
         return CrowdControlResponseStatus.Success;
     }
 

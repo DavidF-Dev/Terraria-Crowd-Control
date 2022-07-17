@@ -45,7 +45,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Simply spawn the projectile in single-player
-            Projectile.NewProjectile(new EntitySource_Misc(Id), player.Player.Center, Vector2.Zero, _instantDynamiteType, 1, 1f, player.Player.whoAmI);
+            Projectile.NewProjectile(null, player.Player.Center, Vector2.Zero, _instantDynamiteType, 1, 1f, player.Player.whoAmI);
         }
         else
         {
@@ -94,8 +94,6 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
             Projectile.CloneDefaults(ProjectileID.Dynamite);
             AIType = ProjectileID.Dynamite;
             Projectile.timeLeft = 3;
-            Projectile.damage = 1000;
-            Projectile.knockBack = 10f;
         }
 
         public override bool PreAI()

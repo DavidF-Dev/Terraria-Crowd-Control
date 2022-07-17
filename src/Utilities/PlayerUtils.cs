@@ -14,29 +14,14 @@ public static class PlayerUtils
     #region Static Methods
 
     /// <summary>
-    ///     Remove the player's held item and return an out-of-world clone of it.
+    ///     Damage the player directly, not taking into affect armour/accessories/etc.
     /// </summary>
-    public static Item RemoveHeldItem(this Player player)
+    public static void HurtDirect(this Player player, int damage)
     {
-        var item = player.HeldItem;
-        if (item.IsAir)
-        {
-            // Not holding an item, so return "air"
-            return new Item(0, 0);
-        }
-
-        // Clone the held item by performing a memberwise clone
-        var copy = item.Clone();
-        copy.noGrabDelay = 100;
-        copy.newAndShiny = false;
-        copy.velocity = Vector2.Zero;
-
-        // Remove the held item from the inventory
-        item.TurnToAir();
-
-        return copy;
+        CombatText.NewText(new Rectangle((int) player.position.X, (int) player.position.Y, player.width, player.height), CombatText.DamagedFriendly, damage, true);
+        player.statLife -= damage;
     }
-
+    
     /// <summary>
     ///     Check if the player is currently invincible (client-side).
     /// </summary>
@@ -231,6 +216,16 @@ public static class PlayerUtils
         return closestPlayer;
     }
 
+    /// <summary>
+    ///     Finds the closest player to the specified center.
+    /// </summary>
+    [Pure]
+    public static bool TryFindClosestPlayer(Vector2 center, out int playerWhoAmI, out float distanceToPlayer)
+    {
+        playerWhoAmI = FindClosestPlayer(center, out distanceToPlayer);
+        return playerWhoAmI != -1;
+    }
+    
     /// <summary>
     ///     Get the tiles in a radial area around the player.
     /// </summary>

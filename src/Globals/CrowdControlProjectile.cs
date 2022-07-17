@@ -12,18 +12,12 @@ public sealed class CrowdControlProjectile : GlobalProjectile
     /// <inheritdoc cref="Kill" />
     public delegate void KillDelegate(Projectile projectile, int timeLeft);
 
-    /// <inheritdoc cref="OnSpawn" />
-    public delegate void OnSpawnDelegate(Projectile projectile, IEntitySource source);
-
     #endregion
 
     #region Events
 
     /// <inheritdoc cref="Kill" />
     public static event KillDelegate? KillHook;
-
-    /// <inheritdoc cref="OnSpawn" />
-    public static event OnSpawnDelegate? OnSpawnHook;
 
     #endregion
 
@@ -32,11 +26,6 @@ public sealed class CrowdControlProjectile : GlobalProjectile
     public override void Kill(Projectile projectile, int timeLeft)
     {
         KillHook?.Invoke(projectile, timeLeft);
-    }
-
-    public override void OnSpawn(Projectile projectile, IEntitySource source)
-    {
-        OnSpawnHook?.Invoke(projectile, source);
     }
 
     #endregion
