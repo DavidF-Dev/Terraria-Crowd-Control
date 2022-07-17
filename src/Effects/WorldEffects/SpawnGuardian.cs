@@ -19,7 +19,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
     #region Static Fields and Constants
 
     private const float HalfRangeWidth = 16f * 35f;
-    private const float HalfRangeHeight = 16f * 90f;
+    private const float HalfRangeHeight = 16f * 70f;
     private const int SurvivalDuration = 6;
 
     #endregion
