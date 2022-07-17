@@ -15,7 +15,7 @@ public sealed class ZoomEffect : CrowdControlEffect
     #region Static Fields and Constants
 
     private const float ZoomInAmount = 5f;
-    private const float ZoomOutAmount = 0.25f;
+    private const float ZoomOutAmount = 0.6f;
     private static bool _anyZoomActive;
 
     #endregion
