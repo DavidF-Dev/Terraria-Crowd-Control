@@ -5,4 +5,4 @@ homepage = https://github.com/DavidF-Dev/Terraria-Crowd-Control
 hideCode = false
 hideResources = false
 includeSource = false
-buildIgnore=TerrariaPack.cs
+buildIgnore = Properties/*, *.md, *.DotSettings.user, TerrariaPack.cs
