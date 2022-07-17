@@ -329,19 +329,13 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
         // Add vanilla items
         availableOptions.AddRange(vanillaItems);
-        
-        // Add calamity items
-        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity) &&
+
+        // Try to add calamity items
+        if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity) &&
             CalamityItems.TryGetValue(_giveItem, out var calamityItemsByProgression) &&
             calamityItemsByProgression.TryGetValue(progress, out var calamityItems))
         {
-            foreach (var calamityItemName in calamityItems)
-            {
-                if (calamity.TryFind(calamityItemName, out ModItem calamityItem))
-                {
-                    availableOptions.Add((short)calamityItem.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModItem>(calamity, calamityItems, x => availableOptions.Add((short)x.Type));
         }
 
         // Choose the item and spawn it in

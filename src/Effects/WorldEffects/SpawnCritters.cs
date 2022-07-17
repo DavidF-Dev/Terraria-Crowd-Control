@@ -5,7 +5,6 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -56,17 +55,12 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     public SpawnCritters() : base(EffectID.SpawnCritters, null, EffectSeverity.Neutral)
     {
+        // Create a list of all available critter types
         var allCritterOptions = VanillaCritters.ToList();
-        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
         {
             // Add calamity critters
-            foreach (var calamityCritterName in CalamityCritters)
-            {
-                if(calamity.TryFind<ModNPC>(calamityCritterName, out var calamityCritter))
-                {
-                    allCritterOptions.Add((short)calamityCritter.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModNPC>(calamity, CalamityCritters, x => allCritterOptions.Add((short)x.Type));
         }
         
         _allCritterOptions = allCritterOptions;

@@ -121,32 +121,22 @@ public sealed class ShootExplosives : CrowdControlEffect
     {
         _shoot = shoot;
 
+        // Create a list of all the bombs
         var allBombOptions = VanillaExplosives[Shoot.Bombs].ToList();
-        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
         {
             // Add calamity bombs
-            foreach (var calamityProjName in CalamityExplosives[Shoot.Bombs])
-            {
-                if(calamity.TryFind<ModProjectile>(calamityProjName, out var calamityProj))
-                {
-                    allBombOptions.Add((short)calamityProj.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModProjectile>(calamity, CalamityExplosives[Shoot.Bombs], x => allBombOptions.Add((short)x.Type));
         }
         
         _allExplosiveOptions[Shoot.Bombs] = allBombOptions;
         
+        // Create a list of all the grenades
         var allGrenadeOptions = VanillaExplosives[Shoot.Grenades].ToList();
         if (calamity != null)
         {
             // Add calamity grenades
-            foreach (var calamityProjName in CalamityExplosives[Shoot.Grenades])
-            {
-                if(calamity.TryFind<ModProjectile>(calamityProjName, out var calamityProj))
-                {
-                    allGrenadeOptions.Add((short)calamityProj.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModProjectile>(calamity, CalamityExplosives[Shoot.Grenades], x => allGrenadeOptions.Add((short)x.Type));
         }
         
         _allExplosiveOptions[Shoot.Grenades] = allGrenadeOptions;

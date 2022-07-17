@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Spawnables;
 
@@ -34,44 +36,59 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
         }
 
         // Create a new instance and cache it
-        spawnableNpc = npcType switch
+        ModNPC modNpc;
+        if ((modNpc = ModContent.GetModNPC(npcType)) != null)
         {
-            NPCID.KingSlime => new SpawnableNpc(npcType, null, (_, npc) =>
+            // Modded NPCs
+            spawnableNpc = modNpc.Name switch
             {
-                // Scale king slime life based on progression
-                npc.lifeMax = ProgressionUtils.GetProgression() switch
+                ModUtils.Calamity.NpcCalamitas => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                ModUtils.Calamity.NpcAstrumAureus => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                _ => new SpawnableNpc(npcType)
+            };
+        }
+        else
+        {
+            // Vanilla NPCs
+            spawnableNpc = npcType switch
+            {
+                NPCID.KingSlime => new SpawnableNpc(npcType, null, (_, npc) =>
                 {
-                    ProgressionUtils.Progression.PreEye => 1000,
-                    ProgressionUtils.Progression.PreSkeletron => 1500,
-                    ProgressionUtils.Progression.PreWall => 2000,
-                    ProgressionUtils.Progression.PreMech => 2500,
-                    ProgressionUtils.Progression.PreGolem => 3000,
-                    ProgressionUtils.Progression.PreLunar => 3500,
-                    ProgressionUtils.Progression.PreMoonLord => 4000,
-                    ProgressionUtils.Progression.PostGame => 4500,
-                    _ => 69
-                };
-                npc.life = npc.lifeMax;
-            }),
-            NPCID.EyeofCthulhu => new SpawnableNpc(NPCID.EyeofCthulhu, _ => !Main.dayTime),
-            NPCID.EaterofWorldsHead => new SpawnableNpc(npcType, p => p.Player.ZoneCorrupt),
-            NPCID.BrainofCthulhu => new SpawnableNpc(npcType, p => p.Player.ZoneCrimson),
-            NPCID.SkeletronHead => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.WallofFlesh => new SpawnableNpc(npcType, p => p.Player.ZoneUnderworldHeight && !Main.npc.Any(x => x.active && x.type == npcType)),
-            NPCID.Retinazer => new SpawnableNpc(npcType, _ => !Main.dayTime, (p, npc) => Get(NPCID.Spazmatism).Spawn(p, npc.position)),
-            NPCID.Spazmatism => new SpawnableNpc(npcType, _ => !Main.dayTime && Main.npc.Count(x => x.active && x.type == NPCID.Retinazer) % 2 != 0),
-            NPCID.TheDestroyer => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.SkeletronPrime => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.MoonLordCore => new SpawnableNpc(npcType, _ => !Main.npc.Any(x => x.active && x.type == npcType)),
-            NPCID.MourningWood => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.Pumpking => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.Everscream => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.SantaNK1 => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.IceQueen => new SpawnableNpc(npcType, _ => !Main.dayTime),
-            NPCID.Mothron => new SpawnableNpc(npcType, _ => Main.dayTime),
-            _ => new SpawnableNpc(npcType)
-        };
-
+                    // Scale king slime life based on progression
+                    npc.lifeMax = ProgressionUtils.GetProgression() switch
+                    {
+                        ProgressionUtils.Progression.PreEye => 1000,
+                        ProgressionUtils.Progression.PreSkeletron => 1500,
+                        ProgressionUtils.Progression.PreWall => 2000,
+                        ProgressionUtils.Progression.PreMech => 2500,
+                        ProgressionUtils.Progression.PreGolem => 3000,
+                        ProgressionUtils.Progression.PreLunar => 3500,
+                        ProgressionUtils.Progression.PreMoonLord => 4000,
+                        ProgressionUtils.Progression.PostGame => 4500,
+                        _ => 69
+                    };
+                    npc.life = npc.lifeMax;
+                }),
+                NPCID.EyeofCthulhu => new SpawnableNpc(NPCID.EyeofCthulhu, _ => !Main.dayTime),
+                NPCID.EaterofWorldsHead => new SpawnableNpc(npcType, p => p.Player.ZoneCorrupt),
+                NPCID.BrainofCthulhu => new SpawnableNpc(npcType, p => p.Player.ZoneCrimson),
+                NPCID.SkeletronHead => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.WallofFlesh => new SpawnableNpc(npcType, p => p.Player.ZoneUnderworldHeight && !Main.npc.Any(x => x.active && x.type == npcType)),
+                NPCID.Retinazer => new SpawnableNpc(npcType, _ => !Main.dayTime, (p, npc) => Get(NPCID.Spazmatism).Spawn(p, npc.position)),
+                NPCID.Spazmatism => new SpawnableNpc(npcType, _ => !Main.dayTime && Main.npc.Count(x => x.active && x.type == NPCID.Retinazer) % 2 != 0),
+                NPCID.TheDestroyer => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.SkeletronPrime => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.MoonLordCore => new SpawnableNpc(npcType, _ => !Main.npc.Any(x => x.active && x.type == npcType)),
+                NPCID.MourningWood => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.Pumpking => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.Everscream => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.SantaNK1 => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.IceQueen => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                NPCID.Mothron => new SpawnableNpc(npcType, _ => Main.dayTime),
+                _ => new SpawnableNpc(npcType)
+            };
+        }
+        
         CachedNpcs.Add(npcType, spawnableNpc);
         return spawnableNpc;
     }

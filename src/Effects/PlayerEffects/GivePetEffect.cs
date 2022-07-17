@@ -76,16 +76,11 @@ public sealed class GivePetEffect : CrowdControlEffect
         
         // Create a list of ALL the pets
         var allPetOptions = (petType == PetType.Pet ? VanillaPets : VanillaLightPets).ToList();
-        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
         {
             // Add calamity pets
-            foreach (var calamityPetName in petType == PetType.Pet ? CalamityPets : CalamityLightPets)
-            {
-                if(calamity.TryFind<ModBuff>(calamityPetName, out var calamityPetBuff))
-                {
-                    allPetOptions.Add(calamityPetBuff.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModBuff>(calamity, petType == PetType.Pet ? CalamityPets : CalamityLightPets,
+                x => allPetOptions.Add(x.Type));
         }
 
         _allPetOptions = allPetOptions;

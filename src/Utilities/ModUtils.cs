@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Utilities;
@@ -6,6 +7,37 @@ namespace CrowdControlMod.Utilities;
 public static class ModUtils
 {
     #region Static Methods
+
+    /// <summary>
+    ///     Try to get the enabled mod by name.
+    /// </summary>
+#nullable disable
+    public static bool TryGetMod(string modId, out Mod mod)
+    {
+        return ModLoader.TryGetMod(modId, out mod);
+    }
+#nullable restore
+
+    /// <summary>
+    ///     Perform actions on multiple mod types, only if the type exists.
+    /// </summary>
+    public static bool IterateTypes<T>(Mod mod, IEnumerable<string> names, Action<T> action, Predicate<T>? predicate = null) where T : IModType
+    {
+        // Attempt to find the types in the mod and perform the provided action on them
+        var foundAny = false;
+        foreach (var name in names)
+        {
+            if (!mod.TryFind(name, out T value) || !(predicate?.Invoke(value) ?? true))
+            {
+                continue;
+            }
+
+            action(value);
+            foundAny = true;
+        }
+
+        return foundAny;
+    }
 
     /// <summary>
     ///     List installed and enabled mods.
@@ -59,7 +91,7 @@ public static class ModUtils
             }
         }
     }
-    
+
     /// <summary>
     ///     List items in provided mod.
     /// </summary>
@@ -80,7 +112,7 @@ public static class ModUtils
             }
         }
     }
-    
+
     /// <summary>
     ///     List NPCs in provided mod.
     /// </summary>
@@ -102,6 +134,39 @@ public static class ModUtils
             }
         }
     }
-    
+
+    #endregion
+
+    #region Nested Types
+
+    public static class Calamity
+    {
+        #region Static Fields and Constants
+
+        public const string Name = "CalamityMod";
+
+        public const string NpcDesertScourge = "DesertScourgeHead";
+        public const string NpcCrabulon = "Crabulon";
+        public const string NpcTheHiveMind = "HiveMind";
+        public const string NpcThePerforators = "PerforatorHive";
+        public const string NpcTheSlimeGod = "SlimeGodCore";
+        public const string NpcCryogen = "Cryogen";
+        public const string NpcAquaticScourge = "AquaticScourgeHead";
+        public const string NpcBrimstoneElemental = "BrimstoneElemental";
+        public const string NpcCalamitas = "CalamitasClone";
+        public const string NpcAstrumAureus = "AstrumAureus";
+        public const string NpcThePlaguebringerGoliath = "PlaguebringerGoliath";
+        public const string NpcRavager = "RavagerBody";
+        public const string NpcAstrumDeus = "AstrumDeusHead";
+        public const string NpcGiantClam = "GiantClam";
+        public const string NpcEarthElemental = "Horse";
+        public const string NpcCloudElemental = "ThiccWaifu";
+        public const string NpcCragmawMire = "CragmawMire";
+        public const string NpcGreatSandShark = "GreatSandShark";
+        public const string NpcNuclearTerror = "NuclearTerror";
+
+        #endregion
+    }
+
     #endregion
 }

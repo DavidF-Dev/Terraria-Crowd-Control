@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
@@ -9,6 +8,7 @@ using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.BossEffects;
 
@@ -19,7 +19,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private static readonly Dictionary<ProgressionUtils.Progression, short[]> TypesByProgression = new()
+    private static readonly Dictionary<ProgressionUtils.Progression, short[]> VanillaTypesByProgression = new()
     {
         {
             ProgressionUtils.Progression.PreEye, new[]
@@ -88,6 +88,68 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         }
     };
 
+    private static readonly Dictionary<ProgressionUtils.Progression, string[]> CalamityTypesByProgression = new()
+    {
+        {
+            ProgressionUtils.Progression.PreEye, new[]
+            {
+                ModUtils.Calamity.NpcDesertScourge, ModUtils.Calamity.NpcCrabulon, ModUtils.Calamity.NpcGiantClam
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreSkeletron, new[]
+            {
+                ModUtils.Calamity.NpcDesertScourge, ModUtils.Calamity.NpcCrabulon, ModUtils.Calamity.NpcGiantClam,
+                ModUtils.Calamity.NpcTheHiveMind, ModUtils.Calamity.NpcThePerforators
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreWall, new[]
+            {
+                ModUtils.Calamity.NpcTheHiveMind, ModUtils.Calamity.NpcThePerforators,
+                ModUtils.Calamity.NpcTheSlimeGod
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreMech, new[]
+            {
+                ModUtils.Calamity.NpcGiantClam,
+                ModUtils.Calamity.NpcCryogen, ModUtils.Calamity.NpcAquaticScourge, ModUtils.Calamity.NpcBrimstoneElemental,
+                ModUtils.Calamity.NpcEarthElemental, ModUtils.Calamity.NpcCloudElemental
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreGolem, new[]
+            {
+                ModUtils.Calamity.NpcCryogen, ModUtils.Calamity.NpcAquaticScourge, ModUtils.Calamity.NpcBrimstoneElemental,
+                ModUtils.Calamity.NpcEarthElemental,
+                ModUtils.Calamity.NpcCalamitas, ModUtils.Calamity.NpcAstrumAureus,
+                ModUtils.Calamity.NpcGreatSandShark
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreLunar, new[]
+            {
+                ModUtils.Calamity.NpcCalamitas, ModUtils.Calamity.NpcAstrumAureus,
+                ModUtils.Calamity.NpcThePlaguebringerGoliath, ModUtils.Calamity.NpcRavager,
+                ModUtils.Calamity.NpcCragmawMire
+            }
+        },
+        {
+            ProgressionUtils.Progression.PreMoonLord, new[]
+            {
+                ModUtils.Calamity.NpcThePlaguebringerGoliath, ModUtils.Calamity.NpcRavager,
+                ModUtils.Calamity.NpcAstrumDeus
+            }
+        },
+        {
+            ProgressionUtils.Progression.PostGame, new[]
+            {
+                ModUtils.Calamity.NpcNuclearTerror
+            }
+        }
+    };
+    
     #endregion
 
     #region Static Methods
@@ -104,6 +166,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     #region Fields
 
+    private readonly Dictionary<ProgressionUtils.Progression, List<short>> _allTypesByProgression = new();
     private SpawnableNpc? _chosenSpawnableNpc;
 
     #endregion
@@ -112,16 +175,43 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     public SpawnRandomBossEffect() : base(EffectID.RandomBoss, null, EffectSeverity.Negative)
     {
+        // Add vanilla types
+        foreach (var (progress, types) in VanillaTypesByProgression)
+        {
+            _allTypesByProgression.Add(progress, types.ToList());
+        }
+
+        if (!ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
+        {
+            // No calamity mod
+            return;
+        }
+
+        // Add calamity types
+        foreach (var (progression, calamityNpcNames) in CalamityTypesByProgression)
+        {
+            ModUtils.IterateTypes<ModNPC>(calamity, calamityNpcNames, x =>
+            {
+                if (!_allTypesByProgression.ContainsKey(progression))
+                {
+                    // Add a dictionary entry if one doesn't exist (unlikely)
+                    _allTypesByProgression.Add(progression, new List<short>());
+                }
+                        
+                // Add the calamity boss to the dictionary
+                _allTypesByProgression[progression].Add((short)x.Type);
+            });
+        }
     }
 
     #endregion
 
     #region Methods
-
+    
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        var candidates = TypesByProgression.GetValueOrDefault(ProgressionUtils.GetProgression(), Array.Empty<short>())
+        var candidates = _allTypesByProgression.GetValueOrDefault(ProgressionUtils.GetProgression(), new List<short>())
             .Select(SpawnableNpc.Get)
             .Where(x => x.CanSpawn(player))
             .ToArray();

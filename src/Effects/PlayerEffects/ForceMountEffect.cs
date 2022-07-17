@@ -44,17 +44,12 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     public ForceMountEffect(float duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
     {
+        // Create a list of all the mounts
         var allMountOptions = VanillaMounts.ToList();
-        if (ModLoader.TryGetMod(ModID.Calamity, out var calamity))
+        if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity))
         {
             // Add calamity mounts
-            foreach (var calamityMountName in CalamityMounts)
-            {
-                if(calamity.TryFind<ModBuff>(calamityMountName, out var calamityMountBuff))
-                {
-                    allMountOptions.Add(calamityMountBuff.Type);
-                }
-            }
+            ModUtils.IterateTypes<ModBuff>(calamity, CalamityMounts, x => allMountOptions.Add(x.Type));
         }
 
         _allMountOptions = allMountOptions;
