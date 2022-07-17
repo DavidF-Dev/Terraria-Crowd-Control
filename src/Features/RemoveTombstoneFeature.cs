@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.Utilities;
-using Microsoft.Xna.Framework;
-using Terraria;
+using On.Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Main = Terraria.Main;
 
 namespace CrowdControlMod.Features;
 
@@ -33,11 +33,11 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     #region Static Methods
 
-    private static int NewProjectile(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1)
+    private static int NewProjectile(Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1)
     {
         // Default spawning behaviour
         var proj = Main.projectile[orig.Invoke(spawnSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1)];
-        
+
         // Check if the projectile is a tombstone that should be removed straight away
         if (TombstoneProjectileIds.Contains(proj.type) &&
             ((Main.netMode == NetmodeID.SinglePlayer && proj.owner != -1 && Main.player[proj.owner].GetModPlayer<CrowdControlPlayer>().DisableTombstones) ||
@@ -46,18 +46,18 @@ public sealed class RemoveTombstoneFeature : IFeature
             // Kill the projectile (this will automatically let the clients know if on a server)
             proj.Kill();
         }
-        
+
         // Make sure to return the projectile's index
         return proj.whoAmI;
     }
-    
+
     #endregion
 
     #region Constructors
 
     public RemoveTombstoneFeature()
     {
-        On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += NewProjectile;
+        Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += NewProjectile;
     }
 
     #endregion
@@ -74,7 +74,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public void Dispose()
     {
-        On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= NewProjectile;
+        Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= NewProjectile;
     }
 
     #endregion

@@ -2,7 +2,6 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using Terraria.DataStructures;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -37,13 +36,13 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
             // Retry if invincible or already severely damaged
             return CrowdControlResponseStatus.Retry;
         }
-        
+
         // Determine amount to damage the player
         var damage = Math.Abs(Health - player.Player.statLife);
-        
+
         // Damage the player so that they end up at the desired health
         player.Player.HurtDirect(damage);
-        
+
         return CrowdControlResponseStatus.Success;
     }
 

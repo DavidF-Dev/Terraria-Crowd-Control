@@ -18,10 +18,10 @@ public static class PlayerUtils
     /// </summary>
     public static void HurtDirect(this Player player, int damage)
     {
-        CombatText.NewText(new Rectangle((int) player.position.X, (int) player.position.Y, player.width, player.height), CombatText.DamagedFriendly, damage, true);
+        CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), CombatText.DamagedFriendly, damage, true);
         player.statLife -= damage;
     }
-    
+
     /// <summary>
     ///     Check if the player is currently invincible (client-side).
     /// </summary>
@@ -225,7 +225,7 @@ public static class PlayerUtils
         playerWhoAmI = FindClosestPlayer(center, out distanceToPlayer);
         return playerWhoAmI != -1;
     }
-    
+
     /// <summary>
     ///     Get the tiles in a radial area around the player.
     /// </summary>
