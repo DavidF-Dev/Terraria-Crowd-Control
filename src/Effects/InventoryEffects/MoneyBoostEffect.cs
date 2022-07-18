@@ -64,7 +64,7 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 
         // Boost coin drops from enemies
         player.PostUpdateEquipsHook += PostUpdateEquips;
-        CrowdControlNPC.StrikeNpcHook += StrikeNpc;
+        CrowdControlNPC.StrikeNPCHook += StrikeNpc;
         return CrowdControlResponseStatus.Success;
     }
 
@@ -72,7 +72,7 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
     {
         _coins = 0;
         GetLocalPlayer().PostUpdateEquipsHook -= PostUpdateEquips;
-        CrowdControlNPC.StrikeNpcHook -= StrikeNpc;
+        CrowdControlNPC.StrikeNPCHook -= StrikeNpc;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)

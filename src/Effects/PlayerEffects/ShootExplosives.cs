@@ -146,11 +146,6 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #region Methods
 
-    public override bool ShouldUpdate()
-    {
-        return !GetLocalPlayer().Player.IsWithinSpawnProtection();
-    }
-
     protected override CrowdControlResponseStatus OnStart()
     {
         if (!_allExplosiveOptions.ContainsKey(_shoot) || !SpawnDelays.ContainsKey(_shoot))
@@ -176,6 +171,11 @@ public sealed class ShootExplosives : CrowdControlEffect
         _delay = 0;
         player.PostUpdateHook -= PostUpdate;
         player.ShootHook -= PlayerShoot;
+    }
+
+    protected override bool ShouldUpdate()
+    {
+        return !GetLocalPlayer().Player.IsWithinSpawnProtection();
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)

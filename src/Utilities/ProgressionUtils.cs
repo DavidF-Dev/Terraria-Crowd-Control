@@ -85,7 +85,7 @@ public static class ProgressionUtils
             Progression.PreLunar => preLunar,
             Progression.PreMoonLord => preMoonLord,
             Progression.PostGame => postGame,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(progression))
         };
     }
 

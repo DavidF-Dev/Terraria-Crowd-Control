@@ -89,6 +89,7 @@ public static class TerrariaUtils
 
         if (!CrowdControlConfig.GetInstance().ShowEffectMessagesInChat)
         {
+            // Ignore if configured not to show
             return;
         }
 

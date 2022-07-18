@@ -5,7 +5,6 @@ using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
 
-// ReSharper disable once InconsistentNaming
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlNPC : GlobalNPC
 {
@@ -15,7 +14,7 @@ public sealed class CrowdControlNPC : GlobalNPC
     public delegate void EditSpawnRateDelegate(Player player, ref int spawnRate, ref int maxSpawns);
 
     /// <inheritdoc cref="StrikeNPC" />
-    public delegate bool StrikeNpcDelegate(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit);
+    public delegate bool StrikeNPCDelegate(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit);
 
     /// <inheritdoc cref="PreDraw" />
     public delegate bool PreDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
@@ -28,7 +27,7 @@ public sealed class CrowdControlNPC : GlobalNPC
     public static event EditSpawnRateDelegate? EditSpawnRateHook;
 
     /// <inheritdoc cref="StrikeNPC" />
-    public static event StrikeNpcDelegate? StrikeNpcHook;
+    public static event StrikeNPCDelegate? StrikeNPCHook;
 
     /// <inheritdoc cref="PreDraw" />
     public static event PreDrawDelegate? PreDrawHook;
@@ -44,7 +43,7 @@ public sealed class CrowdControlNPC : GlobalNPC
 
     public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
     {
-        return StrikeNpcHook?.Invoke(npc, ref damage, defense, ref knockback, hitDirection, ref crit) ?? base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+        return StrikeNPCHook?.Invoke(npc, ref damage, defense, ref knockback, hitDirection, ref crit) ?? base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
     }
 
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

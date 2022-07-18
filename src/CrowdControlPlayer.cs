@@ -17,7 +17,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     public delegate void KillDelegate(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource);
 
     /// <inheritdoc cref="CanBeHitByNPC" />
-    public delegate bool CanBeHitByNpcDelegate(NPC npc, ref int cooldownSlot);
+    public delegate bool CanBeHitByNPCDelegate(NPC npc, ref int cooldownSlot);
 
     /// <inheritdoc cref="CanBeHitByProjectile" />
     public delegate bool CanBeHitByProjectileDelegate(Projectile projectile);
@@ -63,7 +63,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     public event KillDelegate? KillHook;
 
     /// <inheritdoc cref="CanBeHitByNPC" />
-    public event CanBeHitByNpcDelegate? CanBeHitByNpcHook;
+    public event CanBeHitByNPCDelegate? CanBeHitByNPCHook;
 
     /// <inheritdoc cref="CanBeHitByProjectile" />
     public event CanBeHitByProjectileDelegate? CanBeHitByProjectileHook;
@@ -128,7 +128,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
     {
-        return CanBeHitByNpcHook?.Invoke(npc, ref cooldownSlot) ?? base.CanBeHitByNPC(npc, ref cooldownSlot);
+        return CanBeHitByNPCHook?.Invoke(npc, ref cooldownSlot) ?? base.CanBeHitByNPC(npc, ref cooldownSlot);
     }
 
     public override bool CanBeHitByProjectile(Projectile proj)

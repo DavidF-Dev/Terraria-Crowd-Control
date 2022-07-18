@@ -1,6 +1,5 @@
 ﻿namespace CrowdControlMod.ID;
 
-// ReSharper disable once InconsistentNaming
 public enum PacketID : byte
 {
     /// <summary>

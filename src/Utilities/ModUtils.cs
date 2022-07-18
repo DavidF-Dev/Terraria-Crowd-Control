@@ -29,10 +29,9 @@ public static class ModUtils
     /// <summary>
     ///     Perform actions on multiple mod types, only if the type exists.
     /// </summary>
-    public static bool IterateTypes<T>(Mod mod, IEnumerable<string> names, Action<T> action, Predicate<T>? predicate = null) where T : IModType
+    public static void IterateTypes<T>(Mod mod, IEnumerable<string> names, Action<T> action, Predicate<T>? predicate = null) where T : IModType
     {
         // Attempt to find the types in the mod and perform the provided action on them
-        var foundAny = false;
         foreach (var name in names)
         {
             if (!mod.TryFind(name, out T value) || !(predicate?.Invoke(value) ?? true))
@@ -41,10 +40,7 @@ public static class ModUtils
             }
 
             action(value);
-            foundAny = true;
         }
-
-        return foundAny;
     }
 
     /// <summary>
@@ -124,7 +120,6 @@ public static class ModUtils
     /// <summary>
     ///     List NPCs in provided mod.
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public static void ListNPCs(string modId, Predicate<ModNPC>? predicate = null)
     {
         if (!ModLoader.TryGetMod(modId, out var mod))
@@ -162,25 +157,25 @@ public static class ModUtils
 
         public const string Name = "CalamityMod";
 
-        public const string NpcDesertScourge = "DesertScourgeHead";
-        public const string NpcCrabulon = "Crabulon";
-        public const string NpcTheHiveMind = "HiveMind";
-        public const string NpcThePerforators = "PerforatorHive";
-        public const string NpcTheSlimeGod = "SlimeGodCore";
-        public const string NpcCryogen = "Cryogen";
-        public const string NpcAquaticScourge = "AquaticScourgeHead";
-        public const string NpcBrimstoneElemental = "BrimstoneElemental";
-        public const string NpcCalamitas = "CalamitasClone";
-        public const string NpcAstrumAureus = "AstrumAureus";
-        public const string NpcThePlaguebringerGoliath = "PlaguebringerGoliath";
-        public const string NpcRavager = "RavagerBody";
-        public const string NpcAstrumDeus = "AstrumDeusHead";
-        public const string NpcGiantClam = "GiantClam";
-        public const string NpcEarthElemental = "Horse";
-        public const string NpcCloudElemental = "ThiccWaifu";
-        public const string NpcCragmawMire = "CragmawMire";
-        public const string NpcGreatSandShark = "GreatSandShark";
-        public const string NpcNuclearTerror = "NuclearTerror";
+        public const string DesertScourgeNPC = "DesertScourgeHead";
+        public const string CrabulonNPC = "Crabulon";
+        public const string TheHiveMindNPC = "HiveMind";
+        public const string ThePerforatorsNPC = "PerforatorHive";
+        public const string TheSlimeGodNPC = "SlimeGodCore";
+        public const string CryogenNPC = "Cryogen";
+        public const string AquaticScourgeNPC = "AquaticScourgeHead";
+        public const string BrimstoneElementalNPC = "BrimstoneElemental";
+        public const string CalamitasNPC = "CalamitasClone";
+        public const string AstrumAureusNPC = "AstrumAureus";
+        public const string ThePlaguebringerGoliathNPC = "PlaguebringerGoliath";
+        public const string RavagerNPC = "RavagerBody";
+        public const string AstrumDeusNPC = "AstrumDeusHead";
+        public const string GiantClamNPC = "GiantClam";
+        public const string EarthElementalNPC = "Horse";
+        public const string CloudElementalNPC = "ThiccWaifu";
+        public const string CragmawMireNPC = "CragmawMire";
+        public const string GreatSandSharkNPC = "GreatSandShark";
+        public const string NuclearTerrorNPC = "NuclearTerror";
 
         #endregion
     }

@@ -93,59 +93,59 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         {
             ProgressionUtils.Progression.PreEye, new[]
             {
-                ModUtils.Calamity.NpcDesertScourge, ModUtils.Calamity.NpcCrabulon, ModUtils.Calamity.NpcGiantClam
+                ModUtils.Calamity.DesertScourgeNPC, ModUtils.Calamity.CrabulonNPC, ModUtils.Calamity.GiantClamNPC
             }
         },
         {
             ProgressionUtils.Progression.PreSkeletron, new[]
             {
-                ModUtils.Calamity.NpcDesertScourge, ModUtils.Calamity.NpcCrabulon, ModUtils.Calamity.NpcGiantClam,
-                ModUtils.Calamity.NpcTheHiveMind, ModUtils.Calamity.NpcThePerforators
+                ModUtils.Calamity.DesertScourgeNPC, ModUtils.Calamity.CrabulonNPC, ModUtils.Calamity.GiantClamNPC,
+                ModUtils.Calamity.TheHiveMindNPC, ModUtils.Calamity.ThePerforatorsNPC
             }
         },
         {
             ProgressionUtils.Progression.PreWall, new[]
             {
-                ModUtils.Calamity.NpcTheHiveMind, ModUtils.Calamity.NpcThePerforators,
-                ModUtils.Calamity.NpcTheSlimeGod
+                ModUtils.Calamity.TheHiveMindNPC, ModUtils.Calamity.ThePerforatorsNPC,
+                ModUtils.Calamity.TheSlimeGodNPC
             }
         },
         {
             ProgressionUtils.Progression.PreMech, new[]
             {
-                ModUtils.Calamity.NpcGiantClam,
-                ModUtils.Calamity.NpcCryogen, ModUtils.Calamity.NpcAquaticScourge, ModUtils.Calamity.NpcBrimstoneElemental,
-                ModUtils.Calamity.NpcEarthElemental, ModUtils.Calamity.NpcCloudElemental
+                ModUtils.Calamity.GiantClamNPC,
+                ModUtils.Calamity.CryogenNPC, ModUtils.Calamity.AquaticScourgeNPC, ModUtils.Calamity.BrimstoneElementalNPC,
+                ModUtils.Calamity.EarthElementalNPC, ModUtils.Calamity.CloudElementalNPC
             }
         },
         {
             ProgressionUtils.Progression.PreGolem, new[]
             {
-                ModUtils.Calamity.NpcCryogen, ModUtils.Calamity.NpcAquaticScourge, ModUtils.Calamity.NpcBrimstoneElemental,
-                ModUtils.Calamity.NpcEarthElemental,
-                ModUtils.Calamity.NpcCalamitas, ModUtils.Calamity.NpcAstrumAureus,
-                ModUtils.Calamity.NpcGreatSandShark
+                ModUtils.Calamity.CryogenNPC, ModUtils.Calamity.AquaticScourgeNPC, ModUtils.Calamity.BrimstoneElementalNPC,
+                ModUtils.Calamity.EarthElementalNPC,
+                ModUtils.Calamity.CalamitasNPC, ModUtils.Calamity.AstrumAureusNPC,
+                ModUtils.Calamity.GreatSandSharkNPC
             }
         },
         {
             ProgressionUtils.Progression.PreLunar, new[]
             {
-                ModUtils.Calamity.NpcCalamitas, ModUtils.Calamity.NpcAstrumAureus,
-                ModUtils.Calamity.NpcThePlaguebringerGoliath, ModUtils.Calamity.NpcRavager,
-                ModUtils.Calamity.NpcCragmawMire
+                ModUtils.Calamity.CalamitasNPC, ModUtils.Calamity.AstrumAureusNPC,
+                ModUtils.Calamity.ThePlaguebringerGoliathNPC, ModUtils.Calamity.RavagerNPC,
+                ModUtils.Calamity.CragmawMireNPC
             }
         },
         {
             ProgressionUtils.Progression.PreMoonLord, new[]
             {
-                ModUtils.Calamity.NpcThePlaguebringerGoliath, ModUtils.Calamity.NpcRavager,
-                ModUtils.Calamity.NpcAstrumDeus
+                ModUtils.Calamity.ThePlaguebringerGoliathNPC, ModUtils.Calamity.RavagerNPC,
+                ModUtils.Calamity.AstrumDeusNPC
             }
         },
         {
             ProgressionUtils.Progression.PostGame, new[]
             {
-                ModUtils.Calamity.NpcNuclearTerror
+                ModUtils.Calamity.NuclearTerrorNPC
             }
         }
     };

@@ -12,6 +12,11 @@ using Terraria.ID;
 
 namespace CrowdControlMod;
 
+/// <summary>
+///     Effect triggered by the Crowd Control application.<br />
+///     Can be either instantaneous or timed.<br />
+///     Effects are managed by CrowdControlMod.cs.
+/// </summary>
 public abstract class CrowdControlEffect : IFeature
 {
     #region Static Methods
@@ -160,11 +165,11 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Stop the effect instantly, without fail (client-side).
     /// </summary>
-    public CrowdControlResponseStatus Stop()
+    public void Stop()
     {
         if (!IsActive)
         {
-            return CrowdControlResponseStatus.Failure;
+            return;
         }
 
         if (Main.netMode == NetmodeID.MultiplayerClient && _isTimedEffect)
@@ -179,8 +184,6 @@ public abstract class CrowdControlEffect : IFeature
         TimeLeft = 0f;
 
         OnStop();
-
-        return CrowdControlResponseStatus.Success;
     }
 
     /// <summary>
@@ -188,7 +191,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     public void Update(float delta)
     {
-        if (!IsActive)
+        if (!IsActive || !ShouldUpdate())
         {
             return;
         }
@@ -209,25 +212,18 @@ public abstract class CrowdControlEffect : IFeature
     }
 
     /// <summary>
-    ///     Whether the active effect should be updated and have its timer reduced.
-    /// </summary>
-    public virtual bool ShouldUpdate()
-    {
-        return true;
-    }
-
-    /// <summary>
     ///     Check if the effect is active for the specified player (server-side).
     /// </summary>
     [Pure]
     public bool IsActiveOnServer(Player player)
     {
-        if (Main.netMode != NetmodeID.Server)
+        if (Main.netMode == NetmodeID.Server)
         {
-            throw new Exception($"{nameof(IsActiveOnServer)} can only be called on the server.");
+            return _activeOnServer.Contains(player.whoAmI);
         }
 
-        return _activeOnServer.Contains(player.whoAmI);
+        TerrariaUtils.WriteDebug($"{nameof(IsActiveOnServer)} can only be called on the server");
+        return false;
     }
 
     /// <summary>
@@ -258,7 +254,6 @@ public abstract class CrowdControlEffect : IFeature
                 TerrariaUtils.WriteDebug($"Removed '{player.Player.name}' from effect '{Id}' active collection");
             }
 
-            OnEffectStatusChanged(player, isActive);
             return;
         }
 
@@ -342,11 +337,18 @@ public abstract class CrowdControlEffect : IFeature
     }
 
     /// <summary>
+    ///     Whether the active effect should be updated and have its timer reduced.
+    /// </summary>
+    protected virtual bool ShouldUpdate()
+    {
+        return true;
+    }
+
+    /// <summary>
     ///     Send an effect message when the effect is triggered (client-side).
     /// </summary>
     protected virtual void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        // TerrariaUtils.WriteEffectMessage(0, $"{viewerString} started {Id} on {playerString}", EffectSeverity.Neutral);
     }
 
     /// <summary>
@@ -360,13 +362,6 @@ public abstract class CrowdControlEffect : IFeature
     ///     Invoked when a packet is received, meant for this effect to handle on the server-side (server-side).
     /// </summary>
     protected virtual void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
-    {
-    }
-
-    /// <summary>
-    ///     Invoked when a client notifies the server about a change in effect status (server-side).
-    /// </summary>
-    protected virtual void OnEffectStatusChanged(CrowdControlPlayer player, bool isActive)
     {
     }
 

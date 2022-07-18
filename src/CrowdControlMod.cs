@@ -562,7 +562,18 @@ public sealed class CrowdControlMod : Mod
             viewer = "Chat";
         }
 
-        var result = requestType == CrowdControlRequestType.Start ? effect.Start(viewer) : effect.Stop();
+        // Start or stop the effect
+        CrowdControlResponseStatus result;
+        if (requestType == CrowdControlRequestType.Start)
+        {
+            result = effect.Start(viewer);
+        }
+        else
+        {
+            effect.Stop();
+            result = CrowdControlResponseStatus.Success;
+        }
+
         TerrariaUtils.WriteDebug($"Processed effect request '{requestType} {code}' with response '{result}'");
         return result;
     }
@@ -766,7 +777,7 @@ public sealed class CrowdControlMod : Mod
 
         // Update the active effects (so that their timers are reduced)
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        foreach (var effect in _effects.Values.Where(x => x.IsActive && x.ShouldUpdate()))
+        foreach (var effect in _effects.Values.Where(x => x.IsActive))
         {
             effect.Update(delta);
         }

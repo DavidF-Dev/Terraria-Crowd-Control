@@ -41,8 +41,8 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
             // Modded NPCs
             spawnableNpc = modNpc.Name switch
             {
-                ModUtils.Calamity.NpcCalamitas => new SpawnableNpc(npcType, _ => !Main.dayTime),
-                ModUtils.Calamity.NpcAstrumAureus => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                ModUtils.Calamity.CalamitasNPC => new SpawnableNpc(npcType, _ => !Main.dayTime),
+                ModUtils.Calamity.AstrumAureusNPC => new SpawnableNpc(npcType, _ => !Main.dayTime),
                 _ => new SpawnableNpc(npcType)
             };
         }

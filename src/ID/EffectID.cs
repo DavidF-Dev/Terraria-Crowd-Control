@@ -1,6 +1,5 @@
 ﻿namespace CrowdControlMod.ID;
 
-// ReSharper disable once InconsistentNaming
 public static class EffectID
 {
     #region Static Fields and Constants

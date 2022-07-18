@@ -30,7 +30,7 @@ public sealed class GodModeEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        player.CanBeHitByNpcHook += CanBeHitByNpc;
+        player.CanBeHitByNPCHook += CanBeHitByNpc;
         player.CanBeHitByProjectileHook += CanBeHitByProjectile;
         return CrowdControlResponseStatus.Success;
     }
@@ -38,7 +38,7 @@ public sealed class GodModeEffect : CrowdControlEffect
     protected override void OnStop()
     {
         var player = GetLocalPlayer();
-        player.CanBeHitByNpcHook -= CanBeHitByNpc;
+        player.CanBeHitByNPCHook -= CanBeHitByNpc;
         player.CanBeHitByProjectileHook -= CanBeHitByProjectile;
     }
 
