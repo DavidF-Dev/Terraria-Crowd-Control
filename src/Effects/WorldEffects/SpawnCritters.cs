@@ -5,6 +5,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -65,6 +66,12 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         _allCritterOptions = allCritterOptions;
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.ItemBugNet;
 
     #endregion
 

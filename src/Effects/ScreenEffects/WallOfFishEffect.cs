@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.ScreenEffects;
@@ -61,6 +62,8 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     int IMusicEffect.MusicId => MusicID.Mushrooms;
 
     int IMusicEffect.MusicPriority => 0;
+
+    protected override int StartEmote => EmoteID.ItemCookedFish;
 
     #endregion
 

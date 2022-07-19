@@ -4,6 +4,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -321,7 +322,23 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         _giveItem = giveItem;
         _stack = GetStackSize(_giveItem);
+        StartEmote = giveItem switch
+        {
+            GiveItem.Pickaxe => EmoteID.ItemPickaxe,
+            GiveItem.Sword => EmoteID.ItemSword,
+            GiveItem.Armour => -1,
+            GiveItem.HealingPotion => EmoteID.ItemLifePotion,
+            GiveItem.Potion => EmoteID.ItemManaPotion,
+            GiveItem.Kite => -1,
+            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+        };
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote { get; }
 
     #endregion
 

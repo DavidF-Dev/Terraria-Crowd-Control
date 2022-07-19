@@ -4,6 +4,7 @@ using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
@@ -48,6 +49,12 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
     public MoneyBoostEffect(float duration) : base(EffectID.MoneyBoost, duration, EffectSeverity.Positive)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.ItemGoldpile;
 
     #endregion
 

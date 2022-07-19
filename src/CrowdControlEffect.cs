@@ -91,6 +91,11 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     protected EffectSeverity Severity { get; }
 
+    /// <summary>
+    ///     Emote displayed when the effect starts (defaults to -1 for none).
+    /// </summary>
+    protected virtual int StartEmote => -1;
+
     #endregion
 
     #region Methods
@@ -141,6 +146,12 @@ public abstract class CrowdControlEffect : IFeature
         if (IsActive)
         {
             SendStartMessage(viewer, GetLocalPlayer().Player.name, _isTimedEffect ? $"{TimeLeft:0.}" : null);
+
+            // Show emote if one is provided
+            if (StartEmote != -1)
+            {
+                GetLocalPlayer().Player.Emote(StartEmote);
+            }
 
             if (!_isTimedEffect)
             {

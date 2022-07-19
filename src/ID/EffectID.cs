@@ -26,7 +26,6 @@ public static class EffectID
     public const string JumpBoost = "jump_boost";
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
-    public const string NoItemPickup = "no_item_pickup";
     public const string FlingUpwards = "fling_upwards";
     public const string FartSound = "fart_sound";
 
@@ -52,6 +51,7 @@ public static class EffectID
     public const string ExplodeInventory = "explode_inventory";
     public const string ClearInventory = "clear_inventory";
     public const string ShuffleInventory = "shuffle_inventory";
+    public const string NoItemPickup = "no_item_pickup";
     public const string ReforgeItem = "item_prefix";
     public const string MoneyBoost = "boost_money";
     public const string GivePickaxe = "give_pickaxe";

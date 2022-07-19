@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.Challenges;
@@ -74,6 +75,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
             var player = GetLocalPlayer();
             player.Player.statLife = Math.Max(player.Player.statLife, player.Player.statLifeMax2);
             SoundEngine.PlaySound(SoundID.AchievementComplete, player.Player.position);
+            player.Player.Emote(EmoteID.EmoteLaugh);
             var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
             var proj = Main.projectile[index];
             proj.friendly = true;

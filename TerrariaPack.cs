@@ -82,7 +82,6 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase jump height", "jump_boost", PlayerFolder) {Price = 200, Description = "Temporarily increase the streamer's jump height"},
                 new Effect("Increase movement speed", "run_boost", PlayerFolder) {Price = 200, Description = "Temporarily increase the streamer's movement speed"},
                 new Effect("Slippery boots", "icy_feet", PlayerFolder) {Price = 200, Description = "Temporarily make the ground very slippery under the streamer"},
-                new Effect("Cannot pickup items", "no_item_pickup", PlayerFolder) {Price = 250, Description = "Temporarily prevent the streamer from picking up any items"},
                 new Effect("Fling upwards", "fling_upwards", PlayerFolder) {Price = 75, Description = "Fling the streamer upwards violently"},
                 new Effect("Play fart sound", "fart_sound", PlayerFolder) {Price = 5, Description = "Play a fart sound in-game"},
 
@@ -109,6 +108,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Explode inventory", "explode_inventory", InventoryFolder) {Price = 150, Description = "Explode the streamer's inventory"},
                 new Effect("Clear inventory", "clear_inventory", InventoryFolder) {Price = 1250, Description = "Clear majority of the streamer's inventory"},
                 new Effect("Shuffle inventory", "shuffle_inventory", InventoryFolder) {Price = 100, Description = "Shuffle the streamer's inventory"},
+                new Effect("Cannot pickup items", "no_item_pickup", InventoryFolder) {Price = 250, Description = "Temporarily prevent the streamer from picking up any items"},
                 new Effect("Reforge item", "item_prefix", InventoryFolder) {Price = 20, Description = "Reforge the streamer's held weapon"},
                 new Effect("Boost coin drops", "boost_money", InventoryFolder) {Price = 20, Description = "Temporarily increase the coin-drops from enemies"},
                 new Effect("Give pickaxe", "give_pickaxe", InventoryFolder) {Price = 50, Description = "Provide the streamer with a pickaxe"},

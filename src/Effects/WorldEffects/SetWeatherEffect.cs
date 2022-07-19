@@ -5,6 +5,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
@@ -50,7 +51,21 @@ public sealed class SetWeatherEffect : CrowdControlEffect
     public SetWeatherEffect(WorldUtils.Weather weather) : base(GetId(weather), null, EffectSeverity.Neutral)
     {
         _weather = weather;
+        StartEmote = _weather switch
+        {
+            WorldUtils.Weather.Clear => EmoteID.WeatherSunny,
+            WorldUtils.Weather.Rain => EmoteID.WeatherRain,
+            WorldUtils.Weather.Storm => EmoteID.WeatherLightning,
+            WorldUtils.Weather.Windy => EmoteID.MiscTree,
+            _ => throw new ArgumentOutOfRangeException(nameof(weather), weather, null)
+        };
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote { get; }
 
     #endregion
 

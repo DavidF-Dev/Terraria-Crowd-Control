@@ -50,6 +50,11 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(true)]
     public bool UseEffectMusic;
 
+    [Label("Use effect emotes")]
+    [Tooltip("A few effects show an emote bubble beside the player.\nDisable this to stop effects from displaying any emote bubbles.")]
+    [DefaultValue(true)]
+    public bool UseEffectEmotes;
+
     [Label("Disable tombstones")]
     [Tooltip("Enable to prevent your tombstone from spawning when you die.")]
     [DefaultValue(false)]

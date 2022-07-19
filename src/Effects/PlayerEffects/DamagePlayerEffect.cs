@@ -2,6 +2,7 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -23,6 +24,12 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
     public DamagePlayerEffect() : base(EffectID.DamagePlayer, null, EffectSeverity.Negative)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.EmotionAnger;
 
     #endregion
 

@@ -3,9 +3,10 @@ using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
-namespace CrowdControlMod.Effects.PlayerEffects;
+namespace CrowdControlMod.Effects.InventoryEffects;
 
 /// <summary>
 ///     Prevent the player from picking up any items in their inventory for a short duration.
@@ -26,6 +27,12 @@ public sealed class NoItemPickupEffect : CrowdControlEffect
     public NoItemPickupEffect(float duration) : base(EffectID.NoItemPickup, duration, EffectSeverity.Negative)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.DebuffCurse;
 
     #endregion
 

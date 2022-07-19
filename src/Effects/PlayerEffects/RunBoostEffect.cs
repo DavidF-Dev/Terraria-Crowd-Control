@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -37,6 +38,12 @@ public sealed class RunBoostEffect : CrowdControlEffect
     public RunBoostEffect(float duration) : base(EffectID.RunBoost, duration, EffectSeverity.Neutral)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.PartyCake;
 
     #endregion
 

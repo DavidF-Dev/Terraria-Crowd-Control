@@ -5,6 +5,7 @@ using CrowdControlMod.Config;
 using CrowdControlMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Utilities;
@@ -20,6 +21,30 @@ public static class PlayerUtils
     {
         CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), CombatText.DamagedFriendly, damage, true);
         player.statLife -= damage;
+    }
+
+    /// <summary>
+    ///     Cause the player to perform an emote (client-side).
+    /// </summary>
+    public static void Emote(this Player player, int emoteId, int time = 360)
+    {
+        if (player.whoAmI != Main.myPlayer || !CrowdControlConfig.GetInstance().UseEffectEmotes)
+        {
+            // Ignore
+            return;
+        }
+
+        if (Main.netMode == NetmodeID.SinglePlayer)
+        {
+            // Spawn in single-player
+            EmoteBubble.NewBubble(emoteId, new WorldUIAnchor(player), time);
+            EmoteBubble.CheckForNPCsToReactToEmoteBubble(emoteId, player);
+        }
+        else
+        {
+            // Spawn on server
+            NetMessage.SendData(MessageID.Emoji, number: player.whoAmI, number2: emoteId);
+        }
     }
 
     /// <summary>

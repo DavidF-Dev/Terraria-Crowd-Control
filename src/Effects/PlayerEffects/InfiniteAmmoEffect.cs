@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -41,6 +42,12 @@ public sealed class InfiniteAmmoEffect : CrowdControlEffect
     public InfiniteAmmoEffect(float duration) : base(EffectID.InfiniteAmmo, duration, EffectSeverity.Positive)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.ItemMinishark;
 
     #endregion
 

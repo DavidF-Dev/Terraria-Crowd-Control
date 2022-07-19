@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -23,6 +24,12 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
     {
         CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.EmotionAlert;
 
     #endregion
 

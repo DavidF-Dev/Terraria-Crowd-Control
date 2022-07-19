@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria.Audio;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -16,6 +17,12 @@ public sealed class ChangeGenderEffect : CrowdControlEffect
     public ChangeGenderEffect() : base(EffectID.ChangeGender, null, EffectSeverity.Neutral)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.PartyHats;
 
     #endregion
 

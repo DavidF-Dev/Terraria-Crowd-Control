@@ -4,6 +4,7 @@ using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
@@ -37,6 +38,12 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     public RainbowFeetEffect(float duration) : base(EffectID.RainbowFeet, duration, EffectSeverity.Neutral)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.WeatherRainbow;
 
     #endregion
 

@@ -3,6 +3,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
@@ -28,6 +29,8 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
     #endregion
 
     #region Properties
+
+    protected override int StartEmote => EmoteID.EmoteNote;
 
     private bool SwapMusic
     {

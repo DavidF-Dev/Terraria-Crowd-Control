@@ -1,6 +1,7 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -15,6 +16,12 @@ public sealed class HealPlayerEffect : CrowdControlEffect
     public HealPlayerEffect() : base(EffectID.HealPlayer, null, EffectSeverity.Positive)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote => EmoteID.EmotionLove;
 
     #endregion
 

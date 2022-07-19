@@ -39,9 +39,10 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, GetStartMessageDelegate getStartMessage, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
+    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, int emoteId, GetStartMessageDelegate getStartMessage, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
     {
         _itemId = itemId;
+        StartEmote = emoteId;
         _onStart = onStart;
         _getStartMessage = getStartMessage;
         _buffs = new HashSet<int>(buffs);
@@ -49,6 +50,12 @@ public sealed class BuffEffect : CrowdControlEffect
         _hasFrozenBuff = _buffs.Contains(BuffID.Frozen);
         _hasInvisibilityBuff = _buffs.Contains(BuffID.Invisibility);
     }
+
+    #endregion
+
+    #region Properties
+
+    protected override int StartEmote { get; }
 
     #endregion
 

@@ -22,6 +22,7 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -630,49 +631,49 @@ public sealed class CrowdControlMod : Mod
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
-            ItemID.PaladinsShield, (v, p) => $"{v} provided {p} with survivability buffs", null,
+            ItemID.PaladinsShield, -1, (v, p) => $"{v} provided {p} with survivability buffs", null,
             BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
-            ItemID.Heart, (v, p) => $"{v} provided {p} with regeneration buffs",
+            ItemID.Heart, -1, (v, p) => $"{v} provided {p} with regeneration buffs",
             p => p.Player.SetHairDye(ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
         AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 25f,
-            ItemID.MagicLantern, (v, p) => $"{v} provided {p} with light",
+            ItemID.MagicLantern, -1, (v, p) => $"{v} provided {p} with light",
             p => p.Player.SetHairDye(ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
         AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 25f,
-            ItemID.GoldChest, (v, p) => $"{v} helped {p} to search for treasure",
+            ItemID.GoldChest, -1, (v, p) => $"{v} helped {p} to search for treasure",
             p => p.Player.SetHairDye(ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
-            ItemID.Aglet, (v, p) => $"{v} boosted the movement speed of {p}", null,
+            ItemID.Aglet, EmoteID.PartyCake, (v, p) => $"{v} boosted the movement speed of {p}", null,
             BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
         AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 45f,
-            ItemID.ObsidianSkull, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
+            ItemID.ObsidianSkull, EmoteID.MiscFire, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
             BuffID.ObsidianSkin, BuffID.Warmth));
 
         // --- Buff effects (negative)
         AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 6f,
-            ItemID.IceCream, (v, p) => $"{v} cast a chilly spell over {p}", null,
+            ItemID.IceCream, -1, (v, p) => $"{v} cast a chilly spell over {p}", null,
             BuffID.Frozen));
         AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 6f,
-            ItemID.LivingFireBlock, (v, p) => $"{v} threw a molotov at {p}'s feet",
+            ItemID.LivingFireBlock, EmoteID.DebuffBurn, (v, p) => $"{v} threw a molotov at {p}'s feet",
             p => Projectile.NewProjectile(null, p.Player.position, new Vector2(0f, 10f), ProjectileID.MolotovCocktail, 1, 1f, p.Player.whoAmI),
             BuffID.OnFire));
         AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 8f,
-            ItemID.FallenStar, (v, p) => $"{v} dazed {p}", null,
+            ItemID.FallenStar, -1, (v, p) => $"{v} dazed {p}", null,
             BuffID.Dazed, BuffID.WindPushed, BuffID.NoBuilding));
         AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 8f,
-            ItemID.FragmentVortex, (v, p) => $"{v} distorted gravity around {p}", null,
+            ItemID.FragmentVortex, -1, (v, p) => $"{v} distorted gravity around {p}", null,
             BuffID.VortexDebuff));
         AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 15f,
-            ItemID.BrainOfConfusion, (v, p) => $"{v} confused {p}", null,
+            ItemID.BrainOfConfusion, EmoteID.EmoteConfused, (v, p) => $"{v} confused {p}", null,
             BuffID.Confused));
         AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 15f,
-            ItemID.InvisibilityPotion, (v, p) => $"{v} stole {p}'s body...", null,
+            ItemID.InvisibilityPotion, -1, (v, p) => $"{v} stole {p}'s body...", null,
             BuffID.Invisibility));
         AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 10f,
-            ItemID.Blindfold, (v, p) => $"{v} obstructed {p}'s screen",
+            ItemID.Blindfold, -1, (v, p) => $"{v} obstructed {p}'s screen",
             p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
 

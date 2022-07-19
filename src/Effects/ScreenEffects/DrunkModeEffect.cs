@@ -3,6 +3,7 @@ using CrowdControlMod.Effects.Interfaces;
 using CrowdControlMod.ID;
 using CrowdControlMod.Shaders;
 using CrowdControlMod.Utilities;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.ScreenEffects;
@@ -43,6 +44,8 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
     public int MusicId => MusicID.Mushrooms;
 
     public int MusicPriority => 10;
+
+    protected override int StartEmote => EmoteID.ItemBeer;
 
     #endregion
 
