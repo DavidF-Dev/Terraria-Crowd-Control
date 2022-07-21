@@ -16,8 +16,10 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 {
     #region Static Fields and Constants
 
-    private const float MinSpawnTime = 0.3f;
-    private const float MaxSpawnTime = 2.8f;
+    private const float MinSpawnTime = 0.8f;
+    private const float MaxSpawnTime = 3.4f;
+    private const float GoldCoinDropAmount = 1f;
+    private const float HardModeGoldCoinDropAmount = 2.5f;
 
     #endregion
 
@@ -37,6 +39,9 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         npc.lifeMax = Main.rand.Next(10, 300) + (Main.hardMode ? 400 : 0);
         npc.life = npc.lifeMax;
 
+        // Alter coin drop amount (10000 = 1 gold coin)
+        npc.value = 10000 * (Main.hardMode ? HardModeGoldCoinDropAmount : GoldCoinDropAmount);
+        
         if (Main.netMode == NetmodeID.Server)
         {
             // Let clients know about the NPC
