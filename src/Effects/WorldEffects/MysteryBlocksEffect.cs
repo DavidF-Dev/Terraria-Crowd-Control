@@ -98,7 +98,7 @@ public sealed class MysteryBlocksEffect : CrowdControlEffect
 
     #region Constructors
 
-    public MysteryBlocksEffect(float duration) : base(EffectID.MysteryBlocks, duration, EffectSeverity.Neutral)
+    public MysteryBlocksEffect(float duration) : base(EffectID.MysteryBlocks, duration, EffectSeverity.Negative)
     {
     }
 
