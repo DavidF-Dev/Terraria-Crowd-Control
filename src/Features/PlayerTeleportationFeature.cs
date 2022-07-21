@@ -54,6 +54,7 @@ public sealed class PlayerTeleportationFeature : IFeature
     {
         if (CrowdControlMod.GetLocalPlayer().Player != self || !CrowdControlMod.GetInstance().IsSessionActive || !IsAllowed || DateTime.Now < _nextUsageTime)
         {
+            _canUseFreeTeleport = false;
             return orig.Invoke(self);
         }
 
