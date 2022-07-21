@@ -12,7 +12,7 @@ public sealed class PlayerTeleportationFeature : IFeature
     #region Fields
 
     private DateTime _nextUsageTime = DateTime.MinValue;
-    private bool _teleported;
+    private bool _canUseFreeTeleport;
 
     #endregion
 
@@ -26,7 +26,7 @@ public sealed class PlayerTeleportationFeature : IFeature
     /// <summary>
     ///     Cooldown, in minutes, between feature usages.
     /// </summary>
-    private static float Cooldown => CrowdControlConfig.GetInstance().PlayerTeleportationCooldown;
+    private static float Cooldown => CrowdControlConfig.GetInstance().PlayerTeleportationCooldown / 60f;
 
     #endregion
 
@@ -41,7 +41,7 @@ public sealed class PlayerTeleportationFeature : IFeature
     public void SessionStopped()
     {
         _nextUsageTime = DateTime.MinValue;
-        _teleported = false;
+        _canUseFreeTeleport = false;
         Player.HasUnityPotion -= HasUnityPotion;
         Player.TakeUnityPotion -= TakeUnityPotion;
     }
@@ -52,23 +52,24 @@ public sealed class PlayerTeleportationFeature : IFeature
 
     private bool HasUnityPotion(Player.orig_HasUnityPotion orig, Terraria.Player self)
     {
-        if (CrowdControlMod.GetLocalPlayer().Player != self || !IsAllowed || DateTime.Now < _nextUsageTime)
+        if (CrowdControlMod.GetLocalPlayer().Player != self || !CrowdControlMod.GetInstance().IsSessionActive || !IsAllowed || DateTime.Now < _nextUsageTime)
         {
             return orig.Invoke(self);
         }
 
         // Allow the player to teleport if enabled in the configuration and cooldown has expired
-        _nextUsageTime = DateTime.Now.AddMinutes(Cooldown);
-        _teleported = true;
+        _canUseFreeTeleport = true;
         return true;
     }
 
     private void TakeUnityPotion(Player.orig_TakeUnityPotion orig, Terraria.Player self)
     {
         // Do not take the potion if a free teleportation was used
-        if (CrowdControlMod.GetLocalPlayer().Player == self && _teleported)
+        if (CrowdControlMod.GetLocalPlayer().Player == self && _canUseFreeTeleport)
         {
-            _teleported = false;
+            // Consume the free teleport and trigger the cooldown
+            _nextUsageTime = DateTime.Now.AddMinutes(Cooldown);
+            _canUseFreeTeleport = false;
             return;
         }
 

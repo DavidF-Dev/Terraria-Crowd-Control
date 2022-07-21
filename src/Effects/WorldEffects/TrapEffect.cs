@@ -33,8 +33,8 @@ public sealed class TrapEffect : CrowdControlEffect
     private const int CobwebHalfHeight = CobwebHalfWidth;
     private const int SandHalfWidth = 14;
     private const int SandHalfHeight = SandHalfWidth;
-    private const int LiquidHalfWidth = 14;
-    private const int LiquidHalfHeight = 12;
+    private const int LiquidHalfWidth = 10;
+    private const int LiquidHalfHeight = 8;
 
     #endregion
 

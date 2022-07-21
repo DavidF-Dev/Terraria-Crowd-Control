@@ -87,17 +87,17 @@ public sealed class CrowdControlConfig : ModConfig
     public bool AllowTimeChangeDuringBoss;
 
     [Label("Allow teleporting to other players")]
-    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.")]
+    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.")]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
-    [Label("Teleportation cooldown (minutes)")]
-    [Tooltip("Cooldown, in minutes, between usages of the teleportation to other players feature.")]
-    [Range(0f, 10f)]
-    [Increment(0.25f)]
+    [Label("Teleportation cooldown (seconds)")]
+    [Tooltip("Cooldown, in seconds, between usages of the teleportation to other players feature.")]
+    [Range(0f, 600f)]
+    [Increment(5)]
     [DrawTicks]
-    [DefaultValue(0.25)]
-    public float PlayerTeleportationCooldown;
+    [DefaultValue(25)]
+    public int PlayerTeleportationCooldown;
 
     [Label("Calamity mod integration")]
     [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
@@ -126,7 +126,7 @@ public sealed class CrowdControlConfig : ModConfig
 
     public override void OnChanged()
     {
-        if (Main.netMode != NetmodeID.MultiplayerClient || !CrowdControlMod.GetInstance().IsSessionActive)
+        if (Main.netMode != NetmodeID.MultiplayerClient)
         {
             return;
         }
