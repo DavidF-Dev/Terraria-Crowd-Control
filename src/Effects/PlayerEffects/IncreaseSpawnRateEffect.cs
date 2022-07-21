@@ -14,7 +14,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const float Factor = 20f * 2f;
+    private const float Factor = 28f;
 
     #endregion
 
