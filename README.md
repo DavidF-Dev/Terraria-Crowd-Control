@@ -54,10 +54,11 @@ The mod can be installed in a few ways:
   in `Documents/My Games/Terraria/tModLoader/Mods`
 
 ### Starting Crowd Control
-
 To begin playing, simply join a single-player or multi-player world (*the server must also have the mod installed*).
 Upon entering the world, the mod will begin attempting to connect to the Crowd Control application.
 Ensure that you have the application set up and running correctly by following [this guide](https://crowdcontrol.live/setup).
+<br><br>
+<img src=".github/connect.png" width=70%></src>
 <br><br>
 You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
 
