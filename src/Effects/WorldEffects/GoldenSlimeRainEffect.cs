@@ -41,7 +41,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
         // Alter coin drop amount (10000 = 1 gold coin)
         npc.value = 10000 * (Main.hardMode ? DropHardModeGoldCoins : DropGoldCoins);
-        
+
         if (Main.netMode == NetmodeID.Server)
         {
             // Let clients know about the NPC

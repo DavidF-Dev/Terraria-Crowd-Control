@@ -382,7 +382,7 @@ public sealed class CrowdControlMod : Mod
         const int port = 58430;
         const int socketTimeout = 10000; // 0.01s (1000000 = 1s)
         const int reconnectTimeout = 2000; // 2s (1000 = 1s)
-        
+
         // Initialisation
         _isSessionConnected = false;
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
