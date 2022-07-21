@@ -16,8 +16,8 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 {
     #region Static Fields and Constants
 
-    private const float MinSpawnTime = 0.25f;
-    private const float MaxSpawnTime = 2.75f;
+    private const float MinSpawnTime = 0.3f;
+    private const float MaxSpawnTime = 2.8f;
 
     #endregion
 

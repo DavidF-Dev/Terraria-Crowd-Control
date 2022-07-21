@@ -111,14 +111,14 @@ public static class PlayerUtils
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [Pure]
-    public static bool IsWithinSpawnProtection(this Player player)
+    public static bool IsWithinSpawnProtection(this Player player, float extra = 0f)
     {
         if (!CrowdControlConfig.GetInstance().EnableSpawnProtection)
         {
             return false;
         }
 
-        float radius = CrowdControlConfig.GetInstance().SpawnProtectionRadius;
+        var radius = CrowdControlConfig.GetInstance().SpawnProtectionRadius + extra;
         var playerTile = player.Center.ToTileCoordinates().ToVector2();
         var spawnTile = new Vector2(Main.spawnTileX, Main.spawnTileY);
         var bedTile = new Vector2(player.SpawnX, player.SpawnY);

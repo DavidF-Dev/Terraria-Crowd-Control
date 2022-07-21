@@ -27,6 +27,17 @@ public sealed class TrapEffect : CrowdControlEffect
 
     #endregion
 
+    #region Static Fields and Constants
+
+    private const int CobwebHalfWidth = 14;
+    private const int CobwebHalfHeight = CobwebHalfWidth;
+    private const int SandHalfWidth = 14;
+    private const int SandHalfHeight = SandHalfWidth;
+    private const int LiquidHalfWidth = 14;
+    private const int LiquidHalfHeight = 12;
+
+    #endregion
+
     #region Static Methods
 
     [Pure]
@@ -40,6 +51,20 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Lava => EffectID.LavaTrap,
             TrapType.Honey => EffectID.HoneyTrap,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
+
+    [Pure]
+    private static (int halfWidth, int halfHeight) GetTrapSize(TrapType trapType)
+    {
+        return trapType switch
+        {
+            TrapType.Cobweb => (CobwebHalfWidth, CobwebHalfHeight),
+            TrapType.Sand => (SandHalfWidth, SandHalfHeight),
+            TrapType.Water => (LiquidHalfWidth, LiquidHalfHeight),
+            TrapType.Lava => (LiquidHalfWidth, LiquidHalfHeight),
+            TrapType.Honey => (LiquidHalfWidth, LiquidHalfHeight),
+            _ => throw new ArgumentOutOfRangeException(nameof(trapType), trapType, null)
         };
     }
 
@@ -64,10 +89,17 @@ public sealed class TrapEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        var player = GetLocalPlayer();
+        var (halfWidth, halfHeight) = GetTrapSize(_type);
+        if (player.Player.IsWithinSpawnProtection(Math.Max(halfWidth, halfHeight) / 2f))
+        {
+            return CrowdControlResponseStatus.Retry;
+        }
+
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn the trap in single-player
-            SpawnTrap(GetLocalPlayer());
+            SpawnTrap(player);
         }
         else
         {
@@ -110,16 +142,11 @@ public sealed class TrapEffect : CrowdControlEffect
 
     private void SpawnTrap(CrowdControlPlayer player)
     {
-        int halfWidth;
-        int halfHeight;
-
+        var (halfWidth, halfHeight) = GetTrapSize(_type);
         switch (_type)
         {
             case TrapType.Cobweb:
             {
-                halfWidth = 14;
-                halfHeight = halfWidth;
-
                 // Set the empty tiles around the player radially to cobwebs
                 foreach (var (x, y) in player.Player.GetTilesAround(halfWidth))
                 {
@@ -136,9 +163,6 @@ public sealed class TrapEffect : CrowdControlEffect
             }
             case TrapType.Sand:
             {
-                halfWidth = 14;
-                halfHeight = 14;
-
                 // Set the empty tiles around the player to sand blocks
                 foreach (var (x, y) in player.Player.GetTilesAround(halfWidth, halfHeight))
                 {
@@ -157,9 +181,6 @@ public sealed class TrapEffect : CrowdControlEffect
             case TrapType.Lava:
             case TrapType.Honey:
             {
-                halfWidth = 30;
-                halfHeight = 24;
-
                 // Determine liquid id
                 var liquidId = _type switch
                 {
@@ -178,8 +199,6 @@ public sealed class TrapEffect : CrowdControlEffect
 
                 break;
             }
-            default:
-                throw new ArgumentOutOfRangeException();
         }
 
         var tile = player.Player.position.ToTileCoordinates();

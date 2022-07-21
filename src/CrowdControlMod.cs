@@ -445,6 +445,7 @@ public sealed class CrowdControlMod : Mod
                         }
                         catch (Exception e)
                         {
+                            TerrariaUtils.WriteDebug($"Cannot parse Crowd Control request due to an exception: {e.Message}");
                             response = CrowdControlResponse.ToJson(new CrowdControlResponse(0, 0, e.Message));
                         }
 
