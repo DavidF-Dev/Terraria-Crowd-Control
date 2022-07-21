@@ -58,7 +58,7 @@ To begin playing, simply join a single-player or multi-player world (*the server
 Upon entering the world, the mod will begin attempting to connect to the Crowd Control application.
 Ensure that you have the application set up and running correctly by following [this guide](https://crowdcontrol.live/setup).
 <br><br>
-<img src=".github/connect.png" width=70%></src>
+<img src=".github/connect.png" width=50%></src>
 <br><br>
 You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
 
