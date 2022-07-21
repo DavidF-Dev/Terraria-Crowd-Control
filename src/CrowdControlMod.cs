@@ -378,6 +378,11 @@ public sealed class CrowdControlMod : Mod
     {
         // Note, this is run on a managed thread
 
+        const string host = "127.0.0.1";
+        const int port = 58430;
+        const int socketTimeout = 10000; // 0.01s (1000000 = 1s)
+        const int reconnectTimeout = 2000; // 2s (1000 = 1s)
+        
         // Initialisation
         _isSessionConnected = false;
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -401,7 +406,7 @@ public sealed class CrowdControlMod : Mod
             // Attempt to connect the socket to the crowd control service
             try
             {
-                socket.Connect("127.0.0.1", 58430);
+                socket.Connect(host, port);
                 _isSessionConnected = true;
             }
             catch (Exception)
@@ -414,10 +419,10 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Connected to Crowd Control", Color.Green);
 
                 // Connection successful, so keep polling the socket for incoming packets
-                while (ShouldSessionThreadContinue && socket.Connected && socket.Poll(1000, SelectMode.SelectWrite))
+                while (ShouldSessionThreadContinue && socket.Connected && socket.Poll(socketTimeout, SelectMode.SelectWrite))
                 {
                     // Check if there is any data to receive
-                    if (!socket.Poll(1000, SelectMode.SelectRead))
+                    if (!socket.Poll(socketTimeout, SelectMode.SelectRead))
                     {
                         continue;
                     }
@@ -439,9 +444,11 @@ public sealed class CrowdControlMod : Mod
                         string response;
                         try
                         {
+                            Logger.Debug($"Crowd Control request: {data}");
                             var request = CrowdControlRequest.FromJson(data);
                             var responseStatus = ProcessEffect(request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
                             response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"Effect {request.Code}: {responseStatus}"));
+                            Logger.Debug($"Crowd Control response: {response}");
                         }
                         catch (Exception e)
                         {
@@ -486,7 +493,7 @@ public sealed class CrowdControlMod : Mod
             else
             {
                 // Connection failed, so wait before attempting to reconnect
-                Thread.Sleep(2000);
+                Thread.Sleep(reconnectTimeout);
 
                 if (!writeAttempt)
                 {
