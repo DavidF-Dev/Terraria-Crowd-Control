@@ -49,8 +49,7 @@ public sealed class ShootExplosives : CrowdControlEffect
             {
                 ProjectileID.Grenade, ProjectileID.StickyGrenade, ProjectileID.BouncyGrenade, ProjectileID.Beenade, ProjectileID.PartyGirlGrenade,
                 ProjectileID.SmokeBomb, ProjectileID.ConfettiGun, ProjectileID.FlowerPetal, ProjectileID.OrnamentFriendly,
-                ProjectileID.SantaBombs, ProjectileID.DD2GoblinBomb, ProjectileID.DryGrenade, ProjectileID.WetGrenade, ProjectileID.HoneyGrenade,
-                ProjectileID.LavaGrenade
+                ProjectileID.SantaBombs, ProjectileID.DD2GoblinBomb
             }
         }
     };
