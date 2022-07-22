@@ -38,7 +38,7 @@ public abstract class CrowdControlEffect : IFeature
     ///     Unique id of the effect instance requested by the Crowd Control session.
     /// </summary>
     private int _netId = -1;
-    
+
     /// <summary>
     ///     How long the effect lasts for, or null if the effect is instantaneous.
     /// </summary>
@@ -254,7 +254,7 @@ public abstract class CrowdControlEffect : IFeature
     {
         return true;
     }
-    
+
     /// <summary>
     ///     Update the effect whilst active each frame so that the time remaining is reduced (client-side).
     /// </summary>

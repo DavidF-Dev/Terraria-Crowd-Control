@@ -488,7 +488,7 @@ public sealed class CrowdControlMod : Mod
                                 }
                             }
                         }
-                        
+
                         continue;
                     }
 
@@ -546,7 +546,7 @@ public sealed class CrowdControlMod : Mod
                     socket.Dispose();
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 }
-                
+
                 _isSessionConnected = false;
                 writeAttempt = true;
 
