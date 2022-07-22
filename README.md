@@ -1,4 +1,4 @@
-<img src=".github/banner.png"></src>
+[![Title](.github/banner.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
 [![Release](https://img.shields.io/github/v/release/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/releases/latest)
 [![Downloads](https://img.shields.io/steam/downloads/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
 [![File Size](https://img.shields.io/steam/size/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
