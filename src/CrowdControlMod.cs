@@ -257,7 +257,7 @@ public sealed class CrowdControlMod : Mod
     ///     Queue a response to be sent to Crowd Control by an effect.<br />
     ///     Used by <see cref="CrowdControlEffect" /> when pausing/resuming/finishing.
     /// </summary>
-    public void QueueResponseToCrowdControl(int effectNetId, CrowdControlResponseStatus status)
+    public void QueueResponseToCrowdControl(int effectNetId, string effectId, CrowdControlResponseStatus status)
     {
         if (!IsSessionActive)
         {
@@ -267,12 +267,12 @@ public sealed class CrowdControlMod : Mod
 
         if (effectNetId == -1)
         {
-            TerrariaUtils.WriteDebug($"Attempted to queue a response with an invalid {nameof(effectNetId)}: {effectNetId}");
+            TerrariaUtils.WriteDebug($"Attempted to queue a response for '{effectId}' with an invalid {nameof(effectNetId)}: {effectNetId}");
             return;
         }
 
         // Generate a response and queue it to be sent in the connection thread
-        var response = new CrowdControlResponse(effectNetId, (int)status, status.ToString());
+        var response = new CrowdControlResponse(effectNetId, (int)status, $"{effectId}: {status}");
         var json = CrowdControlResponse.ToJson(response);
         lock (_responseQueue)
         {
@@ -512,7 +512,7 @@ public sealed class CrowdControlMod : Mod
                             TerrariaUtils.WriteDebug($"Incoming request: {data}");
                             var request = CrowdControlRequest.FromJson(data);
                             var responseStatus = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
-                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"Effect {request.Code}: {responseStatus}"));
+                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"{request.Code}: {responseStatus}"));
                             TerrariaUtils.WriteDebug($"Outgoing response: {response}");
                         }
                         catch (Exception e)
@@ -588,7 +588,7 @@ public sealed class CrowdControlMod : Mod
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
         {
-            TerrariaUtils.WriteDebug($"Failed to process effect request '{requestType} {code}' as the session is not active");
+            TerrariaUtils.WriteDebug($"Failed to process effect request '{code}' as the session is not active");
             return CrowdControlResponseStatus.Failure;
         }
 
@@ -619,14 +619,14 @@ public sealed class CrowdControlMod : Mod
         // Ensure the effect is supported
         if (!_effects.TryGetValue(code, out var effect))
         {
-            TerrariaUtils.WriteDebug($"Failed to process effect request '{requestType} {code}' as it is not supported by the mod");
+            TerrariaUtils.WriteDebug($"Failed to process effect request '{code}' as it is not supported by the mod");
             return CrowdControlResponseStatus.Unavailable;
         }
 
         // Re-attempt the effect at a later point if the session is paused
         if (IsSessionPaused() && requestType != CrowdControlRequestType.Stop)
         {
-            TerrariaUtils.WriteDebug($"Retrying effect '{requestType} {code}' as the session is paused");
+            TerrariaUtils.WriteDebug($"Retrying effect '{code}' as the session is paused");
             return CrowdControlResponseStatus.Retry;
         }
 
@@ -648,7 +648,7 @@ public sealed class CrowdControlMod : Mod
             result = CrowdControlResponseStatus.Success;
         }
 
-        TerrariaUtils.WriteDebug($"Processed effect request '{requestType} {code}' with response '{result}'");
+        // TerrariaUtils.WriteDebug($"Processed effect request '{requestType} {code}' with response '{result}'");
         return result;
     }
 

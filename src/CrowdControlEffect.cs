@@ -203,7 +203,7 @@ public abstract class CrowdControlEffect : IFeature
         if (_isTimedEffect && !requested)
         {
             // Let Crowd Control know that the timed effect has finished
-            CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Finished);
+            CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, Id, CrowdControlResponseStatus.Finished);
         }
 
         SendStopMessage();
@@ -230,7 +230,7 @@ public abstract class CrowdControlEffect : IFeature
         IsPaused = true;
 
         // Let Crowd Control know that the effect has been paused
-        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Paused);
+        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, Id, CrowdControlResponseStatus.Paused);
     }
 
     public void Resume()
@@ -244,7 +244,7 @@ public abstract class CrowdControlEffect : IFeature
         IsPaused = false;
 
         // Let Crowd Control know that the effect has been unpaused
-        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Resumed);
+        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, Id, CrowdControlResponseStatus.Resumed);
     }
 
     /// <summary>
