@@ -111,6 +111,12 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
 
+        if (player.Player.IsWithinSpawnProtection())
+        {
+            // Ignore if within spawn protection
+            return CrowdControlResponseStatus.Retry;
+        }
+
         // Determine which structure to generate based on the player's location
         _chosenStructure = ChooseStructure(player.Player);
         if (_chosenStructure == Structure.None)
