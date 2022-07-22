@@ -81,7 +81,7 @@ public sealed class SetWeatherEffect : CrowdControlEffect
         if (_weather == WorldUtils.Weather.Windy && !CanBeAWindyDay())
         {
             TerrariaUtils.WriteDebug("Failed to set the weather to windy because it isn't day time");
-            return CrowdControlResponseStatus.Failure;
+            return CrowdControlResponseStatus.Retry;
         }
 
         if (Main.netMode == NetmodeID.SinglePlayer)
