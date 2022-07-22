@@ -595,6 +595,14 @@ public sealed class CrowdControlMod : Mod
             return;
         }
 
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        if (effect is IModEffect modEffect && !ModUtils.TryGetMod(modEffect.ModName, out _))
+        {
+            effect.Dispose();
+            TerrariaUtils.WriteDebug($"Effect '{effect.Id}' is unavailable because a required mod is not active: '{modEffect.ModName}'");
+            return;
+        }
+
         _effects.Add(effect.Id, effect);
     }
 
