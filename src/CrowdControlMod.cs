@@ -272,7 +272,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Generate a response and queue it to be sent in the connection thread
-        var response = new CrowdControlResponse(effectNetId, (int)status, string.Empty);
+        var response = new CrowdControlResponse(effectNetId, (int)status, status.ToString());
         var json = CrowdControlResponse.ToJson(response);
         lock (_responseQueue)
         {
