@@ -68,8 +68,8 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
-    [Label("Enable spawn protection for explosive effects")]
-    [Tooltip("Enable to delay explosive-related effects if you are too close to spawn.")]
+    [Label("Enable spawn protection for world-altering effects")]
+    [Tooltip("Enable to delay world-altering effects if you are too close to spawn.")]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
