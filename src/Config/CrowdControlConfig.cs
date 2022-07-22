@@ -70,7 +70,7 @@ public sealed class CrowdControlConfig : ModConfig
 
     [Label("Enable spawn protection for explosive effects")]
     [Tooltip("Enable to delay explosive-related effects if you are too close to spawn.")]
-    [DefaultValue(false)]
+    [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
     [Label("Spawn protection radius")]
