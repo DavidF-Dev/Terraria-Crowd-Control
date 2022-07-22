@@ -752,7 +752,7 @@ public sealed class CrowdControlMod : Mod
             BuffID.OnFire));
         AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 8f,
             ItemID.FallenStar, -1, (v, p) => $"{v} dazed {p}", null,
-            BuffID.Dazed, BuffID.WindPushed, BuffID.NoBuilding));
+            BuffID.Dazed, BuffID.NoBuilding));
         AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 8f,
             ItemID.FragmentVortex, -1, (v, p) => $"{v} distorted gravity around {p}", null,
             BuffID.VortexDebuff));
