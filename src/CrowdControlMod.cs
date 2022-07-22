@@ -60,6 +60,8 @@ public sealed class CrowdControlMod : Mod
 
     private Thread? _sessionCallerThread;
 
+    private readonly Queue<string> _responseQueue = new();
+
     /// <summary>
     ///     Session is running, but might not be connected.
     /// </summary>
@@ -242,7 +244,40 @@ public sealed class CrowdControlMod : Mod
             feature.SessionStopped();
         }
 
+        // Clear response queue
+        lock (_responseQueue)
+        {
+            _responseQueue.Clear();
+        }
+
         CrowdControlModSystem.GameUpdateHook -= OnGameUpdate;
+    }
+
+    /// <summary>
+    ///     Queue a response to be sent to Crowd Control by an effect.<br />
+    ///     Used by <see cref="CrowdControlEffect" /> when pausing/resuming/finishing.
+    /// </summary>
+    public void QueueResponseToCrowdControl(int effectNetId, CrowdControlResponseStatus status)
+    {
+        if (!IsSessionActive)
+        {
+            // Ignore
+            return;
+        }
+
+        if (effectNetId == -1)
+        {
+            TerrariaUtils.WriteDebug($"Attempted to queue a response with an invalid {nameof(effectNetId)}: {effectNetId}");
+            return;
+        }
+
+        // Generate a response and queue it to be sent in the connection thread
+        var response = new CrowdControlResponse(effectNetId, (int)status, string.Empty);
+        var json = CrowdControlResponse.ToJson(response);
+        lock (_responseQueue)
+        {
+            _responseQueue.Enqueue(json);
+        }
     }
 
     /// <summary>
@@ -424,6 +459,36 @@ public sealed class CrowdControlMod : Mod
                     // Check if there is any data to receive
                     if (!socket.Poll(socketTimeout, SelectMode.SelectRead))
                     {
+                        // Check if the response queue has any entries to be sent over the socket
+                        lock (_responseQueue)
+                        {
+                            while (_responseQueue.Count > 0)
+                            {
+                                // Send each response over the socket connection
+                                var response = _responseQueue.Dequeue();
+                                if (string.IsNullOrEmpty(response))
+                                {
+                                    continue;
+                                }
+
+                                try
+                                {
+                                    var tmp = Encoding.ASCII.GetBytes(response);
+                                    var outBuffer = new byte[tmp.Length + 1];
+                                    Array.Copy(tmp, 0, outBuffer, 0, tmp.Length);
+                                    outBuffer[^1] = 0x00;
+                                    socket.Send(outBuffer);
+                                    TerrariaUtils.WriteDebug($"Outgoing response: {response}");
+                                }
+                                catch (Exception e)
+                                {
+                                    // If an exception occurs, abort the connection
+                                    TerrariaUtils.WriteDebug($"Aborted connection due to an exception: {e.Message}");
+                                    break;
+                                }
+                            }
+                        }
+                        
                         continue;
                     }
 
@@ -444,11 +509,11 @@ public sealed class CrowdControlMod : Mod
                         string response;
                         try
                         {
-                            Logger.Debug($"Crowd Control request: {data}");
+                            TerrariaUtils.WriteDebug($"Incoming request: {data}");
                             var request = CrowdControlRequest.FromJson(data);
-                            var responseStatus = ProcessEffect(request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
+                            var responseStatus = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
                             response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"Effect {request.Code}: {responseStatus}"));
-                            Logger.Debug($"Crowd Control response: {response}");
+                            TerrariaUtils.WriteDebug($"Outgoing response: {response}");
                         }
                         catch (Exception e)
                         {
@@ -481,7 +546,7 @@ public sealed class CrowdControlMod : Mod
                     socket.Dispose();
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 }
-
+                
                 _isSessionConnected = false;
                 writeAttempt = true;
 
@@ -518,7 +583,7 @@ public sealed class CrowdControlMod : Mod
         _sessionCallerThread = null;
     }
 
-    private CrowdControlResponseStatus ProcessEffect(string code, string viewer, CrowdControlRequestType requestType)
+    private CrowdControlResponseStatus ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
@@ -535,7 +600,7 @@ public sealed class CrowdControlMod : Mod
             var results = provider.GetEffectIds(requestType)
                 .Where(x => !string.IsNullOrEmpty(x) && !_effectProviders.ContainsKey(x))
                 .Distinct()
-                .GroupBy(x => ProcessEffect(x, viewer, requestType))
+                .GroupBy(x => ProcessEffect(netId, x, viewer, requestType))
                 .ToDictionary(x => x.Key, x => x.Count());
 
             TerrariaUtils.WriteDebug($"Processed {results.Sum(x => x.Value)} handler request(s) '{requestType} {code}': " +
@@ -575,11 +640,11 @@ public sealed class CrowdControlMod : Mod
         CrowdControlResponseStatus result;
         if (requestType == CrowdControlRequestType.Start)
         {
-            result = effect.Start(viewer);
+            result = effect.Start(netId, viewer);
         }
         else
         {
-            effect.Stop();
+            effect.Stop(true);
             result = CrowdControlResponseStatus.Success;
         }
 
@@ -595,7 +660,8 @@ public sealed class CrowdControlMod : Mod
             return;
         }
 
-        // ReSharper disable once SuspiciousTypeConversion.Global
+        // ReSharper disable once SuspiciousTypeConversion.Global (unimplemented feature)
+        // Note that in a future Crowd Control api, this may be determined when the session starts
         if (effect is IModEffect modEffect && !ModUtils.TryGetMod(modEffect.ModName, out _))
         {
             effect.Dispose();
@@ -615,6 +681,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // ReSharper disable once SuspiciousTypeConversion.Global
+        // Note that in a future Crowd Control api, this may be determined when the session starts
         if (provider is IModEffect modEffectProvider && !ModUtils.TryGetMod(modEffectProvider.ModName, out _))
         {
             TerrariaUtils.WriteDebug($"Effect provider '{id}' is unavailable because a required mod is not active: '{modEffectProvider.ModName}'");
@@ -793,16 +860,30 @@ public sealed class CrowdControlMod : Mod
 
     private void OnGameUpdate(GameTime gameTime)
     {
-        if (IsSessionPaused())
-        {
-            // Ignore if the session is paused
-            return;
-        }
-
         // Update the active effects (so that their timers are reduced)
+        var sessionPaused = IsSessionPaused();
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
         foreach (var effect in _effects.Values.Where(x => x.IsActive))
         {
+            // Check if the effect should be paused or resumed
+            var shouldUpdate = !sessionPaused && effect.ShouldUpdate();
+            switch (shouldUpdate)
+            {
+                case false when !effect.IsPaused:
+                    effect.Pause();
+                    break;
+                case true when effect.IsPaused:
+                    effect.Resume();
+                    break;
+            }
+
+            if (effect.IsPaused)
+            {
+                // Ignore paused effect
+                continue;
+            }
+
+            // Update the effect
             effect.Update(delta);
         }
     }

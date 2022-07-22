@@ -173,7 +173,7 @@ public sealed class ShootExplosives : CrowdControlEffect
         player.ShootHook -= PlayerShoot;
     }
 
-    protected override bool ShouldUpdate()
+    public override bool ShouldUpdate()
     {
         return !GetLocalPlayer().Player.IsWithinSpawnProtection();
     }

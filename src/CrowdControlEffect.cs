@@ -35,6 +35,11 @@ public abstract class CrowdControlEffect : IFeature
     #region Fields
 
     /// <summary>
+    ///     Unique id of the effect instance requested by the Crowd Control session.
+    /// </summary>
+    private int _netId = -1;
+    
+    /// <summary>
     ///     How long the effect lasts for, or null if the effect is instantaneous.
     /// </summary>
     private readonly float? _duration;
@@ -80,6 +85,11 @@ public abstract class CrowdControlEffect : IFeature
     ///     Effect is currently active (client-side).
     /// </summary>
     public bool IsActive { get; private set; }
+
+    /// <summary>
+    ///     Timed effect is paused (client-side).
+    /// </summary>
+    public bool IsPaused { get; private set; }
 
     /// <summary>
     ///     Current time remaining on the effect.
@@ -132,13 +142,14 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Start the effect (client-side).
     /// </summary>
-    public CrowdControlResponseStatus Start(string viewer)
+    public CrowdControlResponseStatus Start(int netId, string viewer)
     {
         if (IsActive)
         {
             return CrowdControlResponseStatus.Retry;
         }
 
+        _netId = netId;
         TimeLeft = _duration.GetValueOrDefault();
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
@@ -176,7 +187,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Stop the effect instantly, without fail (client-side).
     /// </summary>
-    public void Stop()
+    public void Stop(bool requested = false)
     {
         if (!IsActive)
         {
@@ -189,21 +200,69 @@ public abstract class CrowdControlEffect : IFeature
             SendPacket(PacketID.EffectStatus, false);
         }
 
+        if (_isTimedEffect && !requested)
+        {
+            // Let Crowd Control know that the timed effect has finished
+            CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Finished);
+        }
+
         SendStopMessage();
 
         IsActive = false;
+        IsPaused = false;
         TimeLeft = 0f;
+        _netId = -1;
 
         OnStop();
     }
 
     /// <summary>
+    ///     Pause the timed effect.
+    /// </summary>
+    public void Pause()
+    {
+        if (!IsActive || !_isTimedEffect || IsPaused)
+        {
+            // Ignore
+            return;
+        }
+
+        IsPaused = true;
+
+        // Let Crowd Control know that the effect has been paused
+        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Paused);
+    }
+
+    public void Resume()
+    {
+        if (!IsActive || !_isTimedEffect || !IsPaused)
+        {
+            // Ignore
+            return;
+        }
+
+        IsPaused = false;
+
+        // Let Crowd Control know that the effect has been unpaused
+        CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, CrowdControlResponseStatus.Resumed);
+    }
+
+    /// <summary>
+    ///     Whether the active effect should be updated and have its timer reduced.
+    /// </summary>
+    public virtual bool ShouldUpdate()
+    {
+        return true;
+    }
+    
+    /// <summary>
     ///     Update the effect whilst active each frame so that the time remaining is reduced (client-side).
     /// </summary>
     public void Update(float delta)
     {
-        if (!IsActive || !ShouldUpdate())
+        if (!IsActive || IsPaused)
         {
+            // Ignore
             return;
         }
 
@@ -345,14 +404,6 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     protected virtual void OnUpdate(float delta)
     {
-    }
-
-    /// <summary>
-    ///     Whether the active effect should be updated and have its timer reduced.
-    /// </summary>
-    protected virtual bool ShouldUpdate()
-    {
-        return true;
     }
 
     /// <summary>

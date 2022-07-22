@@ -22,5 +22,20 @@ public enum CrowdControlResponseStatus
     ///     The effect cannot be triggered right now, try again in a few seconds.
     ///     Will fail after a series of attempts.
     /// </summary>
-    Retry = 3
+    Retry = 3,
+
+    /// <summary>
+    ///     The timed effect has been paused and is now waiting.
+    /// </summary>
+    Paused = 6,
+
+    /// <summary>
+    ///     The timed effect has been resumed and is counting down again.
+    /// </summary>
+    Resumed = 7,
+
+    /// <summary>
+    ///     The timed effect has finished.
+    /// </summary>
+    Finished = 8
 }
