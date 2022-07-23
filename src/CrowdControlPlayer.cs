@@ -40,6 +40,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// </summary>
     public bool ServerDisableTombstones;
 
+    /// <summary>
+    ///     Server-side value for whether this player wants bosses to be despawned in their config.
+    /// </summary>
+    public bool ServerForcefullyDespawnBosses;
+
     #endregion
 
     #region Properties
@@ -49,6 +54,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// </summary>
     public bool DisableTombstones => Main.netMode == NetmodeID.Server ? ServerDisableTombstones : CrowdControlConfig.GetInstance().DisableTombstones;
 
+    /// <summary>
+    ///     Whether effect bosses should be despawned if all players are dead. Correct for client and server.
+    /// </summary>
+    public bool DespawnForcefullyBoss => Main.netMode == NetmodeID.Server ? ServerForcefullyDespawnBosses : CrowdControlConfig.GetInstance().ForceDespawnBosses;
+    
     #endregion
 
     #region Events

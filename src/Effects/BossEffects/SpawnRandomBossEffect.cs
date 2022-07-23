@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Spawnables;
 using CrowdControlMod.Utilities;
@@ -159,7 +160,8 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         // Spawn above the player and to the side
         var boss = SpawnableNpc.Get(npcType);
         var spawnPos = player.Player.Center + new Vector2(16 * 22 * (Main.rand.Next(100) > 50 ? 1 : -1), -16 * 13);
-        boss.Spawn(player, spawnPos);
+        var npc = boss.Spawn(player, spawnPos);
+        CrowdControlMod.GetInstance().GetFeature<DespawnNPCFeature>()?.RegisterNPC(npc.whoAmI);
     }
 
     #endregion

@@ -32,6 +32,9 @@ public sealed class CrowdControlModSystem : ModSystem
     /// <inheritdoc cref="UpdateUI" />
     public static event Action<GameTime>? GameUpdateHook;
 
+    /// <inheritdoc cref="PostUpdateNPCs" />
+    public static event Action? PostUpdateNPCsHook;
+
     #endregion
 
     #region Methods
@@ -63,6 +66,11 @@ public sealed class CrowdControlModSystem : ModSystem
     public override void UpdateUI(GameTime gameTime)
     {
         GameUpdateHook?.Invoke(gameTime);
+    }
+
+    public override void PostUpdateNPCs()
+    {
+        PostUpdateNPCsHook?.Invoke();
     }
 
     #endregion

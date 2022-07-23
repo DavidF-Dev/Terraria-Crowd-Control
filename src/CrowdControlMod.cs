@@ -122,6 +122,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(new RemoveTombstoneFeature());
         _features.Add(new PlayerTeleportationFeature());
         _features.Add(new TimedEffectDisplayFeature());
+        _features.Add(new DespawnNPCFeature());
 
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
@@ -281,6 +282,16 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
+    ///     Attempt to get a feature by type.
+    /// </summary>
+    [Pure]
+    public T? GetFeature<T>() where T : IFeature
+    {
+        var feature = _features.FirstOrDefault(f => f is T);
+        return feature != null ? (T)feature : default;
+    }
+    
+    /// <summary>
     ///     Check whether the provided effect is currently active (client-side).
     /// </summary>
     [Pure]
@@ -374,6 +385,18 @@ public sealed class CrowdControlMod : Mod
                 TerrariaUtils.WriteDebug($"Synced weather from server (cloud={Main.cloudAlpha}, speed={Main.windSpeedTarget}, wind={Main.windCounter} extreme={Main.extremeWindCounter})");
                 break;
             }
+
+            // Sync the given NPC in non-vanilla ways
+            case PacketID.SyncNPCSpecial:
+            {
+                var npcWhoAmI = reader.ReadInt32();
+                var lifeMax = reader.ReadInt32();
+                var life = reader.ReadInt32();
+                var npc = Main.npc[npcWhoAmI];
+                npc.lifeMax = lifeMax;
+                npc.life = life;
+                break;
+            }
         }
     }
 
@@ -387,7 +410,8 @@ public sealed class CrowdControlMod : Mod
             // Client is letting the server know about their configuration settings
             case PacketID.ConfigState:
                 player.ServerDisableTombstones = reader.ReadBoolean();
-                TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones})");
+                player.ServerForcefullyDespawnBosses = reader.ReadBoolean();
+                TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones}, despawnBosses={player.ServerForcefullyDespawnBosses})");
                 break;
 
             // Client wants to trigger an effect on the server

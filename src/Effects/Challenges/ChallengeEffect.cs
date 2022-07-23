@@ -77,8 +77,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
             SoundEngine.PlaySound(SoundID.AchievementComplete, player.Player.position);
             player.Player.Emote(EmoteID.EmoteLaugh);
             var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
-            var proj = Main.projectile[index];
-            proj.friendly = true;
+            Main.projectile[index].friendly = true;
             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
         }
 

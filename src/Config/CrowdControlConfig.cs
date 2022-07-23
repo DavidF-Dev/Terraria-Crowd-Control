@@ -56,7 +56,7 @@ public sealed class CrowdControlConfig : ModConfig
     public bool UseEffectEmotes;
 
     [Label("Disable tombstones")]
-    [Tooltip("Enable to prevent your tombstone from spawning when you die.")]
+    [Tooltip("Enable to prevent your tombstone from spawning when you die.\nIn multi-player, this will only affect your player.")]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
@@ -85,6 +85,11 @@ public sealed class CrowdControlConfig : ModConfig
     [Tooltip("Disable to prevent time-changing effects during boss fights, invasions or events.")]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
+
+    [Label("Forcefully despawn bosses if all players are dead")]
+    [Tooltip("Enable this to override Terraria's default behaviour for all bosses spawned via effects.\nBosses & mini-bosses will despawn if all players are dead.\nIn multi-player, only one player needs to have this option enabled.")]
+    [DefaultValue(false)]
+    public bool ForceDespawnBosses;
 
     [Label("Allow teleporting to other players")]
     [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.")]
@@ -147,9 +152,10 @@ public sealed class CrowdControlConfig : ModConfig
         }
 
         // Update the server on relevant changes
-        var packet = CrowdControlMod.GetInstance().GetPacket(2);
+        var packet = CrowdControlMod.GetInstance().GetPacket(3);
         packet.Write((byte)PacketID.ConfigState);
         packet.Write(DisableTombstones);
+        packet.Write(ForceDespawnBosses);
         packet.Send();
 
         TerrariaUtils.WriteDebug("Sending config to server");

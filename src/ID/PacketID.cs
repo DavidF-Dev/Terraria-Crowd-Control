@@ -21,6 +21,12 @@ public enum PacketID : byte
     SyncWeather,
 
     /// <summary>
+    ///     Sync an npc in non-vanilla ways (from the server).<br />
+    ///     Packet data: (int)whoAmI (int)lifeMax (int)life
+    /// </summary>
+    SyncNPCSpecial,
+
+    /// <summary>
     ///     Notify the server about the status of an effect (from the client).<br />
     ///     Packet data: (bool)status
     /// </summary>
@@ -34,7 +40,7 @@ public enum PacketID : byte
 
     /// <summary>
     ///     Notify the server about the client's config settings (from client).<br />
-    ///     Packet data: (bool)disableTombstones
+    ///     Packet data: (bool)disableTombstones, (bool)despawnBosses
     /// </summary>
     ConfigState
 }
