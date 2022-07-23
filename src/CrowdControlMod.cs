@@ -532,9 +532,23 @@ public sealed class CrowdControlMod : Mod
                         string response;
                         try
                         {
+                            // Read the request object
                             TerrariaUtils.WriteDebug($"Incoming request: {data}");
                             var request = CrowdControlRequest.FromJson(data);
-                            var responseStatus = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
+
+                            // Process the request
+                            CrowdControlResponseStatus responseStatus;
+                            try
+                            {
+                                responseStatus = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
+                            }
+                            catch (Exception e)
+                            {
+                                TerrariaUtils.WriteDebug($"Cannot process Crowd Control effect '{request.Code}' due to an exception {e.Message}");
+                                responseStatus = CrowdControlResponseStatus.Failure;
+                            }
+
+                            // Create a response object
                             response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"{request.Code}: {responseStatus}"));
                             TerrariaUtils.WriteDebug($"Outgoing response: {response}");
                         }
