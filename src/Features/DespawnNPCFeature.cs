@@ -13,7 +13,7 @@ public sealed class DespawnNPCFeature : IFeature
 {
     #region Fields
 
-    private readonly List<int> _managedNpcs = new(4);
+    private readonly List<(int whoAmI, int type)> _managedNpcs = new(4);
 
     #endregion
 
@@ -53,7 +53,7 @@ public sealed class DespawnNPCFeature : IFeature
             return;
         }
 
-        if (npcWhoAmI < 0 || npcWhoAmI >= Main.npc.Length || _managedNpcs.Contains(npcWhoAmI))
+        if (npcWhoAmI < 0 || npcWhoAmI >= Main.npc.Length || _managedNpcs.Any(x => x.whoAmI == npcWhoAmI))
         {
             // Ignore
             return;
@@ -66,7 +66,7 @@ public sealed class DespawnNPCFeature : IFeature
             return;
         }
 
-        _managedNpcs.Add(npcWhoAmI);
+        _managedNpcs.Add((npcWhoAmI, npc.type));
         TerrariaUtils.WriteDebug($"Registered spawned npc with {nameof(DespawnNPCFeature)}: {npc.FullName} ({npcWhoAmI})");
     }
 
@@ -85,8 +85,8 @@ public sealed class DespawnNPCFeature : IFeature
         // Iterate over managed npcs and check if any should be removed
         for (var i = 0; i < _managedNpcs.Count; i++)
         {
-            var npc = Main.npc[_managedNpcs[i]];
-            if (!npc.active || npc.life <= 0)
+            var npc = Main.npc[_managedNpcs[i].whoAmI];
+            if (!npc.active || npc.life <= 0 || npc.type != _managedNpcs[i].type)
             {
                 // Remove (due to natural reasons)
                 _managedNpcs.RemoveAt(i);
