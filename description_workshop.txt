@@ -1,4 +1,4 @@
-﻿[img]https://github.com/DavidF-Dev/Terraria-Crowd-Control/raw/main/.github/banner.png[/img]
+﻿[img]https://raw.githubusercontent.com/DavidF-Dev/Terraria-Crowd-Control/main/.github/banner.png[/img]
 A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control Twitch extension.
 [list]
 [*] Effects and prices can be customised through the Crowd Control application.
@@ -34,7 +34,7 @@ Listed are just a few of the effects available. A full list can be viewed in the
 
 [h1]Usage[/h1]
 To begin playing, simply join a single-player or multi-player world ([b]the server must also have the mod installed[/b]). Upon entering the world, the mod will begin attempting to connect to the Crowd Control application. Ensure that you have the application set up and running correctly by following [url=https://crowdcontrol.live/setup]this guide[/url].
-[img]https://github.com/DavidF-Dev/Terraria-Crowd-Control/raw/main/.github/connect.png[/img]
+[img]https://raw.githubusercontent.com/DavidF-Dev/Terraria-Crowd-Control/main/.github/connect.png[/img]
 You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
 
 [h2]Configuration[/h2]
