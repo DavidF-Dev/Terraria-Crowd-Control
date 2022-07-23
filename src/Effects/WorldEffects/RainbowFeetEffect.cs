@@ -37,6 +37,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     public RainbowFeetEffect(float duration) : base(EffectID.RainbowFeet, duration, EffectSeverity.Neutral)
     {
+        CrowdControlNPC.OnKillHook += NPCKill;
     }
 
     #endregion
@@ -48,6 +49,11 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     #endregion
 
     #region Methods
+
+    protected override void OnDisposed()
+    {
+        CrowdControlNPC.OnKillHook -= NPCKill;
+    }
 
     protected override CrowdControlResponseStatus OnStart()
     {
@@ -132,7 +138,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     private void ProjectileKill(Projectile projectile, int timeLeft)
     {
-        if (projectile.minion || projectile.sentry || projectile.bobber || projectile.owner != GetLocalPlayer().Player.whoAmI)
+        if (projectile.type != ProjectileID.PainterPaintball && (projectile.minion || projectile.sentry || projectile.bobber || projectile.owner != GetLocalPlayer().Player.whoAmI))
         {
             // Ignored
             return;
@@ -151,5 +157,38 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         }
     }
 
+    private void NPCKill(NPC npc)
+    {
+        if ((Main.netMode == NetmodeID.SinglePlayer && !IsActive) ||
+            (Main.netMode == NetmodeID.Server && !IsActiveOnServer()) ||
+            Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            // Ignore
+            return;
+        }
+
+        // Spawn paint projectile in random directions from the dead npc's center
+        const int minCount = 5;
+        const int maxCount = 8;
+        const float minSpeed = 2f;
+        const float maxSpeed = 5f;
+        var count = Main.rand.Next(minCount, maxCount);
+        for (var i = 0; i < count; i++)
+        {
+            var index = Projectile.NewProjectile(
+                null, npc.Center,
+                Main.rand.NextVector2Unit() * Main.rand.NextFloat(minSpeed, maxSpeed),
+                ProjectileID.PainterPaintball,
+                npc.lifeMax / 6, 3f,
+                Main.myPlayer,
+                ai1: Main.rand.Next(12) / 6f);
+            if (Main.netMode == NetmodeID.Server)
+            {
+                // Spawn for clients
+                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
+            }
+        }
+    }
+    
     #endregion
 }

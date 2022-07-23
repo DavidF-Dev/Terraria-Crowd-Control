@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -32,6 +33,9 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="PreDraw" />
     public static event PreDrawDelegate? PreDrawHook;
 
+    /// <inheritdoc cref="OnKill" />
+    public static event Action<NPC>? OnKillHook; 
+
     #endregion
 
     #region Methods
@@ -49,6 +53,11 @@ public sealed class CrowdControlNPC : GlobalNPC
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
     {
         return PreDrawHook?.Invoke(npc, spriteBatch, screenPos, drawColor) ?? base.PreDraw(npc, spriteBatch, screenPos, drawColor);
+    }
+
+    public override void OnKill(NPC npc)
+    {
+        OnKillHook?.Invoke(npc);
     }
 
     #endregion

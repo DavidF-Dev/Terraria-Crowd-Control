@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
 using CrowdControlMod.Features;
@@ -296,6 +297,15 @@ public abstract class CrowdControlEffect : IFeature
         return false;
     }
 
+    /// <summary>
+    ///     Check if the effect is active for any player (server-side).
+    /// </summary>
+    [Pure]
+    public bool IsActiveOnServer()
+    {
+        return _activeOnServer.Any();
+    }
+    
     /// <summary>
     ///     Receive a packet meant for this effect, sent from a client (server-side).
     /// </summary>
