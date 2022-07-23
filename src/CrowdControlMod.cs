@@ -85,7 +85,7 @@ public sealed class CrowdControlMod : Mod
     /// <summary>
     ///     Features that this mod handles.
     /// </summary>
-    private readonly List<IFeature> _features = new();
+    private readonly Dictionary<int, IFeature> _features = new();
 
     #endregion
 
@@ -118,11 +118,11 @@ public sealed class CrowdControlMod : Mod
         AddAllEffects();
 
         // Add features
-        _features.Add(new ReduceRespawnTimeFeature());
-        _features.Add(new RemoveTombstoneFeature());
-        _features.Add(new PlayerTeleportationFeature());
-        _features.Add(new TimedEffectDisplayFeature());
-        _features.Add(new DespawnNPCFeature());
+        _features.Add(FeatureID.DespawnNPC, new DespawnNPCFeature());
+        _features.Add(FeatureID.PlayerTeleportation, new PlayerTeleportationFeature());
+        _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
+        _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
+        _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
 
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
@@ -144,7 +144,7 @@ public sealed class CrowdControlMod : Mod
         _effects.Clear();
 
         // Dispose the features before clearing them
-        foreach (var feature in _features)
+        foreach (var feature in _features.Values)
         {
             feature.Dispose();
         }
@@ -200,7 +200,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Initialise the features
-        foreach (var feature in _features)
+        foreach (var feature in _features.Values)
         {
             feature.SessionStarted();
         }
@@ -240,7 +240,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Notify features that the session has been stopped
-        foreach (var feature in _features)
+        foreach (var feature in _features.Values)
         {
             feature.SessionStopped();
         }
@@ -282,13 +282,12 @@ public sealed class CrowdControlMod : Mod
     }
 
     /// <summary>
-    ///     Attempt to get a feature by type.
+    ///     Attempt to get a feature by id.
     /// </summary>
     [Pure]
-    public T? GetFeature<T>() where T : IFeature
+    public T? GetFeature<T>(int id) where T : IFeature
     {
-        var feature = _features.FirstOrDefault(f => f is T);
-        return feature != null ? (T)feature : default;
+        return _features.TryGetValue(id, out var feature) ? feature is T castedFeature ? castedFeature : default : default;
     }
     
     /// <summary>

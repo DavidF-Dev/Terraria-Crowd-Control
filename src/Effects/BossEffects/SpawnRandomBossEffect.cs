@@ -161,7 +161,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         var boss = SpawnableNpc.Get(npcType);
         var spawnPos = player.Player.Center + new Vector2(16 * 22 * (Main.rand.Next(100) > 50 ? 1 : -1), -16 * 13);
         var npc = boss.Spawn(player, spawnPos);
-        CrowdControlMod.GetInstance().GetFeature<DespawnNPCFeature>()?.RegisterNPC(npc.whoAmI);
+        CrowdControlMod.GetInstance().GetFeature<DespawnNPCFeature>(FeatureID.DespawnNPC)?.RegisterNPC(npc.whoAmI);
     }
 
     #endregion

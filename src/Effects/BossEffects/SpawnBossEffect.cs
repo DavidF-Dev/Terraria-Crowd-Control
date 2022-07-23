@@ -103,7 +103,7 @@ public sealed class SpawnBossEffect : CrowdControlEffect
         // Spawn above the player and to the side
         var spawnPos = player.Player.Center + new Vector2(16 * 22 * (Main.rand.Next(100) > 50 ? 1 : -1), -16 * 13);
         var npc = _spawnableNpc.Spawn(player, spawnPos);
-        CrowdControlMod.GetInstance().GetFeature<DespawnNPCFeature>()?.RegisterNPC(npc.whoAmI);
+        CrowdControlMod.GetInstance().GetFeature<DespawnNPCFeature>(FeatureID.DespawnNPC)?.RegisterNPC(npc.whoAmI);
     }
 
     #endregion
