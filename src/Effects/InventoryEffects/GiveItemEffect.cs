@@ -24,7 +24,8 @@ public sealed class GiveItemEffect : CrowdControlEffect
         Armour,
         HealingPotion,
         Potion,
-        Kite
+        Kite,
+        Food
     }
 
     #endregion
@@ -175,6 +176,30 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 }
             }
+        },
+        {
+            GiveItem.Food, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {
+                    ProgressionUtils.Progression.PreEye, new[]
+                    {
+                        ItemID.CookedMarshmallow, ItemID.AppleJuice, ItemID.BloodyMoscato, ItemID.BowlofSoup, ItemID.BunnyStew,
+                        ItemID.CookedFish, ItemID.CookedShrimp, ItemID.Escargot, ItemID.FroggleBunwich, ItemID.BananaDaiquiri,
+                        ItemID.FruitJuice, ItemID.FruitSalad, ItemID.GoldenDelight, ItemID.GrapeJuice, ItemID.GrilledSquirrel,
+                        ItemID.GrubSoup, ItemID.Lemonade, ItemID.LobsterTail, ItemID.MonsterLasagna, ItemID.PeachSangria,
+                        ItemID.PinaColada, ItemID.PrismaticPunch, ItemID.RoastedBird, ItemID.RoastedDuck, ItemID.SauteedFrogLegs,
+                        ItemID.SeafoodDinner, ItemID.SmoothieofDarkness, ItemID.TropicalSmoothie, ItemID.PumpkinPie, ItemID.Ale,
+                        ItemID.Teacup, ItemID.Sashimi, ItemID.Apple, ItemID.Apricot, ItemID.Banana, ItemID.BlackCurrant,
+                        ItemID.BloodOrange, ItemID.Cherry, ItemID.Coconut, ItemID.Dragonfruit, ItemID.Elderberry, ItemID.Grapefruit,
+                        ItemID.Lemon, ItemID.Mango, ItemID.Peach, ItemID.Pineapple, ItemID.Plum, ItemID.Rambutan, ItemID.Starfruit,
+                        ItemID.ApplePie, ItemID.Bacon, ItemID.BananaSplit, ItemID.BBQRibs, ItemID.Burger, ItemID.MilkCarton,
+                        ItemID.ChickenNugget, ItemID.ChocolateChipCookie, ItemID.CoffeeCup, ItemID.CreamSoda, ItemID.FriedEgg,
+                        ItemID.Fries, ItemID.Grapes, ItemID.Hotdog, ItemID.IceCream, ItemID.Milkshake, ItemID.Nachos, ItemID.Pizza,
+                        ItemID.PotatoChips, ItemID.ShrimpPoBoy, ItemID.ShuckedOyster, ItemID.Spaghetti, ItemID.Steak, ItemID.ChristmasPudding,
+                        ItemID.GingerbreadCookie, ItemID.SugarCookie, ItemID.Marshmallow, ItemID.PadThai, ItemID.Sake
+                    }
+                }
+            }
         }
     };
 
@@ -274,6 +299,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
             GiveItem.Kite => EffectID.GiveKite,
+            GiveItem.Food => EffectID.GiveFood,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -288,6 +314,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
             GiveItem.Kite => EffectSeverity.Neutral,
+            GiveItem.Food => EffectSeverity.Positive,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -302,6 +329,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.HealingPotion => 2,
             GiveItem.Potion => 1,
             GiveItem.Kite => 1,
+            GiveItem.Food => 1,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -330,6 +358,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.HealingPotion => EmoteID.ItemLifePotion,
             GiveItem.Potion => EmoteID.ItemManaPotion,
             GiveItem.Kite => -1,
+            GiveItem.Food => EmoteID.ItemSoup,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }

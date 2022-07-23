@@ -59,6 +59,7 @@ public static class EffectID
     public const string GiveArmour = "give_armour";
     public const string GiveHealingPotion = "give_healing_potion";
     public const string GivePotion = "give_potion";
+    public const string GiveFood = "give_food";
     public const string GiveKite = "give_kite";
 
     // --- World effects

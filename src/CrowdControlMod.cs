@@ -816,6 +816,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Armour));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.HealingPotion));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Potion));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Food));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Kite));
 
         // --- World effects
