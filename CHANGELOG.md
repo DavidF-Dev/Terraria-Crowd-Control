@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unique look-up identifier to "Features".
 - Changed description of "Enable Spawn Protection" configuration so that it is easier to understand.
 - Changed "Explode Inventory" drop chance additive value from 10 to 15 so that more items are dropped.
+- Fixed "Give Item" effects not working in multi-player.
 
 ## [1.0.0] - 2022-07-23
 

@@ -372,14 +372,14 @@ public sealed class GiveItemEffect : CrowdControlEffect
         // Choose the item and spawn it in
         var player = GetLocalPlayer();
         var chosenId = availableOptions[Main.rand.Next(availableOptions.Count)];
-        var itemId = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height,
+        var itemIndex = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height,
             chosenId, _stack, noGrabDelay: true);
-        _item = Main.item[itemId];
+        _item = Main.item[itemIndex];
 
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
             // Notify server of the item
-            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, chosenId, 1f);
+            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);
         }
 
         return CrowdControlResponseStatus.Success;
