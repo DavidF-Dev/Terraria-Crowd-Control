@@ -147,7 +147,7 @@ public static class WorldUtils
         packet.Write(npc.life);
         packet.Send();
     }
-    
+
     /// <summary>
     ///     Get the tiles in a radial area around the given center position.
     /// </summary>

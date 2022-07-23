@@ -189,6 +189,6 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
             }
         }
     }
-    
+
     #endregion
 }

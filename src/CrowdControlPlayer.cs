@@ -58,7 +58,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     ///     Whether effect bosses should be despawned if all players are dead. Correct for client and server.
     /// </summary>
     public bool DespawnForcefullyBoss => Main.netMode == NetmodeID.Server ? ServerForcefullyDespawnBosses : CrowdControlConfig.GetInstance().ForceDespawnBosses;
-    
+
     #endregion
 
     #region Events

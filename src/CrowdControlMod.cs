@@ -289,7 +289,7 @@ public sealed class CrowdControlMod : Mod
     {
         return _features.TryGetValue(id, out var feature) ? feature is T castedFeature ? castedFeature : default : default;
     }
-    
+
     /// <summary>
     ///     Check whether the provided effect is currently active (client-side).
     /// </summary>

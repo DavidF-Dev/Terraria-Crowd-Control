@@ -34,7 +34,7 @@ public sealed class CrowdControlNPC : GlobalNPC
     public static event PreDrawDelegate? PreDrawHook;
 
     /// <inheritdoc cref="OnKill" />
-    public static event Action<NPC>? OnKillHook; 
+    public static event Action<NPC>? OnKillHook;
 
     #endregion
 

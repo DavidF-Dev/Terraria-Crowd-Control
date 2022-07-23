@@ -305,7 +305,7 @@ public abstract class CrowdControlEffect : IFeature
     {
         return _activeOnServer.Any();
     }
-    
+
     /// <summary>
     ///     Receive a packet meant for this effect, sent from a client (server-side).
     /// </summary>
