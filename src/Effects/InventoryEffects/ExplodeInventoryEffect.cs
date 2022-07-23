@@ -39,7 +39,7 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
             if (Main.rand.Next(100) > dropChance)
             {
                 // Increase drop chance so it becomes more likely that a drop will occur
-                dropChance += 10;
+                dropChance += 15;
                 continue;
             }
 
