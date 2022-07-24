@@ -97,7 +97,7 @@ public sealed class CrowdControlConfig : ModConfig
     public bool ForceDespawnBosses;
 
     [Label("Allow teleporting to other players")]
-    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.")]
+    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.\nYou can only teleport to players if you have Crowd Control connected.")]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
