@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Added temporary effects for "For the Worthy" and "Don't Starve"
+- Added temporary effects for "For the Worthy" and "Don't Starve".
 - Added "Boost Mining Speed" effect.
 - Added "Blind" effect that blinds the viewer for a short duration.
 - Added "Give Food" effect.
