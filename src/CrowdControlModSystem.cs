@@ -40,7 +40,7 @@ public sealed class CrowdControlModSystem : ModSystem
     public static event Action<TagCompound>? SaveWorldDataHook;
 
     /// <inheritdoc cref="LoadWorldData" />
-    public static event Action<TagCompound>? LoadWorldDataHook; 
+    public static event Action<TagCompound>? LoadWorldDataHook;
 
     #endregion
 

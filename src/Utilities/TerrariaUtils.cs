@@ -192,7 +192,7 @@ public static class TerrariaUtils
         var tag = GlyphTagHandler.GenerateTag(button.ToString());
         return !tag.Equals(button.ToString()) ? tag : string.Empty;
     }
-    
+
     /// <summary>
     ///     Colour the provided message using rich text tags.
     /// </summary>

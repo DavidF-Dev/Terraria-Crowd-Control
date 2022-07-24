@@ -135,7 +135,7 @@ public static class PlayerUtils
             // Ignore if disabled in config
             return;
         }
-        
+
         var item = new Item(hairDyeItemId);
         player.hairDye = item.hairDye;
 

@@ -141,7 +141,7 @@ public sealed class CrowdControlMod : Mod
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
     }
-    
+
     public override void Close()
     {
         // Ensure that the session is stopped
@@ -945,7 +945,7 @@ public sealed class CrowdControlMod : Mod
         // If it does not exist, then this is the first use of the mod in the world
         _firstUseInWorld = !tags.ContainsKey("cc_firstUseInWorld");
     }
-    
+
     private void OnGameUpdate(GameTime gameTime)
     {
         // Update the active effects (so that their timers are reduced)
@@ -975,6 +975,6 @@ public sealed class CrowdControlMod : Mod
             effect.Update(delta);
         }
     }
-    
+
     #endregion
 }
