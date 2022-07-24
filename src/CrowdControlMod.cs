@@ -21,11 +21,13 @@ using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CrowdControlMod;
 
@@ -87,6 +89,12 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     private readonly Dictionary<int, IFeature> _features = new();
 
+    /// <summary>
+    ///     Whether the mod has been used before in the loaded world.<br />
+    ///     This is set in <see cref="LoadWorldData" />
+    /// </summary>
+    private bool _firstUseInWorld = true;
+
     #endregion
 
     #region Properties
@@ -124,12 +132,16 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
 
+        // Subscribe to world serialisation hooks
+        CrowdControlModSystem.SaveWorldDataHook += SaveWorldData;
+        CrowdControlModSystem.LoadWorldDataHook += LoadWorldData;
+
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
     }
-
+    
     public override void Close()
     {
         // Ensure that the session is stopped
@@ -150,6 +162,10 @@ public sealed class CrowdControlMod : Mod
         }
 
         _features.Clear();
+
+        // Unsubscribe from world serialisation hooks
+        CrowdControlModSystem.SaveWorldDataHook -= SaveWorldData;
+        CrowdControlModSystem.LoadWorldDataHook -= LoadWorldData;
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -440,6 +456,7 @@ public sealed class CrowdControlMod : Mod
         const int port = 58430;
         const int socketTimeout = 10000; // 0.01s (1000000 = 1s)
         const int reconnectTimeout = 2000; // 2s (1000 = 1s)
+        var specialMessageColour = new Color(90, 136, 252); // blue-ish
 
         // Initialisation
         _isSessionConnected = false;
@@ -456,6 +473,15 @@ public sealed class CrowdControlMod : Mod
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();
+        }
+
+        if (_firstUseInWorld)
+        {
+            // Send a special greeting message when playing a world for the first time with the mod
+            TerrariaUtils.WriteMessage("Thank you for choosing to play Crowd Control for Terraria 1.4", specialMessageColour);
+            TerrariaUtils.WriteMessage("- Customise your experience by editing the mod configuration in settings", specialMessageColour);
+            TerrariaUtils.WriteMessage("- Edit effect prices or disable specific effects in the Crowd Control app", specialMessageColour);
+            TerrariaUtils.WriteMessage($"- When you're ready, click Start {TerrariaUtils.GetGlyphRichText(Buttons.Start)} in the Crowd Control app", specialMessageColour);
         }
 
         // Connection loop
@@ -587,10 +613,20 @@ public sealed class CrowdControlMod : Mod
                 _isSessionConnected = false;
                 writeAttempt = true;
 
-                if (ShouldSessionThreadContinue)
+                if (!ShouldSessionThreadContinue)
                 {
-                    TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                    continue;
                 }
+
+                TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                if (!_firstUseInWorld)
+                {
+                    continue;
+                }
+
+                // Send a special farewell message when playing a world for the first time with the mod
+                TerrariaUtils.WriteMessage($"We hope you enjoyed your Crowd Control session. A rating on the Workshop would be appreciated {TerrariaUtils.GetItemRichText(ItemID.Heart)}", specialMessageColour);
+                _firstUseInWorld = false;
             }
             else
             {
@@ -896,6 +932,20 @@ public sealed class CrowdControlMod : Mod
         return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
     }
 
+    private void SaveWorldData(TagCompound tags)
+    {
+        // Add the key to the world save data
+        tags.Add("cc_firstUseInWorld", string.Empty);
+        _firstUseInWorld = true;
+    }
+
+    private void LoadWorldData(TagCompound tags)
+    {
+        // Check if the key exists in the world save data
+        // If it does not exist, then this is the first use of the mod in the world
+        _firstUseInWorld = !tags.ContainsKey("cc_firstUseInWorld");
+    }
+    
     private void OnGameUpdate(GameTime gameTime)
     {
         // Update the active effects (so that their timers are reduced)
@@ -925,6 +975,6 @@ public sealed class CrowdControlMod : Mod
             effect.Update(delta);
         }
     }
-
+    
     #endregion
 }

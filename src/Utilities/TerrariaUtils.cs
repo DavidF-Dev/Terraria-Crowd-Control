@@ -4,8 +4,10 @@ using CrowdControlMod.Config;
 using CrowdControlMod.Effects;
 using CrowdControlMod.ID;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.Chat;
+using Terraria.GameContent.UI.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -180,6 +182,17 @@ public static class TerrariaUtils
         return $"[i:{itemId}]";
     }
 
+    /// <summary>
+    ///     Get the rich text tag for the specified button glyph.<br />
+    ///     Returns an empty string if the glyph could not be found for the specified button.
+    /// </summary>
+    [Pure]
+    public static string GetGlyphRichText(Buttons button)
+    {
+        var tag = GlyphTagHandler.GenerateTag(button.ToString());
+        return !tag.Equals(button.ToString()) ? tag : string.Empty;
+    }
+    
     /// <summary>
     ///     Colour the provided message using rich text tags.
     /// </summary>
