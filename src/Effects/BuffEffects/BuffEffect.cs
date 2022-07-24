@@ -35,6 +35,8 @@ public sealed class BuffEffect : CrowdControlEffect
 
     private readonly bool _hasInvisibilityBuff;
 
+    private readonly bool _hasMiningBuff;
+
     #endregion
 
     #region Constructors
@@ -49,6 +51,7 @@ public sealed class BuffEffect : CrowdControlEffect
         _hasConfusedBuff = _buffs.Contains(BuffID.Confused);
         _hasFrozenBuff = _buffs.Contains(BuffID.Frozen);
         _hasInvisibilityBuff = _buffs.Contains(BuffID.Invisibility);
+        _hasMiningBuff = _buffs.Contains(BuffID.Mining);
     }
 
     #endregion
@@ -93,6 +96,11 @@ public sealed class BuffEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
 
+        if (_hasMiningBuff)
+        {
+            // TODO: Forcefully increase the mining speed (reduce)
+        }
+        
         // Check buff immunities
         {
             if (_hasConfusedBuff)

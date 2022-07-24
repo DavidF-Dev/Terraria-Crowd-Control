@@ -814,6 +814,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 60f,
             ItemID.ObsidianSkull, EmoteID.MiscFire, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
             BuffID.ObsidianSkin, BuffID.Warmth));
+        AddEffect(new BuffEffect(EffectID.BuffMiningSpeed, EffectSeverity.Positive, 60f,
+            ItemID.ShroomiteDiggingClaw, EmoteID.ItemPickaxe, (v, p) => $"{v} boosted the mining speed of {p}", null,
+            BuffID.Mining, BuffID.SugarRush));
 
         // --- Buff effects (negative)
         AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,

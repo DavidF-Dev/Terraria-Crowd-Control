@@ -36,6 +36,7 @@ public static class EffectID
     public const string BuffTreasure = "buff_treasure";
     public const string BuffMovement = "buff_movement";
     public const string BuffObsidianSkin = "buff_obsidian_skin";
+    public const string BuffMiningSpeed = "buff_mining";
 
     // --- Buff effects (negative)
     public const string BuffFreeze = "buff_freeze";

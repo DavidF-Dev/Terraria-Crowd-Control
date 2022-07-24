@@ -93,6 +93,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Help search for treasure", "buff_treasure", BuffFolder) {Price = 20, Description = "Temporarily give the streamer treasure-seeking buffs"},
                 new Effect("Boost movement speed", "buff_movement", BuffFolder) {Price = 20, Description = "Temporarily give the streamer movement buffs"},
                 new Effect("Provide lava immunity", "buff_obsidian_skin", BuffFolder) {Price = 20, Description = "Temporarily give the streamer immunity to lava"},
+                new Effect("Boost mining speed", "buff_mining", BuffFolder) {Price = 20, Description = "Temporarily give the streamer increased mining speed"},
 
                 // --- Buff effects (negative)
                 new Effect("Freeze", "buff_freeze", BuffFolder) {Price = 20, Description = "Temporarily freeze the streamer"},
