@@ -98,8 +98,7 @@ public sealed class BuffEffect : CrowdControlEffect
 
         if (_hasMiningBuff)
         {
-            // TODO: Forcefully increase the mining speed (reduce)
-            // TODO: Test
+            // Increase mining speed further
             player.Player.pickSpeed -= 0.5f;
         }
         
