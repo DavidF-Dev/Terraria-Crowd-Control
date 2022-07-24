@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added greeting and farewell message when using the mod on a new world.
 - Added "Use Effect Hair Dyes" to configuration.
+- Changed effect durations for many effects to be longer.
 - Fixed broken images on Steam Workshop description.
 
 ## [1.0.1] - 2022-07-23

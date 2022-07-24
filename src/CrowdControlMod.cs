@@ -771,71 +771,71 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ExplodePlayerEffect());
         AddEffect(new HealPlayerEffect());
         AddEffect(new DamagePlayerEffect());
-        AddEffect(new GodModeEffect(20f));
+        AddEffect(new GodModeEffect(30f));
         AddEffect(new SetMaxStatEffect(EffectID.IncreaseMaxLife, true, true));
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxLife, false, true));
         AddEffect(new SetMaxStatEffect(EffectID.IncreaseMaxMana, true, false));
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxMana, false, false));
-        AddEffect(new IncreaseSpawnRateEffect(20f));
-        AddEffect(new InfiniteAmmoEffect(20f));
+        AddEffect(new IncreaseSpawnRateEffect(25f));
+        AddEffect(new InfiniteAmmoEffect(30f));
         AddEffect(new TeleportToDeathEffect());
         AddEffect(new GivePetEffect(GivePetEffect.PetType.Pet));
         AddEffect(new GivePetEffect(GivePetEffect.PetType.LightPet));
         AddEffect(new ChangeGenderEffect());
-        AddEffect(new ForceMountEffect(20f));
+        AddEffect(new ForceMountEffect(25f));
         AddEffect(new ShootExplosives(15f, ShootExplosives.Shoot.Bombs));
         AddEffect(new ShootExplosives(20f, ShootExplosives.Shoot.Grenades));
-        AddEffect(new JumpBoostEffect(20f));
-        AddEffect(new RunBoostEffect(20f));
-        AddEffect(new IcyFeetEffect(20f));
+        AddEffect(new JumpBoostEffect(25f));
+        AddEffect(new RunBoostEffect(25f));
+        AddEffect(new IcyFeetEffect(25f));
         AddEffect(new NoItemPickupEffect(20f));
         AddEffect(new FlingUpwardsEffect());
         AddEffect(new PlaySoundEffect(EffectID.FartSound, null, SoundID.Item16));
 
         // --- Buff effects (positive)
-        AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60f,
             ItemID.PaladinsShield, -1, (v, p) => $"{v} provided {p} with survivability buffs", null,
             BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
-        AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 60f,
             ItemID.Heart, -1, (v, p) => $"{v} provided {p} with regeneration buffs",
             p => p.Player.SetHairDye(ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
-        AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 60f,
             ItemID.MagicLantern, -1, (v, p) => $"{v} provided {p} with light",
             p => p.Player.SetHairDye(ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
-        AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 60f,
             ItemID.GoldChest, -1, (v, p) => $"{v} helped {p} to search for treasure",
             p => p.Player.SetHairDye(ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
-        AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 60f,
             ItemID.Aglet, EmoteID.PartyCake, (v, p) => $"{v} boosted the movement speed of {p}", null,
             BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
-        AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 45f,
+        AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 60f,
             ItemID.ObsidianSkull, EmoteID.MiscFire, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
             BuffID.ObsidianSkin, BuffID.Warmth));
 
         // --- Buff effects (negative)
-        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 6f,
+        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,
             ItemID.IceCream, -1, (v, p) => $"{v} cast a chilly spell over {p}", null,
             BuffID.Frozen));
-        AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 6f,
+        AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 10f,
             ItemID.LivingFireBlock, EmoteID.DebuffBurn, (v, p) => $"{v} threw a molotov at {p}'s feet",
             p => Projectile.NewProjectile(null, p.Player.position, new Vector2(0f, 10f), ProjectileID.MolotovCocktail, 1, 1f, p.Player.whoAmI),
             BuffID.OnFire));
-        AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 20f,
             ItemID.FallenStar, -1, (v, p) => $"{v} dazed {p}", null,
             BuffID.Dazed, BuffID.NoBuilding));
-        AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 25f,
             ItemID.FragmentVortex, -1, (v, p) => $"{v} distorted gravity around {p}", null,
             BuffID.VortexDebuff));
-        AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 15f,
+        AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 25f,
             ItemID.BrainOfConfusion, EmoteID.EmoteConfused, (v, p) => $"{v} confused {p}", null,
             BuffID.Confused));
-        AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 15f,
+        AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 30f,
             ItemID.InvisibilityPotion, -1, (v, p) => $"{v} stole {p}'s body...", null,
             BuffID.Invisibility));
-        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 10f,
+        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 25f,
             ItemID.Blindfold, -1, (v, p) => $"{v} obstructed {p}'s screen",
             p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
@@ -869,7 +869,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new TrapEffect(TrapEffect.TrapType.Lava));
         AddEffect(new RandomTeleportEffect());
         AddEffect(new SummonNpcsEffect());
-        AddEffect(new RainbowFeetEffect(20f));
+        AddEffect(new RainbowFeetEffect(60f));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));
         AddEffect(new GoldenSlimeRainEffect(60f));
@@ -906,14 +906,14 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnBossEffect(NPCID.MoonLordCore));
 
         // --- Screen effects
-        AddEffect(new FlipScreenEffect(15f));
-        AddEffect(new DrunkModeEffect(15f));
-        AddEffect(new ZoomEffect(15f, true));
-        AddEffect(new ZoomEffect(15f, false));
-        AddEffect(new WallOfFishEffect(20f));
-        AddEffect(new CritterTakeoverEffect(35f));
+        AddEffect(new FlipScreenEffect(25f));
+        AddEffect(new DrunkModeEffect(25f));
+        AddEffect(new ZoomEffect(25f, true));
+        AddEffect(new ZoomEffect(25f, false));
+        AddEffect(new WallOfFishEffect(25f));
+        AddEffect(new CritterTakeoverEffect(60f));
         AddEffect(new ScreenShakeEffect(20f));
-        AddEffect(new SniperModeEffect(15f));
+        AddEffect(new SniperModeEffect(25f));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());
@@ -922,7 +922,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new CraftItemChallenge(40f));
         AddEffect(new SleepChallenge(30f));
         AddEffect(new MinecartChallenge(30f));
-        AddEffect(new TouchGrassChallenge(10f));
+        AddEffect(new TouchGrassChallenge(15f));
         AddEffect(new EatFoodChallenge(30f));
     }
 
