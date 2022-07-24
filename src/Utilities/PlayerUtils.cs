@@ -130,6 +130,12 @@ public static class PlayerUtils
     /// </summary>
     public static void SetHairDye(this Player player, int hairDyeItemId)
     {
+        if (!CrowdControlConfig.GetInstance().UseEffectHairDyes)
+        {
+            // Ignore if disabled in config
+            return;
+        }
+        
         var item = new Item(hairDyeItemId);
         player.hairDye = item.hairDye;
 

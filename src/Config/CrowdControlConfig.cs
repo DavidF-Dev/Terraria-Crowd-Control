@@ -55,6 +55,11 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(true)]
     public bool UseEffectEmotes;
 
+    [Label("Use effect hair dyes")]
+    [Tooltip("A few effects change the player's hair dye.\nDisable this to stop effects from changing the hair dye.")]
+    [DefaultValue(true)]
+    public bool UseEffectHairDyes;
+
     [Label("Disable tombstones")]
     [Tooltip("Enable to prevent your tombstone from spawning when you die.\nIn multi-player, this will only affect your player.")]
     [DefaultValue(false)]
