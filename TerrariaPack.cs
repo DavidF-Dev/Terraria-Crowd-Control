@@ -117,7 +117,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give armour", "give_armour", InventoryFolder) {Price = 30, Description = "Provide the streamer with an armour piece"},
                 new Effect("Give healing potion", "give_healing_potion", InventoryFolder) {Price = 10, Description = "Provide the streamer with a healing potion"},
                 new Effect("Give random potion", "give_potion", InventoryFolder) {Price = 25, Description = "Provide the streamer with a random potion"},
-                // new Effect("Give food", "give_food", InventoryFolder) {Price = 10, Description = "Provide the streamer with some food"},
+                new Effect("Give food", "give_food", InventoryFolder) {Price = 10, Description = "Provide the streamer with some food"},
                 new Effect("Give random kite", "give_kite", InventoryFolder) {Price = 10, Description = "Provide the streamer with a kite"},
 
                 // --- World effects
