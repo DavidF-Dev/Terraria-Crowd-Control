@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added "Blind" effect that blinds the viewer for a short duration.
 - Added greeting and farewell message when using the mod on a new world.
 - Added "Use Effect Hair Dyes" to configuration.
 - Changed effect durations for many effects to be longer.

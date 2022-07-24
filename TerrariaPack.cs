@@ -101,7 +101,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Levitate", "buff_levitate", BuffFolder) {Price = 50, Description = "Temporarily cause the streamer to levitate"},
                 new Effect("Confuse", "buff_confuse", BuffFolder) {Price = 50, Description = "Temporarily reverse the streamer's controls"},
                 new Effect("Make invisible", "buff_invisible", BuffFolder) {Price = 50, Description = "Temporarily make the streamer invisible"},
-                // new Effect("Blind", "buff_blind", BuffFolder) {Price = 50, Description = "Temporarily decrease the streamer's vision"},
+                new Effect("Blind", "buff_blind", BuffFolder) {Price = 50, Description = "Temporarily decrease the streamer's vision"},
 
                 // --- Inventory effects
                 new Effect("Inventory effects", "inventory_folder", ItemKind.Folder),
