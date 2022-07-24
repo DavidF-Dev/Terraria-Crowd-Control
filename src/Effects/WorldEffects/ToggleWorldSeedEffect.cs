@@ -21,16 +21,44 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
         DontStarve
     }
 
+    private enum SeedState
+    {
+        /// <summary>
+        ///     Enable the seed.
+        /// </summary>
+        Enable,
+
+        /// <summary>
+        ///     Disable the seed.
+        /// </summary>
+        Disable,
+
+        /// <summary>
+        ///     Temporarily enable the seed.
+        /// </summary>
+        Temp
+    }
+
     #endregion
 
     #region Static Methods
 
-    private static string GetId(SeedType seedType, bool enable)
+    private static string GetId(SeedType seedType, SeedState seedState)
     {
         return seedType switch
         {
-            SeedType.ForTheWorthy => enable ? EffectID.EnableForTheWorthy : EffectID.DisableForTheWorthy,
-            SeedType.DontStarve => enable ? EffectID.EnableTheConstant : EffectID.DisableTheConstant,
+            SeedType.ForTheWorthy => seedState switch
+            {
+                SeedState.Enable => EffectID.EnableForTheWorthy,
+                SeedState.Disable => EffectID.DisableForTheWorthy,
+                _ => EffectID.TempForTheWorthy
+            },
+            SeedType.DontStarve => seedState switch
+            {
+                SeedState.Enable => EffectID.EnableTheConstant,
+                SeedState.Disable => EffectID.DisableTheConstant,
+                _ => EffectID.TempTheConstant
+            },
             _ => throw new ArgumentOutOfRangeException(nameof(seedType), seedType, null)
         };
     }
@@ -40,16 +68,22 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
     #region Fields
 
     private readonly SeedType _seedType;
-    private readonly bool _enable;
+    private readonly SeedState _seedState;
 
     #endregion
 
     #region Constructors
 
-    public ToggleWorldSeedEffect(SeedType seedType, bool enable) : base(GetId(seedType, enable), null, EffectSeverity.Neutral)
+    public ToggleWorldSeedEffect(SeedType seedType, bool enabled) : base(GetId(seedType, enabled ? SeedState.Enable : SeedState.Disable), null, EffectSeverity.Neutral)
     {
         _seedType = seedType;
-        _enable = enable;
+        _seedState = enabled ? SeedState.Enable : SeedState.Disable;
+    }
+
+    public ToggleWorldSeedEffect(SeedType seedType, float duration) : base(GetId(seedType, SeedState.Temp), duration, EffectSeverity.Neutral)
+    {
+        _seedType = seedType;
+        _seedState = SeedState.Temp;
     }
 
     #endregion
@@ -58,29 +92,20 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        // Fail if cannot be toggled
-        switch (_seedType)
+        if (_seedState is SeedState.Enable or SeedState.Temp &&
+            ((_seedType == SeedType.ForTheWorthy && WorldUtils.IsForTheWorthy) ||
+             (_seedType == SeedType.DontStarve && WorldUtils.IsDontStarve)))
         {
-            case SeedType.ForTheWorthy:
-                switch (_enable)
-                {
-                    case true when WorldUtils.IsForTheWorthy:
-                    case false when !WorldUtils.IsForTheWorthy:
-                        return CrowdControlResponseStatus.Failure;
-                }
+            // Already enabled
+            return CrowdControlResponseStatus.Failure;
+        }
 
-                break;
-            case SeedType.DontStarve:
-                switch (_enable)
-                {
-                    case true when WorldUtils.IsDontStarve:
-                    case false when !WorldUtils.IsDontStarve:
-                        return CrowdControlResponseStatus.Failure;
-                }
-
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+        if (_seedState == SeedState.Disable &&
+            ((_seedType == SeedType.ForTheWorthy && (!WorldUtils.IsForTheWorthy || (CrowdControlMod.GetInstance().GetEffect(EffectID.TempForTheWorthy)?.IsActive ?? false))) ||
+             (_seedType == SeedType.DontStarve && (!WorldUtils.IsDontStarve || (CrowdControlMod.GetInstance().GetEffect(EffectID.TempTheConstant)?.IsActive ?? false)))))
+        {
+            // Already disabled (or it is enabled temporarily)
+            return CrowdControlResponseStatus.Failure;
         }
 
         if (Main.netMode == NetmodeID.SinglePlayer)
@@ -97,6 +122,26 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
+    protected override void OnStop()
+    {
+        if (_seedState != SeedState.Temp)
+        {
+            // Ignore
+            return;
+        }
+
+        if (Main.netMode == NetmodeID.SinglePlayer)
+        {
+            // Toggle in single-player
+            PerformToggle();
+        }
+        else
+        {
+            // Let the server do its thing
+            SendPacket(PacketID.HandleEffect);
+        }
+    }
+
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         PerformToggle();
@@ -104,21 +149,26 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        // Determine item to display
         var itemId = _seedType switch
         {
             SeedType.ForTheWorthy => ItemID.SkeletronMasterTrophy,
             SeedType.DontStarve => ItemID.ChesterPetItem,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(_seedType), _seedType, null)
         };
 
+        // Determine mode string to display
         var mode = _seedType switch
         {
             SeedType.ForTheWorthy => "For the Worthy",
             SeedType.DontStarve => "Don't Starve",
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(_seedType), _seedType, null)
         };
 
-        TerrariaUtils.WriteEffectMessage(itemId, $"{viewerString} {(_enable ? "enabled" : "disabled")} \"{mode}\" mode in {playerString}'s world", Severity);
+        var enabled = _seedState == SeedState.Disable ? "disabled" : "enabled";
+        var time = _seedState == SeedState.Temp ? $" for {durationString} seconds" : string.Empty;
+
+        TerrariaUtils.WriteEffectMessage(itemId, $"{viewerString} {enabled} \"{mode}\" mode in {playerString}'s world{time}", Severity);
     }
 
     private void PerformToggle()

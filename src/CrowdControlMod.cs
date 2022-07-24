@@ -883,8 +883,10 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, true));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, false));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, 60f * 5f));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, true));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, false));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, 60f * 5f));
         AddEffect(new SwitchSoundtrack());
         AddEffect(new MysteryBlocksEffect(30f));
 

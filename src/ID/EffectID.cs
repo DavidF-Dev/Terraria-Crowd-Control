@@ -76,6 +76,7 @@ public static class EffectID
     public const string HoneyTrap = "honey_trap";
     public const string LavaTrap = "lava_trap";
     public const string RandomTeleport = "random_teleport";
+    
     public const string SummonNpcs = "summon_npcs";
     public const string RainbowFeet = "rainbow_feet";
     public const string SpawnGuardian = "spawn_guardian";
@@ -88,8 +89,10 @@ public static class EffectID
     public const string SetWeatherWindy = "weather_windy";
     public const string EnableForTheWorthy = "enable_for_the_worthy";
     public const string DisableForTheWorthy = "disable_for_the_worthy";
+    public const string TempForTheWorthy = "temp_for_the_worthy";
     public const string EnableTheConstant = "enable_the_constant";
     public const string DisableTheConstant = "disable_the_constant";
+    public const string TempTheConstant = "temp_the_constant";
     public const string SwitchSoundtrack = "switch_soundtrack";
     public const string MysteryBlocks = "mystery_blocks";
 
