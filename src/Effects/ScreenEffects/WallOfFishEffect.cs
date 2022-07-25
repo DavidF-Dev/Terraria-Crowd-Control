@@ -27,6 +27,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     #region Fields
 
     private readonly List<int> _fishIds;
+    private readonly bool _koiEasterEgg;
 
     #endregion
 
@@ -36,7 +37,19 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     {
         if (Main.netMode == NetmodeID.Server)
         {
+            _koiEasterEgg = false;
             _fishIds = new List<int>();
+            return;
+        }
+
+        // Easter egg :-)
+        _koiEasterEgg = SteamUtils.IsMrKaiga;
+        if (_koiEasterEgg)
+        {
+            Main.instance.LoadItem(ItemID.KiteKoi);
+            Main.instance.LoadItem(ItemID.Ebonkoi);
+            Main.instance.LoadItem(ItemID.FlarefinKoi);
+            _fishIds = new List<int> {ItemID.KiteKoi, ItemID.KiteKoi, ItemID.KiteKoi, ItemID.Ebonkoi, ItemID.KiteKoi, ItemID.KiteKoi, ItemID.KiteKoi, ItemID.FlarefinKoi};
             return;
         }
 
@@ -71,6 +84,11 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        if (_koiEasterEgg)
+        {
+            GetLocalPlayer().Player.QuickSpawnItem(null, ItemID.KiteKoi);
+        }
+    
         CrowdControlModSystem.PostDrawTilesHook += PostDrawTiles;
         return CrowdControlResponseStatus.Success;
     }
@@ -82,6 +100,12 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        if (_koiEasterEgg)
+        {
+            TerrariaUtils.WriteEffectMessage(ItemID.KiteKoi, $"You ask and you shall receive. {viewerString} covered the screen with koi fish for {durationString} seconds", Severity);
+            return;
+        }
+        
         TerrariaUtils.WriteEffectMessage(ItemID.Tuna, $"{viewerString} covered the screen with fish for {durationString} seconds", Severity);
     }
 
@@ -110,6 +134,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     {
         // Draw a wall of fish (offset is applied to Main.GlobalTimeWrappedHourly)
         // Extracted and edited from the Terraria source code
+        var scale = !_koiEasterEgg ? 1f : 1.3f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.3f;
         for (var i = 0; i < 5; i++)
         {
             var num3 = 10f + offset;
@@ -126,7 +151,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
                 vector.Y += 26f;
                 var texture2D = TextureAssets.Item[_fishIds[num2]].Value;
-                Main.spriteBatch.Draw(texture2D, vector, null, Color.White, (float)Math.PI / 4f, texture2D.Size() / 2f, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D, vector, null, Color.White, (float)Math.PI / 4f, texture2D.Size() / 2f, scale, SpriteEffects.None, 0f);
             }
         }
     }
