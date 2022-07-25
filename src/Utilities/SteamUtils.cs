@@ -42,5 +42,10 @@ public static class SteamUtils
     /// </summary>
     public static bool IsMrKaiga => TryGetSteamID(out var uniqueId) && uniqueId == 76561199164122300L;
 
+    /// <summary>
+    ///     https://www.twitch.tv/allfunngamez
+    /// </summary>
+    public static bool IsAllFunNGamez => TryGetSteamID(out var uniqueId) && uniqueId == 76561197963233461L;
+
     #endregion
 }
