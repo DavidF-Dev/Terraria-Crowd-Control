@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed default prices on many effects to be cheaper.
 - Changed "Increase/Decrease Max Stat" effect naming to "Max Stat (+/- 1)".
 - Changed buff effect namings to reflect whether they are positive or negative.
 - Changed "Boost Coin Drops" effect duration to 60 seconds.
