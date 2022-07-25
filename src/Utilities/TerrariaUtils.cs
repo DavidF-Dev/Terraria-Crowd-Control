@@ -24,12 +24,6 @@ public static class TerrariaUtils
     /// </summary>
     public static void WriteMessage(string message, Color? colour = null, bool doLog = true)
     {
-        if (Main.netMode != NetmodeID.Server && SteamUtils.IsAllFunNGamez && Main.rand.NextBool(5) && message.Length > 0 && !char.IsPunctuation(message[^1]))
-        {
-            // Easter egg :-)
-            message += ", eh";
-        }
-        
         var netText = NetworkText.FromLiteral(message);
         if (netText == NetworkText.Empty)
         {
@@ -109,6 +103,12 @@ public static class TerrariaUtils
             EffectSeverity.Negative => Color.Red,
             _ => Color.Black
         };
+
+        if (SteamUtils.IsAllFunNGamez && Main.rand.NextBool(6) && message.Length > 0 && !char.IsPunctuation(message[^1]))
+        {
+            // Easter egg :-)
+            message += ", eh";
+        }
 
         WriteMessage(itemId, message, colour);
     }
