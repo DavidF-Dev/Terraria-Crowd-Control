@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed "Increase/Decrease Max Stat" effect naming to "Max Stat (+/- 1)".
+- Changed buff effect namings to reflect whether they are positive or negative.
+
 ## [1.0.2] - 2022-07-24
 
 - Added temporary effects for "For the Worthy" and "Don't Starve".
