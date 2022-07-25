@@ -79,7 +79,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
             var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
             Main.projectile[index].friendly = true;
 
-            if (Main.netMode == NetmodeID.Server)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
             }
