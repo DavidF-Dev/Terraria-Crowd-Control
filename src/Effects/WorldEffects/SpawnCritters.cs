@@ -131,18 +131,14 @@ public sealed class SpawnCritters : CrowdControlEffect
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
             }
 
-            if (!npc.friendly && !Main.hardMode)
+            if (npc.friendly || Main.hardMode)
             {
-                // Reduce life of evil critters significantly in pre-hardmode
-                npc.lifeMax /= 4;
-                npc.life = npc.lifeMax;
+                continue;
             }
-            else
-            {
-                // Increase life of critters
-                npc.lifeMax *= Main.rand.Next(Main.hardMode ? 100 : 30);
-                npc.life = npc.lifeMax;
-            }
+
+            // Reduce life of evil critters significantly in pre-hardmode
+            npc.lifeMax /= 4;
+            npc.life = npc.lifeMax;
 
             if (Main.netMode == NetmodeID.Server)
             {
