@@ -78,7 +78,11 @@ public abstract class ChallengeEffect : CrowdControlEffect
             player.Player.Emote(EmoteID.EmoteLaugh);
             var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
             Main.projectile[index].friendly = true;
-            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
+            }
         }
 
         _isAnyChallengeActive = false;
