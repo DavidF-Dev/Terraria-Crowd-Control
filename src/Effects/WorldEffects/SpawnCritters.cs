@@ -21,8 +21,8 @@ public sealed class SpawnCritters : CrowdControlEffect
     private const int ClusterChance = 8;
     private const int ClusterSpawnMin = 20;
     private const int ClusterSpawnMax = 25;
-    private const int SpawnMin = 3;
-    private const int SpawnMax = 8;
+    private const int SpawnMin = 5;
+    private const int SpawnMax = 10;
 
     private static readonly short[] VanillaCritters =
     {
@@ -118,16 +118,36 @@ public sealed class SpawnCritters : CrowdControlEffect
         {
             var index = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - Main.rand.Next(16), Main.rand.Next((List<short>)_allCritterOptions));
             var npc = Main.npc[index];
-            npc.lifeMax += Main.rand.Next(25);
-            npc.life = npc.lifeMax;
             npc.target = player.Player.whoAmI;
-            npc.AddBuff(BuffID.Lovestruck, 60 * 2);
-            npc.loveStruck = true;
+            if (npc.friendly)
+            {
+                npc.AddBuff(BuffID.Lovestruck, 60 * 2);
+                npc.loveStruck = true;
+            }
 
             if (Main.netMode == NetmodeID.Server)
             {
                 // Notify clients if spawned on server
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+            }
+
+            if (!npc.friendly && !Main.hardMode)
+            {
+                // Reduce life of evil critters significantly in pre-hardmode
+                npc.lifeMax /= 4;
+                npc.life = npc.lifeMax;
+            }
+            else
+            {
+                // Increase life of critters
+                npc.lifeMax *= Main.rand.Next(Main.hardMode ? 100 : 30);
+                npc.life = npc.lifeMax;
+            }
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                // Sync the new max life for clients
+                WorldUtils.SyncNPCSpecial(npc);
             }
         }
     }
