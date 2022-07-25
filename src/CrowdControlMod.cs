@@ -860,8 +860,8 @@ public sealed class CrowdControlMod : Mod
 
         // --- World effects
         AddEffect(new UseSundialEffect());
-        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 27000, true));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 16200, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 26600, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 15800, false));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
         AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
         AddEffect(new SpawnStructureEffect());
