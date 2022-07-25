@@ -172,7 +172,7 @@ public sealed class TrapEffect : CrowdControlEffect
                         continue;
                     }
 
-                    Main.tile[x, y].ResetToType(Main.rand.Next(new[] {TileID.Sand, TileID.Pearlsand, TileID.Crimsand, TileID.Ebonsand}));
+                    Main.tile[x, y].ResetToType(Main.hardMode ? Main.rand.Next(new[] {TileID.Sand, TileID.Pearlsand, TileID.Crimsand, TileID.Ebonsand}) : Main.rand.Next(new[] {TileID.Sand, TileID.Crimsand, TileID.Ebonsand}));
                 }
 
                 break;

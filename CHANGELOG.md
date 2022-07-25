@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Boost Coin Drops" effect duration to 60 seconds.
 - Changed "Set Time" effects to be slightly before noon and midnight.
 - Changed "Spawn Critters" effect to spawn more critters and reduce the life of evil ones in pre-hardmode.
+- Changed "Spawn Sand Trap" to not use Pearlsand in pre-hardmode.
 
 ## [1.0.2] - 2022-07-24
 
