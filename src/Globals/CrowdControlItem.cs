@@ -13,7 +13,7 @@ public sealed class CrowdControlItem : GlobalItem
     public delegate bool CanPickupDelegate(Item item, Player player);
 
     /// <inheritdoc cref="OnConsumeItem" />
-    public delegate void OnItemConsumed(Item item, Player player);
+    public delegate void OnItemConsumedDelegate(Item item, Player player);
 
     #endregion
 
@@ -28,7 +28,7 @@ public sealed class CrowdControlItem : GlobalItem
     public static event CanPickupDelegate? CanPickupHook;
 
     /// <inheritdoc cref="OnConsumeItem" />
-    public static event OnItemConsumed? OnItemConsumedHook;
+    public static event OnItemConsumedDelegate? OnItemConsumedHook;
 
     #endregion
 
