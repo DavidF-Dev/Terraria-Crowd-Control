@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Set Time" effects to be slightly before noon and midnight.
 - Changed "Spawn Critters" effect to spawn more critters and reduce the life of evil ones in pre-hardmode.
 - Changed "Spawn Sand Trap" to not use Pearlsand in pre-hardmode.
+- Changed "Fling Upwards" to only activate if there is suitable vertical space above the player.
 
 ## [1.0.2] - 2022-07-24
 

@@ -1,6 +1,7 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -34,9 +35,29 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
         {
             // Ensure the player isn't riding a mount
             player.Player.mount.Dismount(player.Player);
+            if (player.Player.mount.Active)
+            {
+                return CrowdControlResponseStatus.Retry;
+            }
         }
 
-        // Set the player's Y velocity
+        // Ensure the player has a suitable area to be flung upwards
+        var pos = player.Player.position;
+        const float checkHorExtraRadius = 16f * 2f;
+        const float checkVerHeight = 16f * 25f;
+        for (var x = pos.X - checkHorExtraRadius; x <= pos.X + checkHorExtraRadius + 16f; x += 16f)
+        {
+            for (var y = pos.Y; y > pos.Y - checkVerHeight; y -= 16f)
+            {
+                if (Collision.IsWorldPointSolid(new Vector2(x, y)))
+                {
+                    return CrowdControlResponseStatus.Retry;
+                }
+            }
+        }
+
+        // Fling the player upwards!
+        player.Player.velocity.X /= 8f;
         player.Player.velocity.Y = -FlingSpeed;
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
