@@ -47,5 +47,11 @@ public static class SteamUtils
     /// </summary>
     public static bool IsAllFunNGamez => TryGetSteamID(out var uniqueId) && uniqueId == 76561197963233461L;
 
+    /// <summary>
+    ///     https://www.twitch.tv/teebutv
+    /// </summary>
+    // ReSharper disable once InconsistentNaming
+    public static bool IsTeebuTV => TryGetSteamID(out var uniqueId) && uniqueId == 76561198066573407L;
+
     #endregion
 }

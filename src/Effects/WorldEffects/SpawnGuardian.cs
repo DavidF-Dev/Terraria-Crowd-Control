@@ -4,7 +4,9 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,12 +48,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // In single-player, simply spawn the custom dungeon guardian
-            Spawn(GetLocalPlayer());
+            Spawn(GetLocalPlayer(), SteamUtils.IsTeebuTV);
         }
         else
         {
             // If on server, spawn on server (no need to pass arguments)
-            SendPacket(PacketID.HandleEffect);
+            SendPacket(PacketID.HandleEffect, SteamUtils.IsTeebuTV);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -59,16 +61,22 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        if (SteamUtils.IsTeebuTV)
+        {
+            TerrariaUtils.WriteEffectMessage(ItemID.DukeFishronMask, $"{viewerString} spawned Teebu's favourite boss", Severity);
+            return;
+        }
+        
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, $"{viewerString} spawned a Dungeon Guardian", Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         // Spawn the dungeon guardian on the server
-        Spawn(player);
+        Spawn(player, reader.ReadBoolean());
     }
 
-    private void Spawn(CrowdControlPlayer player)
+    private void Spawn(CrowdControlPlayer player, bool isTeebu)
     {
         // Determine spawn position
         var circleEdge = Main.rand.NextVector2CircularEdge(HalfRangeWidth, HalfRangeHeight);
@@ -85,11 +93,17 @@ public sealed class SpawnGuardian : CrowdControlEffect
         // Set whether it is fake or not
         var guardian = (CrowdControlGuardian)npc.ModNPC;
         guardian.IsFake = _isFake;
+        guardian.IsTeebu = isTeebu;
 
+        if (isTeebu)
+        {
+            npc.AddBuff(BuffID.Wet, int.MaxValue);
+        }
+        
         // This is only invoked by whoever spawned the guardian (single-player or server)
         guardian.FakeGuardianDied += () =>
         {
-            const string message = "The Dungeon Guardian was a phony";
+            var message = isTeebu ? "Teebu's favourite boss was a phony" : "The Dungeon Guardian was a phony";
             switch (Main.netMode)
             {
                 case NetmodeID.SinglePlayer:
@@ -105,6 +119,20 @@ public sealed class SpawnGuardian : CrowdControlEffect
         {
             // Notify the server
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        }
+
+        if (!isTeebu)
+        {
+            return;
+        }
+
+        // Special life for teebu
+        npc.lifeMax = 69420;
+        npc.life = 69420;
+
+        if (Main.netMode == NetmodeID.Server)
+        {
+            WorldUtils.SyncNPCSpecial(npc);
         }
     }
 
@@ -132,6 +160,15 @@ public sealed class SpawnGuardian : CrowdControlEffect
             set => NPC.ai[NPC.maxAI - 2] = value ? 1f : 0f;
         }
 
+        /// <summary>
+        ///     Whether the guardian is an easter egg for Teebu.
+        /// </summary>
+        public bool IsTeebu
+        {
+            get => NPC.ai[NPC.maxAI - 1] > 0f;
+            set => NPC.ai[NPC.maxAI - 1] = value ? 1f : 0f;
+        }
+
         public override string Texture => $"Terraria/Images/NPC_{NPCID.DungeonGuardian}";
 
         #endregion
@@ -146,22 +183,21 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dungeon Guardian");
+            DisplayName.SetDefault(SteamUtils.IsTeebuTV ? "Teebu's Favourite Boss" : "Dungeon Guardian");
         }
 
         public override void SetDefaults()
         {
             NPC.CloneDefaults(NPCID.DungeonGuardian);
             AIType = NPCID.DungeonGuardian;
-            NPC.aiStyle = 11;
+            NPC.aiStyle = NPCAIStyleID.SkeletronHead;
             _timeLeft = 60 * SurvivalDuration;
-            NPC.boss = false;
-            NPC.BossBar = null;
         }
 
         public override bool PreAI()
         {
             NPC.type = NPCID.DungeonGuardian;
+            NPC.ShowNameOnHover = Main.netMode == NetmodeID.SinglePlayer || !IsTeebu;
 
             // Reduce the time left timer
             _timeLeft--;
@@ -190,6 +226,49 @@ public sealed class SpawnGuardian : CrowdControlEffect
         {
             // Ignore others if fake
             return IsFake ? false : null;
+        }
+
+        public override void BossHeadSlot(ref int index)
+        {
+            if (IsTeebu)
+            {
+                index = NPCID.Sets.BossHeadTextures[NPCID.DukeFishron];
+            }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (!IsTeebu)
+            {
+                return base.PreDraw(spriteBatch, screenPos, drawColor);
+            }
+
+            const short id = NPCID.DukeFishron;
+
+            // Ensure texture is loaded
+            if (!TextureAssets.Npc[id].IsLoaded)
+            {
+                Main.instance.LoadNPC(id);
+            }
+
+            // Get texture frame
+            var tex = TextureAssets.Npc[id].Value;
+            var frame = new Rectangle(0, 0, tex.Width, tex.Height / Main.npcFrameCount[id]);
+            frame.Y = frame.Height * (NPC.frame.Y / NPC.frame.Height % Main.npcFrameCount[id]);
+
+            // Draw texture
+            Main.EntitySpriteDraw(
+                tex,
+                NPC.Center - screenPos,
+                frame,
+                drawColor,
+                NPC.rotation,
+                frame.Size() / 2f,
+                1.1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f,
+                SpriteEffects.None,
+                0);
+
+            return false;
         }
 
         #endregion
