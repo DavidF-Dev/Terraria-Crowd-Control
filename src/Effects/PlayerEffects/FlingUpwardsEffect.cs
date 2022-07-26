@@ -43,7 +43,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 
         // Ensure the player has a suitable area to be flung upwards
         var pos = player.Player.position;
-        const float checkHorExtraRadius = 16f * 2f;
+        const float checkHorExtraRadius = 0f;
         const float checkVerHeight = 16f * 25f;
         for (var x = pos.X - checkHorExtraRadius; x <= pos.X + checkHorExtraRadius + 16f; x += 16f)
         {
