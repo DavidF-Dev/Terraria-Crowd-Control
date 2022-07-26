@@ -66,7 +66,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
             TerrariaUtils.WriteEffectMessage(ItemID.DukeFishronMask, $"{viewerString} spawned Teebu's favourite boss", Severity);
             return;
         }
-        
+
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, $"{viewerString} spawned a Dungeon Guardian", Severity);
     }
 
@@ -99,7 +99,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         {
             npc.AddBuff(BuffID.Wet, int.MaxValue);
         }
-        
+
         // This is only invoked by whoever spawned the guardian (single-player or server)
         guardian.FakeGuardianDied += () =>
         {

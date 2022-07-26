@@ -101,7 +101,7 @@ public sealed class BuffEffect : CrowdControlEffect
             // Increase mining speed further
             player.Player.pickSpeed -= 0.5f;
         }
-        
+
         // Check buff immunities
         {
             if (_hasConfusedBuff)

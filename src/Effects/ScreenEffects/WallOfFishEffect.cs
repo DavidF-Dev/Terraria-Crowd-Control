@@ -88,7 +88,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
         {
             GetLocalPlayer().Player.QuickSpawnItem(null, ItemID.KiteKoi);
         }
-    
+
         CrowdControlModSystem.PostDrawTilesHook += PostDrawTiles;
         return CrowdControlResponseStatus.Success;
     }
@@ -105,7 +105,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
             TerrariaUtils.WriteEffectMessage(ItemID.KiteKoi, $"You ask and you shall receive. {viewerString} covered the screen with koi fish for {durationString} seconds", Severity);
             return;
         }
-        
+
         TerrariaUtils.WriteEffectMessage(ItemID.Tuna, $"{viewerString} covered the screen with fish for {durationString} seconds", Severity);
     }
 
