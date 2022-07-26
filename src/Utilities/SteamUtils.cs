@@ -16,7 +16,7 @@ public static class SteamUtils
     [Pure]
     public static bool TryGetSteamID(out ulong uniqueId)
     {
-        if (!SteamUser.BLoggedOn())
+        if (!SteamAPI.IsSteamRunning() || !SteamUser.BLoggedOn())
         {
             uniqueId = 0L;
             return false;
