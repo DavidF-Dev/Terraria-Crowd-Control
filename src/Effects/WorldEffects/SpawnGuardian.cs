@@ -75,7 +75,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         var spawnPos = new Point((int)(player.Player.position.X + circleEdge.X), (int)(player.Player.position.Y + circleEdge.Y));
 
         // Spawn the dungeon guardian
-        var index = NPC.NewNPC(null, spawnPos.X, spawnPos.Y, CrowdControlMod.GetInstance().Find<ModNPC>(nameof(CrowdControlGuardian)).Type);
+        var index = NPC.NewNPC(null, spawnPos.X, spawnPos.Y, ModContent.NPCType<CrowdControlGuardian>());
         var npc = Main.npc[index];
 
         // Set the target
