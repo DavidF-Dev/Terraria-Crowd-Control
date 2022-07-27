@@ -48,12 +48,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // In single-player, simply spawn the custom dungeon guardian
-            Spawn(GetLocalPlayer(), SteamUtils.IsTeebuTV);
+            Spawn(GetLocalPlayer(), SteamUtils.IsTeebu);
         }
         else
         {
             // If on server, spawn on server (no need to pass arguments)
-            SendPacket(PacketID.HandleEffect, SteamUtils.IsTeebuTV);
+            SendPacket(PacketID.HandleEffect, SteamUtils.IsTeebu);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -61,7 +61,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (SteamUtils.IsTeebuTV)
+        if (SteamUtils.IsTeebu)
         {
             TerrariaUtils.WriteEffectMessage(ItemID.DukeFishronMask, $"{viewerString} spawned Teebu's favourite boss", Severity);
             return;
@@ -183,7 +183,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault(SteamUtils.IsTeebuTV ? "Teebu's Favourite Boss" : "Dungeon Guardian");
+            DisplayName.SetDefault(SteamUtils.IsTeebu ? "Teebu's Favourite Boss" : "Dungeon Guardian");
         }
 
         public override void SetDefaults()

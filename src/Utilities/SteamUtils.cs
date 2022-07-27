@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using Steamworks;
+﻿using Steamworks;
 
 namespace CrowdControlMod.Utilities;
 
@@ -8,50 +7,49 @@ namespace CrowdControlMod.Utilities;
 /// </summary>
 public static class SteamUtils
 {
-    #region Static Methods
+    #region Static Fields and Constants
 
-    /// <summary>
-    ///     Attempt to get the steam id of the current user playing the mod.
-    /// </summary>
-    [Pure]
-    public static bool TryGetSteamID(out ulong uniqueId)
-    {
-        if (!SteamAPI.IsSteamRunning() || !SteamUser.BLoggedOn())
-        {
-            uniqueId = 0L;
-            return false;
-        }
-
-        var steamId = SteamUser.GetSteamID();
-        if (!steamId.IsValid())
-        {
-            uniqueId = 0L;
-            return false;
-        }
-
-        uniqueId = steamId.m_SteamID;
-        return true;
-    }
+    private static ulong? _steamId;
+    private static bool? _isMrKaiga;
+    private static bool? _isAllFunNGamez;
+    private static bool? _isTeebu;
 
     #endregion
 
     #region Properties
 
     /// <summary>
+    ///     Logged in unique steam identifier (0 if not logged in).
+    /// </summary>
+    public static ulong SteamId
+    {
+        get
+        {
+            if (_steamId.HasValue)
+            {
+                return _steamId.Value;
+            }
+
+            var steamId = SteamAPI.IsSteamRunning() && SteamUser.BLoggedOn() ? SteamUser.GetSteamID() : default;
+            _steamId = steamId.IsValid() ? steamId.m_SteamID : 0UL;
+            return _steamId.Value;
+        }
+    }
+
+    /// <summary>
     ///     https://www.twitch.tv/mrkaiga
     /// </summary>
-    public static bool IsMrKaiga => TryGetSteamID(out var uniqueId) && uniqueId == 76561199164122300L;
+    public static bool IsMrKaiga => _isMrKaiga ?? (_isMrKaiga = SteamId == 76561199164122300UL).Value;
 
     /// <summary>
     ///     https://www.twitch.tv/allfunngamez
     /// </summary>
-    public static bool IsAllFunNGamez => TryGetSteamID(out var uniqueId) && uniqueId == 76561197963233461L;
+    public static bool IsAllFunNGamez => _isAllFunNGamez ?? (_isAllFunNGamez = SteamId == 76561197963233461UL).Value;
 
     /// <summary>
     ///     https://www.twitch.tv/teebutv
     /// </summary>
-    // ReSharper disable once InconsistentNaming
-    public static bool IsTeebuTV => TryGetSteamID(out var uniqueId) && uniqueId == 76561198066573407L;
+    public static bool IsTeebu => _isTeebu ?? (_isTeebu = SteamId == 76561198066573407UL).Value;
 
     #endregion
 }
