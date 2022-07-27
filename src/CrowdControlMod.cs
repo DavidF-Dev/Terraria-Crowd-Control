@@ -516,7 +516,7 @@ public sealed class CrowdControlMod : Mod
                                 HandleResponseQueue(socket);
                             }
                         }
-                        
+
                         continue;
                     }
 
@@ -531,7 +531,7 @@ public sealed class CrowdControlMod : Mod
                             // A packet with zero bytes means the remote connection has closed, so break out of the loop
                             break;
                         }
-                        
+
                         var data = Encoding.ASCII.GetString(buffer, 0, size);
                         if (!data.StartsWith("{"))
                         {
@@ -673,7 +673,7 @@ public sealed class CrowdControlMod : Mod
             }
         }
     }
-    
+
     private CrowdControlResponseStatus ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
