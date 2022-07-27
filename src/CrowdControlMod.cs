@@ -454,8 +454,8 @@ public sealed class CrowdControlMod : Mod
 
         const string host = "127.0.0.1";
         const int port = 58430;
-        const int socketTimeout = 10000; // 0.01s (1000000 = 1s)
-        const int reconnectTimeout = 2000; // 2s (1000 = 1s)
+        const int pollTimeout = 20000; // 0.02s (1000000 = 1s)
+        const int connectDelay = 1000; // 1s (1000 = 1s)
         var specialMessageColour = new Color(90, 136, 252); // blue-ish
 
         // Initialisation
@@ -502,52 +502,37 @@ public sealed class CrowdControlMod : Mod
             {
                 TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Connected to Crowd Control", Color.Green);
 
-                // Connection successful, so keep polling the socket for incoming packets
-                while (ShouldSessionThreadContinue && socket.Connected && socket.Poll(socketTimeout, SelectMode.SelectWrite))
+                // Connection successful, so keep checking for received data whilst the socket remains connected
+                while (ShouldSessionThreadContinue && socket.Connected)
                 {
-                    // Check if there is any data to receive
-                    if (!socket.Poll(socketTimeout, SelectMode.SelectRead))
+                    // If there is no data to receive, check the response queue in case we should send anything back to Crowd Control
+                    // The response queue handles Pause/Resume/Finish packets from effects
+                    if (!socket.Poll(pollTimeout, SelectMode.SelectRead))
                     {
-                        // Check if the response queue has any entries to be sent over the socket
                         lock (_responseQueue)
                         {
-                            while (_responseQueue.Count > 0)
+                            if (_responseQueue.Count > 0)
                             {
-                                // Send each response over the socket connection
-                                var response = _responseQueue.Dequeue();
-                                if (string.IsNullOrEmpty(response))
-                                {
-                                    continue;
-                                }
-
-                                try
-                                {
-                                    var tmp = Encoding.ASCII.GetBytes(response);
-                                    var outBuffer = new byte[tmp.Length + 1];
-                                    Array.Copy(tmp, 0, outBuffer, 0, tmp.Length);
-                                    outBuffer[^1] = 0x00;
-                                    socket.Send(outBuffer);
-                                    TerrariaUtils.WriteDebug($"Outgoing response: {response}");
-                                }
-                                catch (Exception e)
-                                {
-                                    // If an exception occurs, abort the connection
-                                    TerrariaUtils.WriteDebug($"Aborted connection due to an exception: {e.Message}");
-                                    break;
-                                }
+                                HandleResponseQueue(socket);
                             }
                         }
-
+                        
                         continue;
                     }
 
+                    // There is data to read
                     try
                     {
                         // Read incoming data
                         var buffer = new byte[1024];
                         var size = socket.Receive(buffer);
+                        if (size == 0)
+                        {
+                            // A packet with zero bytes means the remote connection has closed, so break out of the loop
+                            break;
+                        }
+                        
                         var data = Encoding.ASCII.GetString(buffer, 0, size);
-
                         if (!data.StartsWith("{"))
                         {
                             // No data (or it is invalid), so wait until next poll
@@ -631,7 +616,7 @@ public sealed class CrowdControlMod : Mod
             else
             {
                 // Connection failed, so wait before attempting to reconnect
-                Thread.Sleep(reconnectTimeout);
+                Thread.Sleep(connectDelay);
 
                 if (!writeAttempt)
                 {
@@ -656,6 +641,39 @@ public sealed class CrowdControlMod : Mod
         _sessionCallerThread = null;
     }
 
+    private void HandleResponseQueue(Socket socket)
+    {
+        // Check if the response queue has any entries to be sent over the socket
+        lock (_responseQueue)
+        {
+            while (_responseQueue.Count > 0)
+            {
+                // Send each response over the socket connection
+                var response = _responseQueue.Dequeue();
+                if (string.IsNullOrEmpty(response))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    var tmp = Encoding.ASCII.GetBytes(response);
+                    var outBuffer = new byte[tmp.Length + 1];
+                    Array.Copy(tmp, 0, outBuffer, 0, tmp.Length);
+                    outBuffer[^1] = 0x00;
+                    socket.Send(outBuffer);
+                    TerrariaUtils.WriteDebug($"Outgoing response: {response}");
+                }
+                catch (Exception e)
+                {
+                    // If an exception occurs, abort the connection
+                    TerrariaUtils.WriteDebug($"Aborted connection due to an exception: {e.Message}");
+                    break;
+                }
+            }
+        }
+    }
+    
     private CrowdControlResponseStatus ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
