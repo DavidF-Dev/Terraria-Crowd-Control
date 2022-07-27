@@ -39,7 +39,7 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
             if (Main.rand.Next(100) > dropChance)
             {
                 // Increase drop chance so it becomes more likely that a drop will occur
-                dropChance += 15;
+                dropChance += 20;
                 continue;
             }
 
@@ -49,7 +49,7 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
             player.Player.inventory[i].favorited = false;
             player.Player.selectedItem = i;
             player.Player.direction = Main.rand.Next(100) > 50 ? -1 : 1;
-            player.Player.velocity.X = Main.rand.Next(6, 24) * player.Player.direction;
+            player.Player.velocity.X = Main.rand.Next(8, 26) * player.Player.direction;
             player.Player.DropSelectedItem();
         }
 

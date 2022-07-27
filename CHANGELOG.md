@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Spawn Critters" effect to spawn more critters and reduce the life of evil ones in pre-hardmode.
 - Changed "Spawn Sand Trap" to not use Pearlsand in pre-hardmode.
 - Changed "Fling Upwards" to only activate if there is suitable vertical space above the player.
+- Changed "Explode Inventory" drop chance additive value from 15 to 20 so that more items are dropped.
+- Changed "Explode Inventory" to drop items more violently, so they are launched further.
 - Fixed TCP connection not detecting an incoming shutdown packet correctly.
 
 ## [1.0.2] - 2022-07-24
