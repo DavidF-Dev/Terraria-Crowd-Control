@@ -151,6 +151,13 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(false)]
     public bool DeveloperMode;
 
+    [Label("[i:3857]  Forcefully enable easter eggs")]
+    [Tooltip("Enable easter eggs that are usually unavailable except in unique cases.")]
+    [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
+    [DefaultValue(false)]
+    [ReloadRequired]
+    public bool ForceEasterEggs;
+
     #endregion
 
     #region Properties

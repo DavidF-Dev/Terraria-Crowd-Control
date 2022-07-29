@@ -1,4 +1,5 @@
-﻿using Steamworks;
+﻿using CrowdControlMod.Config;
+using Steamworks;
 
 namespace CrowdControlMod.Utilities;
 
@@ -40,22 +41,22 @@ public static class SteamUtils
     /// <summary>
     ///     https://www.twitch.tv/mrkaiga
     /// </summary>
-    public static bool IsMrKaiga => _isMrKaiga ?? (_isMrKaiga = SteamId == 76561199164122300UL).Value;
+    public static bool IsMrKaiga => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isMrKaiga ?? (_isMrKaiga = SteamId == 76561199164122300UL).Value);
 
     /// <summary>
     ///     https://www.twitch.tv/allfunngamez
     /// </summary>
-    public static bool IsAllFunNGamez => _isAllFunNGamez ?? (_isAllFunNGamez = SteamId == 76561197963233461UL).Value;
+    public static bool IsAllFunNGamez => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isAllFunNGamez ?? (_isAllFunNGamez = SteamId == 76561197963233461UL).Value);
 
     /// <summary>
     ///     https://www.twitch.tv/teebutv
     /// </summary>
-    public static bool IsTeebu => _isTeebu ?? (_isTeebu = SteamId == 76561198066573407UL).Value;
+    public static bool IsTeebu => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isTeebu ?? (_isTeebu = SteamId == 76561198066573407UL).Value);
 
     /// <summary>
     ///     https://www.twitch.tv/lunadabintu
     /// </summary>
-    public static bool IsLunadabintu => _isLunadabintu ?? (_isLunadabintu = SteamId == 76561198254317966UL).Value;
+    public static bool IsLunadabintu => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isLunadabintu ?? (_isLunadabintu = SteamId == 76561198254317966UL).Value);
 
     #endregion
 }

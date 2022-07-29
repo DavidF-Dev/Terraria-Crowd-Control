@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added Configuration option to forcefully enable easter eggs (under Developer Settings).
 - Changed Configuration to show icons next to each option, to improve readability.
 
 ## [1.0.4] - 2022-07-29
