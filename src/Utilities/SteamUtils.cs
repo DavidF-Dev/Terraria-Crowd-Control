@@ -13,6 +13,7 @@ public static class SteamUtils
     private static bool? _isMrKaiga;
     private static bool? _isAllFunNGamez;
     private static bool? _isTeebu;
+    private static bool? _isLunadabintu;
 
     #endregion
 
@@ -50,6 +51,11 @@ public static class SteamUtils
     ///     https://www.twitch.tv/teebutv
     /// </summary>
     public static bool IsTeebu => _isTeebu ?? (_isTeebu = SteamId == 76561198066573407UL).Value;
+
+    /// <summary>
+    ///     https://www.twitch.tv/lunadabintu
+    /// </summary>
+    public static bool IsLunadabintu => _isLunadabintu ?? (_isLunadabintu = SteamId == 76561198254317966UL).Value;
 
     #endregion
 }
