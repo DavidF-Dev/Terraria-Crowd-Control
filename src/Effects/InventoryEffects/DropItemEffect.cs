@@ -13,6 +13,13 @@ namespace CrowdControlMod.Effects.InventoryEffects;
 /// </summary>
 public sealed class DropItemEffect : CrowdControlEffect
 {
+    #region Static Fields and Constants
+
+    private const int MinDropSpeed = 9;
+    private const int MaxDropSpeed = 11;
+
+    #endregion
+
     #region Fields
 
     private Item? _droppedItem;
@@ -37,7 +44,10 @@ public sealed class DropItemEffect : CrowdControlEffect
             // Drop selected item
             player.Player.inventory[player.Player.selectedItem].favorited = false;
             _droppedItem = player.Player.inventory[player.Player.selectedItem];
+            var oldSpeedX = player.Player.velocity.X;
+            player.Player.velocity.X = Main.rand.Next(MinDropSpeed, MaxDropSpeed) * player.Player.direction;
             player.Player.DropSelectedItem();
+            player.Player.velocity.X = oldSpeedX;
         }
         else
         {
@@ -61,7 +71,10 @@ public sealed class DropItemEffect : CrowdControlEffect
                 player.Player.inventory[slot].favorited = false;
                 _droppedItem = player.Player.inventory[slot];
                 player.Player.selectedItem = slot;
+                var oldSpeedX = player.Player.velocity.X;
+                player.Player.velocity.X = Main.rand.Next(MinDropSpeed, MaxDropSpeed) * player.Player.direction;
                 player.Player.DropSelectedItem();
+                player.Player.velocity.X = oldSpeedX;
                 player.Player.selectedItem = oldSel;
             }
             else
