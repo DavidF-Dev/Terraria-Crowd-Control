@@ -106,6 +106,11 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
         // Reset spawn timer (reduced in hard-mode)
         _spawnTime = Main.rand.NextFloat(MinSpawnTime, MaxSpawnTime) * (Main.hardMode ? 0.5f : 1f);
+        if (CrowdControlMod.GetInstance().IsEffectActive(EffectID.IncreaseSpawnRate))
+        {
+            // Decrease spawn time drastically if spawn rate is increased via an effect
+            _spawnTime /= 3;
+        }
 
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
