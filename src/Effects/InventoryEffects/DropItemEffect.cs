@@ -136,6 +136,8 @@ public sealed class DropItemEffect : CrowdControlEffect
     // ReSharper disable once ClassNeverInstantiated.Local
     private sealed class LunaOwl : ModNPC
     {
+        #region Static Fields and Constants
+
         private static readonly string[] ChatMessages =
         {
             "You're a bit of a know-it-owl",
@@ -157,6 +159,8 @@ public sealed class DropItemEffect : CrowdControlEffect
             "Who’s the most famous owl magician in the world? Hoooo-dini, of course!",
             "How did the owl feel on his first date? Owl-kward!"
         };
+
+        #endregion
 
         #region Properties
 
