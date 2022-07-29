@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed Configuration layout to be more readable, by using headers and colours to separate sections.
+
 ## [1.0.3] - 2022-07-29
 
 - Changed default prices on many effects to be cheaper.

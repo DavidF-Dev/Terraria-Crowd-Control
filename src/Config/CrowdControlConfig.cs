@@ -16,6 +16,16 @@ public sealed class CrowdControlConfig : ModConfig
 {
     #region Static Fields and Constants
 
+    private const int EffectR = 164;
+    private const int EffectG = 120;
+    private const int EffectB = 240;
+    private const int WorldR = 120;
+    private const int WorldG = 240;
+    private const int WorldB = 128;
+    private const int DeveloperR = 240;
+    private const int DeveloperG = 120;
+    private const int DeveloperB = 120;
+
     private static CrowdControlConfig _instance = null!;
 
     #endregion
@@ -35,38 +45,56 @@ public sealed class CrowdControlConfig : ModConfig
 
     #region Fields
 
+    // --- Effect settings (lucky coin)
+    [Header("[i:855] Effect settings")]
     [Label("Show effect messages in chat")]
     [Tooltip("Disable to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
     [Label("Use anonymous names in chat")]
     [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names showing.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
     [Label("Use effect music")]
     [Tooltip("A few effects override the music whilst active.\nDisable this to stop effects from overriding the music.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectMusic;
 
     [Label("Use effect emotes")]
     [Tooltip("A few effects show an emote bubble beside the player.\nDisable this to stop effects from displaying any emote bubbles.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectEmotes;
 
     [Label("Use effect hair dyes")]
     [Tooltip("A few effects change the player's hair dye.\nDisable this to stop effects from changing the hair dye.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectHairDyes;
 
+    [Label("Calamity mod integration")]
+    [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool AllowCalamity;
+
+    // --- World settings (world globe)
+    [Header("[i:4766] World settings")]
     [Label("Disable tombstones")]
     [Tooltip("Enable to prevent your tombstone from spawning when you die.\nIn multi-player, this will only affect your player.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
     [Label("Respawn timer")]
     [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0.2f, 1f)]
     [Increment(0.1f)]
     [DrawTicks]
@@ -75,11 +103,13 @@ public sealed class CrowdControlConfig : ModConfig
 
     [Label("Enable spawn protection for world-altering effects")]
     [Tooltip("Enable to delay world-altering effects if you are too close to spawn.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
     [Label("Spawn protection radius")]
     [Tooltip("If spawn protection is enabled, then this is the range around your spawn point that will be protected.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(10, 100)]
     [Increment(10)]
     [DrawTicks]
@@ -88,34 +118,36 @@ public sealed class CrowdControlConfig : ModConfig
 
     [Label("Allow time-changing effects during bosses")]
     [Tooltip("Disable to prevent time-changing effects during boss fights, invasions or events.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
 
     [Label("Forcefully despawn bosses if all players are dead")]
     [Tooltip("Enable this to override Terraria's default behaviour for all bosses spawned via effects.\nBosses & mini-bosses will despawn if all players are dead.\nIn multi-player, only one player needs to have this option enabled.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool ForceDespawnBosses;
 
     [Label("Allow teleporting to other players")]
     [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.\nYou can only teleport to players if you have Crowd Control connected.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
     [Label("Teleportation cooldown (seconds)")]
     [Tooltip("Cooldown, in seconds, between usages of the teleportation to other players feature.")]
+    [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0f, 600f)]
     [Increment(5)]
     [DrawTicks]
     [DefaultValue(25)]
     public int PlayerTeleportationCooldown;
 
-    [Label("Calamity mod integration")]
-    [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
-    [DefaultValue(true)]
-    public bool AllowCalamity;
-
-    [Label("[Advanced] Show developer messages in chat")]
+    // --- Developer settings (cog)
+    [Header("[i:1344] [Advanced] Developer settings")]
+    [Label("Show developer messages in chat")]
     [Tooltip("Enable to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
+    [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
     [DefaultValue(false)]
     public bool DeveloperMode;
 
