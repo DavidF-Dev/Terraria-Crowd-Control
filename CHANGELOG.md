@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed Configuration to show icons next to each option, to improve readability.
+
 ## [1.0.4] - 2022-07-29
 
 - Changed Configuration layout to be more readable, by using headings and colours to separate sections.
