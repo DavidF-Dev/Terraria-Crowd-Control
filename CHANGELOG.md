@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2022-07-29
+
 - Changed Configuration layout to be more readable, by using headings and colours to separate sections.
 - Changed "Golden Slime Rain" to increase spawn-rates if the "Increase Spawn Rate" effect is active.
 - Changed "Drop Item" to increase the distance the item is thrown.
