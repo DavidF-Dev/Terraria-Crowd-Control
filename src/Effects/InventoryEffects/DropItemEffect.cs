@@ -91,12 +91,12 @@ public sealed class DropItemEffect : CrowdControlEffect
         }
 
         // Luna's easter egg :-)
-        if (Main.netMode == NetmodeID.SinglePlayer && SteamUtils.IsLunadabintu && Main.rand.NextBool(6) &&
+        if (Main.netMode == NetmodeID.SinglePlayer && !Main.dayTime && player.Player.ZoneForest && SteamUtils.IsLunadabintu && Main.rand.NextBool(5) &&
             !Main.npc.Any(x => x.active && x.type == ModContent.NPCType<LunaOwl>()))
         {
             // Spawn an owl
             var owlIndex = NPC.NewNPC(null, (int)player.Player.Center.X, (int)player.Player.Top.Y - 16, ModContent.NPCType<LunaOwl>());
-            Main.npc[owlIndex].AddBuff(BuffID.Lovestruck, 60 * 2);
+            Main.npc[owlIndex].AddBuff(BuffID.Lovestruck, 90);
             Main.npc[owlIndex].loveStruck = true;
             SoundEngine.PlaySound(SoundID.Owl, player.Player.Center);
             _spawnedOwl = true;
