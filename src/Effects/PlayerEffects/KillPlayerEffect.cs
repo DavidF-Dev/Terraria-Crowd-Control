@@ -20,7 +20,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
         "friend-zoned", "zapped", "crushed", "imploded", "murdered", "executed", "slam dunked",
         "force-fed poison ivy", "smacked with a fish", "ripped to shreds", "attacked with a toothbrush",
         "spat on", "cancelled", "tormented", "led into a room of angry fans", "hugged too tightly",
-        "subjected to a bad fun", "shot with a water gun", "poked", "removed from this plain of existence",
+        "subjected to a bad pun", "shot with a water gun", "poked", "removed from this plain of existence",
         // ReSharper disable once StringLiteralTypo
         "fed [c/FFFF00:ra][c/FF0000:in][c/0000FF:bo][c/8B00FF:ws]"
     };
