@@ -15,27 +15,47 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 {
     #region Static Fields and Constants
 
-    private static readonly short[] PreEyeTiles = {ItemID.DirtBlock, ItemID.StoneBlock, ItemID.ClayBlock, ItemID.MudBlock, ItemID.SandBlock, ItemID.Wood, ItemID.Sunflower};
+    private static readonly (ushort tileId, short itemId)[] PreEyeTiles =
+    {
+        (TileID.Dirt, ItemID.DirtBlock), (TileID.Stone, ItemID.StoneBlock), (TileID.ClayBlock, ItemID.ClayBlock),
+        (TileID.Mud, ItemID.MudBlock), (TileID.Sand, ItemID.SandBlock), (TileID.WoodBlock, ItemID.Wood), (TileID.Sunflower, ItemID.Sunflower)
+    };
 
-    private static readonly short[] PreSkeletronTiles = {ItemID.SnowBlock, ItemID.IceBlock, ItemID.Cloud, ItemID.RichMahogany, ItemID.BorealWood, ItemID.Campfire};
+    private static readonly (ushort tileId, short itemId)[] PreSkeletronTiles =
+    {
+        (TileID.SnowBlock, ItemID.SnowBlock), (TileID.IceBlock, ItemID.IceBlock), (TileID.Cloud, ItemID.Cloud),
+        (TileID.RichMahogany, ItemID.RichMahogany), (TileID.BorealWood, ItemID.BorealWood), (TileID.Campfire, ItemID.Campfire)
+    };
 
-    private static readonly short[] PreWallTiles = {ItemID.GrayBrick, ItemID.Glass, ItemID.PalmWood};
+    private static readonly (ushort tileId, short itemId)[] PreWallTiles =
+    {
+        (TileID.GrayBrick, ItemID.GrayBrick), (TileID.Glass, ItemID.Glass), (TileID.PalmWood, ItemID.PalmWood)
+    };
 
-    private static readonly short[] PreMechTiles = {ItemID.PearlstoneBlock, ItemID.PearlsandBlock};
+    private static readonly (ushort tileId, short itemId)[] PreMechTiles =
+    {
+        (TileID.Pearlstone, ItemID.PearlstoneBlock), (TileID.Pearlsand, ItemID.PearlsandBlock)
+    };
 
-    private static readonly short[] PreGolemTiles = {ItemID.SnowBrick, ItemID.IceBrick};
+    private static readonly (ushort tileId, short itemId)[] PreGolemTiles =
+    {
+        (TileID.SnowBrick, ItemID.SnowBrick), (TileID.IceBrick, ItemID.IceBrick)
+    };
 
-    private static readonly short[] PreLunarTiles = {ItemID.SiltBlock, ItemID.AshBlock};
+    private static readonly (ushort tileId, short itemId)[] PreLunarTiles =
+    {
+        (TileID.Silt, ItemID.SiltBlock), (TileID.Ash, ItemID.AshBlock)
+    };
 
-    private static readonly short[] PreMoonLordTiles = Array.Empty<short>();
+    private static readonly (ushort tileId, short itemId)[] PreMoonLordTiles = Array.Empty<(ushort tileId, short itemId)>();
 
-    private static readonly short[] PostGameTiles = Array.Empty<short>();
+    private static readonly (ushort tileId, short itemId)[] PostGameTiles = Array.Empty<(ushort tileId, short itemId)>();
 
     #endregion
 
     #region Fields
 
-    private Item? _chosenTileItem;
+    private (ushort tileId, short itemId)? _chosen;
 
     #endregion
 
@@ -51,14 +71,17 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
-        // Choose a random placeable item
         var player = GetLocalPlayer();
 
         // Get options
         var options = ProgressionUtils.ChooseUpToProgression(
-            PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
-            PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
-        ).SelectMany(x => x).Distinct().Where(x => !player.Player.IsStandingOn(x)).ToList();
+                PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
+                PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
+            )
+            .SelectMany(x => x)
+            .Distinct()
+            .Where(x => !player.Player.IsStandingOn(x.tileId))
+            .ToList();
         if (!options.Any())
         {
             // Fail if there are no options (this shouldn't happen!)
@@ -66,18 +89,18 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        _chosenTileItem = new Item(Main.rand.Next(options));
+        _chosen = Main.rand.Next(options);
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnChallengeStop()
     {
-        _chosenTileItem = null;
+        _chosen = null;
     }
 
     protected override void OnUpdate(float delta)
     {
-        if (_chosenTileItem != null && !GetLocalPlayer().Player.IsStandingOn(_chosenTileItem.createTile))
+        if (!GetLocalPlayer().Player.IsStandingOn(_chosen!.Value.tileId))
         {
             return;
         }
@@ -87,7 +110,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return $"Stand on a {_chosenTileItem?.Name}";
+        return $"Stand on a {Lang.GetItemName(_chosen!.Value.itemId).Value}";
     }
 
     #endregion

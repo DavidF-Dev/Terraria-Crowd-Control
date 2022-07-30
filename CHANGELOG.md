@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added Configuration option to forcefully enable easter eggs (under Developer Settings).
 - Changed Configuration to show icons next to each option, to improve readability.
+- Fixed "Stand On Block Challenge" choosing a block that the player is already standing on.
 
 ## [1.0.4] - 2022-07-29
 
