@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -113,7 +114,7 @@ public sealed class DropItemEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (_droppedItem == null)
+        if (_droppedItem == null || (!_spawnedOwl && CrowdControlConfig.GetInstance().HideDropItemMessage))
         {
             return;
         }
