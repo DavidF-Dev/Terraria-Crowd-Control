@@ -78,9 +78,9 @@ public sealed class CrowdControlConfig : ModConfig
     public bool UseEffectHairDyes;
 
     [Label("[i: 890]  Hide \"Drop Item\" effect message")]
-    [Tooltip("Disable to show the effect message just like any other effect, otherwise it will be hidden.")]
+    [Tooltip("Enable to hide the effect message in chat when the \"Drop Item\" effect is triggered.")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
-    [DefaultValue(true)]
+    [DefaultValue(false)]
     public bool HideDropItemMessage;
 
     [Label("[i: 4765]  Calamity mod integration")]
