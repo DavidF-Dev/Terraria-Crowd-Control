@@ -91,7 +91,7 @@ public sealed class DropItemEffect : CrowdControlEffect
         }
 
         // Luna's easter egg :-)
-        if (Main.netMode == NetmodeID.SinglePlayer && !Main.dayTime && player.Player.ZoneForest && SteamUtils.IsLunadabintu && Main.rand.NextBool(5) &&
+        if (Main.netMode == NetmodeID.SinglePlayer && !Main.dayTime && player.Player.ZoneForest && SteamUtils.IsLunadabintu && Main.rand.NextBool(2) &&
             !Main.npc.Any(x => x.active && x.type == ModContent.NPCType<LunaOwl>()))
         {
             // Spawn an owl
@@ -192,7 +192,7 @@ public sealed class DropItemEffect : CrowdControlEffect
         public override bool PreAI()
         {
             // Change between worm/bird AI depending on how close the player is
-            const float dist = 16f * 12f * 16f * 12f;
+            const float dist = 16f * 25 * 16f * 25f;
             var withinDist = NPC.Center.DistanceSQ(Main.LocalPlayer.Center) < dist;
             switch (withinDist)
             {
