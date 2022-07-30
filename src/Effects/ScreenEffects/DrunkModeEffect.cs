@@ -1,10 +1,18 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects.Interfaces;
+using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Shaders;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.ScreenEffects;
 
@@ -16,15 +24,77 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
     #region Static Fields and Constants
 
     private const float SineIntensity = 0.05f;
-
     private const float GlitchIntensity = 24f;
+
+    private static readonly short[] FoodIds =
+    {
+        ItemID.CookedMarshmallow, ItemID.AppleJuice, ItemID.BloodyMoscato, ItemID.BowlofSoup, ItemID.BunnyStew,
+        ItemID.CookedFish, ItemID.CookedShrimp, ItemID.Escargot, ItemID.FroggleBunwich, ItemID.BananaDaiquiri,
+        ItemID.FruitJuice, ItemID.FruitSalad, ItemID.GoldenDelight, ItemID.GrapeJuice, ItemID.GrilledSquirrel,
+        ItemID.GrubSoup, ItemID.Lemonade, ItemID.LobsterTail, ItemID.MonsterLasagna, ItemID.PeachSangria,
+        ItemID.PinaColada, ItemID.PrismaticPunch, ItemID.RoastedBird, ItemID.RoastedDuck, ItemID.SauteedFrogLegs,
+        ItemID.SeafoodDinner, ItemID.SmoothieofDarkness, ItemID.TropicalSmoothie, ItemID.PumpkinPie, ItemID.Ale,
+        ItemID.Teacup, ItemID.Sashimi, ItemID.Apple, ItemID.Apricot, ItemID.Banana, ItemID.BlackCurrant,
+        ItemID.BloodOrange, ItemID.Cherry, ItemID.Coconut, ItemID.Dragonfruit, ItemID.Elderberry, ItemID.Grapefruit,
+        ItemID.Lemon, ItemID.Mango, ItemID.Peach, ItemID.Pineapple, ItemID.Plum, ItemID.Rambutan, ItemID.Starfruit,
+        ItemID.ApplePie, ItemID.Bacon, ItemID.BananaSplit, ItemID.BBQRibs, ItemID.Burger, ItemID.MilkCarton,
+        ItemID.ChickenNugget, ItemID.ChocolateChipCookie, ItemID.CoffeeCup, ItemID.CreamSoda, ItemID.FriedEgg,
+        ItemID.Fries, ItemID.Grapes, ItemID.Hotdog, ItemID.IceCream, ItemID.Milkshake, ItemID.Nachos, ItemID.Pizza,
+        ItemID.PotatoChips, ItemID.ShrimpPoBoy, ItemID.ShuckedOyster, ItemID.Spaghetti, ItemID.Steak, ItemID.ChristmasPudding,
+        ItemID.GingerbreadCookie, ItemID.SugarCookie, ItemID.Marshmallow, ItemID.PadThai, ItemID.Sake
+    };
+
+    #endregion
+
+    #region Static Methods
+
+    private static void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+    {
+        if (SteamUtils.IsThatGrayson)
+        {
+            // Random food name
+            var nameLine = tooltips.FirstOrDefault(x => x.Name.Equals("ItemName"));
+            if (nameLine != null)
+            {
+                nameLine.Text = Lang.GetItemNameValue(FoodIds[item.type % FoodIds.Length]);
+            }
+        }
+
+        // Shuffle tooltip order
+        var shuffled = tooltips.OrderBy(x => x.Text.GetHashCode()).ToList();
+        tooltips.Clear();
+        tooltips.AddRange(shuffled);
+    }
+
+    private static bool PreDrawInInventory(Item item, SpriteBatch spritebatch, Vector2 position, Rectangle frame, Color drawColour, Color itemColour, Vector2 origin, float scale)
+    {
+        var id = FoodIds[item.type % FoodIds.Length];
+        if (!TextureAssets.Item[id].IsLoaded)
+        {
+            // Ensure loaded
+            Main.instance.LoadItem(id);
+        }
+
+        // Draw food in inventory
+        Main.EntitySpriteDraw(
+            TextureAssets.Item[id].Value,
+            position,
+            frame,
+            drawColour,
+            0f,
+            origin,
+            scale,
+            SpriteEffects.None,
+            0);
+
+        return false;
+    }
 
     #endregion
 
     #region Fields
 
     private readonly ScreenShader _sineShader;
-
     private readonly ScreenShader _glitchShader;
 
     #endregion
@@ -68,6 +138,12 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         sineShaderData.UseIntensity(SineIntensity);
         glitchShaderData.UseIntensity(GlitchIntensity);
 
+        CrowdControlItem.ModifyTooltipsHook += ModifyTooltips;
+        if (SteamUtils.IsThatGrayson)
+        {
+            CrowdControlItem.PreDrawInInventoryHook += PreDrawInInventory;
+        }
+
         return CrowdControlResponseStatus.Success;
     }
 
@@ -75,6 +151,12 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
     {
         _sineShader.Disable();
         _glitchShader.Disable();
+
+        CrowdControlItem.ModifyTooltipsHook -= ModifyTooltips;
+        if (SteamUtils.IsThatGrayson)
+        {
+            CrowdControlItem.PreDrawInInventoryHook -= PreDrawInInventory;
+        }
     }
 
     protected override void OnUpdate(float delta)
@@ -86,6 +168,12 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        if (SteamUtils.IsThatGrayson)
+        {
+            TerrariaUtils.WriteEffectMessage(ItemID.ChefHat, $"{viewerString} made {playerString} feel drunk and think about food... glorious food", Severity);
+            return;
+        }
+        
         TerrariaUtils.WriteEffectMessage(ItemID.Ale, $"{viewerString} made {playerString} feel drunk for {durationString} seconds", Severity);
     }
 
