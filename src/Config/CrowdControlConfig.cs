@@ -82,7 +82,7 @@ public sealed class CrowdControlConfig : ModConfig
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool HideDropItemMessage;
-    
+
     [Label("[i: 4765]  Calamity mod integration")]
     [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
     [BackgroundColor(EffectR, EffectG, EffectB)]

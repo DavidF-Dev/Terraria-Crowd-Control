@@ -63,6 +63,6 @@ public static class SteamUtils
     ///     https://www.twitch.tv/that_grayson
     /// </summary>
     public static bool IsThatGrayson => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isThatGrayson ?? (_isThatGrayson = SteamId == 76561198042877752UL).Value);
-    
+
     #endregion
 }

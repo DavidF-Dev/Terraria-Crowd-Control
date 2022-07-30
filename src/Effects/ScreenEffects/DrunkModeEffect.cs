@@ -173,7 +173,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
             TerrariaUtils.WriteEffectMessage(ItemID.ChefHat, $"{viewerString} made {playerString} feel drunk and think about food... glorious food", Severity);
             return;
         }
-        
+
         TerrariaUtils.WriteEffectMessage(ItemID.Ale, $"{viewerString} made {playerString} feel drunk for {durationString} seconds", Severity);
     }
 
