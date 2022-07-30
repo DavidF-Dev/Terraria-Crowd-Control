@@ -91,7 +91,7 @@ public sealed class DropItemEffect : CrowdControlEffect
         }
 
         // Luna's easter egg :-)
-        if (Main.netMode == NetmodeID.SinglePlayer && !Main.dayTime && player.Player.ZoneForest && SteamUtils.IsLunadabintu && Main.rand.NextBool(2) &&
+        if (Main.netMode == NetmodeID.SinglePlayer && player.Player.ZoneForest && SteamUtils.IsLunadabintu && Main.rand.NextBool(3) &&
             !Main.npc.Any(x => x.active && x.type == ModContent.NPCType<LunaOwl>()))
         {
             // Spawn an owl
