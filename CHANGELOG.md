@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added Configuration option to hide "Drop Item" message in chat.
 - Changed many effect descriptions to be more descriptive.
+- Removed "Touch Grass" challenge from the random challenge pool.
 
 ## [1.0.5] - 2022-07-30
 
