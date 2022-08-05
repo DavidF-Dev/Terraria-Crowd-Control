@@ -127,7 +127,10 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.DogWhistle, $"{viewerString} provided {playerString} with a {Lang.GetBuffName(_chosenId)} companion", Severity);
+        TerrariaUtils.WriteEffectMessage(
+            ItemID.DogWhistle,
+            LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, Lang.GetBuffName(_chosenId)),
+            Severity);
     }
 
     private void OnRespawn()

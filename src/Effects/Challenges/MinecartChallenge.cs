@@ -1,5 +1,6 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 
 namespace CrowdControlMod.Effects.Challenges;
 
@@ -20,7 +21,7 @@ public sealed class MinecartChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return "Ride a minecart";
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty);
     }
 
     protected override CrowdControlResponseStatus OnChallengeStart()

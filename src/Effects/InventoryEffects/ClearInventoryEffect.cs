@@ -56,7 +56,7 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.GhostMask, $"{viewerString} cleared {playerString}'s inventory", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.GhostMask, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

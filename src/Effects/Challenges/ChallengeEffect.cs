@@ -19,6 +19,8 @@ public abstract class ChallengeEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
+    private static readonly string LocId = "challenge";
+
     /// <summary>
     ///     Any challenge is active (any effect that implements ChallengeEffect)
     /// </summary>
@@ -94,8 +96,8 @@ public abstract class ChallengeEffect : CrowdControlEffect
     protected sealed override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Write normal message
-        var challengeString = TerrariaUtils.GetColouredRichText($"{GetChallengeDescription()} within {durationString} seconds", Color.Yellow);
-        TerrariaUtils.WriteEffectMessage(ItemID.FastClock, $"{viewerString} challenged {playerString}: {challengeString}", Severity);
+        var challengeString = GetChallengeDescription();
+        TerrariaUtils.WriteEffectMessage(ItemID.FastClock, LangUtils.GetEffectStartText(LocId, viewerString, playerString, durationString, challengeString), Severity);
     }
 
     protected sealed override void SendStopMessage()
@@ -103,12 +105,13 @@ public abstract class ChallengeEffect : CrowdControlEffect
         // Stop message depends on challenge outcome
         if (_isCompleted)
         {
-            TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Challenge completed", Color.Green);
+            TerrariaUtils.WriteMessage(ItemID.LargeEmerald, LangUtils.GetEffectMiscText(LocId, "Completed"), Color.Green);
         }
         else if (CrowdControlMod.GetInstance().IsSessionActive)
         {
             var player = GetLocalPlayer();
-            player.Player.KillMe(PlayerDeathReason.ByCustomReason($"{player.Player.name} failed their challenge"), 1000, 0);
+            var reason = LangUtils.GetEffectMiscText(LocId, "Failed", player.Player.name);
+            player.Player.KillMe(PlayerDeathReason.ByCustomReason(reason), 1000, 0);
         }
     }
 
@@ -196,7 +199,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         // Draw 'time left' string
         Utils.DrawBorderString(
             spriteBatch,
-            $"{TimeLeft:0.0} seconds remaining",
+            LangUtils.GetEffectMiscText(LocId, "TimeLeft", TimeLeft.ToString("0.0")),
             new Vector2(center.X, center.Y + 66f),
             colour,
             scale,

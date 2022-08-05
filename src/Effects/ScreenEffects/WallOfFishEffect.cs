@@ -100,13 +100,9 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (_koiEasterEgg)
-        {
-            TerrariaUtils.WriteEffectMessage(ItemID.KiteKoi, $"You ask and you shall receive. {viewerString} covered the screen with koi fish for {durationString} seconds", Severity);
-            return;
-        }
-
-        TerrariaUtils.WriteEffectMessage(ItemID.Tuna, $"{viewerString} covered the screen with fish for {durationString} seconds", Severity);
+        var item = _koiEasterEgg ? ItemID.KiteKoi : ItemID.Tuna;
+        var locKey = _koiEasterEgg ? $"{Id}_egg" : Id;
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(locKey, viewerString, playerString, durationString), Severity);
     }
 
     private void PostDrawTiles()

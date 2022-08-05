@@ -1,4 +1,5 @@
 ﻿using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 
 namespace CrowdControlMod.Effects.Challenges;
 
@@ -26,7 +27,7 @@ public sealed class SleepChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return "Rest in a bed";
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty);
     }
 
     #endregion

@@ -83,11 +83,8 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Send the appropriate effect message
-        var type = _life ? "health" : "mana";
-        var message = _increase
-            ? $"{viewerString} added {Amount} {type} to {playerString}'s total {type}"
-            : $"{viewerString} removed {Amount} {type} from {playerString}'s total {type}";
-        TerrariaUtils.WriteEffectMessage(_life ? ItemID.LifeCrystal : ItemID.ManaCrystal, message, Severity);
+        var itemId = _life ? ItemID.LifeCrystal : ItemID.ManaCrystal;
+        TerrariaUtils.WriteEffectMessage(itemId, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, Amount), Severity);
     }
 
     #endregion

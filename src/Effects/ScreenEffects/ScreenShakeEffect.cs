@@ -49,7 +49,7 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.SoulofFright, $"{viewerString} caused {playerString}'s screen shake for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.SoulofFright, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

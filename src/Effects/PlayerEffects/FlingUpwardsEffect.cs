@@ -70,7 +70,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.KOCannon, $"{viewerString} flung {playerString} upwards into the air", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.KOCannon, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

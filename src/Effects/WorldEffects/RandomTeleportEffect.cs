@@ -68,7 +68,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.TeleportationPotion, $"{viewerString} randomly teleported {playerString}", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.TeleportationPotion, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

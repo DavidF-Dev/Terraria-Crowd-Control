@@ -43,7 +43,7 @@ public sealed class HealPlayerEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.Heart, $"{viewerString} healed {playerString}", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.Heart, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

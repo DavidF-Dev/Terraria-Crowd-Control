@@ -22,7 +22,6 @@ public sealed class BuffEffect : CrowdControlEffect
     #region Fields
 
     private readonly short _itemId;
-    private readonly GetStartMessageDelegate _getStartMessage;
     private readonly Action<CrowdControlPlayer>? _onStart;
     private readonly HashSet<int> _buffs;
     private readonly bool _hasConfusedBuff;
@@ -35,12 +34,11 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, int emoteId, GetStartMessageDelegate getStartMessage, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
+    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, int emoteId, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
     {
         _itemId = itemId;
         StartEmote = emoteId;
         _onStart = onStart;
-        _getStartMessage = getStartMessage;
         _buffs = new HashSet<int>(buffs);
         _hasConfusedBuff = _buffs.Contains(BuffID.Confused);
         _hasFrozenBuff = _buffs.Contains(BuffID.Frozen);
@@ -84,7 +82,7 @@ public sealed class BuffEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? _)
     {
-        TerrariaUtils.WriteEffectMessage(_itemId, _getStartMessage(viewerString, playerString), Severity);
+        TerrariaUtils.WriteEffectMessage(_itemId, LangUtils.GetEffectStartText(Id, viewerString, playerString, _), Severity);
     }
 
     private void PreUpdateBuffs()

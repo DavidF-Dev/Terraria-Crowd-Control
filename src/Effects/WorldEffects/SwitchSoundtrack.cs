@@ -53,15 +53,9 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
     {
         // Check which soundtrack is playing (flipped on the drunk world seed)
         var playingOtherworld = (!WorldUtils.IsDrunkWorld && SwapMusic) || (WorldUtils.IsDrunkWorld && !SwapMusic);
-
-        if (playingOtherworld)
-        {
-            TerrariaUtils.WriteEffectMessage(ItemID.MusicBoxOWDay, $"{viewerString} started playing the Terraria Otherworld soundtrack", Severity);
-        }
-        else
-        {
-            TerrariaUtils.WriteEffectMessage(ItemID.MusicBoxOverworldDay, $"{viewerString} started playing the Terraria soundtrack", Severity);
-        }
+        var item = playingOtherworld ? ItemID.MusicBoxOWDay : ItemID.MusicBoxOverworldDay;
+        var trackName = LangUtils.GetEffectMiscText(Id, playingOtherworld ? "Otherworld" : "Vanilla");
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, trackName), Severity);
     }
 
     #endregion

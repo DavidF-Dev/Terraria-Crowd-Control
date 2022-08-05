@@ -421,7 +421,11 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage((short)(_item?.type ?? 0), $"{viewerString} gave {playerString} a {_item?.Name}", Severity);
+        var itemName = _item != null ? Lang.GetItemName(_item.type).Value : string.Empty;
+        TerrariaUtils.WriteEffectMessage(
+            (short)(_item?.type ?? 0),
+            LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, itemName),
+            Severity);
     }
 
     #endregion

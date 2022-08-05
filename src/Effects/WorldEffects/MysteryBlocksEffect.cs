@@ -121,7 +121,7 @@ public sealed class MysteryBlocksEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.Actuator, $"{viewerString} hid the identity of blocks for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.Actuator, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

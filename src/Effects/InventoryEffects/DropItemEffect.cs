@@ -119,15 +119,10 @@ public sealed class DropItemEffect : CrowdControlEffect
             return;
         }
 
-        var owlMessage = _spawnedOwl ? $" and... a talkative owl {TerrariaUtils.GetItemRichText(ItemID.Owl)}?" : string.Empty;
-
-        if (_droppedItem.stack > 1)
-        {
-            TerrariaUtils.WriteEffectMessage((short)_droppedItem.type, $"{viewerString} caused {playerString} to fumble and drop {_droppedItem.stack} {_droppedItem.Name}{owlMessage}", Severity);
-            return;
-        }
-
-        TerrariaUtils.WriteEffectMessage((short)_droppedItem.type, $"{viewerString} caused {playerString} to fumble and drop their {_droppedItem.Name}{owlMessage}", Severity);
+        var locKey = _droppedItem.stack > 1 ? $"{Id}_stack" : Id;
+        var owlText = _spawnedOwl ? LangUtils.GetEffectMiscText(Id, "Owl") : string.Empty;
+        var msg = LangUtils.GetEffectStartText(locKey, viewerString, playerString, durationString, Lang.GetItemName(_droppedItem.type), _droppedItem.stack);
+        TerrariaUtils.WriteEffectMessage((short)_droppedItem.type, msg + owlText, Severity);
     }
 
     #endregion

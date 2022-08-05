@@ -137,8 +137,12 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        var itemName = _item != null ? Lang.GetItemName(_item.type).Value : string.Empty;
         var prefixName = Lang.prefix[_chosenPrefix].Value;
-        TerrariaUtils.WriteEffectMessage((short)(_item?.type ?? 0), $"{viewerString} changed {playerString}'s {_item?.Name} to be {prefixName}", Severity);
+        TerrariaUtils.WriteEffectMessage(
+            (short)(_item?.type ?? 0),
+            LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, itemName, prefixName),
+            Severity);
     }
 
     #endregion

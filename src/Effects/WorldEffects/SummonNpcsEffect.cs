@@ -84,7 +84,7 @@ public sealed class SummonNpcsEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.KingStatue, $"{viewerString} summoned all the alive NPCs to {playerString}'s position", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.KingStatue, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

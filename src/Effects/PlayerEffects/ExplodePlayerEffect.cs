@@ -58,8 +58,10 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
+        var killReason = LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString);
+
         // Kill the player here
-        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was brutally torn apart by {viewerString}'s explosive"), 1000, 0);
+        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason(killReason), 1000, 0);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)

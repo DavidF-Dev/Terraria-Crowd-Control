@@ -67,7 +67,7 @@ public sealed class SniperModeEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.SniperRifle, $"{viewerString} caused {playerString}'s camera to follow their mouse for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.SniperRifle, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

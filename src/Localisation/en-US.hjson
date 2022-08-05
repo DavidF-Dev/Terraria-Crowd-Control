@@ -1,0 +1,359 @@
+﻿Mods:
+{
+    CrowdControlMod:
+    {
+        Config:
+        {
+            Header:
+            {
+                Effect:         "[i:855] Effect settings"
+                World:          "[i:4766] World settings"
+                Developer:      "[i:1757] [Advanced] Developer settings"
+            }
+            
+            # Effect settings
+            ShowEffectMessagesInChat:
+            {
+                Label:          "[i:3617]  Show effect messages in chat"
+                Tooltip:        '''
+                                Disable to stop effect messages from showing in chat.
+                                Useful if you would like to use the browser source.
+                                '''
+            }
+            
+            UseAnonymousNamesInChat:
+            {
+                Label:          "[i:888]  Use anonymous names in chat"
+                Tooltip:        '''
+                                Enable to hide viewer names in the effect messages.
+                                Useful if you are worried about inappropriate names showing.
+                                '''
+            }
+            
+            UseEffectMusic:
+            {
+                Label:          "[i:494]  Use effect music"
+                Tooltip:        '''
+                                A few effects override the music whilst active.
+                                Disable this to stop effects from overriding the music.
+                                '''
+            }
+            
+            UseEffectEmotes:
+            {
+                Label:          "[i:5061]  Use effect emotes"
+                Tooltip:        '''
+                                A few effects show an emote bubble beside the player.
+                                Disable this to stop effects from displaying any emote bubbles.
+                                '''
+            }
+            
+            UseEffectHairDyes:
+            {
+                Label:          "[i:1982]  Use effect hair dyes"
+                Tooltip:        '''
+                                A few effects change the player's hair dye.
+                                Disable this to stop effects from changing the hair dye.
+                                '''
+            }
+            
+            HideDropItemMessage:
+            {
+                Label:          "[i: 890]  Hide \"Drop Item\" effect message"
+                Tooltip:        "Enable to hide the effect message in chat when the \"Drop Item\" effect is triggered."
+            }
+            
+            AllowCalamity:
+            {
+                Label:          "[i: 4765]  Calamity mod integration"
+                Tooltip:        "Disable to stop effects from using Calamity mod content if the Calamity mod is enabled."
+            }
+            
+            # World settings
+            DisableTombstones:
+            {
+                Label:          "[i:321]  Disable tombstones"
+                Tooltip:        '''
+                                Enable to prevent your tombstone from spawning when you die.
+                                In multi-player, this will only affect your player.
+                                '''
+            }
+            
+            RespawnTimeFactor:
+            {
+                Label:          "[i:224]  Respawn timer"
+                Tooltip:        '''
+                                Reduce the respawn timer by this factor.
+                                This allows you to get back into the game quicker after being killed.
+                                x1 is default time.
+                                '''
+            }
+            
+            EnableSpawnProtection:
+            {
+                Label:          "[i:63]  Enable spawn protection for world-altering effects"
+                Tooltip:        "Enable to delay world-altering effects if you are too close to spawn."
+            }
+            
+            SpawnProtectionRadius:
+            {
+                Label:          "[i:2799]  Spawn protection radius"
+                Tooltip:        "If spawn protection is enabled, then this is the range around your spawn point that will be protected."
+            }
+            
+            AllowTimeChangeDuringBoss:
+            {
+                Label:          "[i:4747]  Allow time-changing effects during bosses"
+                Tooltip:        "Disable to prevent time-changing effects during boss fights, invasions or events."
+            }
+            
+            ForceDespawnBosses:
+            {
+                Label:          "[i:3117]  Forcefully despawn bosses if all players are dead"
+                Tooltip:        '''
+                                Enable this to override Terraria's default behaviour for all bosses spawned via effects.
+                                Bosses & mini-bosses will despawn if all players are dead.
+                                In multi-player, only one player needs to have this option enabled.
+                                '''
+            }
+            
+            AllowPlayerTeleportation:
+            {
+                Label:          "[i:2997]  Allow teleporting to other players"
+                Tooltip:        '''
+                                Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.
+                                You can only teleport to players if you're on the same in-game team.
+                                You can only teleport to players if you have Crowd Control connected.
+                                '''
+            }
+            
+            PlayerTeleportationCooldown:
+            {
+                Label:          "[i:709]  Teleportation cooldown (seconds)"
+                Tooltip:        "Cooldown, in seconds, between usages of the teleportation to other players feature."
+            }
+            
+            # Developer settings
+            DeveloperMode:
+            {
+                Label:          "[i:1344]  Show developer messages in chat"
+                Tooltip:        '''
+                                Enable to show developer messages in chat.
+                                This is for debugging purposes for advanced users.
+                                '''
+            }
+            
+            ForceEasterEggs:
+            {
+                Label:          "[i:3857]  Forcefully enable easter eggs"
+                Tooltip:        "Enable easter eggs that are usually unavailable except in unique cases."
+            }
+        }
+        
+        Chat:
+        {
+            Connecting:         "Attempting to connect to Crowd Control"
+            Connected:          "Connected to Crowd Control"
+            Disconnected:       "Lost connection to Crowd Control"
+            FirstTimeStart:     '''
+                                Thank you for choosing to play Crowd Control for Terraria 1.4
+                                - Customise your experience by editing the mod configuration in settings
+                                - Edit effect prices or disable specific effects in the Crowd Control app
+                                - When you're ready, click Start [g:16] in the Crowd Control app
+                                '''
+            FirstTimeStop:      "We hope you enjoyed your Crowd Control session. A rating on the Workshop would be appreciated [i:58]"
+        }
+        
+        Effect:
+        {
+            # [Viewer] [Player] [Duration]
+            Start:
+            {
+                # Player effects
+                kill_player:        "[Player] was {0} by [Viewer]"
+                explode_player:     "[Player] was brutally torn apart by [Viewer]'s explosive"
+                heal_player:        "[Viewer] healed [Player]"
+                damage_player:      "[Viewer] severely damaged [Player]"
+                god_mode_player:    "[Viewer] made [Player] invulnerable to enemy attacks for [Duration] seconds"
+                increase_life:      "[Viewer] added {0} health to [Player]'s total health"
+                decrease_life:      "[Viewer] removed {0} health from [Player]'s total health"
+                increase_mana:      "[Viewer] added {0} mana to [Player]'s total mana"
+                decrease_mana:      "[Viewer] removed {0} mana from [Player]'s total mana"
+                increase_spawn_rate:"[Viewer] increased the enemy spawn-rate around [Player] for [Duration] seconds"
+                infinite_ammo:      "[Viewer] provided infinite ammo and mana to [Player] for [Duration] seconds"
+                death_tp:           "[Viewer] sent [Player] back to where they last died"
+                give_pet:           "[Viewer] provided [Player] with a {0} companion"
+                give_light_pet:     "[Viewer] provided [Player] with a {0} companion"
+                change_gender:      "[Viewer] changed [Player] to a {0}"
+                force_mount:        "[Viewer] is forcing [Player] to ride a {0}"
+                shoot_bombs:        "[Viewer] caused [Player] to shoot bombs for [Duration] seconds"
+                shoot_grenades:     "[Viewer] caused [Player] to shoot grenades for [Duration] seconds"
+                jump_boost:         "[Viewer] made it so [Player] can jump very high for [Duration] seconds"
+                run_boost:          "[Viewer] made [Player] really, really fast for [Duration] seconds"
+                icy_feet:           "[Viewer] made the ground very slippery"
+                fling_upwards:      "[Viewer] flung [Player] upwards into the air"
+                
+                # Buff effects (positive)
+                buff_survivability: "[Viewer] provided [Player] with survivability buffs"
+                buff_regen:         "[Viewer] provided [Player] with regeneration buffs"
+                buff_light:         "[Viewer] provided [Player] with light"
+                buff_treasure:      "[Viewer] helped [Player] search for treasure"
+                buff_movement:      "[Viewer] boosted the movement speed of [Player]"
+                buff_obsidian_skin: "[Viewer] provided [Player] with lava immunity buffs"
+                buff_mining:        "[Viewer] boosted the mining speed of [Player]"
+                
+                # Buff effects (negative)
+                buff_freeze:        "[Viewer] cast a chilly spell over [Player]"
+                buff_fire:          "[Viewer] threw a molotov at [Player]'s feet"
+                buff_daze:          "[Viewer] dazed [Player]"
+                buff_levitate:      "[Viewer] distorted gravity around [Player]"
+                buff_confuse:       "[Viewer] confused [Player]"
+                buff_invisible:     "[Viewer] stole [Player]'s body..."
+                buff_blind:         "[Viewer] obstructed [Player]'s screen"
+                
+                # Inventory effects
+                drop_item:          "[Viewer] caused [Player] to fumble and drop their {0}"
+                drop_item_stack:    "[Viewer] caused [Player] to fumble and drop {1} {0}"
+                explode_inventory:  "[Viewer] exploded [Player]'s inventory"
+                clear_inventory:    "[Viewer] cleared [Player]'s inventory"
+                shuffle_inventory:  "[Viewer] shuffled [Player]'s inventory"
+                no_item_pickup:     "[Viewer] prevented [Player] from picking up any items for [Duration] seconds"
+                item_prefix:        "[Viewer] changed [Player]'s {0} to be {1}"
+                boost_money:        "[Viewer] donated {0} to [Player] and increased coins drops from enemies for [Duration] seconds"
+                give_pickaxe:       "[Viewer] gave [Player] a {0}"
+                give_sword:         "[Viewer] gave [Player] a {0}"
+                give_armour:        "[Viewer] gave [Player] a {0}"
+                give_healing_potion:"[Viewer] gave [Player] a {0}"
+                give_potion:        "[Viewer] gave [Player] a {0}"
+                give_food:          "[Viewer] gave [Player] a {0} to eat"
+                give_kite:          "[Viewer] gave [Player] a {0} to fly around"
+                
+                # World effects
+                sun_dial:           "[Viewer] fast-forward time to the next morning"
+                time_noon:          "[Viewer] set the time to noon"
+                time_midnight:      "[Viewer] set the time to midnight"
+                time_sunrise:       "[Viewer] set the time to sunrise"
+                time_sunset:        "[Viewer] set the time to sunset"
+                spawn_structure_1:  "[Viewer] generated a deep chasm below [Player]"
+                spawn_structure_2:  "[Viewer] generated a hell fortress around [Player]"
+                spawn_structure_3:  "[Viewer] generated a sky island house around [Player]"
+                spawn_structure_4:  "[Viewer] generated an abandoned house around [Player]"
+                cobweb_trap:        "[Viewer] encased [Player] in cobwebs"
+                sand_trap:          "[Viewer] trapped [Player] in a layer of sand"
+                water_trap:         "[Viewer] filled the area around [Player] with water"
+                honey_trap:         "[Viewer] filled the area around [Player] with honey"
+                lava_trap:          "[Viewer] filled the area around [Player] with lava"
+                random_teleport:    "[Viewer] randomly teleported [Player]"
+                summon_npcs:        "[Viewer] summoned all the alive NPCs to [Player]'s position"
+                rainbow_feet:       "[Viewer] caused a rainbow to form underneath [Player] for [Duration] seconds"
+                spawn_guardian:     "[Viewer] spawned a Dungeon Guardian"
+                spawn_guardian_egg: "[Viewer] spawned Teebu's favourite boss"
+                spawn_critters:     "[Viewer] spawned a bunch of critters"
+                golden_slime_rain:  "[Viewer] caused it to rain Golden Slimes above [Player] for [Duration] seconds"
+                weather_clear:      "[Viewer] summoned a clear sky above [Player]'s head"
+                weather_rain:       "[Viewer] made it rain"
+                weather_storm:      "[Viewer] bad-mouthed Thor and summoned a raging storm"
+                weather_windy:      "[Viewer] brought upon a windy day"
+                enable_for_the_worthy:  "[Viewer] enabled For the Worthy mode in [Player]'s world"
+                disable_for_the_worthy: "[Viewer] disabled For the Worthy mode in [Player]'s world"
+                temp_for_the_worthy:    "[Viewer] temporarily enabled For the Worthy mode in [Player]'s world for [Duration] seconds"
+                enable_the_constant:    "[Viewer] enabled Don't Starve mode in [Player]'s world"
+                disable_the_constant:   "[Viewer] disabled Don't Starve mode in [Player]'s world"
+                temp_the_constant:      "[Viewer] temporarily enabled Don't Starve mode in [Player]'s world for [Duration] seconds"
+                switch_soundtrack:  "[Viewer] started playing the {0} soundtrack"
+                mystery_blocks:     "[Viewer] hid the identity of blocks for [Duration] seconds"
+                
+                # Boss effects
+                random_boss:        "[Viewer] summoned {0} on [Player]"
+                
+                # Screen effects
+                flip_screen:        "[Viewer] flipped [Player]'s screen for [Duration] seconds"
+                drunk_mode:         "[Viewer] made [Player] feel drunk for [Duration] seconds"
+                drunk_mode_egg:     "[Viewer] made [Player] feel drunk and think about food... glorious food"
+                zoom_in:            "[Viewer] is getting a very good look at [Player] for [Duration] seconds"
+                zoom_out:           "[Viewer] zoomed way out for [Duration] seconds"
+                wall_of_fish:       "[Viewer] covered the screen with fish for [Duration] seconds"
+                wall_of_fish_egg:   "You ask and you shall receive. [Viewer] covered the screen with koi fish for [Duration] seconds"
+                critter_takeover:   "[Viewer] started a critter uprising for [Duration] seconds"
+                screen_shake:       "[Viewer] caused [Player]'s screen to shake for [Duration] seconds"
+                sniper_mode:        "[Viewer] caused [Player]'s camera to follow their mouse for [Duration] seconds"
+                
+                # Challenge effects
+                challenge:                  "[Viewer] challenged [Player]: [c/FFE600:{0} within [Duration] seconds]"
+                swim_challenge:             "Go for a swim"
+                stand_on_block_challenge:   "Stand on a {0}"
+                craft_item_challenge:       "Craft a {0}"
+                sleep_challenge:            "Rest in a bed"
+                minecart_challenge:         "Ride a minecart"
+                touch_grass_challenge:      "Touch grass"
+                eat_food_challenge:         "Eat any food"
+            }
+            
+            Stop:
+            {
+                # Player effects
+                god_mode_player:    "No longer invulnerable to enemy attacks"
+                infinite_ammo:      "Ammo and mana are back to normal"
+                shoot_bombs:        "No longer shooting explosives"
+                shoot_grenades:     "No longer shooting explosives"
+                jump_boost:         "Jump height is back to normal"
+                run_boost:          "Movement speed is back to normal"
+                icy_feet:           "Ground is no longer slippery"
+                
+                # Inventory effects
+                boost_money:        "Coin drop-rate is back to normal"
+                
+                # World effects
+                golden_slime_rain:  "No longer raining Golden Slimes"
+            }
+            
+            Misc:
+            {
+                kill_player:
+                {
+                    # Separated by |
+                    KillVerbs:      '''
+                                    killed|slapped|really hard|pulverised|slain|assassinated|discombobulated|
+                                    vaporised|force-choked|disposed of|stared violently|yeeted out of existence|
+                                    friend-zoned|zapped|crushed|imploded|murdered|executed|slam dunked|
+                                    force-fed poison ivy|smacked with a fish|ripped to shreds|spat on|poked|
+                                    attacked with a toothbrush|cancelled|tormented|led into a room of angry fans|
+                                    hugged too tightly|subjected to a bad pun|shot with a water gun|
+                                    removed from this plain of existence|
+                                    fed [c/FFFF00:ra][c/FF0000:in][c/0000FF:bo][c/8B00FF:ws]
+                                    '''
+                }
+                
+                change_gender:
+                {
+                    Boy:            "boy"
+                    Girl:           "girl"
+                }
+                
+                drop_item:
+                {
+                    Owl:            " and... a talkative owl [i:4395]?"
+                }
+                
+                spawn_fake_guardian:
+                {
+                    Phony:          "The Dungeon Guardian was a phony"
+                    PhonyEgg:       "Teebu's favourite boss was a phony"
+                }
+                
+                switch_soundtrack:
+                {
+                    Vanilla:        "Terraria"
+                    Otherworld:     "Terraria Otherworld"
+                }
+                
+                challenge:
+                {
+                    Completed:      "Challenge completed"
+                    Failed:         "{0} failed their challenge"
+                    TimeLeft:       "{0} seconds remaining"
+                }
+            }
+        }
+    }
+}

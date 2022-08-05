@@ -110,7 +110,8 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return $"Stand on a {Lang.GetItemName(_chosen!.Value.itemId).Value}";
+        var itemName = Lang.GetItemName(_chosen!.Value.itemId).Value;
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty, itemName);
     }
 
     #endregion

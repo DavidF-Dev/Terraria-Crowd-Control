@@ -21,7 +21,7 @@ public sealed class TouchGrassChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return "Touch grass";
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty);
     }
 
     protected override void OnUpdate(float delta)

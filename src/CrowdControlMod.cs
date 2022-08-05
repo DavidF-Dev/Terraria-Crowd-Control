@@ -21,7 +21,6 @@ using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -478,10 +477,7 @@ public sealed class CrowdControlMod : Mod
         if (_firstUseInWorld)
         {
             // Send a special greeting message when playing a world for the first time with the mod
-            TerrariaUtils.WriteMessage("Thank you for choosing to play Crowd Control for Terraria 1.4", specialMessageColour);
-            TerrariaUtils.WriteMessage("- Customise your experience by editing the mod configuration in settings", specialMessageColour);
-            TerrariaUtils.WriteMessage("- Edit effect prices or disable specific effects in the Crowd Control app", specialMessageColour);
-            TerrariaUtils.WriteMessage($"- When you're ready, click Start {TerrariaUtils.GetGlyphRichText(Buttons.Start)} in the Crowd Control app", specialMessageColour);
+            TerrariaUtils.WriteMessage(LangUtils.FirstTimeStartText, specialMessageColour);
         }
 
         // Connection loop
@@ -500,7 +496,7 @@ public sealed class CrowdControlMod : Mod
 
             if (_isSessionConnected)
             {
-                TerrariaUtils.WriteMessage(ItemID.LargeEmerald, "Connected to Crowd Control", Color.Green);
+                TerrariaUtils.WriteMessage(ItemID.LargeEmerald, LangUtils.ConnectedText, Color.Green);
 
                 // Connection successful, so keep checking for received data whilst the socket remains connected
                 while (ShouldSessionThreadContinue && socket.Connected)
@@ -603,14 +599,14 @@ public sealed class CrowdControlMod : Mod
                     continue;
                 }
 
-                TerrariaUtils.WriteMessage(ItemID.LargeRuby, "Lost connection to Crowd Control", Color.Red);
+                TerrariaUtils.WriteMessage(ItemID.LargeRuby, LangUtils.DisconnectedText, Color.Red);
                 if (!_firstUseInWorld)
                 {
                     continue;
                 }
 
                 // Send a special farewell message when playing a world for the first time with the mod
-                TerrariaUtils.WriteMessage($"We hope you enjoyed your Crowd Control session. A rating on the Workshop would be appreciated {TerrariaUtils.GetItemRichText(ItemID.Heart)}", specialMessageColour);
+                TerrariaUtils.WriteMessage(LangUtils.FirstTimeStopText, specialMessageColour);
                 _firstUseInWorld = false;
             }
             else
@@ -624,7 +620,7 @@ public sealed class CrowdControlMod : Mod
                 }
 
                 writeAttempt = false;
-                TerrariaUtils.WriteMessage(ItemID.LargeAmber, "Attempting to connect to Crowd Control", Color.Yellow);
+                TerrariaUtils.WriteMessage(ItemID.LargeAmber, LangUtils.ConnectingText, Color.Yellow);
             }
         }
 
@@ -812,52 +808,52 @@ public sealed class CrowdControlMod : Mod
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60f,
-            ItemID.PaladinsShield, -1, (v, p) => $"{v} provided {p} with survivability buffs", null,
+            ItemID.PaladinsShield, -1, null,
             BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
         AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 60f,
-            ItemID.Heart, -1, (v, p) => $"{v} provided {p} with regeneration buffs",
+            ItemID.Heart, -1,
             p => p.Player.SetHairDye(ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
         AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 60f,
-            ItemID.MagicLantern, -1, (v, p) => $"{v} provided {p} with light",
+            ItemID.MagicLantern, -1,
             p => p.Player.SetHairDye(ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
         AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 60f,
-            ItemID.GoldChest, -1, (v, p) => $"{v} helped {p} to search for treasure",
+            ItemID.GoldChest, -1,
             p => p.Player.SetHairDye(ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
         AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 60f,
-            ItemID.Aglet, EmoteID.PartyCake, (v, p) => $"{v} boosted the movement speed of {p}", null,
+            ItemID.Aglet, EmoteID.PartyCake, null,
             BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
         AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 60f,
-            ItemID.ObsidianSkull, EmoteID.MiscFire, (v, p) => $"{v} provided {p} with lava immunity buffs", null,
+            ItemID.ObsidianSkull, EmoteID.MiscFire, null,
             BuffID.ObsidianSkin, BuffID.Warmth));
         AddEffect(new BuffEffect(EffectID.BuffMiningSpeed, EffectSeverity.Positive, 60f,
-            ItemID.ShroomiteDiggingClaw, EmoteID.ItemPickaxe, (v, p) => $"{v} boosted the mining speed of {p}", null,
+            ItemID.ShroomiteDiggingClaw, EmoteID.ItemPickaxe, null,
             BuffID.Mining, BuffID.SugarRush));
 
         // --- Buff effects (negative)
         AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,
-            ItemID.IceCream, -1, (v, p) => $"{v} cast a chilly spell over {p}", null,
+            ItemID.IceCream, -1, null,
             BuffID.Frozen));
         AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 10f,
-            ItemID.LivingFireBlock, EmoteID.DebuffBurn, (v, p) => $"{v} threw a molotov at {p}'s feet",
+            ItemID.LivingFireBlock, EmoteID.DebuffBurn,
             p => Projectile.NewProjectile(null, p.Player.position, new Vector2(0f, 10f), ProjectileID.MolotovCocktail, 1, 1f, p.Player.whoAmI),
             BuffID.OnFire));
         AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 20f,
-            ItemID.FallenStar, -1, (v, p) => $"{v} dazed {p}", null,
+            ItemID.FallenStar, -1, null,
             BuffID.Dazed, BuffID.NoBuilding));
         AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 25f,
-            ItemID.FragmentVortex, -1, (v, p) => $"{v} distorted gravity around {p}", null,
+            ItemID.FragmentVortex, -1, null,
             BuffID.VortexDebuff));
         AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 25f,
-            ItemID.BrainOfConfusion, EmoteID.EmoteConfused, (v, p) => $"{v} confused {p}", null,
+            ItemID.BrainOfConfusion, EmoteID.EmoteConfused, null,
             BuffID.Confused));
         AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 30f,
-            ItemID.InvisibilityPotion, -1, (v, p) => $"{v} stole {p}'s body...", null,
+            ItemID.InvisibilityPotion, -1, null,
             BuffID.Invisibility));
         AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 25f,
-            ItemID.Blindfold, -1, (v, p) => $"{v} obstructed {p}'s screen",
+            ItemID.Blindfold, -1,
             p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
 
@@ -878,10 +874,10 @@ public sealed class CrowdControlMod : Mod
 
         // --- World effects
         AddEffect(new UseSundialEffect());
-        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, "noon", 26600, true));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, "midnight", 15800, false));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, "sunrise", 0, true));
-        AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, "sunset", 0, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeNoon, 26600, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeMidnight, 15800, false));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunrise, 0, true));
+        AddEffect(new SetTimeEffect(EffectID.SetTimeSunset, 0, false));
         AddEffect(new SpawnStructureEffect());
         AddEffect(new TrapEffect(TrapEffect.TrapType.Cobweb));
         AddEffect(new TrapEffect(TrapEffect.TrapType.Sand));

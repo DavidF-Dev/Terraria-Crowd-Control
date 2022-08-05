@@ -253,7 +253,8 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, $"{viewerString} summoned {_chosenSpawnableNpc?.DisplayName} on {playerString}", Severity);
+        var bossName = _chosenSpawnableNpc?.DisplayName ?? string.Empty;
+        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, bossName), Severity);
     }
 
     #endregion

@@ -147,17 +147,8 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        var message = _chosenStructure switch
-        {
-            Structure.None => string.Empty,
-            Structure.DeepChasm => $"{viewerString} generated a deep chasm below {playerString}",
-            Structure.HellHouse => $"{viewerString} generated a hell fortress around {playerString}",
-            Structure.IslandHouse => $"{viewerString} generated a sky island house around {playerString}",
-            Structure.MineHouse => $"{viewerString} generated an abandoned house around {playerString}",
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        TerrariaUtils.WriteEffectMessage(ItemID.TinHammer, message, Severity);
+        var locKey = $"{Id}_{(int)_chosenStructure}";
+        TerrariaUtils.WriteEffectMessage(ItemID.TinHammer, LangUtils.GetEffectStartText(locKey, viewerString, playerString, durationString), Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)

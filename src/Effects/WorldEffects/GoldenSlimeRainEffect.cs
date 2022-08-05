@@ -87,12 +87,12 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.GoldDust, $"{viewerString} caused it to rain Golden Slimes above {playerString} for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.GoldDust, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void SendStopMessage()
     {
-        TerrariaUtils.WriteEffectMessage(0, "No longer raining Golden Slimes", EffectSeverity.Neutral);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     protected override void OnUpdate(float delta)

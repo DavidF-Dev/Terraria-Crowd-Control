@@ -11,22 +11,6 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 /// </summary>
 public sealed class KillPlayerEffect : CrowdControlEffect
 {
-    #region Static Fields and Constants
-
-    private static readonly string[] KillVerbs =
-    {
-        "killed", "slapped really hard", "pulverised", "slain", "assassinated", "discombobulated",
-        "vaporised", "force-choked", "disposed of", "stared violently", "yeeted out of existence",
-        "friend-zoned", "zapped", "crushed", "imploded", "murdered", "executed", "slam dunked",
-        "force-fed poison ivy", "smacked with a fish", "ripped to shreds", "attacked with a toothbrush",
-        "spat on", "cancelled", "tormented", "led into a room of angry fans", "hugged too tightly",
-        "subjected to a bad pun", "shot with a water gun", "poked", "removed from this plain of existence",
-        // ReSharper disable once StringLiteralTypo
-        "fed [c/FFFF00:ra][c/FF0000:in][c/0000FF:bo][c/8B00FF:ws]"
-    };
-
-    #endregion
-
     #region Constructors
 
     public KillPlayerEffect() : base(EffectID.KillPlayer, null, EffectSeverity.Negative)
@@ -45,8 +29,15 @@ public sealed class KillPlayerEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        // Kill the player here (choose a random verb to use)
-        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason($"{playerString} was {KillVerbs[Main.rand.Next(KillVerbs.Length)]} by {viewerString}"), 1000, 0);
+        // Get kill verbs from localisation
+        var killVerbs = LangUtils.GetEffectMiscText(Id, "KillVerbs").Split('|');
+        var chosenKillVerb = killVerbs[Main.rand.Next(killVerbs.Length)].Trim('\n');
+
+        // Get kill reason from localisation, substituting in kill verb
+        var killReason = LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString, chosenKillVerb);
+
+        // Kill the player here
+        GetLocalPlayer().Player.KillMe(PlayerDeathReason.ByCustomReason(killReason), 1000, 0);
     }
 
     #endregion

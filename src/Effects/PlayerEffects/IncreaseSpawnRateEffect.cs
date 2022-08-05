@@ -42,7 +42,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.WaterCandle, $"{viewerString} increased the enemy spawn-rate around {playerString} for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.WaterCandle, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)

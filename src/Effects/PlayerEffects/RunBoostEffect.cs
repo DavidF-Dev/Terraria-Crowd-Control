@@ -64,12 +64,12 @@ public sealed class RunBoostEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.HermesBoots, $"{viewerString} made {playerString} really, really fast for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.HermesBoots, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void SendStopMessage()
     {
-        TerrariaUtils.WriteEffectMessage(0, "Movement speed is back to normal", EffectSeverity.Neutral);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     #endregion

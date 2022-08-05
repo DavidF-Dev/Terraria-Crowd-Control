@@ -15,8 +15,6 @@ public sealed class SetTimeEffect : CrowdControlEffect
 {
     #region Fields
 
-    private readonly string _timeString;
-
     private readonly int _time;
 
     private readonly bool _isDay;
@@ -25,9 +23,8 @@ public sealed class SetTimeEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetTimeEffect(string id, string timeString, int time, bool isDay) : base(id, null, EffectSeverity.Neutral)
+    public SetTimeEffect(string id, int time, bool isDay) : base(id, null, EffectSeverity.Neutral)
     {
-        _timeString = timeString;
         _time = time;
         _isDay = isDay;
     }
@@ -61,7 +58,11 @@ public sealed class SetTimeEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(_isDay ? ItemID.SunMask : ItemID.MoonMask, $"{viewerString} set the time to {_timeString}", EffectSeverity.Neutral);
+        var item = _isDay ? ItemID.SunMask : ItemID.MoonMask;
+        TerrariaUtils.WriteEffectMessage(
+            item,
+            LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString),
+            EffectSeverity.Neutral);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)

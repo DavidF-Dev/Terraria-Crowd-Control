@@ -51,12 +51,12 @@ public sealed class GodModeEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.TorchGodsFavor, $"{viewerString} made {playerString} invulnerable to enemy attacks for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.TorchGodsFavor, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void SendStopMessage()
     {
-        TerrariaUtils.WriteEffectMessage(0, "No longer invulnerable to enemy attacks", EffectSeverity.Neutral);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     private bool CanBeHitByNpc(NPC _, ref int __)

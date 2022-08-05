@@ -55,7 +55,7 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.PsychoKnife, $"{viewerString} severely damaged {playerString}", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.PsychoKnife, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

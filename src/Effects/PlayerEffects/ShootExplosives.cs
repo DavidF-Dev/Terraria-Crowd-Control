@@ -186,19 +186,12 @@ public sealed class ShootExplosives : CrowdControlEffect
             _ => 0
         };
 
-        var descriptor = _shoot switch
-        {
-            Shoot.Bombs => "bombs",
-            Shoot.Grenades => "grenades",
-            _ => "unknown"
-        };
-
-        TerrariaUtils.WriteEffectMessage(itemId, $"{viewerString} caused {playerString} to shoot {descriptor} for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(itemId, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void SendStopMessage()
     {
-        TerrariaUtils.WriteEffectMessage(0, "No longer shooting explosives", EffectSeverity.Neutral);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     private void PostUpdate()

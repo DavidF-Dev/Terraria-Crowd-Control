@@ -54,12 +54,12 @@ public sealed class IcyFeetEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.IceSkates, $"{viewerString} made the ground very slippery", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.IceSkates, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void SendStopMessage()
     {
-        TerrariaUtils.WriteEffectMessage(0, "Ground is no longer slippery", EffectSeverity.Neutral);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     #endregion

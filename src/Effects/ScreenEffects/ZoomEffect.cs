@@ -57,13 +57,7 @@ public sealed class ZoomEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (_zoomIn)
-        {
-            TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, $"{viewerString} is getting a very good look at {playerString} for {durationString} seconds", Severity);
-            return;
-        }
-
-        TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, $"{viewerString} zoomed way out for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private void ModifyTransformMatrix(ref SpriteViewMatrix transform)

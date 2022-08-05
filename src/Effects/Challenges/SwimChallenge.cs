@@ -26,7 +26,7 @@ public sealed class SwimChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return "Go for a swim";
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty);
     }
 
     protected override void OnUpdate(float delta)

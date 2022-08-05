@@ -168,13 +168,9 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (SteamUtils.IsThatGrayson)
-        {
-            TerrariaUtils.WriteEffectMessage(ItemID.ChefHat, $"{viewerString} made {playerString} feel drunk and think about food... glorious food", Severity);
-            return;
-        }
-
-        TerrariaUtils.WriteEffectMessage(ItemID.Ale, $"{viewerString} made {playerString} feel drunk for {durationString} seconds", Severity);
+        var item = SteamUtils.IsThatGrayson ? ItemID.ChefHat : ItemID.Ale;
+        var locKey = SteamUtils.IsThatGrayson ? $"{Id}_egg" : Id;
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(locKey, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

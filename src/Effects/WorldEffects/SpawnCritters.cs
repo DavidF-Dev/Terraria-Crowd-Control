@@ -100,7 +100,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.BugNet, $"{viewerString} spawned a bunch of critters", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.BugNet, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)

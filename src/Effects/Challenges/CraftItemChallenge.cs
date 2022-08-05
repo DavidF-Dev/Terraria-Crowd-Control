@@ -69,7 +69,8 @@ public sealed class CraftItemChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return $"Craft a {_chosenItem?.Name}";
+        var itemName = Lang.GetItemName(_chosenItem!.type);
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty, itemName);
     }
 
     private void OnCrafted(Recipe recipe)

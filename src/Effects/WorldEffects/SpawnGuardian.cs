@@ -63,11 +63,11 @@ public sealed class SpawnGuardian : CrowdControlEffect
     {
         if (SteamUtils.IsTeebu)
         {
-            TerrariaUtils.WriteEffectMessage(ItemID.DukeFishronMask, $"{viewerString} spawned Teebu's favourite boss", Severity);
+            TerrariaUtils.WriteEffectMessage(ItemID.DukeFishronMask, LangUtils.GetEffectStartText($"{EffectID.SpawnGuardian}_egg", viewerString, playerString, durationString), Severity);
             return;
         }
 
-        TerrariaUtils.WriteEffectMessage(ItemID.Skull, $"{viewerString} spawned a Dungeon Guardian", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.Skull, LangUtils.GetEffectStartText(EffectID.SpawnGuardian, viewerString, playerString, durationString), Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
@@ -103,7 +103,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         // This is only invoked by whoever spawned the guardian (single-player or server)
         guardian.FakeGuardianDied += () =>
         {
-            var message = isTeebu ? "Teebu's favourite boss was a phony" : "The Dungeon Guardian was a phony";
+            var message = isTeebu ? LangUtils.GetEffectMiscText(Id, "PhonyEgg") : LangUtils.GetEffectMiscText(Id, "Phony");
             switch (Main.netMode)
             {
                 case NetmodeID.SinglePlayer:

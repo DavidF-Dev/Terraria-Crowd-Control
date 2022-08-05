@@ -78,7 +78,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(0, $"{viewerString} caused a rainbow to form underneath {playerString} for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private void SetRainbowOnTile(int x, int y, bool trulyRandom)

@@ -1,6 +1,7 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
 
@@ -34,7 +35,7 @@ public sealed class EatFoodChallenge : ChallengeEffect
 
     protected override string GetChallengeDescription()
     {
-        return "Eat any food";
+        return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty);
     }
 
     private void OnItemConsumed(Item item, Player player)

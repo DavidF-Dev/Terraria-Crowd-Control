@@ -16,6 +16,8 @@ public sealed class CrowdControlConfig : ModConfig
 {
     #region Static Fields and Constants
 
+    private const string ConfigPath = $"{LangUtils.ModPath}Config.";
+    private const string HeaderPath = $"{ConfigPath}Header.";
     private const int EffectR = 164;
     private const int EffectG = 120;
     private const int EffectB = 240;
@@ -46,60 +48,60 @@ public sealed class CrowdControlConfig : ModConfig
     #region Fields
 
     // --- Effect settings
-    [Header("[i:855] Effect settings")]
-    [Label("[i:3617]  Show effect messages in chat")]
-    [Tooltip("Disable to stop effect messages from showing in chat.\nUseful if you would like to use the browser source.")]
+    [Header($"${HeaderPath}Effect")]
+    [Label($"${ConfigPath}ShowEffectMessagesInChat.Label")]
+    [Tooltip($"${ConfigPath}ShowEffectMessagesInChat.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
-    [Label("[i:888]  Use anonymous names in chat")]
-    [Tooltip("Enable to hide viewer names in the effect messages.\nUseful if you are worried about inappropriate names showing.")]
+    [Label($"${ConfigPath}UseAnonymousNamesInChat.Label")]
+    [Tooltip($"${ConfigPath}UseAnonymousNamesInChat.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
-    [Label("[i:494]  Use effect music")]
-    [Tooltip("A few effects override the music whilst active.\nDisable this to stop effects from overriding the music.")]
+    [Label($"${ConfigPath}UseEffectMusic.Label")]
+    [Tooltip($"${ConfigPath}UseEffectMusic.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectMusic;
 
-    [Label("[i:5061]  Use effect emotes")]
-    [Tooltip("A few effects show an emote bubble beside the player.\nDisable this to stop effects from displaying any emote bubbles.")]
+    [Label($"${ConfigPath}UseEffectEmotes.Label")]
+    [Tooltip($"${ConfigPath}UseEffectEmotes.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectEmotes;
 
-    [Label("[i:1982]  Use effect hair dyes")]
-    [Tooltip("A few effects change the player's hair dye.\nDisable this to stop effects from changing the hair dye.")]
+    [Label($"${ConfigPath}UseEffectHairDyes.Label")]
+    [Tooltip($"${ConfigPath}UseEffectHairDyes.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectHairDyes;
 
-    [Label("[i: 890]  Hide \"Drop Item\" effect message")]
-    [Tooltip("Enable to hide the effect message in chat when the \"Drop Item\" effect is triggered.")]
+    [Label($"${ConfigPath}HideDropItemMessage.Label")]
+    [Tooltip($"${ConfigPath}HideDropItemMessage.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(false)]
     public bool HideDropItemMessage;
 
-    [Label("[i: 4765]  Calamity mod integration")]
-    [Tooltip("Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.")]
+    [Label($"${ConfigPath}AllowCalamity.Label")]
+    [Tooltip($"${ConfigPath}AllowCalamity.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     [ReloadRequired]
     public bool AllowCalamity;
 
     // --- World settings
-    [Header("[i:4766] World settings")]
-    [Label("[i:321]  Disable tombstones")]
-    [Tooltip("Enable to prevent your tombstone from spawning when you die.\nIn multi-player, this will only affect your player.")]
+    [Header($"${HeaderPath}World")]
+    [Label($"${ConfigPath}DisableTombstones.Label")]
+    [Tooltip($"${ConfigPath}DisableTombstones.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
-    [Label("[i:224]  Respawn timer")]
-    [Tooltip("Reduce the respawn timer by this factor.\nThis allows you to get back into the game quicker after being killed.\nx1 is default time.")]
+    [Label($"${ConfigPath}RespawnTimeFactor.Label")]
+    [Tooltip($"${ConfigPath}RespawnTimeFactor.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0.2f, 1f)]
     [Increment(0.1f)]
@@ -107,14 +109,14 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
-    [Label("[i:63]  Enable spawn protection for world-altering effects")]
-    [Tooltip("Enable to delay world-altering effects if you are too close to spawn.")]
+    [Label($"${ConfigPath}EnableSpawnProtection.Label")]
+    [Tooltip($"${ConfigPath}EnableSpawnProtection.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
-    [Label("[i:2799]  Spawn protection radius")]
-    [Tooltip("If spawn protection is enabled, then this is the range around your spawn point that will be protected.")]
+    [Label($"${ConfigPath}SpawnProtectionRadius.Label")]
+    [Tooltip($"${ConfigPath}SpawnProtectionRadius.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(10, 100)]
     [Increment(10)]
@@ -122,26 +124,26 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(30)]
     public int SpawnProtectionRadius;
 
-    [Label("[i:4747]  Allow time-changing effects during bosses")]
-    [Tooltip("Disable to prevent time-changing effects during boss fights, invasions or events.")]
+    [Label($"${ConfigPath}AllowTimeChangeDuringBoss.Label")]
+    [Tooltip($"${ConfigPath}AllowTimeChangeDuringBoss.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
 
-    [Label("[i:3117]  Forcefully despawn bosses if all players are dead")]
-    [Tooltip("Enable this to override Terraria's default behaviour for all bosses spawned via effects.\nBosses & mini-bosses will despawn if all players are dead.\nIn multi-player, only one player needs to have this option enabled.")]
+    [Label($"${ConfigPath}ForceDespawnBosses.Label")]
+    [Tooltip($"${ConfigPath}ForceDespawnBosses.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool ForceDespawnBosses;
 
-    [Label("[i:2997]  Allow teleporting to other players")]
-    [Tooltip("Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.\nYou can only teleport to players if you're on the same in-game team.\nYou can only teleport to players if you have Crowd Control connected.")]
+    [Label($"${ConfigPath}AllowPlayerTeleportation.Label")]
+    [Tooltip($"${ConfigPath}AllowPlayerTeleportation.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
-    [Label("[i:709]  Teleportation cooldown (seconds)")]
-    [Tooltip("Cooldown, in seconds, between usages of the teleportation to other players feature.")]
+    [Label($"${ConfigPath}PlayerTeleportationCooldown.Label")]
+    [Tooltip($"${ConfigPath}PlayerTeleportationCooldown.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0f, 600f)]
     [Increment(5)]
@@ -150,15 +152,15 @@ public sealed class CrowdControlConfig : ModConfig
     public int PlayerTeleportationCooldown;
 
     // --- Developer settings
-    [Header("[i:1757] [Advanced] Developer settings")]
-    [Label("[i:1344]  Show developer messages in chat")]
-    [Tooltip("Enable to show developer messages in chat.\nThis is for debugging purposes for advanced users.")]
+    [Header($"${HeaderPath}Developer")]
+    [Label($"${ConfigPath}DeveloperMode.Label")]
+    [Tooltip($"${ConfigPath}DeveloperMode.Tooltip")]
     [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
     [DefaultValue(false)]
     public bool DeveloperMode;
 
-    [Label("[i:3857]  Forcefully enable easter eggs")]
-    [Tooltip("Enable easter eggs that are usually unavailable except in unique cases.")]
+    [Label($"${ConfigPath}ForceEasterEggs.Label")]
+    [Tooltip($"${ConfigPath}ForceEasterEggs.Tooltip")]
     [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
     [DefaultValue(false)]
     [ReloadRequired]

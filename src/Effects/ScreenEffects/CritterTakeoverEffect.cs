@@ -86,7 +86,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.ExplosiveBunny, $"{viewerString} started a critter uprising for {durationString} seconds", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.ExplosiveBunny, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private bool PreDraw(NPC npc, SpriteBatch spritebatch, Vector2 screenPos, Color drawColour)

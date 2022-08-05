@@ -63,7 +63,7 @@ public sealed class ShuffleInventoryEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.LavaLamp, $"{viewerString} shuffled {playerString}'s inventory", Severity);
+        TerrariaUtils.WriteEffectMessage(ItemID.LavaLamp, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     #endregion

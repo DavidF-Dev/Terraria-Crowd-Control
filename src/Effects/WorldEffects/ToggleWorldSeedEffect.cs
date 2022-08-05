@@ -150,25 +150,14 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         // Determine item to display
-        var itemId = _seedType switch
+        var item = _seedType switch
         {
             SeedType.ForTheWorthy => ItemID.SkeletronMasterTrophy,
             SeedType.DontStarve => ItemID.ChesterPetItem,
-            _ => throw new ArgumentOutOfRangeException(nameof(_seedType), _seedType, null)
+            _ => (short)0
         };
 
-        // Determine mode string to display
-        var mode = _seedType switch
-        {
-            SeedType.ForTheWorthy => "For the Worthy",
-            SeedType.DontStarve => "Don't Starve",
-            _ => throw new ArgumentOutOfRangeException(nameof(_seedType), _seedType, null)
-        };
-
-        var enabled = _seedState == SeedState.Disable ? "disabled" : "enabled";
-        var time = _seedState == SeedState.Temp ? $" for {durationString} seconds" : string.Empty;
-
-        TerrariaUtils.WriteEffectMessage(itemId, $"{viewerString} {enabled} \"{mode}\" mode in {playerString}'s world{time}", Severity);
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private void PerformToggle()

@@ -117,27 +117,17 @@ public sealed class TrapEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        var itemId = _type switch
+        var item = _type switch
         {
             TrapType.Cobweb => ItemID.Cobweb,
             TrapType.Sand => ItemID.SandBlock,
             TrapType.Water => ItemID.WaterBucket,
             TrapType.Lava => ItemID.LavaBucket,
             TrapType.Honey => ItemID.HoneyBucket,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => (short)0
         };
 
-        var message = _type switch
-        {
-            TrapType.Cobweb => $"{viewerString} encased {playerString} in cobwebs",
-            TrapType.Sand => $"{viewerString} trapped {playerString} in a layer of sand",
-            TrapType.Water => $"{viewerString} filled the area around {playerString} with water",
-            TrapType.Lava => $"{viewerString} filled the area around {playerString} with lava",
-            TrapType.Honey => $"{viewerString} filled the area around {playerString} with honey",
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        TerrariaUtils.WriteEffectMessage(itemId, message, Severity);
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     private void SpawnTrap(CrowdControlPlayer player)

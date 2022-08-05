@@ -89,7 +89,8 @@ public sealed class SpawnBossEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, $"{viewerString} summoned {_spawnableNpc.DisplayName} on {playerString}", Severity);
+        var bossName = _spawnableNpc.DisplayName;
+        TerrariaUtils.WriteEffectMessage(ItemID.TrueNightsEdge, LangUtils.GetEffectStartText(EffectID.RandomBoss, viewerString, playerString, durationString, bossName), Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)

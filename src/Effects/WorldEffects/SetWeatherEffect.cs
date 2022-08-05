@@ -100,25 +100,16 @@ public sealed class SetWeatherEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        var itemId = _weather switch
+        var item = _weather switch
         {
             WorldUtils.Weather.Clear => ItemID.SunMask,
             WorldUtils.Weather.Rain => ItemID.RainCoat,
             WorldUtils.Weather.Storm => ItemID.NimbusRod,
             WorldUtils.Weather.Windy => Main.rand.Next(new[] {ItemID.KiteBlue, ItemID.KiteRed, ItemID.KiteYellow}),
-            _ => throw new ArgumentOutOfRangeException()
+            _ => (short)0
         };
 
-        var message = _weather switch
-        {
-            WorldUtils.Weather.Clear => $"{viewerString} summoned a clear sky above {playerString}'s head",
-            WorldUtils.Weather.Rain => $"{viewerString} made it rain",
-            WorldUtils.Weather.Storm => $"{viewerString} bad-mouthed Thor and summoned a raging storm",
-            WorldUtils.Weather.Windy => $"{viewerString} brought upon a windy {(Main.dayTime ? "day" : "night")}",
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        TerrariaUtils.WriteEffectMessage(itemId, message, Severity);
+        TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
