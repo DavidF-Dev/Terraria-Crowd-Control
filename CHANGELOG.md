@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.7] - 2022-10-21
+
 - Added Localisation support (currently only en-US).
 
 ## [1.0.6] - 2022-08-03
