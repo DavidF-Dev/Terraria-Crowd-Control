@@ -106,6 +106,11 @@ public sealed class CrowdControlMod : Mod
     public override uint ExtraPlayerBuffSlots => 32;
 
     /// <summary>
+    ///     Effects are paused if the session is not running, Terraria is paused, or the player is dead.
+    /// </summary>
+    private bool IsSessionPaused => !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
+    
+    /// <summary>
     ///     Should the session thread continue operating.
     /// </summary>
     private bool ShouldSessionThreadContinue => _isSessionRunning && IsSessionCallerAlive;
@@ -125,11 +130,7 @@ public sealed class CrowdControlMod : Mod
         AddAllEffects();
 
         // Add features
-        _features.Add(FeatureID.DespawnNPC, new DespawnNPCFeature());
-        _features.Add(FeatureID.PlayerTeleportation, new PlayerTeleportationFeature());
-        _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
-        _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
-        _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
+        AddAllFeatures();
 
         // Subscribe to world serialisation hooks
         CrowdControlModSystem.SaveWorldDataHook += SaveWorldData;
@@ -346,10 +347,10 @@ public sealed class CrowdControlMod : Mod
 
         var priority = int.MinValue;
         musicId = 0;
-        foreach (var effect in _effects.Values.Where(x => x.IsActive))
+        foreach (var effect in _effects.Values)
         {
             // Ignore if the effect does not play music or is too low priority
-            if (effect is not IMusicEffect musicEffect || musicEffect.MusicPriority <= priority)
+            if (!effect.IsActive || effect is not IMusicEffect musicEffect || musicEffect.MusicPriority <= priority)
             {
                 continue;
             }
@@ -711,7 +712,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // Re-attempt the effect at a later point if the session is paused
-        if (IsSessionPaused() && requestType != CrowdControlRequestType.Stop)
+        if (IsSessionPaused && requestType != CrowdControlRequestType.Stop)
         {
             TerrariaUtils.WriteDebug($"Retrying effect '{code}' as the session is paused");
             return CrowdControlResponseStatus.Retry;
@@ -945,16 +946,19 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new EatFoodChallenge(30f));
     }
 
-    private bool IsSessionPaused()
+    private void AddAllFeatures()
     {
-        // Effects should be paused if the session is not running or Terraria is paused or the player is dead
-        return !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
+        _features.Add(FeatureID.DespawnNPC, new DespawnNPCFeature());
+        _features.Add(FeatureID.PlayerTeleportation, new PlayerTeleportationFeature());
+        _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
+        _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
+        _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
     }
 
     private void SaveWorldData(TagCompound tags)
     {
         // Add the key to the world save data
-        tags.Add("cc_firstUseInWorld", string.Empty);
+        tags.Add("cc_firstUseInWorld", default(byte));
         _firstUseInWorld = true;
     }
 
@@ -968,10 +972,15 @@ public sealed class CrowdControlMod : Mod
     private void OnGameUpdate(GameTime gameTime)
     {
         // Update the active effects (so that their timers are reduced)
-        var sessionPaused = IsSessionPaused();
+        var sessionPaused = IsSessionPaused;
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        foreach (var effect in _effects.Values.Where(x => x.IsActive))
+        foreach (var effect in _effects.Values)
         {
+            if (!effect.IsActive)
+            {
+                continue;
+            }
+            
             // Check if the effect should be paused or resumed
             var shouldUpdate = !sessionPaused && effect.ShouldUpdate();
             switch (shouldUpdate)
