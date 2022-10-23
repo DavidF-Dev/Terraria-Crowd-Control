@@ -33,24 +33,25 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
     private static Structure ChooseStructure(Player player)
     {
         // Choose the structure based on the player's location in the world
-        var tileY = player.position.ToTileCoordinates().Y;
-
+        var tile = player.position.ToTileCoordinates();
+        var wall = Main.tile[tile.X, tile.Y].WallType;
+        
         if (player.ZoneCorrupt || player.ZoneCrimson)
         {
-            return Structure.DeepChasm;
+            return wall is not WallID.EbonstoneUnsafe ? Structure.DeepChasm : Structure.None;
         }
 
         if (player.ZoneUnderworldHeight)
         {
-            return Structure.HellHouse;
+            return wall is not WallID.ObsidianBrick or WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
         }
 
-        if (tileY < Main.worldSurface - 100)
+        if (tile.Y < Main.worldSurface - 100)
         {
-            return Structure.IslandHouse;
+            return wall is not WallID.DiscWall ? Structure.IslandHouse : Structure.None;
         }
 
-        return Structure.MineHouse;
+        return wall is not WallID.Planked or WallID.Wood ? Structure.MineHouse : Structure.None;
     }
 
     private static void SpawnStructure(Structure structure, int tileX, int tileY)
