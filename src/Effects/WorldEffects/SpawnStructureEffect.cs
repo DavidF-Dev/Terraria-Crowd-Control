@@ -48,7 +48,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
         if (tile.Y < Main.worldSurface - 100)
         {
-            return wall is not WallID.DiscWall ? Structure.IslandHouse : Structure.None;
+            return wall is not WallID.DiscWall or WallID.Glass ? Structure.IslandHouse : Structure.None;
         }
 
         return wall is not WallID.Planked or WallID.Wood ? Structure.MineHouse : Structure.None;
@@ -118,6 +118,25 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
+        // Check that there is enough open space around the player
+        const int checkRange = 2;
+        var tile = player.Player.position.ToTileCoordinates();
+        for (var x = tile.X - checkRange; x < tile.X + 2 + checkRange; x++)
+        {
+            for (var y = tile.Y; y < tile.Y + 3; y++)
+            {
+                if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY)
+                {
+                    continue;
+                }
+
+                if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
+                {
+                    return CrowdControlResponseStatus.Retry;
+                }
+            }
+        }
+        
         // Determine which structure to generate based on the player's location
         _chosenStructure = ChooseStructure(player.Player);
         if (_chosenStructure == Structure.None)
@@ -125,7 +144,6 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        var tile = player.Player.position.ToTileCoordinates();
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn the structure if we're in single-player
