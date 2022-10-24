@@ -76,7 +76,6 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
             }
         }
 
-
         return CrowdControlResponseStatus.Success;
     }
 
