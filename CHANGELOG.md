@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Fling Upwards" effect to provide a short period of immunity.
 - Changed "Spawn Trap" effect to alter a smaller area around the player.
 - Changed "Spawn Structure" effect to check for an empty space around the player.
+- Changed "Set Max Stat Effect" to match tModLoader API changes.
 
 ## [1.0.7] - 2022-10-21
 

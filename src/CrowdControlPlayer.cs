@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CrowdControlMod;
 
@@ -44,6 +45,12 @@ public sealed class CrowdControlPlayer : ModPlayer
     ///     Server-side value for whether this player wants bosses to be despawned in their config.
     /// </summary>
     public bool ServerForcefullyDespawnBosses;
+
+    /// <summary>
+    ///     Number of life crystals (20HP) removed from the max hp.<br />
+    ///     Used by <see cref="Utilities.PlayerUtils.AddStatLifeMax" />.
+    /// </summary>
+    public int LifeCrystalRemoved;
 
     #endregion
 
@@ -184,6 +191,32 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void ModifyScreenPosition()
     {
         ModifyScreenPositionHook?.Invoke();
+    }
+
+    public override void ModifyMaxStats(out StatModifier health, out StatModifier mana)
+    {
+        base.ModifyMaxStats(out health, out mana);
+        health.Base = -LifeCrystalRemoved * 20;
+    }
+
+    public override void PreSavePlayer()
+    {
+        // Ensure we a saving the player in such a way that it can be used again without this mod enabled
+        while (LifeCrystalRemoved > 0 && Player.ConsumedLifeCrystals > 0)
+        {
+            LifeCrystalRemoved--;
+            Player.ConsumedLifeCrystals--;
+        }
+    }
+
+    public override void SaveData(TagCompound tag)
+    {
+        tag.Add("LifeCrystalRemoved", LifeCrystalRemoved);
+    }
+
+    public override void LoadData(TagCompound tag)
+    {
+        LifeCrystalRemoved = tag.GetInt("LifeCrystalRemoved");
     }
 
     #endregion

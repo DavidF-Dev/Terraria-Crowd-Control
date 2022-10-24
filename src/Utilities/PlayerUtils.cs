@@ -277,5 +277,105 @@ public static class PlayerUtils
         return WorldUtils.GetTilesAround(centerTile.X, centerTile.Y, halfWidth, halfHeight);
     }
 
+    /// <summary>
+    ///     Shift the player's max life. Returns the left-over amount that couldn't be applied.
+    /// </summary>
+    public static int AddStatLifeMax(this Player player, int amount)
+    {
+        var ccPlayer = player.GetModPlayer<CrowdControlPlayer>();
+        switch (amount)
+        {
+            case > 0:
+            {
+                while (amount > 0)
+                {
+                    if (amount >= 20 && ccPlayer.LifeCrystalRemoved > 0)
+                    {
+                        ccPlayer.LifeCrystalRemoved--;
+                        amount -= 20;
+                    }
+                    else if (amount >= 20 && player.ConsumedLifeCrystals < Player.LifeCrystalMax)
+                    {
+                        player.ConsumedLifeCrystals++;
+                        amount -= 20;
+                    }
+                    else if (amount >= 5 && player.ConsumedLifeFruit < Player.LifeFruitMax)
+                    {
+                        player.ConsumedLifeFruit++;
+                        amount -= 5;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case < 0:
+            {
+                while (amount <= 0)
+                {
+                    if (amount <= -5 && player.ConsumedLifeFruit > 0)
+                    {
+                        player.ConsumedLifeFruit--;
+                        amount += 5;
+                    }
+                    else if (amount <= -20 && player.ConsumedLifeCrystals > 0)
+                    {
+                        player.ConsumedLifeCrystals--;
+                        amount += 20;
+                    }
+                    else if (amount <= -20 && ccPlayer.LifeCrystalRemoved < 4)
+                    {
+                        ccPlayer.LifeCrystalRemoved++;
+                        amount += 20;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        TerrariaUtils.WriteDebug($"{nameof(AddStatLifeMax)}: (Crystal={player.ConsumedLifeCrystals}) (Fruit={player.ConsumedLifeFruit}) (Residual={amount}) (Removed={ccPlayer.LifeCrystalRemoved})");
+        return amount;
+    }
+
+    /// <summary>
+    ///     Shift the player's max mana. Returns the left-over amount that couldn't be applied.
+    /// </summary>
+    public static int AddStatManaMax(this Player player, int amount)
+    {
+        switch (amount)
+        {
+            case > 0:
+            {
+                while (amount >= 20 && player.ConsumedManaCrystals < Player.ManaCrystalMax)
+                {
+                    player.ConsumedManaCrystals++;
+                    amount -= 20;
+                }
+
+                break;
+            }
+            case < 0:
+            {
+                while (amount <= -20 && player.ConsumedManaCrystals > 0)
+                {
+                    player.ConsumedManaCrystals--;
+                    amount += 20;
+                }
+
+                break;
+            }
+        }
+
+        return amount;
+    }
+
     #endregion
 }
