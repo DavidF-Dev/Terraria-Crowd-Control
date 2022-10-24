@@ -27,6 +27,12 @@ public enum PacketID : byte
     SyncNPCSpecial,
 
     /// <summary>
+    ///     Despawn an npc (from client).<br />
+    ///     Packet data: (int)whoAmI
+    /// </summary>
+    DespawnNPC,
+
+    /// <summary>
     ///     Notify the server about the status of an effect (from the client).<br />
     ///     Packet data: (bool)status
     /// </summary>

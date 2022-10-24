@@ -4,7 +4,10 @@ using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -87,12 +90,12 @@ public sealed class SpawnCritters : CrowdControlEffect
         if (Main.netMode == NetmodeID.SinglePlayer)
         {
             // Spawn in single-player
-            Spawn(GetLocalPlayer());
+            Spawn(GetLocalPlayer(), SteamUtils.IsTheJayrBayr);
         }
         else
         {
             // Notify the server
-            SendPacket(PacketID.HandleEffect);
+            SendPacket(PacketID.HandleEffect, SteamUtils.IsTheJayrBayr);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -106,10 +109,10 @@ public sealed class SpawnCritters : CrowdControlEffect
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         // Spawn the critters on the server
-        Spawn(player);
+        Spawn(player, reader.ReadBoolean());
     }
 
-    private void Spawn(ModPlayer player)
+    private void Spawn(ModPlayer player, bool spawnMagikarp)
     {
         var x = (int)player.Player.Center.X;
         var y = (int)player.Player.Center.Y;
@@ -146,6 +149,236 @@ public sealed class SpawnCritters : CrowdControlEffect
                 WorldUtils.SyncNPCSpecial(npc);
             }
         }
+
+        if (!spawnMagikarp || player.Player.HasBuff<MagikarpPetBuff>() || !Main.rand.NextBool(3))
+        {
+            return;
+        }
+
+        // Spawn a magikarp
+        var magikarpIndex = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - 16, ModContent.NPCType<MagikarpNPC>());
+        if (Main.netMode == NetmodeID.Server)
+        {
+            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, magikarpIndex);
+        }
+    }
+
+    #endregion
+
+    #region Nested Types
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class MagikarpNPC : ModNPC
+    {
+        #region Properties
+
+        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarp";
+
+        #endregion
+
+        #region Methods
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shiny Magikarp");
+        }
+
+        public override void SetDefaults()
+        {
+            NPC.CloneDefaults(NPCID.Dolphin);
+            AIType = NPCID.Dolphin;
+
+            Main.npcFrameCount[Type] = 1;
+            NPC.width = 44;
+            NPC.height = 57;
+
+            NPC.lifeMax = 129;
+            NPC.defense = 100;
+        }
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            if (Main.netMode == NetmodeID.Server)
+            {
+                return;
+            }
+
+            TerrariaUtils.WriteMessage("A Shiny Magikarp appeared!");
+            NPC.AddBuff(BuffID.Wet, int.MaxValue);
+            SoundEngine.PlaySound(SoundID.SplashWeak, NPC.position);
+        }
+
+        public override bool CanChat()
+        {
+            return true;
+        }
+
+        public override string GetChat()
+        {
+            NPC.AddBuff(BuffID.Confused, 60 * 3);
+            return "*glub... glub...*";
+        }
+
+        public override void SetChatButtons(ref string button, ref string button2)
+        {
+            if (string.IsNullOrEmpty(button))
+            {
+                button = "Catch";
+            }
+        }
+
+        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        {
+            if (!firstButton)
+            {
+                return;
+            }
+
+            // Attempt to catch
+            if (Main.rand.NextBool(6))
+            {
+                Main.LocalPlayer.AddBuff(ModContent.BuffType<MagikarpPetBuff>(), 3600);
+                TerrariaUtils.WriteMessage($"{Main.LocalPlayer.name} caught a Shiny Magikarp!");
+            }
+            else
+            {
+                TerrariaUtils.WriteMessage("The Shiny Magikarp got away!");
+            }
+
+            // Despawn
+            NPC.active = false;
+            HitEffect(NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1, 0d);
+            SoundEngine.PlaySound(SoundID.Drown, NPC.position);
+
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                return;
+            }
+
+            var packet = Mod.GetPacket(2);
+            packet.Write((byte)PacketID.DespawnNPC);
+            packet.Write(NPC.whoAmI);
+            packet.Send();
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            // Water explosion
+            for (var n = 0; n < 20; n++)
+            {
+                Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.Wet, hitDirection * Main.rand.NextFloat(6f, 8f), Main.rand.NextFloatDirection() * 6f);
+            }
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    ///     https://github.com/tModLoader/tModLoader/blob/1.4/ExampleMod/Content/Pets/ExamplePet/ExamplePetBuff.cs
+    /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class MagikarpPetBuff : ModBuff
+    {
+        #region Properties
+
+        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarpBuff";
+
+        #endregion
+
+        #region Methods
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shiny Magikarp");
+            Description.SetDefault("*glub... glub...*");
+
+            Main.buffNoTimeDisplay[Type] = true;
+            Main.vanityPet[Type] = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.buffTime[buffIndex] = 18000;
+            var projType = ModContent.ProjectileType<MagikarpPetProjectile>();
+
+            // If the player is local, and there hasn't been a pet projectile spawned yet - spawn it
+            if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[projType] <= 0)
+            {
+                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, projType, 0, 0f, player.whoAmI);
+            }
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    ///     https://github.com/tModLoader/tModLoader/blob/1.4/ExampleMod/Content/Pets/ExamplePet/ExamplePetProjectile.cs
+    /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class MagikarpPetProjectile : ModProjectile
+    {
+        #region Static Fields and Constants
+
+        private const int DripDelay = 10;
+
+        #endregion
+
+        #region Fields
+
+        private int _dripTimer;
+
+        #endregion
+
+        #region Properties
+
+        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarp";
+
+        #endregion
+
+        #region Methods
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 1;
+            Projectile.width = 44;
+            Projectile.height = 57;
+
+            Main.projPet[Projectile.type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.CloneDefaults(ProjectileID.CompanionCube);
+            AIType = ProjectileID.CompanionCube;
+        }
+
+        public override bool PreAI()
+        {
+            var player = Main.player[Projectile.owner];
+            player.companionCube = false;
+            return true;
+        }
+
+        public override void AI()
+        {
+            // Keep the projectile from disappearing as long as the player isn't dead and has the pet buff
+            var player = Main.player[Projectile.owner];
+            if (!player.dead && player.HasBuff(ModContent.BuffType<MagikarpPetBuff>()))
+            {
+                Projectile.timeLeft = 2;
+            }
+
+            if (_dripTimer-- > 0)
+            {
+                return;
+            }
+
+            // Water drip
+            Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Wet);
+            _dripTimer = DripDelay;
+        }
+
+        #endregion
     }
 
     #endregion
