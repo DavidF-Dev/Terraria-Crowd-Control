@@ -27,17 +27,6 @@ public sealed class TrapEffect : CrowdControlEffect
 
     #endregion
 
-    #region Static Fields and Constants
-
-    private const int CobwebHalfWidth = 14;
-    private const int CobwebHalfHeight = CobwebHalfWidth;
-    private const int SandHalfWidth = 14;
-    private const int SandHalfHeight = SandHalfWidth;
-    private const int LiquidHalfWidth = 10;
-    private const int LiquidHalfHeight = 8;
-
-    #endregion
-
     #region Static Methods
 
     [Pure]
@@ -59,11 +48,11 @@ public sealed class TrapEffect : CrowdControlEffect
     {
         return trapType switch
         {
-            TrapType.Cobweb => (CobwebHalfWidth, CobwebHalfHeight),
-            TrapType.Sand => (SandHalfWidth, SandHalfHeight),
-            TrapType.Water => (LiquidHalfWidth, LiquidHalfHeight),
-            TrapType.Lava => (LiquidHalfWidth, LiquidHalfHeight),
-            TrapType.Honey => (LiquidHalfWidth, LiquidHalfHeight),
+            TrapType.Cobweb => (13, 13),
+            TrapType.Sand => (13, 13),
+            TrapType.Water => (9, 7),
+            TrapType.Lava => (5, 5),
+            TrapType.Honey => (9, 7),
             _ => throw new ArgumentOutOfRangeException(nameof(trapType), trapType, null)
         };
     }
