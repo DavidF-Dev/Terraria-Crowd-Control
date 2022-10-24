@@ -56,6 +56,11 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
             }
         }
 
+        // Make the player immune to damage and knockback temporarily
+        player.Player.immune = true;
+        player.Player.immuneNoBlink = true;
+        player.Player.immuneTime = 60;
+        
         // Fling the player upwards!
         player.Player.velocity.X /= 8f;
         player.Player.velocity.Y = -FlingSpeed;

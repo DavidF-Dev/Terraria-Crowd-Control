@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Changed "Spawn Structure" to retry if the player might already be in the chosen structure.
+- Changed "Fling Upwards" effect to provide a short period of immunity.
 
 ## [1.0.7] - 2022-10-21
 
