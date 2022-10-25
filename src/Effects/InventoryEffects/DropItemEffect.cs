@@ -183,6 +183,7 @@ public sealed class DropItemEffect : CrowdControlEffect
             NPC.life = 400;
             NPC.DeathSound = SoundID.DeerclopsDeath;
             NPC.HitSound = SoundID.DeerclopsHit;
+            NPC.chaseable = false;
         }
 
         public override bool PreAI()

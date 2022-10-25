@@ -435,7 +435,7 @@ public sealed class CrowdControlMod : Mod
             case PacketID.DespawnNPC:
                 var whoAmI = reader.ReadInt32();
                 Main.npc[whoAmI].active = false;
-                NetMessage.SendData(MessageID.SyncNPC, -1, sender, null, whoAmI);
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, whoAmI);
                 break;
         }
     }

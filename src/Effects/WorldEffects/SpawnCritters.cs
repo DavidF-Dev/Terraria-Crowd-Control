@@ -181,6 +181,8 @@ public sealed class SpawnCritters : CrowdControlEffect
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shiny Magikarp");
+            Main.npcFrameCount[Type] = 1;
+            Main.npcCatchable[Type] = false;
         }
 
         public override void SetDefaults()
@@ -188,23 +190,27 @@ public sealed class SpawnCritters : CrowdControlEffect
             NPC.CloneDefaults(NPCID.Dolphin);
             AIType = NPCID.Dolphin;
 
-            Main.npcFrameCount[Type] = 1;
             NPC.width = 44;
             NPC.height = 57;
+            DrawOffsetY = 8f;
 
             NPC.lifeMax = 129;
             NPC.defense = 100;
+
+            NPC.chaseable = false;
+            NPC.knockBackResist = 1.1f;
         }
 
         public override void OnSpawn(IEntitySource source)
         {
+            NPC.AddBuff(BuffID.Wet, int.MaxValue);
+
             if (Main.netMode == NetmodeID.Server)
             {
                 return;
             }
 
             TerrariaUtils.WriteMessage("A Shiny Magikarp appeared!");
-            NPC.AddBuff(BuffID.Wet, int.MaxValue);
             SoundEngine.PlaySound(SoundID.SplashWeak, NPC.position);
         }
 
@@ -246,27 +252,28 @@ public sealed class SpawnCritters : CrowdControlEffect
             }
 
             // Despawn
-            NPC.active = false;
             HitEffect(NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1, 0d);
             SoundEngine.PlaySound(SoundID.Drown, NPC.position);
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode == NetmodeID.SinglePlayer)
             {
-                return;
+                NPC.active = false;
             }
-
-            var packet = Mod.GetPacket(2);
-            packet.Write((byte)PacketID.DespawnNPC);
-            packet.Write(NPC.whoAmI);
-            packet.Send();
+            else
+            {
+                var packet = Mod.GetPacket(2);
+                packet.Write((byte)PacketID.DespawnNPC);
+                packet.Write(NPC.whoAmI);
+                packet.Send();
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             // Water explosion
-            for (var n = 0; n < 20; n++)
+            for (var n = 0; n < 80; n++)
             {
-                Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.Wet, hitDirection * Main.rand.NextFloat(6f, 8f), Main.rand.NextFloatDirection() * 6f);
+                Dust.NewDust(NPC.Center + new Vector2(-22f, -4f), NPC.width, NPC.height, DustID.Wet, Main.rand.NextFloatDirection() * Main.rand.NextFloat(3f, 5f), Main.rand.NextFloatDirection() * 2.5f);
             }
         }
 
@@ -319,7 +326,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     {
         #region Static Fields and Constants
 
-        private const int DripDelay = 10;
+        private const int DripDelay = 8;
 
         #endregion
 
@@ -340,9 +347,6 @@ public sealed class SpawnCritters : CrowdControlEffect
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 1;
-            Projectile.width = 44;
-            Projectile.height = 57;
-
             Main.projPet[Projectile.type] = true;
         }
 
@@ -350,6 +354,10 @@ public sealed class SpawnCritters : CrowdControlEffect
         {
             Projectile.CloneDefaults(ProjectileID.CompanionCube);
             AIType = ProjectileID.CompanionCube;
+
+            Projectile.width = 44;
+            Projectile.height = 57;
+            DrawOriginOffsetY = -2;
         }
 
         public override bool PreAI()
@@ -368,13 +376,18 @@ public sealed class SpawnCritters : CrowdControlEffect
                 Projectile.timeLeft = 2;
             }
 
+            if (Main.netMode == NetmodeID.Server)
+            {
+                return;
+            }
+
             if (_dripTimer-- > 0)
             {
                 return;
             }
 
             // Water drip
-            Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Wet);
+            Dust.NewDust(Projectile.Center + new Vector2(0f, -8f), Projectile.width, Projectile.height, DustID.Wet);
             _dripTimer = DripDelay;
         }
 
