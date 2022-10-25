@@ -37,6 +37,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     #region Fields
 
     /// <summary>
+    ///     First time using Crowd Control with this player.
+    /// </summary>
+    public bool IsFirstTimeUser = true;
+    
+    /// <summary>
     ///     Server-side value for whether this player has tombstones disabled in their config.
     /// </summary>
     public bool ServerDisableTombstones;
@@ -211,11 +216,13 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override void SaveData(TagCompound tag)
     {
+        tag.Add("IsFirstTimeUser", IsFirstTimeUser);
         tag.Add("LifeCrystalRemoved", LifeCrystalRemoved);
     }
 
     public override void LoadData(TagCompound tag)
     {
+        IsFirstTimeUser = !tag.ContainsKey("IsFirstTimeUser") || tag.GetBool("IsFirstTimeUser");
         LifeCrystalRemoved = tag.GetInt("LifeCrystalRemoved");
     }
 

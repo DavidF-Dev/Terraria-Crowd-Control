@@ -26,7 +26,6 @@ using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace CrowdControlMod;
 
@@ -88,12 +87,6 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     private readonly Dictionary<int, IFeature> _features = new();
 
-    /// <summary>
-    ///     Whether the mod has been used before in the loaded world.<br />
-    ///     This is set in <see cref="LoadWorldData" />
-    /// </summary>
-    private bool _firstUseInWorld = true;
-
     #endregion
 
     #region Properties
@@ -132,10 +125,6 @@ public sealed class CrowdControlMod : Mod
         // Add features
         AddAllFeatures();
 
-        // Subscribe to world serialisation hooks
-        CrowdControlModSystem.SaveWorldDataHook += SaveWorldData;
-        CrowdControlModSystem.LoadWorldDataHook += LoadWorldData;
-
         // Ignore silent exceptions
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
@@ -162,10 +151,6 @@ public sealed class CrowdControlMod : Mod
         }
 
         _features.Clear();
-
-        // Unsubscribe from world serialisation hooks
-        CrowdControlModSystem.SaveWorldDataHook -= SaveWorldData;
-        CrowdControlModSystem.LoadWorldDataHook -= LoadWorldData;
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -482,7 +467,8 @@ public sealed class CrowdControlMod : Mod
             CrowdControlConfig.GetInstance().SendConfigToServer();
         }
 
-        if (_firstUseInWorld)
+        ref var isFirstTimeUser = ref GetLocalPlayer().IsFirstTimeUser;
+        if (isFirstTimeUser)
         {
             // Send a special greeting message when playing a world for the first time with the mod
             TerrariaUtils.WriteMessage(LangUtils.FirstTimeStartText, specialMessageColour);
@@ -608,14 +594,14 @@ public sealed class CrowdControlMod : Mod
                 }
 
                 TerrariaUtils.WriteMessage(ItemID.LargeRuby, LangUtils.DisconnectedText, Color.Red);
-                if (!_firstUseInWorld)
+                if (!isFirstTimeUser)
                 {
                     continue;
                 }
 
                 // Send a special farewell message when playing a world for the first time with the mod
                 TerrariaUtils.WriteMessage(LangUtils.FirstTimeStopText, specialMessageColour);
-                _firstUseInWorld = false;
+                isFirstTimeUser = false;
             }
             else
             {
@@ -960,20 +946,6 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
         _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
-    }
-
-    private void SaveWorldData(TagCompound tags)
-    {
-        // Add the key to the world save data
-        tags.Add("cc_firstUseInWorld", default(byte));
-        _firstUseInWorld = true;
-    }
-
-    private void LoadWorldData(TagCompound tags)
-    {
-        // Check if the key exists in the world save data
-        // If it does not exist, then this is the first use of the mod in the world
-        _firstUseInWorld = !tags.ContainsKey("cc_firstUseInWorld");
     }
 
     private void OnGameUpdate(GameTime gameTime)

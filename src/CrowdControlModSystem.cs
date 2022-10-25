@@ -48,11 +48,19 @@ public sealed class CrowdControlModSystem : ModSystem
 
     public override void PreSaveAndQuit()
     {
-        if (Main.netMode != NetmodeID.Server)
+        if (Main.netMode == NetmodeID.Server)
         {
-            // Stop the crowd control session upon exiting a world
-            CrowdControlMod.GetInstance().StopCrowdControlSession();
+            return;
         }
+
+        if (CrowdControlMod.GetInstance().IsSessionActive)
+        {
+            // Ensure the start messages aren't shown again for this player
+            CrowdControlMod.GetLocalPlayer().IsFirstTimeUser = false;
+        }
+
+        // Stop the crowd control session upon exiting a world
+        CrowdControlMod.GetInstance().StopCrowdControlSession();
     }
 
     public override void PostDrawTiles()

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Spawn Trap" effect to alter a smaller area around the player.
 - Changed "Spawn Structure" effect to check for an empty space around the player.
 - Changed "Set Max Stat Effect" to match tModLoader API changes.
+- Changed welcome & farewell messages to stop showing after a successful connection to Crowd Control (per player).
 
 ## [1.0.7] - 2022-10-21
 
