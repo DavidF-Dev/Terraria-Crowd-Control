@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.8] - 2022-10-25
+
 - Changed "Spawn Structure" to retry if the player might already be in the chosen structure.
 - Changed "Fling Upwards" effect to provide a short period of immunity.
 - Changed "Spawn Trap" effect to alter a smaller area around the player.
