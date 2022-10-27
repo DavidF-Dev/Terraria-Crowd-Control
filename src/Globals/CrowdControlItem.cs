@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
@@ -77,21 +75,6 @@ public sealed class CrowdControlItem : GlobalItem
     public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
     {
         ModifyTooltipsHook?.Invoke(item, tooltips);
-    }
-
-    public override bool? UseItem(Item item, Player player)
-    {
-        // Check if a life crystal is being blocked but should be allowed
-        if (item.type == ItemID.LifeCrystal && player.ConsumedLifeCrystals == Player.LifeCrystalMax && player.GetModPlayer<CrowdControlPlayer>().LifeCrystalRemoved > 0)
-        {
-            // Reverse the alteration
-            player.GetModPlayer<CrowdControlPlayer>().LifeCrystalRemoved--;
-            player.HealEffect(20);
-            TerrariaUtils.WriteDebug($"{nameof(UseItem)}: (Crystal={player.ConsumedLifeCrystals}) (Fruit={player.ConsumedLifeFruit}) (Removed={player.GetModPlayer<CrowdControlPlayer>().LifeCrystalRemoved})");
-            return true;
-        }
-
-        return base.UseItem(item, player);
     }
 
     #endregion

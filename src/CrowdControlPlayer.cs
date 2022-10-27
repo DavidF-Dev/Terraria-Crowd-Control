@@ -16,7 +16,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="PreKill" />
     public delegate void PreKillDelegate(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
-    
+
     /// <inheritdoc cref="Kill" />
     public delegate void KillDelegate(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource);
 
@@ -43,7 +43,7 @@ public sealed class CrowdControlPlayer : ModPlayer
     ///     First time using Crowd Control with this player.
     /// </summary>
     public bool IsFirstTimeUser = true;
-    
+
     /// <summary>
     ///     Server-side value for whether this player has tombstones disabled in their config.
     /// </summary>
@@ -53,12 +53,6 @@ public sealed class CrowdControlPlayer : ModPlayer
     ///     Server-side value for whether this player wants bosses to be despawned in their config.
     /// </summary>
     public bool ServerForcefullyDespawnBosses;
-
-    /// <summary>
-    ///     Number of life crystals (20HP) removed from the max hp.<br />
-    ///     Used by <see cref="Utilities.PlayerUtils.AddStatLifeMax" />.
-    /// </summary>
-    public int LifeCrystalRemoved;
 
     #endregion
 
@@ -86,7 +80,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="PreKill" />
     public event PreKillDelegate? PreKillHook;
-    
+
     /// <inheritdoc cref="Kill" />
     public event KillDelegate? KillHook;
 
@@ -210,32 +204,14 @@ public sealed class CrowdControlPlayer : ModPlayer
         ModifyScreenPositionHook?.Invoke();
     }
 
-    public override void ModifyMaxStats(out StatModifier health, out StatModifier mana)
-    {
-        base.ModifyMaxStats(out health, out mana);
-        health.Base = -LifeCrystalRemoved * 20;
-    }
-
-    public override void PreSavePlayer()
-    {
-        // Ensure we a saving the player in such a way that it can be used again without this mod enabled
-        while (LifeCrystalRemoved > 0 && Player.ConsumedLifeCrystals > 0)
-        {
-            LifeCrystalRemoved--;
-            Player.ConsumedLifeCrystals--;
-        }
-    }
-
     public override void SaveData(TagCompound tag)
     {
         tag.Add("IsFirstTimeUser", IsFirstTimeUser);
-        tag.Add("LifeCrystalRemoved", LifeCrystalRemoved);
     }
 
     public override void LoadData(TagCompound tag)
     {
         IsFirstTimeUser = !tag.ContainsKey("IsFirstTimeUser") || tag.GetBool("IsFirstTimeUser");
-        LifeCrystalRemoved = tag.GetInt("LifeCrystalRemoved");
     }
 
     #endregion

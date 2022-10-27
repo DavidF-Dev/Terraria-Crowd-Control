@@ -1,4 +1,5 @@
 ﻿using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Features;
 using CrowdControlMod.Utilities;
 using Terraria.ID;
 
