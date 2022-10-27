@@ -14,6 +14,9 @@ public sealed class CrowdControlPlayer : ModPlayer
 {
     #region Delegates
 
+    /// <inheritdoc cref="PreKill" />
+    public delegate void PreKillDelegate(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
+    
     /// <inheritdoc cref="Kill" />
     public delegate void KillDelegate(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource);
 
@@ -81,6 +84,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="OnRespawn" />
     public event Action? OnRespawnHook;
 
+    /// <inheritdoc cref="PreKill" />
+    public event PreKillDelegate? PreKillHook;
+    
     /// <inheritdoc cref="Kill" />
     public event KillDelegate? KillHook;
 
@@ -141,6 +147,12 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void OnRespawn(Player player)
     {
         OnRespawnHook?.Invoke();
+    }
+
+    public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+    {
+        PreKillHook?.Invoke(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
+        return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
     }
 
     public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
@@ -53,6 +54,8 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     private readonly IReadOnlyList<short> _allCritterOptions;
 
+    private bool _hadMagikarpPet;
+
     #endregion
 
     #region Constructors
@@ -79,6 +82,28 @@ public sealed class SpawnCritters : CrowdControlEffect
     #endregion
 
     #region Methods
+
+    protected override void OnSessionStarted()
+    {
+        if (!SteamUtils.IsTheJayrBayr)
+        {
+            return;
+        }
+
+        GetLocalPlayer().PreKillHook += OnKill;
+        GetLocalPlayer().OnRespawnHook += OnRespawn;
+    }
+
+    protected override void OnSessionStopped()
+    {
+        if (!SteamUtils.IsTheJayrBayr)
+        {
+            return;
+        }
+
+        GetLocalPlayer().PreKillHook -= OnKill;
+        GetLocalPlayer().OnRespawnHook -= OnRespawn;
+    }
 
     protected override CrowdControlResponseStatus OnStart()
     {
@@ -150,17 +175,41 @@ public sealed class SpawnCritters : CrowdControlEffect
             }
         }
 
-        if (!spawnMagikarp || player.Player.HasBuff<MagikarpPetBuff>() || !Main.rand.NextBool(3))
+        if (!spawnMagikarp || player.Player.HasBuff<MagikarpPetBuff>() || !Main.rand.NextBool(2))
         {
             return;
         }
 
         // Spawn a magikarp
         var magikarpIndex = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - 16, ModContent.NPCType<MagikarpNPC>());
+        Main.npc[magikarpIndex].AddBuff(BuffID.Wet, int.MaxValue);
+        SoundEngine.PlaySound(SoundID.SplashWeak, Main.npc[magikarpIndex].position);
+        TerrariaUtils.WriteMessage("A Shiny Magikarp appeared!");
+
         if (Main.netMode == NetmodeID.Server)
         {
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, magikarpIndex);
         }
+    }
+
+    private void OnKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+    {
+        // NOTE: Method is only called when easter egg is active
+        // Cache if the player had a magikarp pet buff active
+        _hadMagikarpPet = GetLocalPlayer().Player.HasBuff<MagikarpPetBuff>();
+    }
+
+    private void OnRespawn()
+    {
+        // NOTE: Method is only called when easter egg is active
+        if (!_hadMagikarpPet)
+        {
+            return;
+        }
+
+        // Reapply the pet buff if the player had it active before dying
+        GetLocalPlayer().Player.AddBuff(ModContent.BuffType<MagikarpPetBuff>(), 3600);
+        _hadMagikarpPet = false;
     }
 
     #endregion
@@ -195,23 +244,10 @@ public sealed class SpawnCritters : CrowdControlEffect
             DrawOffsetY = 8f;
 
             NPC.lifeMax = 129;
-            NPC.defense = 100;
+            NPC.defense = 150;
 
             NPC.chaseable = false;
             NPC.knockBackResist = 1.1f;
-        }
-
-        public override void OnSpawn(IEntitySource source)
-        {
-            NPC.AddBuff(BuffID.Wet, int.MaxValue);
-
-            if (Main.netMode == NetmodeID.Server)
-            {
-                return;
-            }
-
-            TerrariaUtils.WriteMessage("A Shiny Magikarp appeared!");
-            SoundEngine.PlaySound(SoundID.SplashWeak, NPC.position);
         }
 
         public override bool CanChat()
@@ -231,6 +267,8 @@ public sealed class SpawnCritters : CrowdControlEffect
             {
                 button = "Catch";
             }
+
+            Main.LocalPlayer.currentShoppingSettings.HappinessReport = string.Empty;
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
@@ -241,7 +279,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             }
 
             // Attempt to catch
-            if (Main.rand.NextBool(6))
+            if (Main.rand.NextBool(5))
             {
                 Main.LocalPlayer.AddBuff(ModContent.BuffType<MagikarpPetBuff>(), 3600);
                 TerrariaUtils.WriteMessage($"{Main.LocalPlayer.name} caught a Shiny Magikarp!");
@@ -265,6 +303,14 @@ public sealed class SpawnCritters : CrowdControlEffect
                 packet.Write((byte)PacketID.DespawnNPC);
                 packet.Write(NPC.whoAmI);
                 packet.Send();
+            }
+        }
+
+        public override void PostAI()
+        {
+            if (NPC.velocity.X != 0f)
+            {
+                NPC.spriteDirection = MathF.Sign(NPC.velocity.X);
             }
         }
 
@@ -389,6 +435,11 @@ public sealed class SpawnCritters : CrowdControlEffect
             // Water drip
             Dust.NewDust(Projectile.Center + new Vector2(0f, -8f), Projectile.width, Projectile.height, DustID.Wet);
             _dripTimer = DripDelay;
+        }
+
+        public override void PostAI()
+        {
+            Projectile.spriteDirection = Projectile.Center.X < Main.player[Projectile.owner].Center.X ? -1 : 1;
         }
 
         #endregion

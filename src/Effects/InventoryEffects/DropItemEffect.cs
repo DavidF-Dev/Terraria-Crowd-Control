@@ -221,6 +221,8 @@ public sealed class DropItemEffect : CrowdControlEffect
         {
             button = Language.GetTextValue("LegacyInterface.28");
             button2 = null!;
+
+            Main.LocalPlayer.currentShoppingSettings.HappinessReport = string.Empty;
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
