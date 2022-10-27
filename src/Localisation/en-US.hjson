@@ -353,6 +353,13 @@
                     Failed:         "{0} failed their challenge"
                     TimeLeft:       "{0} seconds remaining"
                 }
+                
+                spawn_critters:
+                {
+                    EggSpawned:     "A Shiny Magikarp appeared!"
+                    EggCaught:      "{0} caught a Shiny Magikarp!"
+                    EggLost:        "The Shiny Magikarp got away!"
+                }
             }
         }
     }

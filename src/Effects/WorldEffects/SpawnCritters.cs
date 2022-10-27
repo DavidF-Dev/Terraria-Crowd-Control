@@ -184,7 +184,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         var magikarpIndex = NPC.NewNPC(null, x + Main.rand.Next(-16, 16), y - 16, ModContent.NPCType<MagikarpNPC>());
         Main.npc[magikarpIndex].AddBuff(BuffID.Wet, int.MaxValue);
         SoundEngine.PlaySound(SoundID.SplashWeak, Main.npc[magikarpIndex].position);
-        TerrariaUtils.WriteMessage("A Shiny Magikarp appeared!");
+        TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggSpawned"));
 
         if (Main.netMode == NetmodeID.Server)
         {
@@ -231,6 +231,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         {
             DisplayName.SetDefault("Shiny Magikarp");
             Main.npcFrameCount[Type] = 1;
+            NPCID.Sets.CountsAsCritter[Type] = true;
             Main.npcCatchable[Type] = false;
         }
 
@@ -282,11 +283,11 @@ public sealed class SpawnCritters : CrowdControlEffect
             if (Main.rand.NextBool(5))
             {
                 Main.LocalPlayer.AddBuff(ModContent.BuffType<MagikarpPetBuff>(), 3600);
-                TerrariaUtils.WriteMessage($"{Main.LocalPlayer.name} caught a Shiny Magikarp!");
+                TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggLost", Main.LocalPlayer.name));
             }
             else
             {
-                TerrariaUtils.WriteMessage("The Shiny Magikarp got away!");
+                TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggLost"));
             }
 
             // Despawn
@@ -312,6 +313,11 @@ public sealed class SpawnCritters : CrowdControlEffect
             {
                 NPC.spriteDirection = MathF.Sign(NPC.velocity.X);
             }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return Main.netMode == NetmodeID.SinglePlayer && spawnInfo.Water && SteamUtils.IsTheJayrBayr ? 0.5f : 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
