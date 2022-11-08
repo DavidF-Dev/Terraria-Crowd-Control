@@ -401,9 +401,14 @@ public sealed class GiveItemEffect : CrowdControlEffect
         // Choose the item and spawn it in
         var player = GetLocalPlayer();
         var chosenId = availableOptions[Main.rand.Next(availableOptions.Count)];
-        var itemIndex = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height,
-            chosenId, _stack, noGrabDelay: true);
+        var itemIndex = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height, chosenId, _stack, noGrabDelay: true);
         _item = Main.item[itemIndex];
+
+        if (_item.stack == 1 && !string.IsNullOrEmpty(Viewer))
+        {
+            // Set a custom name on the item using the viewer's name
+            _item.SetItemOwner(Viewer);
+        }
 
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {

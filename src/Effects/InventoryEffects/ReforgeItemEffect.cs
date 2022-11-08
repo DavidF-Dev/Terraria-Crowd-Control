@@ -116,6 +116,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         // Replace the existing item with the new item
         _item.favorited = item.favorited;
         _item.stack = item.stack;
+        _item.SetItemOwner(item.GetItemOwner());
         _chosenPrefix = _item.prefix;
         player.Player.inventory[player.Player.selectedItem] = _item;
 

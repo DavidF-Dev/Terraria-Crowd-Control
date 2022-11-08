@@ -83,6 +83,11 @@ public abstract class CrowdControlEffect : IFeature
     public string Id { get; }
 
     /// <summary>
+    ///     Name of the viewer that started the effect.
+    /// </summary>
+    public string Viewer { get; private set; } = string.Empty;
+
+    /// <summary>
     ///     Effect is currently active (client-side).
     /// </summary>
     public bool IsActive { get; private set; }
@@ -151,6 +156,7 @@ public abstract class CrowdControlEffect : IFeature
         }
 
         _netId = netId;
+        Viewer = viewer;
         TimeLeft = _duration.GetValueOrDefault();
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
@@ -213,8 +219,10 @@ public abstract class CrowdControlEffect : IFeature
         IsPaused = false;
         TimeLeft = 0f;
         _netId = -1;
-
+        
         OnStop();
+
+        Viewer = string.Empty;
     }
 
     /// <summary>
