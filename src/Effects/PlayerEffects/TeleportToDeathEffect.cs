@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 
@@ -12,6 +13,12 @@ namespace CrowdControlMod.Effects.PlayerEffects;
 /// </summary>
 public sealed class TeleportToDeathEffect : CrowdControlEffect
 {
+    #region Static Fields and Constants
+
+    private const float MinDistanceSqr = 16f * 20f * 16f * 20f;
+
+    #endregion
+
     #region Fields
 
     private Vector2? _deathPos;
@@ -47,8 +54,17 @@ public sealed class TeleportToDeathEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
+        var player = GetLocalPlayer().Player;
+
+        var dist = _deathPos.Value.DistanceSQ(player.position);
+        if (dist < MinDistanceSqr)
+        {
+            // Too close
+            return CrowdControlResponseStatus.Failure;
+        }
+
         // Teleport the player
-        GetLocalPlayer().Player.Teleport(_deathPos.Value, TeleportationStyleID.RecallPotion);
+        player.Teleport(_deathPos.Value, TeleportationStyleID.RecallPotion);
         return CrowdControlResponseStatus.Success;
     }
 
