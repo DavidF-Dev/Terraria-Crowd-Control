@@ -20,6 +20,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
     private const float MaxSpawnTime = 4.5f;
     private const float DropGoldCoins = 1f;
     private const float DropHardModeGoldCoins = 2.5f;
+    private static readonly short[] ReplacementNPCIds = {NPCID.Goldfish, NPCID.GemBunnyTopaz, NPCID.GemSquirrelTopaz, NPCID.GemBunnyAmber, NPCID.GemSquirrelAmber};
 
     #endregion
 
@@ -46,6 +47,28 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         {
             // Let clients know about the NPC
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        }
+    }
+
+    private static void Despawn()
+    {
+        for (var i = 0; i < Main.maxNPCs; i++)
+        {
+            // Only affect damaged golden slimes
+            if (!Main.npc[i].active || Main.npc[i].netID != NPCID.GoldenSlime || Main.npc[i].life < Main.npc[i].lifeMax / 2)
+            {
+                continue;
+            }
+
+            // Replace golden slime
+            var slimeNPC = Main.npc[i];
+            slimeNPC.SetDefaults(ReplacementNPCIds[Main.rand.Next(ReplacementNPCIds.Length)]);
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                // Notify clients
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i);
+            }
         }
     }
 
@@ -80,9 +103,29 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         return CrowdControlResponseStatus.Success;
     }
 
+    protected override void OnStop()
+    {
+        if (Main.netMode == NetmodeID.SinglePlayer)
+        {
+            Despawn();
+        }
+        else
+        {
+            SendPacket(PacketID.HandleEffect, false);
+        }
+    }
+
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        Spawn(player);
+        var spawn = reader.ReadBoolean();
+        if (spawn)
+        {
+            Spawn(player);
+        }
+        else
+        {
+            Despawn();
+        }
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
@@ -120,7 +163,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         else
         {
             // Spawn the slime on the server
-            SendPacket(PacketID.HandleEffect);
+            SendPacket(PacketID.HandleEffect, true);
         }
     }
 

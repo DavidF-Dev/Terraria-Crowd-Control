@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed "Golden Slime Rain" to despawn healthy slimes when the effect is over.
+
 ## [1.0.8] - 2022-10-25
 
 - Changed "Spawn Structure" to retry if the player might already be in the chosen structure.
