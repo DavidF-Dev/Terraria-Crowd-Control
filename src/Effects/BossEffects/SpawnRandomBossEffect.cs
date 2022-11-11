@@ -226,7 +226,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
         // Choose a random candidate to spawn
         _chosenSpawnableNpc = candidates[Main.rand.Next(candidates.Length)];
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn the boss in single-player
             Spawn(player, _chosenSpawnableNpc.NpcType);

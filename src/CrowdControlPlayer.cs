@@ -1,9 +1,9 @@
 ﻿using System;
 using CrowdControlMod.Config;
+using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -61,12 +61,12 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <summary>
     ///     Whether tombstones are disabled for this player. Correct for client and server.
     /// </summary>
-    public bool DisableTombstones => Main.netMode == NetmodeID.Server ? ServerDisableTombstones : CrowdControlConfig.GetInstance().DisableTombstones;
+    public bool DisableTombstones => NetUtils.IsServer ? ServerDisableTombstones : CrowdControlConfig.GetInstance().DisableTombstones;
 
     /// <summary>
     ///     Whether effect bosses should be despawned if all players are dead. Correct for client and server.
     /// </summary>
-    public bool DespawnForcefullyBoss => Main.netMode == NetmodeID.Server ? ServerForcefullyDespawnBosses : CrowdControlConfig.GetInstance().ForceDespawnBosses;
+    public bool DespawnForcefullyBoss => NetUtils.IsServer ? ServerForcefullyDespawnBosses : CrowdControlConfig.GetInstance().ForceDespawnBosses;
 
     #endregion
 

@@ -42,7 +42,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
         }
 
         // Spawn an explosion (kill the player when the start message is sent)
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Simply spawn the projectile in single-player
             Projectile.NewProjectile(null, player.Player.Center, Vector2.Zero, _instantDynamiteType, 1, 1f, player.Player.whoAmI);

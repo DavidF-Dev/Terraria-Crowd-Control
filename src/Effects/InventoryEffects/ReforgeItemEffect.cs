@@ -120,7 +120,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
         _chosenPrefix = _item.prefix;
         player.Player.inventory[player.Player.selectedItem] = _item;
 
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             // Update the server on the changes
             NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, player.Player.whoAmI,

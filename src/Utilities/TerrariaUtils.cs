@@ -44,7 +44,7 @@ public static class TerrariaUtils
             return;
         }
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Broadcast if called from a server
             ChatHelper.BroadcastChatMessage(netText, colour.GetValueOrDefault(Color.White));
@@ -77,7 +77,7 @@ public static class TerrariaUtils
     /// </summary>
     public static void WriteEffectMessage(short itemId, string message, EffectSeverity severity)
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Create a packet to send to all clients
             var packet = CrowdControlMod.GetInstance().GetPacket(4);
@@ -119,7 +119,7 @@ public static class TerrariaUtils
     /// </summary>
     public static void SendEffectMessage(CrowdControlPlayer player, short itemId, string message, EffectSeverity severity)
     {
-        if (Main.netMode != NetmodeID.Server)
+        if (!NetUtils.IsServer)
         {
             // Ignored on client
             return;
@@ -140,7 +140,7 @@ public static class TerrariaUtils
     /// </summary>
     public static void WriteDebug(string message, Color? colour = null)
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             try
             {

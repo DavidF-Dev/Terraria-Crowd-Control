@@ -119,7 +119,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
         }
 
         // Paint the tile and broadcast to the server
-        WorldGen.paintTile(x, y, colour, Main.netMode == NetmodeID.MultiplayerClient);
+        WorldGen.paintTile(x, y, colour, NetUtils.IsClient);
     }
 
     private void PostUpdate()
@@ -159,9 +159,9 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     private void NPCKill(NPC npc)
     {
-        if ((Main.netMode == NetmodeID.SinglePlayer && !IsActive) ||
-            (Main.netMode == NetmodeID.Server && !IsActiveOnServer()) ||
-            Main.netMode == NetmodeID.MultiplayerClient)
+        if ((NetUtils.IsSinglePlayer && !IsActive) ||
+            (NetUtils.IsServer && !IsActiveOnServer()) ||
+            NetUtils.IsClient)
         {
             // Ignore
             return;
@@ -182,7 +182,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
                 npc.lifeMax / 6, 3f,
                 Main.myPlayer,
                 ai1: Main.rand.Next(12) / 6f);
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 // Spawn for clients
                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);

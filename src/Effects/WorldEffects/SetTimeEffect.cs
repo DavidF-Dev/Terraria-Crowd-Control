@@ -41,7 +41,7 @@ public sealed class SetTimeEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Simply set the time in single-player
             Main.time = _time;

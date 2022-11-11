@@ -185,7 +185,7 @@ public sealed class CrowdControlMod : Mod
     public void StartCrowdControlSession()
     {
         // Cannot start if already running, or the thread is active in the background, or we're on a server
-        if (_isSessionRunning || _sessionThread != null || Main.netMode == NetmodeID.Server)
+        if (_isSessionRunning || _sessionThread != null || NetUtils.IsServer)
         {
             TerrariaUtils.WriteDebug("Could not start the Crowd Control session");
             return;
@@ -461,7 +461,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         TerrariaUtils.WriteDebug("Started the Crowd Control session");
-        if (ShouldSessionThreadContinue && Main.netMode == NetmodeID.MultiplayerClient)
+        if (ShouldSessionThreadContinue && NetUtils.IsClient)
         {
             // Send the client's config settings to the server
             CrowdControlConfig.GetInstance().SendConfigToServer();

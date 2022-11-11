@@ -37,7 +37,7 @@ public sealed class UseSundialEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Simply fast forward time in single-player
             Main.fastForwardTime = true;

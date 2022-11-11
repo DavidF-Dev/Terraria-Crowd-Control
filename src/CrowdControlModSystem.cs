@@ -1,9 +1,8 @@
 ﻿using System;
+using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.Graphics;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -48,7 +47,7 @@ public sealed class CrowdControlModSystem : ModSystem
 
     public override void PreSaveAndQuit()
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             return;
         }

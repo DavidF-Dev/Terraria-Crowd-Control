@@ -45,7 +45,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // In single-player, simply spawn the custom dungeon guardian
             Spawn(GetLocalPlayer(), SteamUtils.IsTeebu);
@@ -115,7 +115,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
             }
         };
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Notify the server
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
@@ -130,7 +130,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         npc.lifeMax = 69420;
         npc.life = 69420;
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             WorldUtils.SyncNPCSpecial(npc);
         }
@@ -197,7 +197,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         public override bool PreAI()
         {
             NPC.type = NPCID.DungeonGuardian;
-            NPC.ShowNameOnHover = Main.netMode == NetmodeID.SinglePlayer || !IsTeebu;
+            NPC.ShowNameOnHover = NetUtils.IsSinglePlayer || !IsTeebu;
 
             // Reduce the time left timer
             _timeLeft--;

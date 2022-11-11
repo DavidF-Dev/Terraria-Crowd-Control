@@ -73,7 +73,7 @@ public sealed class SpawnBossEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn the boss in single-player
             Spawn(player);

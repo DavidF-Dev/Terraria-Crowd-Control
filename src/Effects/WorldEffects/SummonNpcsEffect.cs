@@ -47,7 +47,7 @@ public sealed class SummonNpcsEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Teleport all the npcs to the player in single-player
             foreach (var npc in npcs)

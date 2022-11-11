@@ -6,7 +6,6 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 
 namespace CrowdControlMod.Shaders;
 
@@ -75,7 +74,7 @@ public sealed class ScreenShader
 
         if (_effect == null)
         {
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 TerrariaUtils.WriteDebug($"Failed to load shader asset '{_shaderAssetPath}': cannot be used on a server");
                 return null;

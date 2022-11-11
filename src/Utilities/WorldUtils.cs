@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using CrowdControlMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 
 namespace CrowdControlMod.Utilities;
 
@@ -63,7 +62,7 @@ public static class WorldUtils
     /// </summary>
     public static void SetWeather(Weather weather)
     {
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             TerrariaUtils.WriteDebug("Cannot set the weather when running as a client");
             return;
@@ -117,7 +116,7 @@ public static class WorldUtils
             Main.StopRain();
         }
 
-        if (Main.netMode != NetmodeID.Server)
+        if (!NetUtils.IsServer)
         {
             return;
         }

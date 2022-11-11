@@ -40,8 +40,8 @@ public sealed class RemoveTombstoneFeature : IFeature
 
         // Check if the projectile is a tombstone that should be removed straight away
         if (TombstoneProjectileIds.Contains(proj.type) &&
-            ((Main.netMode == NetmodeID.SinglePlayer && proj.owner != -1 && Main.player[proj.owner].GetModPlayer<CrowdControlPlayer>().DisableTombstones) ||
-             (Main.netMode == NetmodeID.Server && PlayerUtils.TryFindClosestPlayer(proj.Center, out var playerIndex, out _) && Main.player[playerIndex].GetModPlayer<CrowdControlPlayer>().DisableTombstones)))
+            ((NetUtils.IsSinglePlayer && proj.owner != -1 && Main.player[proj.owner].GetModPlayer<CrowdControlPlayer>().DisableTombstones) ||
+             (NetUtils.IsServer && PlayerUtils.TryFindClosestPlayer(proj.Center, out var playerIndex, out _) && Main.player[playerIndex].GetModPlayer<CrowdControlPlayer>().DisableTombstones)))
         {
             // Kill the projectile (this will automatically let the clients know if on a server)
             proj.Kill();

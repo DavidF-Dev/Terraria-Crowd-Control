@@ -410,7 +410,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             _item.SetItemOwner(Viewer);
         }
 
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             // Notify server of the item
             NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);

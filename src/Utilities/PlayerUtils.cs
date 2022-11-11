@@ -34,7 +34,7 @@ public static class PlayerUtils
             return;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn in single-player
             EmoteBubble.NewBubble(emoteId, new WorldUIAnchor(player), time);
@@ -139,7 +139,7 @@ public static class PlayerUtils
         var item = new Item(hairDyeItemId);
         player.hairDye = item.hairDye;
 
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
         }
@@ -158,7 +158,7 @@ public static class PlayerUtils
                 var num12 = coins / 1000000;
                 coins -= 1000000 * num12;
                 var number7 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 74, num12);
-                if (Main.netMode == NetmodeID.MultiplayerClient)
+                if (NetUtils.IsClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number7, 1f);
                 }
@@ -171,7 +171,7 @@ public static class PlayerUtils
                 var num11 = coins / 10000;
                 coins -= 10000 * num11;
                 var number6 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 73, num11);
-                if (Main.netMode == NetmodeID.MultiplayerClient)
+                if (NetUtils.IsClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number6, 1f);
                 }
@@ -184,7 +184,7 @@ public static class PlayerUtils
                 var num10 = coins / 100;
                 coins -= 100 * num10;
                 var number5 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 72, num10);
-                if (Main.netMode == NetmodeID.MultiplayerClient)
+                if (NetUtils.IsClient)
                 {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number5, 1f);
                 }
@@ -195,7 +195,7 @@ public static class PlayerUtils
             var num9 = coins;
             coins -= num9;
             var number4 = Item.NewItem(null, (int)player.position.X, (int)player.position.Y, player.width, player.height, 71, num9);
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (NetUtils.IsClient)
             {
                 NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
             }

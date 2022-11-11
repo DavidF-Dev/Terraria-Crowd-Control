@@ -80,7 +80,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         // Update the client with the changed tiles
         const int extentsX = 64;
         const int extentsY = 64;
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             WorldGen.RangeFrame(tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
         }
@@ -144,7 +144,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn the structure if we're in single-player
             SpawnStructure(_chosenStructure, tile.X, tile.Y);

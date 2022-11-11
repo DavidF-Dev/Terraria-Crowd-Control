@@ -84,7 +84,7 @@ public sealed class SetWeatherEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Change the weather in a single-player world
             WorldUtils.SetWeather(_weather);

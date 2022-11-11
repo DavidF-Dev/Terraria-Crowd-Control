@@ -108,7 +108,7 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Toggle in single-player
             PerformToggle();
@@ -130,7 +130,7 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
             return;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Toggle in single-player
             PerformToggle();
@@ -177,7 +177,7 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Update the clients
             NetMessage.SendData(MessageID.WorldData);

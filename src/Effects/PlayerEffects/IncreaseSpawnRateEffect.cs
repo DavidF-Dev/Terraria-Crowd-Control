@@ -47,8 +47,8 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     private void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
     {
-        if ((Main.netMode == NetmodeID.SinglePlayer && CrowdControlMod.GetInstance().IsSessionActive && IsActive) ||
-            (Main.netMode == NetmodeID.Server && IsActiveOnServer(player)))
+        if ((NetUtils.IsSinglePlayer && CrowdControlMod.GetInstance().IsSessionActive && IsActive) ||
+            (NetUtils.IsServer && IsActiveOnServer(player)))
         {
             // Set the spawn rate if the effect is active for the player
             spawnRate = (int)(spawnRate / Factor);

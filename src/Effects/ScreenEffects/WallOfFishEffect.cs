@@ -35,7 +35,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     public WallOfFishEffect(float duration) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             _koiEasterEgg = false;
             _fishIds = new List<int>();

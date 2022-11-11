@@ -47,7 +47,7 @@ public sealed class DespawnNPCFeature : IFeature
     /// </summary>
     public void RegisterNPC(int npcWhoAmI)
     {
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             TerrariaUtils.WriteDebug($"{nameof(RegisterNPC)} cannot be called on multiplayer client");
             return;
@@ -72,7 +72,7 @@ public sealed class DespawnNPCFeature : IFeature
 
     private void PostUpdateNPCs()
     {
-        if (_managedNpcs.Count == 0 || Main.netMode == NetmodeID.MultiplayerClient)
+        if (_managedNpcs.Count == 0 || NetUtils.IsClient)
         {
             // Ignore
             return;
@@ -100,7 +100,7 @@ public sealed class DespawnNPCFeature : IFeature
                 continue;
             }
 
-            if (Main.netMode == NetmodeID.SinglePlayer)
+            if (NetUtils.IsSinglePlayer)
             {
                 // Spawn gore but no loot (single-player only)
                 var cachedLife = npc.life;
@@ -118,7 +118,7 @@ public sealed class DespawnNPCFeature : IFeature
 
             // Forcefully despawn the npc
             npc.active = false;
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 // Notify clients
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
@@ -129,7 +129,7 @@ public sealed class DespawnNPCFeature : IFeature
             var bunny = Main.npc[bunnyIndex];
             bunny.lifeMax = npc.lifeMax;
             bunny.life = npc.life;
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, bunnyIndex);
                 WorldUtils.SyncNPCSpecial(bunny);

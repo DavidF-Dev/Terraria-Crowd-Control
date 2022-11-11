@@ -85,7 +85,7 @@ public sealed class TrapEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Retry;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn the trap in single-player
             SpawnTrap(player);
@@ -181,7 +181,7 @@ public sealed class TrapEffect : CrowdControlEffect
         }
 
         var tile = player.Player.position.ToTileCoordinates();
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Update framing
             WorldGen.RangeFrame(tile.X - halfWidth, tile.Y - halfHeight, halfWidth * 2, halfHeight * 2);

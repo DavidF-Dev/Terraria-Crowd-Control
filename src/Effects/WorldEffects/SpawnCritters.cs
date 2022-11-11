@@ -112,7 +112,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn in single-player
             Spawn(GetLocalPlayer(), SteamUtils.IsTheJayrBayr);
@@ -153,7 +153,7 @@ public sealed class SpawnCritters : CrowdControlEffect
                 npc.loveStruck = true;
             }
 
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 // Notify clients if spawned on server
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
@@ -168,7 +168,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             npc.lifeMax /= 4;
             npc.life = npc.lifeMax;
 
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 // Sync the new max life for clients
                 WorldUtils.SyncNPCSpecial(npc);
@@ -186,7 +186,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         SoundEngine.PlaySound(SoundID.SplashWeak, Main.npc[magikarpIndex].position);
         TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggSpawned"));
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, magikarpIndex);
         }
@@ -294,7 +294,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             HitEffect(NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1, 0d);
             SoundEngine.PlaySound(SoundID.Drown, NPC.position);
 
-            if (Main.netMode == NetmodeID.SinglePlayer)
+            if (NetUtils.IsSinglePlayer)
             {
                 NPC.active = false;
             }
@@ -317,7 +317,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return Main.netMode == NetmodeID.SinglePlayer && spawnInfo.Water && SteamUtils.IsTheJayrBayr ? 0.5f : 0f;
+            return NetUtils.IsSinglePlayer && spawnInfo.Water && SteamUtils.IsTheJayrBayr ? 0.5f : 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -428,7 +428,7 @@ public sealed class SpawnCritters : CrowdControlEffect
                 Projectile.timeLeft = 2;
             }
 
-            if (Main.netMode == NetmodeID.Server)
+            if (NetUtils.IsServer)
             {
                 return;
             }

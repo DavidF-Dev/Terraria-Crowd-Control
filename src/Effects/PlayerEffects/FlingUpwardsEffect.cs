@@ -64,7 +64,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
         // Fling the player upwards!
         player.Player.velocity.X /= 8f;
         player.Player.velocity.Y = -FlingSpeed;
-        if (Main.netMode == NetmodeID.MultiplayerClient)
+        if (NetUtils.IsClient)
         {
             // Sync with the server
             NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);

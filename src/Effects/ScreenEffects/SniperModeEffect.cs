@@ -37,7 +37,7 @@ public sealed class SniperModeEffect : CrowdControlEffect
         }
 
         // Determine offset (different for multi-player as whole map cannot be shown)
-        var range = Main.netMode == NetmodeID.SinglePlayer ? SinglePlayerRange : ClientRange;
+        var range = NetUtils.IsSinglePlayer ? SinglePlayerRange : ClientRange;
         var offset = (target - current) * range;
         Main.screenPosition += offset;
     }

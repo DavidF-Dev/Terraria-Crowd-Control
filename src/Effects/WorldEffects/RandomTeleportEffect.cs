@@ -39,7 +39,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
         else if (Main.rand.Next(100) < 50 && !player.Player.ZoneUnderworldHeight)
         {
             // Teleport to hell
-            if (Main.netMode == NetmodeID.SinglePlayer)
+            if (NetUtils.IsSinglePlayer)
             {
                 player.Player.DemonConch();
             }
@@ -51,7 +51,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
         else
         {
             // Teleport to the ocean
-            if (Main.netMode == NetmodeID.SinglePlayer)
+            if (NetUtils.IsSinglePlayer)
             {
                 player.Player.MagicConch();
             }

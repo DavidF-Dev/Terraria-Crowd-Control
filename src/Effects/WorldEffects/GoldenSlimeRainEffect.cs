@@ -43,7 +43,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
         // Alter coin drop amount (10000 = 1 gold coin)
         npc.value = 10000 * (Main.hardMode ? DropHardModeGoldCoins : DropGoldCoins);
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Let clients know about the NPC
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
@@ -64,7 +64,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
             var slimeNPC = Main.npc[i];
             slimeNPC.SetDefaults(ReplacementNPCIds[Main.rand.Next(ReplacementNPCIds.Length)]);
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (NetUtils.IsClient)
             {
                 // Notify clients
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i);
@@ -105,7 +105,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
     protected override void OnStop()
     {
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             Despawn();
         }
@@ -155,7 +155,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
             _spawnTime /= 3;
         }
 
-        if (Main.netMode == NetmodeID.SinglePlayer)
+        if (NetUtils.IsSinglePlayer)
         {
             // Spawn the slime in single-player
             Spawn(GetLocalPlayer());

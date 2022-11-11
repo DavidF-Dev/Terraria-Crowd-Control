@@ -2,8 +2,6 @@
 using System.Diagnostics.Contracts;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader.Config;
 
 // ReSharper disable UnassignedField.Global
@@ -183,7 +181,7 @@ public sealed class CrowdControlConfig : ModConfig
 
     public override void OnChanged()
     {
-        if (Main.netMode != NetmodeID.MultiplayerClient)
+        if (!NetUtils.IsClient)
         {
             return;
         }
@@ -197,7 +195,7 @@ public sealed class CrowdControlConfig : ModConfig
     /// </summary>
     public void SendConfigToServer()
     {
-        if (Main.netMode != NetmodeID.MultiplayerClient)
+        if (!NetUtils.IsClient)
         {
             // Ignore
             return;

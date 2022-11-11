@@ -9,7 +9,6 @@ using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
-using Terraria.ID;
 
 namespace CrowdControlMod;
 
@@ -66,7 +65,7 @@ public abstract class CrowdControlEffect : IFeature
         _isTimedEffect = _duration is > 0f;
         Severity = severity;
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Hook onto when a player disconnects from the server so we can update the active players collection correctly
             CrowdControlPlayer.PlayerDisconnectHook += PlayerDisconnect;
@@ -137,7 +136,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     public void Dispose()
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             CrowdControlPlayer.PlayerDisconnectHook -= PlayerDisconnect;
         }
@@ -176,7 +175,7 @@ public abstract class CrowdControlEffect : IFeature
                 // Effect should stop straight away as it isn't timed
                 Stop();
             }
-            else if (Main.netMode == NetmodeID.MultiplayerClient)
+            else if (NetUtils.IsClient)
             {
                 // Notify the server that the timed effect is active
                 SendPacket(PacketID.EffectStatus, true);
@@ -201,7 +200,7 @@ public abstract class CrowdControlEffect : IFeature
             return;
         }
 
-        if (Main.netMode == NetmodeID.MultiplayerClient && _isTimedEffect)
+        if (NetUtils.IsClient && _isTimedEffect)
         {
             // Notify the server that the timed effect finished
             SendPacket(PacketID.EffectStatus, false);
@@ -296,7 +295,7 @@ public abstract class CrowdControlEffect : IFeature
     [Pure]
     public bool IsActiveOnServer(Player player)
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             return _activeOnServer.Contains(player.whoAmI);
         }
@@ -319,7 +318,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     public void ReceivePacket(PacketID packetId, CrowdControlPlayer player, BinaryReader reader)
     {
-        if (Main.netMode != NetmodeID.Server)
+        if (!NetUtils.IsServer)
         {
             // Ignore if not running on the server
             return;
@@ -354,7 +353,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     protected void SendPacket(PacketID packetId, params object[] args)
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Ignore if running on the server
             return;

@@ -47,7 +47,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
     {
         CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             return;
         }
@@ -133,8 +133,8 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
     {
         var mod = CrowdControlMod.GetInstance();
         var spawnRateEffect = mod.GetEffect(EffectID.IncreaseSpawnRate);
-        if ((Main.netMode == NetmodeID.SinglePlayer && mod.IsSessionActive && IsActive && !(spawnRateEffect?.IsActive ?? false)) ||
-            (Main.netMode == NetmodeID.Server && IsActiveOnServer(player) && !(spawnRateEffect?.IsActiveOnServer(player) ?? false)))
+        if ((NetUtils.IsSinglePlayer && mod.IsSessionActive && IsActive && !(spawnRateEffect?.IsActive ?? false)) ||
+            (NetUtils.IsServer && IsActiveOnServer(player) && !(spawnRateEffect?.IsActiveOnServer(player) ?? false)))
         {
             // Set the spawn rate if the effect is active for the player
             spawnRate = (int)(spawnRate / SpawnRateFactor);

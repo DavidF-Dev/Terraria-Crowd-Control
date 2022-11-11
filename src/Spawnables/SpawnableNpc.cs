@@ -143,7 +143,7 @@ public sealed class SpawnableNpc : ISpawnable<NPC>
         // Invoke the on spawn action
         _onSpawn?.Invoke(player, npc);
 
-        if (Main.netMode == NetmodeID.Server)
+        if (NetUtils.IsServer)
         {
             // Notify the clients
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
