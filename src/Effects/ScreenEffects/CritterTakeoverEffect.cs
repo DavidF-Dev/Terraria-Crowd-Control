@@ -29,8 +29,14 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         NPCID.Penguin, NPCID.CorruptPenguin, NPCID.CrimsonPenguin,
         NPCID.Owl, NPCID.Frog, NPCID.Duck, NPCID.Duck2, NPCID.DuckWhite, NPCID.DuckWhite2,
         NPCID.Dolphin, NPCID.Pupfish, NPCID.SeaTurtle, NPCID.Seahorse, NPCID.Seagull, NPCID.Seagull2,
-        NPCID.EmpressButterfly,
-        NPCID.MagmaSnail
+        NPCID.EmpressButterfly, NPCID.MagmaSnail
+
+        // 1.4
+        /*
+        NPCID.GrayCockatiel, NPCID.YellowCockatiel, NPCID.Toucan, NPCID.BlueMacaw, NPCID.ScarletMacaw,
+        NPCID.TownSlimeGreen, NPCID.TownSlimePurple, NPCID.TownSlimeRainbow, NPCID.TownSlimeRed,
+        NPCID.TownSlimeYellow, NPCID.TownSlimeCopper, NPCID.TownSlimeOld
+        */
     };
 
     #endregion
