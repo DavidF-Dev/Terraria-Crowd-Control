@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added "Provide Swimming Buffs" effect.
 - Added "Shuffle Sfx" effect, inspired by Hollow Knight Crowd Control.
 - Added IDs for content from 1.4.4 in preparation (pets, mounts, critters, etc.)
 - Changed "Golden Slime Rain" to despawn healthy slimes when the effect is over.
