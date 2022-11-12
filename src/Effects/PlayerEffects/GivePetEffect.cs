@@ -37,6 +37,11 @@ public sealed class GivePetEffect : CrowdControlEffect
         BuffID.QueenBeePet, BuffID.IceQueenPet, BuffID.DD2BetsyPet, BuffID.SkeletronPrimePet, BuffID.MoonLordPet, BuffID.LunaticCultistPet, BuffID.PlanteraPet,
         BuffID.TwinsPet, BuffID.SkeletronPet, BuffID.KingSlimePet, BuffID.QueenSlimePet, BuffID.BrainOfCthulhuPet, BuffID.EyeOfCthulhuPet, BuffID.DeerclopsPet,
         BuffID.DukeFishronPet
+
+        // 1.4.4
+        /*
+        BuffID.JunimoPet, BuffID.BlueChickenPet, BuffID.Spiffo, BuffID.CavelingGardener, BuffID.DirtiestBlock, BuffID.DualSlimePet
+        */
     };
 
     private static readonly string[] CalamityPets =

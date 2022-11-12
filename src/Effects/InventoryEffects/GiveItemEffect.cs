@@ -159,6 +159,11 @@ public sealed class GiveItemEffect : CrowdControlEffect
                         ItemID.IronskinPotion, ItemID.LifeforcePotion, ItemID.NightOwlPotion, ItemID.ObsidianSkinPotion, ItemID.RagePotion, ItemID.RegenerationPotion,
                         ItemID.ShinePotion, ItemID.SpelunkerPotion, ItemID.SummoningPotion, ItemID.SwiftnessPotion, ItemID.ThornsPotion, ItemID.TitanPotion, ItemID.WrathPotion,
                         ItemID.FlaskofCursedFlames, ItemID.FlaskofFire, ItemID.FlaskofGold, ItemID.FlaskofIchor, ItemID.FlaskofNanites, ItemID.FlaskofParty, ItemID.FlaskofPoison, ItemID.FlaskofVenom
+
+                        // 1.4.4
+                        /*
+                        ItemID.BiomeSightPotion    
+                        */
                     }
                 }
             }
@@ -197,6 +202,11 @@ public sealed class GiveItemEffect : CrowdControlEffect
                         ItemID.Fries, ItemID.Grapes, ItemID.Hotdog, ItemID.IceCream, ItemID.Milkshake, ItemID.Nachos, ItemID.Pizza,
                         ItemID.PotatoChips, ItemID.ShrimpPoBoy, ItemID.ShuckedOyster, ItemID.Spaghetti, ItemID.Steak, ItemID.ChristmasPudding,
                         ItemID.GingerbreadCookie, ItemID.SugarCookie, ItemID.Marshmallow, ItemID.PadThai, ItemID.Sake
+
+                        // 1.4.4
+                        /*
+                        ItemID.SpicyPepper, ItemID.Pomegranate
+                        */
                     }
                 }
             }

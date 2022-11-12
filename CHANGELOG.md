@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added IDs for content from 1.4.4 in preparation (pets, mounts, critters, etc.)
 - Changed "Golden Slime Rain" to despawn healthy slimes when the effect is over.
 - Changed "Give Item" effects to prefix the item name with the viewer's name.
 - Changed "Teleport to Death" to fail if too close to the death point.
