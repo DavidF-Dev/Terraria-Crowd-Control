@@ -137,6 +137,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn lava trap", "lava_trap", WorldFolder) {Price = 750, Description = "Spawn a large pool of lava"},
                 new Effect("Random teleport", "random_teleport", WorldFolder) {Price = 150, Description = "Randomly teleport the streamer to a different part of the world"},
                 new Effect("Summon all NPCs", "summon_npcs", WorldFolder) {Price = 100, Description = "Summon all alive NPCs to the streamer's position"},
+                new Effect("Spawn random Town NPC", "spawn_town_npc", WorldFolder) {Price = 20, Description = "Spawn a random Town NPC at the streamer's position"},
                 new Effect("Rainbow feet", "rainbow_feet", WorldFolder) {Price = 20, Description = "Temporarily cause the streamer to paint rainbows wherever they walk"},
                 new Effect("Spawn a Dungeon Guardian", "spawn_guardian", WorldFolder) {Price = 1000, Description = "Spawn a real Dungeon Guardian"},
                 new Effect("Spawn a fake Dungeon Guardian", "spawn_fake_guardian", WorldFolder) {Price = 5, Description = "Spawn a fake Dungeon Guardian to scare the streamer"},

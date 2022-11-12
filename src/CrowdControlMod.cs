@@ -883,6 +883,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new TrapEffect(TrapEffect.TrapType.Lava));
         AddEffect(new RandomTeleportEffect());
         AddEffect(new SummonNpcsEffect());
+        AddEffect(new SpawnTownNPCEffect());
         AddEffect(new RainbowFeetEffect(60f));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));

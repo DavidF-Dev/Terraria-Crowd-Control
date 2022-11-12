@@ -246,6 +246,7 @@
                 lava_trap:          "[Viewer] filled the area around [Player] with lava"
                 random_teleport:    "[Viewer] randomly teleported [Player]"
                 summon_npcs:        "[Viewer] summoned all the alive NPCs to [Player]'s position"
+                spawn_town_npc:     "[Viewer] spawned the {0} at [Player]'s position"
                 rainbow_feet:       "[Viewer] caused a rainbow to form underneath [Player] for [Duration] seconds"
                 spawn_guardian:     "[Viewer] spawned a Dungeon Guardian"
                 spawn_guardian_egg: "[Viewer] spawned Teebu's favourite boss"
