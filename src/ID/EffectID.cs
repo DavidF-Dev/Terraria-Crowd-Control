@@ -93,6 +93,7 @@ public static class EffectID
     public const string DisableTheConstant = "disable_the_constant";
     public const string TempTheConstant = "temp_the_constant";
     public const string SwitchSoundtrack = "switch_soundtrack";
+    public const string ShuffleSfx = "shuffle_sfx";
     public const string MysteryBlocks = "mystery_blocks";
 
     // --- Boss effects

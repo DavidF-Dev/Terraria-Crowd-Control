@@ -152,6 +152,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("\"Don't Starve\" mode (Disable)", "disable_the_constant", WorldFolder) {Price = 800, Description = "Disable \"Don't Starve\" mode in the streamer's world"},
                 new Effect("\"Don't Starve\" mode (Temporary)", "temp_the_constant", WorldFolder) {Price = 100, Description = "Temporarily enable \"Don't Starve\" mode in the streamer's world"},
                 new Effect("Switch soundtrack", "switch_soundtrack", WorldFolder) {Price = 5, Description = "Switch between the Vanilla and Otherworld soundtrack"},
+                new Effect("Shuffle sound effects", "shuffle_sfx", WorldFolder) {Price = 10, Description = "Temporarily shuffle all sound effects"},
                 new Effect("Mystery blocks", "mystery_blocks", WorldFolder) {Price = 25, Description = "Temporarily hide the blocks on screen, such that their identity is unknown"},
 
                 // --- Boss effects

@@ -261,6 +261,7 @@
                 disable_the_constant:   "[Viewer] disabled Don't Starve mode in [Player]'s world"
                 temp_the_constant:      "[Viewer] temporarily enabled Don't Starve mode in [Player]'s world for [Duration] seconds"
                 switch_soundtrack:  "[Viewer] started playing the {0} soundtrack"
+                shuffle_sfx:        "[Viewer] shuffled sound effects for [Duration] seconds"
                 mystery_blocks:     "[Viewer] hid the identity of blocks for [Duration] seconds"
                 
                 # Boss effects

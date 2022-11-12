@@ -896,6 +896,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, false));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, 60f * 5f));
         AddEffect(new SwitchSoundtrack());
+        AddEffect(new ShuffleSfxEffect(30f));
         AddEffect(new MysteryBlocksEffect(30f));
 
         // --- Boss effects
