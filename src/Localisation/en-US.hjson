@@ -201,6 +201,7 @@
                 buff_movement:      "[Viewer] boosted the movement speed of [Player]"
                 buff_obsidian_skin: "[Viewer] provided [Player] with lava immunity buffs"
                 buff_mining:        "[Viewer] boosted the mining speed of [Player]"
+                buff_swim:          "[Viewer] provided [Player] with swimming buffs"
                 
                 # Buff effects (negative)
                 buff_freeze:        "[Viewer] cast a chilly spell over [Player]"

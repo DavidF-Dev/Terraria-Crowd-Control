@@ -94,6 +94,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("+ Boost movement speed", "buff_movement", BuffFolder) {Price = 10, Description = "Temporarily give the streamer movement buffs"},
                 new Effect("+ Provide lava immunity", "buff_obsidian_skin", BuffFolder) {Price = 10, Description = "Temporarily give the streamer immunity to lava"},
                 new Effect("+ Boost mining speed", "buff_mining", BuffFolder) {Price = 10, Description = "Temporarily give the streamer increased mining speed"},
+                new Effect("+ Provide swimming buffs", "buff_swim", BuffFolder) {Price = 10, Description = "Temporarily give the streamer improved swimming ability"},
 
                 // --- Buff effects (negative)
                 new Effect("- Freeze", "buff_freeze", BuffFolder) {Price = 20, Description = "Temporarily freeze the streamer in place"},

@@ -825,6 +825,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectID.BuffMiningSpeed, EffectSeverity.Positive, 60f,
             ItemID.ShroomiteDiggingClaw, EmoteID.ItemPickaxe, null,
             BuffID.Mining, BuffID.SugarRush));
+        AddEffect(new BuffEffect(EffectID.BuffSwimming, EffectSeverity.Positive, 60f,
+            ItemID.Flipper, -1, null,
+            BuffID.Gills, BuffID.Flipper, BuffID.WaterWalking, BuffID.Merfolk, BuffID.Wet));
 
         // --- Buff effects (negative)
         AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,
