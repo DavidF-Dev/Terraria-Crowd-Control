@@ -411,7 +411,7 @@ public sealed class CrowdControlMod : Mod
             // Cause a player to fart
             case PacketID.Fart:
             {
-                FartEffect.PlayFartSound(Main.player[reader.ReadInt32()]);
+                FartEffect.HandleClientFart(Main.player[reader.ReadInt32()]);
                 break;
             }
         }
