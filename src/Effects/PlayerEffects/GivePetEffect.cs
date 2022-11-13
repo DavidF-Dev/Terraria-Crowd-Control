@@ -38,7 +38,7 @@ public sealed class GivePetEffect : CrowdControlEffect
         BuffID.TwinsPet, BuffID.SkeletronPet, BuffID.KingSlimePet, BuffID.QueenSlimePet, BuffID.BrainOfCthulhuPet, BuffID.EyeOfCthulhuPet, BuffID.DeerclopsPet,
         BuffID.DukeFishronPet
 
-        // 1.4.4
+        // TODO: 1.4.4
         /*
         BuffID.JunimoPet, BuffID.BlueChickenPet, BuffID.Spiffo, BuffID.CavelingGardener, BuffID.DirtiestBlock, BuffID.DualSlimePet
         */

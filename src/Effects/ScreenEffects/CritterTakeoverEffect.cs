@@ -31,7 +31,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         NPCID.Dolphin, NPCID.Pupfish, NPCID.SeaTurtle, NPCID.Seahorse, NPCID.Seagull, NPCID.Seagull2,
         NPCID.EmpressButterfly, NPCID.MagmaSnail
 
-        // 1.4
+        // TODO: 1.4.4
         /*
         NPCID.GrayCockatiel, NPCID.YellowCockatiel, NPCID.Toucan, NPCID.BlueMacaw, NPCID.ScarletMacaw,
         NPCID.TownSlimeGreen, NPCID.TownSlimePurple, NPCID.TownSlimeRainbow, NPCID.TownSlimeRed,

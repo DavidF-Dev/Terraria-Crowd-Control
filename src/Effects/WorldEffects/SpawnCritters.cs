@@ -42,7 +42,7 @@ public sealed class SpawnCritters : CrowdControlEffect
         NPCID.GoldMouse, NPCID.GoldSeahorse, NPCID.SquirrelGold, NPCID.GoldWaterStrider, NPCID.GoldWorm, NPCID.BunnySlimed, NPCID.BunnyXmas,
         NPCID.PartyBunny, NPCID.Dolphin, NPCID.SeaTurtle, NPCID.CrimsonBunny, NPCID.CorruptBunny
 
-        // 1.4.4
+        // TODO: 1.4.4
         /*
         NPCID.GrayCockatiel, NPCID.YellowCockatiel, NPCID.Toucan, NPCID.BlueMacaw, NPCID.ScarletMacaw, 
         NPCID.Stinkbug, NPCID.Shimmerfly, BoundTownSlimeYellow
