@@ -47,7 +47,7 @@ public sealed class FartEffect : CrowdControlEffect
         }
     }
 
-    private static void HandleServerFart(Player player)
+    private static void HandleFart(Player player)
     {
         // Provide stinky buff for a short time (also happens client-side)
         player.AddBuff(BuffID.Stinky, 100);
@@ -108,7 +108,7 @@ public sealed class FartEffect : CrowdControlEffect
         if (NetUtils.IsSinglePlayer)
         {
             // Trigger effects
-            HandleServerFart(GetLocalPlayer().Player);
+            HandleFart(GetLocalPlayer().Player);
         }
         else
         {
@@ -127,7 +127,7 @@ public sealed class FartEffect : CrowdControlEffect
         NetUtils.MakeFart(player.Player, -1, player.Player.whoAmI);
 
         // Handle effects server-side
-        HandleServerFart(player.Player);
+        HandleFart(player.Player);
     }
 
     #endregion
