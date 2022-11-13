@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Golden Slime Rain" to despawn healthy slimes when the effect is over.
 - Changed "Give Item" effects to prefix the item name with the viewer's name.
 - Changed "Teleport to Death" to fail if too close to the death point.
+- Changed "Fart" effect to be audible by other players in multiplayer.
+- Changed "Fart" effect to also show visual effects.
 
 ## [1.0.8] - 2022-10-25
 

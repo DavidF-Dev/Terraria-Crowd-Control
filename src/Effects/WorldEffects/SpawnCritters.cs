@@ -177,7 +177,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             if (NetUtils.IsServer)
             {
                 // Sync the new max life for clients
-                WorldUtils.SyncNPCSpecial(npc);
+                NetUtils.SyncNPCSpecial(index);
             }
         }
 

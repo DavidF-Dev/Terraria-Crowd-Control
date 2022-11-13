@@ -22,9 +22,24 @@ public enum PacketID : byte
 
     /// <summary>
     ///     Sync an npc in non-vanilla ways (from the server).<br />
-    ///     Packet data: (int)whoAmI (int)lifeMax (int)life
+    ///     Packet data: (int)whoAmI (int)lifeMax (int)life<br />
+    ///     Use <see cref="Utilities.NetUtils.SyncNPCSpecial"/>.
     /// </summary>
     SyncNPCSpecial,
+
+    /// <summary>
+    ///     Sync an item in non-vanilla ways (from the server).<br />
+    ///     Packet data: (int)whoAmI (int)noGrabDelay<br />
+    ///     Use <see cref="Utilities.NetUtils.SyncItemSpecial" />.
+    /// </summary>
+    SyncItemSpecial,
+
+    /// <summary>
+    ///     Make a player fart (from the server).<br />
+    ///     Packet data: (int)whoAmI<br />
+    ///     Use <see cref="Utilities.NetUtils.MakeFart" />.
+    /// </summary>
+    Fart,
 
     /// <summary>
     ///     Despawn an npc (from client).<br />

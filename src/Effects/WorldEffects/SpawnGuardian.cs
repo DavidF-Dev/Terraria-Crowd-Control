@@ -132,7 +132,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         if (NetUtils.IsServer)
         {
-            WorldUtils.SyncNPCSpecial(npc);
+            NetUtils.SyncNPCSpecial(index);
         }
     }
 

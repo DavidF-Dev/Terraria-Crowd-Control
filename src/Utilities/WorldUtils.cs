@@ -135,19 +135,6 @@ public static class WorldUtils
     }
 
     /// <summary>
-    ///     Sync an NPC is non-vanilla ways.
-    /// </summary>
-    public static void SyncNPCSpecial(NPC npc)
-    {
-        var packet = CrowdControlMod.GetInstance().GetPacket(4);
-        packet.Write((byte)PacketID.SyncNPCSpecial);
-        packet.Write(npc.whoAmI);
-        packet.Write(npc.lifeMax);
-        packet.Write(npc.life);
-        packet.Send();
-    }
-
-    /// <summary>
     ///     Get the tiles in a radial area around the given center position.
     /// </summary>
     [Pure]

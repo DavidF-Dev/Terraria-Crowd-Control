@@ -132,7 +132,7 @@ public sealed class DespawnNPCFeature : IFeature
             if (NetUtils.IsServer)
             {
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, bunnyIndex);
-                WorldUtils.SyncNPCSpecial(bunny);
+                NetUtils.SyncNPCSpecial(bunnyIndex);
             }
 
             _managedNpcs.RemoveAt(i);

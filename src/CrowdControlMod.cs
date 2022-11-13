@@ -397,6 +397,23 @@ public sealed class CrowdControlMod : Mod
                 npc.life = life;
                 break;
             }
+
+            // Sync the given item in non-vanilla ways
+            case PacketID.SyncItemSpecial:
+            {
+                var itemWhoAmI = reader.ReadInt32();
+                var noGrabDelay = reader.ReadInt32();
+                var item = Main.item[itemWhoAmI];
+                item.noGrabDelay = noGrabDelay;
+                break;
+            }
+
+            // Cause a player to fart
+            case PacketID.Fart:
+            {
+                FartEffect.PlayFartSound(Main.player[reader.ReadInt32()]);
+                break;
+            }
         }
     }
 
@@ -798,7 +815,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new IcyFeetEffect(25f));
         AddEffect(new NoItemPickupEffect(20f));
         AddEffect(new FlingUpwardsEffect());
-        AddEffect(new PlaySoundEffect(EffectID.FartSound, null, SoundID.Item16));
+        AddEffect(new FartEffect());
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60f,
