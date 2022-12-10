@@ -29,7 +29,15 @@ public static class MaxStatUtils
         }
 
         player.statLifeMax += amount;
-        amount = amount > 0 ? player.statLifeMax % 500 : player.statLifeMax < 20 ? player.statLifeMax - 20 : 0;
+        if (amount > 0)
+        {
+            amount = player.statLifeMax > 500 ? player.statLifeMax % 500 : 0;
+        }
+        else
+        {
+            amount = player.statLifeMax < 20 ? player.statLifeMax - 20 : 0;
+        }
+        
         player.statLifeMax -= amount;
         return amount;
 #else
@@ -111,7 +119,15 @@ public static class MaxStatUtils
         }
 
         player.statManaMax += amount;
-        amount = amount > 0 ? player.statManaMax % 200 : player.statManaMax < 20 ? player.statManaMax - 20 : 0;
+        if (amount > 0)
+        {
+            amount = player.statManaMax > 200 ? player.statManaMax % 200 : 0;
+        }
+        else
+        {
+            amount = player.statManaMax < 20 ? player.statManaMax - 20 : 0;
+        }
+        
         player.statManaMax -= amount;
         return amount;
 #else
