@@ -1,13 +1,15 @@
-﻿using CrowdControlMod.Utilities;
-using Terraria;
+﻿using Terraria;
+#if !TML_2022_09
+using CrowdControlMod.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+#endif
 
 namespace CrowdControlMod.Features;
 
 /// <summary>
-///     Allow editing the max stat (HP or MP) using new tModLoader API.
+///     Allow editing the max stat (HP or MP).
 /// </summary>
 public static class MaxStatUtils
 {
@@ -18,6 +20,19 @@ public static class MaxStatUtils
     /// </summary>
     public static int AddStatLifeMax(this Player player, int amount)
     {
+#if TML_2022_09
+        if (amount == 0 ||
+            (amount > 0 && player.statLifeMax >= 500) ||
+            (amount < 0 && player.statLifeMax <= 20))
+        {
+            return amount;
+        }
+
+        player.statLifeMax += amount;
+        amount = amount > 0 ? player.statLifeMax % 500 : player.statLifeMax < 20 ? player.statLifeMax - 20 : 0;
+        player.statLifeMax -= amount;
+        return amount;
+#else
         var editMaxStatPlayer = player.GetModPlayer<EditMaxStatPlayer>();
         switch (amount)
         {
@@ -79,6 +94,7 @@ public static class MaxStatUtils
 
         TerrariaUtils.WriteDebug($"{nameof(AddStatLifeMax)}: (Crystal={player.ConsumedLifeCrystals}) (Fruit={player.ConsumedLifeFruit}) (Residual={amount}) (Removed={editMaxStatPlayer.LifeCrystalRemoved})");
         return amount;
+#endif
     }
 
     /// <summary>
@@ -86,6 +102,19 @@ public static class MaxStatUtils
     /// </summary>
     public static int AddStatManaMax(this Player player, int amount)
     {
+#if TML_2022_09
+        if (amount == 0 ||
+            (amount > 0 && player.statManaMax >= 200) ||
+            (amount < 0 && player.statManaMax <= 20))
+        {
+            return amount;
+        }
+
+        player.statManaMax += amount;
+        amount = amount > 0 ? player.statManaMax % 200 : player.statManaMax < 20 ? player.statManaMax - 20 : 0;
+        player.statManaMax -= amount;
+        return amount;
+#else
         switch (amount)
         {
             case > 0:
@@ -111,12 +140,12 @@ public static class MaxStatUtils
         }
 
         return amount;
+#endif
     }
 
     #endregion
 
-    #region Nested Types
-
+#if !TML_2022_09
     // ReSharper disable once UnusedType.Local
     private sealed class EditMaxStatItem : GlobalItem
     {
@@ -182,6 +211,5 @@ public static class MaxStatUtils
 
         #endregion
     }
-
-    #endregion
+#endif
 }
