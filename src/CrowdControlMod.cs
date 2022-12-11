@@ -870,6 +870,9 @@ public sealed class CrowdControlMod : Mod
             ItemID.Blindfold, -1,
             p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
+        AddEffect(new BuffEffect(EffectID.BuffCurse, EffectSeverity.Negative, 8f,
+            ItemID.DemonScythe, EmoteID.DebuffCurse, null,
+            BuffID.Cursed, BuffID.NoBuilding));
 
         // -- Inventory effects
         AddEffect(new DropItemEffect());

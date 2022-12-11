@@ -29,6 +29,7 @@ public sealed class BuffEffect : CrowdControlEffect
     private readonly bool _hasInvisibilityBuff;
     private readonly bool _hasMiningBuff;
     private readonly bool _hasOnFireBuff;
+    private readonly bool _hasCursedBuff;
 
     #endregion
 
@@ -45,6 +46,7 @@ public sealed class BuffEffect : CrowdControlEffect
         _hasInvisibilityBuff = _buffs.Contains(BuffID.Invisibility);
         _hasMiningBuff = _buffs.Contains(BuffID.Mining);
         _hasOnFireBuff = _buffs.Contains(BuffID.OnFire) || _buffs.Contains(BuffID.OnFire3);
+        _hasCursedBuff = _buffs.Contains(BuffID.Cursed);
     }
 
     #endregion
@@ -111,6 +113,11 @@ public sealed class BuffEffect : CrowdControlEffect
             {
                 player.Player.buffImmune[BuffID.OnFire] = false;
                 player.Player.buffImmune[BuffID.OnFire3] = false;
+            }
+
+            if (_hasCursedBuff)
+            {
+                player.Player.buffImmune[BuffID.Cursed] = false;
             }
         }
 
