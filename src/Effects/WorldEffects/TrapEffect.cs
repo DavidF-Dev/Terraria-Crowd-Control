@@ -39,7 +39,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => EffectID.WaterTrap,
             TrapType.Lava => EffectID.LavaTrap,
             TrapType.Honey => EffectID.HoneyTrap,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new NotImplementedException(nameof(type))
         };
     }
 
@@ -53,7 +53,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => (9, 7),
             TrapType.Lava => (5, 5),
             TrapType.Honey => (9, 7),
-            _ => throw new ArgumentOutOfRangeException(nameof(trapType), trapType, null)
+            _ => throw new NotImplementedException(nameof(trapType))
         };
     }
 
@@ -80,7 +80,7 @@ public sealed class TrapEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         var (halfWidth, halfHeight) = GetTrapSize(_type);
-        if (player.Player.IsWithinSpawnProtection(Math.Max(halfWidth, halfHeight) / 2f))
+        if (player.Player.IsWithinSpawnProtection(Math.Max(halfWidth, halfHeight) / 2f) || !CanSpawnTrap(player.Player))
         {
             return CrowdControlResponseStatus.Retry;
         }
@@ -88,7 +88,7 @@ public sealed class TrapEffect : CrowdControlEffect
         if (NetUtils.IsSinglePlayer)
         {
             // Spawn the trap in single-player
-            SpawnTrap(player);
+            SpawnTrap(player.Player);
         }
         else
         {
@@ -101,7 +101,7 @@ public sealed class TrapEffect : CrowdControlEffect
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
-        SpawnTrap(player);
+        SpawnTrap(player.Player);
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
@@ -119,7 +119,20 @@ public sealed class TrapEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(item, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
-    private void SpawnTrap(CrowdControlPlayer player)
+    private bool CanSpawnTrap(Player player)
+    {
+        return _type switch
+        {
+            TrapType.Cobweb => !player.IsStandingIn(TileID.Cobweb),
+            TrapType.Sand => !player.IsStandingIn(TileID.Sand) && !player.IsStandingIn(TileID.Pearlsand) && !player.IsStandingIn(TileID.Crimsand) && !player.IsStandingIn(TileID.Ebonsand),
+            TrapType.Water => !player.IsInLiquid(LiquidID.Water),
+            TrapType.Lava => !player.IsInLiquid(LiquidID.Lava),
+            TrapType.Honey => !player.IsInLiquid(LiquidID.Honey),
+            _ => throw new NotImplementedException(nameof(_type))
+        };
+    }
+
+    private void SpawnTrap(Player player)
     {
         var (halfWidth, halfHeight) = GetTrapSize(_type);
         switch (_type)
@@ -127,7 +140,7 @@ public sealed class TrapEffect : CrowdControlEffect
             case TrapType.Cobweb:
             {
                 // Set the empty tiles around the player radially to cobwebs
-                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -143,7 +156,7 @@ public sealed class TrapEffect : CrowdControlEffect
             case TrapType.Sand:
             {
                 // Set the empty tiles around the player to sand blocks
-                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth, halfHeight))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
                     {
@@ -166,21 +179,23 @@ public sealed class TrapEffect : CrowdControlEffect
                     TrapType.Water => LiquidID.Water,
                     TrapType.Lava => LiquidID.Lava,
                     TrapType.Honey => LiquidID.Honey,
-                    _ => throw new ArgumentOutOfRangeException()
+                    _ => throw new NotImplementedException(nameof(_type))
                 };
 
                 // Set the tiles around the player to contain liquid
                 // PlaceLiquid() syncs with the clients
-                foreach (var (x, y) in player.Player.GetTilesAround(halfWidth, halfHeight))
+                foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
                 {
                     WorldGen.PlaceLiquid(x, y, (byte)liquidId, 255);
                 }
 
                 break;
             }
+            default:
+                throw new NotImplementedException(nameof(_type));
         }
 
-        var tile = player.Player.position.ToTileCoordinates();
+        var tile = player.position.ToTileCoordinates();
         if (NetUtils.IsSinglePlayer)
         {
             // Update framing

@@ -69,14 +69,34 @@ public static class PlayerUtils
     ///     Check if the player is standing on or in the given tile type.
     /// </summary>
     [Pure]
-    public static bool IsStandingOn(this Player player, int id)
+    public static bool IsStandingOn(this Player player, ushort id)
     {
         var tile = player.position.ToTileCoordinates();
         for (var x = tile.X; x <= tile.X + 1; x++)
         {
             for (var y = tile.Y + 2; y < tile.Y + 4; y++)
             {
-                if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
+                if (x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+                    Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    [Pure]
+    public static bool IsStandingIn(this Player player, ushort id)
+    {
+        var tile = player.position.ToTileCoordinates();
+        for (var x = tile.X; x < tile.X + 1; x++)
+        {
+            for (var y = tile.Y; y < tile.Y + 3; y++)
+            {
+                if (x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+                    Main.tile[x, y].HasTile && Main.tile[x, y].TileType == id)
                 {
                     return true;
                 }
@@ -97,7 +117,8 @@ public static class PlayerUtils
         {
             for (var y = tile.Y; y < tile.Y + 3; y++)
             {
-                if (Main.tile[x, y].LiquidAmount > 0 && (type == -1 || Main.tile[x, y].LiquidType == type))
+                if (x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+                    Main.tile[x, y].LiquidAmount > 0 && (type == -1 || Main.tile[x, y].LiquidType == type))
                 {
                     return true;
                 }
