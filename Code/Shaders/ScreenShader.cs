@@ -24,7 +24,7 @@ public sealed class ScreenShader
 
     /// <summary>
     ///     Local path to the shader asset.<br />
-    ///     E.g. src/Shaders/SH_MyShader
+    ///     E.g. Assets/Shaders/SH_MyShader
     /// </summary>
     private readonly string _shaderAssetPath;
 
@@ -44,7 +44,7 @@ public sealed class ScreenShader
 
     public ScreenShader(string shaderAssetName, string shaderPassName, string filterName)
     {
-        _shaderAssetPath = $"src/Shaders/{shaderAssetName}";
+        _shaderAssetPath = $"Assets/Shaders/{shaderAssetName}";
         _shaderPassName = shaderPassName;
         _filterName = filterName;
     }

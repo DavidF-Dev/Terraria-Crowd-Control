@@ -119,13 +119,10 @@ public sealed class CrowdControlMod : Mod
 
     public override void Load()
     {
-        // Add effects
         AddAllEffects();
-
-        // Add features
         AddAllFeatures();
 
-        // Ignore silent exceptions
+        // Ignore silent exceptions such that they are not displayed in chat
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Connect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.DoConnect");
         Logging.IgnoreExceptionContents("System.Net.Sockets.Socket.Receive");
@@ -306,7 +303,7 @@ public sealed class CrowdControlMod : Mod
     [Pure]
     public CrowdControlEffect? GetEffect(string id)
     {
-        return _effects.TryGetValue(id, out var effect) ? effect : null;
+        return _effects.GetValueOrDefault(id);
     }
 
     /// <summary>
@@ -351,7 +348,7 @@ public sealed class CrowdControlMod : Mod
     private void HandleClientPacket(BinaryReader reader)
     {
         // Determine what to do with the incoming packet (client-side)
-        // Note, this runs even if the session is not active
+        // Note; this runs even if the session is not active
         var packetId = (PacketID)reader.ReadByte();
         switch (packetId)
         {
@@ -459,7 +456,7 @@ public sealed class CrowdControlMod : Mod
 
     private void HandleSessionConnection()
     {
-        // Note, this is run on a managed thread
+        // Note; this is run on a managed thread
 
         const string host = "127.0.0.1";
         const int port = 58430;
@@ -760,7 +757,7 @@ public sealed class CrowdControlMod : Mod
 
         // ReSharper disable once SuspiciousTypeConversion.Global (unimplemented feature)
         // Note that in a future Crowd Control api, this may be determined when the session starts
-        if (effect is IModEffect modEffect && !ModUtils.TryGetMod(modEffect.ModName, out _))
+        if (effect is IModEffect modEffect && !string.IsNullOrEmpty(modEffect.ModName) && !ModUtils.TryGetMod(modEffect.ModName, out _))
         {
             effect.Dispose();
             TerrariaUtils.WriteDebug($"Effect '{effect.Id}' is unavailable because a required mod is not active: '{modEffect.ModName}'");
@@ -780,7 +777,7 @@ public sealed class CrowdControlMod : Mod
 
         // ReSharper disable once SuspiciousTypeConversion.Global
         // Note that in a future Crowd Control api, this may be determined when the session starts
-        if (provider is IModEffect modEffectProvider && !ModUtils.TryGetMod(modEffectProvider.ModName, out _))
+        if (provider is IModEffect modEffectProvider && !string.IsNullOrEmpty(modEffectProvider.ModName) && !ModUtils.TryGetMod(modEffectProvider.ModName, out _))
         {
             TerrariaUtils.WriteDebug($"Effect provider '{id}' is unavailable because a required mod is not active: '{modEffectProvider.ModName}'");
             return;

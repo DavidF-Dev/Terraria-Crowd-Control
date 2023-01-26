@@ -227,7 +227,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     {
         #region Properties
 
-        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarp";
+        public override string Texture => $"{nameof(CrowdControlMod)}/Assets/Textures/ShinyMagikarp";
 
         #endregion
 
@@ -346,7 +346,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     {
         #region Properties
 
-        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarpBuff";
+        public override string Texture => $"{nameof(CrowdControlMod)}/Assets/Textures/ShinyMagikarpBuff";
 
         #endregion
 
@@ -396,7 +396,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         #region Properties
 
-        public override string Texture => $"{nameof(CrowdControlMod)}/src/Assets/ShinyMagikarp";
+        public override string Texture => $"{nameof(CrowdControlMod)}/Assets/Textures/ShinyMagikarp";
 
         #endregion
 
