@@ -8,6 +8,12 @@ public readonly struct CrowdControlResponse
     #region Static Methods
 
     [Pure]
+    public static CrowdControlResponse FromJson(string data)
+    {
+        return JsonConvert.DeserializeObject<CrowdControlResponse>(data);
+    }
+    
+    [Pure]
     public static string ToJson(in CrowdControlResponse response)
     {
         return JsonConvert.SerializeObject(response);

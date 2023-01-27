@@ -13,6 +13,12 @@ public readonly struct CrowdControlRequest
         return JsonConvert.DeserializeObject<CrowdControlRequest>(data);
     }
 
+    [Pure]
+    public static string ToJson(in CrowdControlRequest request)
+    {
+        return JsonConvert.SerializeObject(request);
+    }
+
     #endregion
 
     #region Fields
