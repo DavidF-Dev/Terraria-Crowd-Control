@@ -83,6 +83,8 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     protected override int StartEmote => EmoteID.ItemBugNet;
 
     #endregion

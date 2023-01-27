@@ -111,10 +111,12 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 
     #region Properties
 
-    public int MusicId => MusicID.Mushrooms;
+    int IMusicEffect.MusicId => MusicID.Mushrooms;
 
-    public int MusicPriority => 10;
+    int IMusicEffect.MusicPriority => 10;
 
+    public override EffectCategory Category => EffectCategory.Screen;
+    
     protected override int StartEmote => EmoteID.ItemBeer;
 
     #endregion

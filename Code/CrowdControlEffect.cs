@@ -102,6 +102,11 @@ public abstract class CrowdControlEffect : IFeature
     public float TimeLeft { get; private set; }
 
     /// <summary>
+    ///     Category of the effect; 1:1 with folders in the Terraria Pack.
+    /// </summary>
+    public abstract EffectCategory Category { get; }
+
+    /// <summary>
     ///     Severity of the effect on the streamer. Can be used by implementing classes when writing their effect message.
     /// </summary>
     protected EffectSeverity Severity { get; }

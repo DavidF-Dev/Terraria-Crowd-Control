@@ -41,6 +41,7 @@ public sealed class DropItemEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Inventory;
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

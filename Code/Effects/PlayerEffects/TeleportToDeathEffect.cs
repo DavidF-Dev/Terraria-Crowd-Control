@@ -33,6 +33,8 @@ public sealed class TeleportToDeathEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     #region Methods
 
     protected override void OnSessionStarted()

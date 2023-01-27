@@ -106,6 +106,8 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

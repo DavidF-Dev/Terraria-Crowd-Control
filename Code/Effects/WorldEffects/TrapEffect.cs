@@ -65,6 +65,8 @@ public sealed class TrapEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     #region Constructors
 
     public TrapEffect(TrapType type) : base(GetId(type), null, EffectSeverity.Negative)

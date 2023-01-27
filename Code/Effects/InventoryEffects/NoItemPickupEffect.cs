@@ -32,6 +32,8 @@ public sealed class NoItemPickupEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Inventory;
+    
     protected override int StartEmote => EmoteID.DebuffCurse;
 
     #endregion

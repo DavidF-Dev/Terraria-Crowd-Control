@@ -47,6 +47,8 @@ public sealed class InfiniteAmmoEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     protected override int StartEmote => EmoteID.ItemMinishark;
 
     #endregion

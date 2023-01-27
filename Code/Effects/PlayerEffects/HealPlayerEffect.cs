@@ -21,6 +21,8 @@ public sealed class HealPlayerEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     protected override int StartEmote => EmoteID.EmotionLove;
 
     #endregion

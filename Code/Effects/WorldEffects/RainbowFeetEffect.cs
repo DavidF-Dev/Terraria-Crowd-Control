@@ -44,6 +44,8 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     protected override int StartEmote => EmoteID.WeatherRainbow;
 
     #endregion

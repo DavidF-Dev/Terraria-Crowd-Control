@@ -54,6 +54,8 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Inventory;
+    
     protected override int StartEmote => EmoteID.ItemGoldpile;
 
     #endregion

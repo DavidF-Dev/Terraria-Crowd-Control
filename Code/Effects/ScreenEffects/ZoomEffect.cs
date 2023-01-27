@@ -35,6 +35,8 @@ public sealed class ZoomEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Screen;
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

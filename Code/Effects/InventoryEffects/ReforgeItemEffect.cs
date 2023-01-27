@@ -79,6 +79,8 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Inventory;
+    
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

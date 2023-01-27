@@ -114,6 +114,8 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     #region Constructors
 
     public ShootExplosives(float duration, Shoot shoot) : base(GetId(shoot), duration, GetSeverity(shoot))

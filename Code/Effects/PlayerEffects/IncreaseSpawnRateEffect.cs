@@ -29,6 +29,8 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     protected override int StartEmote => EmoteID.EmotionAlert;
 
     #endregion

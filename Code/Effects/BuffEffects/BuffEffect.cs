@@ -53,6 +53,8 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Buff;
+
     protected override int StartEmote { get; }
 
     #endregion

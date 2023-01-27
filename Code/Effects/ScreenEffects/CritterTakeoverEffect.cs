@@ -47,6 +47,8 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Screen;
+    
     #region Constructors
 
     public CritterTakeoverEffect(float duration) : base(EffectID.CritterTakeover, duration, EffectSeverity.Neutral)

@@ -37,6 +37,8 @@ public abstract class ChallengeEffect : CrowdControlEffect
 
     #endregion
 
+    public sealed override EffectCategory Category => EffectCategory.Challenge;
+
     #region Constructors
 
     protected ChallengeEffect(string id, float duration) : base(id, duration, EffectSeverity.Neutral)

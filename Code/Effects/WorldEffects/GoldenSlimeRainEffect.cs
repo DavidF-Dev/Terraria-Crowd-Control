@@ -90,10 +90,12 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
     #region Properties
 
-    public int MusicId => MusicID.DayRemix;
+    int IMusicEffect.MusicId => MusicID.DayRemix;
 
-    public int MusicPriority => 0;
+    int IMusicEffect.MusicPriority => 0;
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     #endregion
 
     #region Methods

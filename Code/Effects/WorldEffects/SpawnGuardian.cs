@@ -138,6 +138,8 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.World;
+    
     #region Nested Types
 
     // ReSharper disable once ClassNeverInstantiated.Local

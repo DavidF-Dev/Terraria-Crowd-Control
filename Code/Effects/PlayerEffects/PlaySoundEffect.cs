@@ -29,6 +29,8 @@ public sealed class PlaySoundEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

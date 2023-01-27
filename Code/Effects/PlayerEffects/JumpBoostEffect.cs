@@ -27,6 +27,8 @@ public sealed class JumpBoostEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     #region Constructors
 
     public JumpBoostEffect(float duration) : base(EffectID.JumpBoost, duration, EffectSeverity.Neutral)

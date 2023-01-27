@@ -43,6 +43,8 @@ public sealed class RunBoostEffect : CrowdControlEffect
 
     #region Properties
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     protected override int StartEmote => EmoteID.PartyCake;
 
     #endregion

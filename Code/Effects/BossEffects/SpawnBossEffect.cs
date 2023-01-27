@@ -108,4 +108,6 @@ public sealed class SpawnBossEffect : CrowdControlEffect
     }
 
     #endregion
+
+    public override EffectCategory Category => EffectCategory.Boss;
 }

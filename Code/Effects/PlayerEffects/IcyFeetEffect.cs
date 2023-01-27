@@ -31,6 +31,8 @@ public sealed class IcyFeetEffect : CrowdControlEffect
 
     #endregion
 
+    public override EffectCategory Category => EffectCategory.Player;
+    
     #region Constructors
 
     public IcyFeetEffect(float duration) : base(EffectID.IcyFeet, duration, EffectSeverity.Negative)
