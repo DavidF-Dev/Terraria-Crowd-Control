@@ -90,7 +90,14 @@ public static class ItemUtils
         {
             if (!string.IsNullOrEmpty(Owner))
             {
+                if (Mod == null)
+                {
+                }
+
+                Mod.Logger.Debug($"Saving {item.Name}");
                 tag["Owner"] = Owner;
+                Mod.Logger.Debug($"Saved {item.Name}");
+                //tag.Add("Owner", Owner);
             }
         }
 
@@ -105,17 +112,14 @@ public static class ItemUtils
 
         public override GlobalItem Clone(Item from, Item to)
         {
-            var copy = new ItemOwner
+            var clone = base.Clone(from, to);
+            var owner = from.GetGlobalItem<ItemOwner>().Owner;
+            if (!string.IsNullOrEmpty(owner))
             {
-                Owner = from.GetGlobalItem<ItemOwner>().Owner
-            };
-
-            if (!string.IsNullOrEmpty(copy.Owner))
-            {
-                ApplyOwner(to, copy.Owner);
+                ApplyOwner(to, owner);
             }
 
-            return copy;
+            return clone;
         }
 
         #endregion
