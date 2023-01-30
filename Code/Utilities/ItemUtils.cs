@@ -90,14 +90,7 @@ public static class ItemUtils
         {
             if (!string.IsNullOrEmpty(Owner))
             {
-                if (Mod == null)
-                {
-                }
-
-                Mod.Logger.Debug($"Saving {item.Name}");
-                tag["Owner"] = Owner;
-                Mod.Logger.Debug($"Saved {item.Name}");
-                //tag.Add("Owner", Owner);
+                tag.Add("Owner", Owner);
             }
         }
 
