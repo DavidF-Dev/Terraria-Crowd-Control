@@ -96,8 +96,6 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     public bool IsSessionActive => _isSessionRunning && _isSessionConnected;
 
-    public override uint ExtraPlayerBuffSlots => 32;
-
     /// <summary>
     ///     Effects are paused if the session is not running, Terraria is paused, or the player is dead.
     /// </summary>
