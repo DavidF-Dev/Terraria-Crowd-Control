@@ -126,6 +126,7 @@ public sealed class Terraria : SimpleTCPPack
                 // --- World effects
                 new Effect("World effects", WorldFolder, ItemKind.Folder),
                 new Effect("Use a sun dial", "sun_dial", WorldFolder) {Price = 50, Description = "Fast-forward the time to morning"},
+                new Effect("Use a moon dial", "moon_dial", WorldFolder) {Price = 50, Description = "Fast-forward the time to dusk"},
                 new Effect("Set to noon", "time_noon", WorldFolder) {Price = 40, Description = "Set the time to noon"},
                 new Effect("Set to midnight", "time_midnight", WorldFolder) {Price = 40, Description = "Set the time to midnight"},
                 new Effect("Set to sunrise", "time_sunrise", WorldFolder) {Price = 40, Description = "Set the time to sunrise"},

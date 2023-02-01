@@ -9,14 +9,17 @@ using Terraria.ID;
 namespace CrowdControlMod.Effects.WorldEffects;
 
 /// <summary>
-///     Use an enchanted sundial to fast forward time.
+///     Use an enchanted dial to fast forward time.
 /// </summary>
-public sealed class UseSundialEffect : CrowdControlEffect
+public sealed class UseDialEffect : CrowdControlEffect
 {
+    private readonly bool _sun;
+    
     #region Constructors
 
-    public UseSundialEffect() : base(EffectID.UseSunDial, null, EffectSeverity.Neutral)
+    public UseDialEffect(bool sun) : base(sun ? EffectID.UseSunDial : EffectID.UseMoonDial, null, EffectSeverity.Neutral)
     {
+        _sun = sun;
     }
 
     #endregion
@@ -33,20 +36,27 @@ public sealed class UseSundialEffect : CrowdControlEffect
             return CrowdControlResponseStatus.Failure;
         }
 
-        if (Main.fastForwardTime)
+        if (Main.IsFastForwardingTime())
         {
-            // A sundial is already in progress
+            // A dial is already in progress
             return CrowdControlResponseStatus.Retry;
         }
 
         if (NetUtils.IsSinglePlayer)
         {
             // Simply fast forward time in single-player
-            Main.fastForwardTime = true;
+            if (_sun)
+            {
+                Main.fastForwardTimeToDawn = true;
+            }
+            else
+            {
+                Main.fastForwardTimeToDusk = true;
+            }
         }
         else
         {
-            // Start the sundial on the server
+            // Start the dial on the server
             SendPacket(PacketID.HandleEffect);
         }
 
@@ -62,7 +72,15 @@ public sealed class UseSundialEffect : CrowdControlEffect
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         // Fast forward time and notify the clients
-        Main.fastForwardTime = true;
+        if (_sun)
+        {
+            Main.fastForwardTimeToDawn = true;
+        }
+        else
+        {
+            Main.fastForwardTimeToDusk = true;
+        }
+        
         NetMessage.SendData(MessageID.WorldData);
     }
 

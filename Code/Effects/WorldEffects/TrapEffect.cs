@@ -39,7 +39,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => EffectID.WaterTrap,
             TrapType.Lava => EffectID.LavaTrap,
             TrapType.Honey => EffectID.HoneyTrap,
-            _ => throw new NotImplementedException(nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
     }
 
@@ -53,7 +53,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => (9, 7),
             TrapType.Lava => (5, 5),
             TrapType.Honey => (9, 7),
-            _ => throw new NotImplementedException(nameof(trapType))
+            _ => throw new ArgumentOutOfRangeException(nameof(trapType))
         };
     }
 
@@ -130,7 +130,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => !player.IsInLiquid(LiquidID.Water),
             TrapType.Lava => !player.IsInLiquid(LiquidID.Lava),
             TrapType.Honey => !player.IsInLiquid(LiquidID.Honey),
-            _ => throw new NotImplementedException(nameof(_type))
+            _ => throw new ArgumentOutOfRangeException(nameof(_type))
         };
     }
 
@@ -181,7 +181,7 @@ public sealed class TrapEffect : CrowdControlEffect
                     TrapType.Water => LiquidID.Water,
                     TrapType.Lava => LiquidID.Lava,
                     TrapType.Honey => LiquidID.Honey,
-                    _ => throw new NotImplementedException(nameof(_type))
+                    _ => throw new ArgumentOutOfRangeException(nameof(_type))
                 };
 
                 // Set the tiles around the player to contain liquid
@@ -194,7 +194,7 @@ public sealed class TrapEffect : CrowdControlEffect
                 break;
             }
             default:
-                throw new NotImplementedException(nameof(_type));
+                throw new ArgumentOutOfRangeException(nameof(_type));
         }
 
         var tile = player.position.ToTileCoordinates();

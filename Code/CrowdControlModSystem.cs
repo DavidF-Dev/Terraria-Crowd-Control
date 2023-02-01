@@ -35,12 +35,6 @@ public sealed class CrowdControlModSystem : ModSystem
     /// <inheritdoc cref="PostUpdateNPCs" />
     public static event Action? PostUpdateNPCsHook;
 
-    /// <inheritdoc cref="SaveWorldData" />
-    public static event Action<TagCompound>? SaveWorldDataHook;
-
-    /// <inheritdoc cref="LoadWorldData" />
-    public static event Action<TagCompound>? LoadWorldDataHook;
-
     #endregion
 
     #region Methods
@@ -85,16 +79,6 @@ public sealed class CrowdControlModSystem : ModSystem
     public override void PostUpdateNPCs()
     {
         PostUpdateNPCsHook?.Invoke();
-    }
-
-    public override void SaveWorldData(TagCompound tag)
-    {
-        SaveWorldDataHook?.Invoke(tag);
-    }
-
-    public override void LoadWorldData(TagCompound tag)
-    {
-        LoadWorldDataHook?.Invoke(tag);
     }
 
     #endregion

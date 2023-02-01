@@ -88,11 +88,6 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
 
         #region Methods
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Dynamite");
-        }
-
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.Dynamite);

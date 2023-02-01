@@ -73,8 +73,8 @@ public sealed class FartEffect : CrowdControlEffect
         }
 
         // Spawn a poo item
-        // TODO: Change to actual poo item in 1.4.4
-        var pooItemIndex = Item.NewItem(null, player.position, player.width, player.height, ItemID.StinkPotion, noBroadcast: true);
+        // TODO: Test poo item works here
+        var pooItemIndex = Item.NewItem(null, player.position, player.width, player.height, ItemID.PoopBlock, noBroadcast: true);
         Main.item[pooItemIndex].velocity = new Vector2(-player.direction * 2f, -2f);
         Main.item[pooItemIndex].noGrabDelay = 60 * 6;
         Main.item[pooItemIndex].SetItemOwner(player.name);

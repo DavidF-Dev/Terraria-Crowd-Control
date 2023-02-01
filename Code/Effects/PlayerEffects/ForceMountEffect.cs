@@ -22,12 +22,8 @@ public sealed class ForceMountEffect : CrowdControlEffect
         BuffID.Flamingo, BuffID.DarkHorseMount, BuffID.MajesticHorseMount, BuffID.PaintedHorseMount, BuffID.LavaSharkMount,
         BuffID.BasiliskMount, BuffID.UnicornMount, BuffID.PigronMount, BuffID.QueenSlimeMount, BuffID.Rudolph, BuffID.ScutlixMount,
         BuffID.UFOMount, BuffID.WitchBroom, BuffID.CuteFishronMount, BuffID.DrillMount, BuffID.DarkMageBookMount, BuffID.WallOfFleshGoatMount,
-        BuffID.PirateShipMount, BuffID.SpookyWoodMount, BuffID.SantankMount, BuffID.MinecartRightMech, BuffID.MeowmereMinecartRight
-
-        // TODO: 1.4.4
-        /*
+        BuffID.PirateShipMount, BuffID.SpookyWoodMount, BuffID.SantankMount, BuffID.MinecartRightMech, BuffID.MeowmereMinecartRight,
         BuffID.WolfMount
-        */
     };
 
     private static readonly string[] CalamityMounts =

@@ -9,7 +9,6 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using SoundPlayer = On.Terraria.Audio.SoundPlayer;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
@@ -53,13 +52,17 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.World;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        SoundPlayer.Play += OnPlaySfx;
+        On_SoundPlayer.Play += OnPlaySfx;
         _seed = Main.rand.Next(VanillaSfx.Length);
 
         return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
@@ -67,7 +70,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     protected override void OnStop()
     {
-        SoundPlayer.Play -= OnPlaySfx;
+        On_SoundPlayer.Play -= OnPlaySfx;
         _seed = 0;
     }
 
@@ -76,7 +79,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.Bell, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
-    private SlotId OnPlaySfx(SoundPlayer.orig_Play orig, Terraria.Audio.SoundPlayer self, ref SoundStyle style, Vector2? position)
+    private SlotId OnPlaySfx(On_SoundPlayer.orig_Play orig, SoundPlayer self, ref SoundStyle style, Vector2? position)
     {
         // Play a random sfx for the attempted sfx
         var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());

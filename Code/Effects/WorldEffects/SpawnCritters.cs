@@ -40,13 +40,9 @@ public sealed class SpawnCritters : CrowdControlEffect
         NPCID.BlueDragonfly, NPCID.GreenDragonfly, NPCID.OrangeDragonfly, NPCID.RedDragonfly, NPCID.YellowDragonfly, NPCID.TruffleWorm, NPCID.GoldBird,
         NPCID.GoldBunny, NPCID.GoldButterfly, NPCID.GoldDragonfly, NPCID.GoldFrog, NPCID.GoldGoldfish, NPCID.GoldGrasshopper, NPCID.GoldLadyBug,
         NPCID.GoldMouse, NPCID.GoldSeahorse, NPCID.SquirrelGold, NPCID.GoldWaterStrider, NPCID.GoldWorm, NPCID.BunnySlimed, NPCID.BunnyXmas,
-        NPCID.PartyBunny, NPCID.Dolphin, NPCID.SeaTurtle, NPCID.CrimsonBunny, NPCID.CorruptBunny
-
-        // TODO: 1.4.4
-        /*
+        NPCID.PartyBunny, NPCID.Dolphin, NPCID.SeaTurtle, NPCID.CrimsonBunny, NPCID.CorruptBunny,
         NPCID.GrayCockatiel, NPCID.YellowCockatiel, NPCID.Toucan, NPCID.BlueMacaw, NPCID.ScarletMacaw, 
-        NPCID.Stinkbug, NPCID.Shimmerfly, BoundTownSlimeYellow
-        */
+        NPCID.Stinkbug, NPCID.Shimmerfly
     };
 
     private static readonly string[] CalamityCritters =
@@ -237,7 +233,6 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shiny Magikarp");
             Main.npcFrameCount[Type] = 1;
             NPCID.Sets.CountsAsCritter[Type] = true;
             Main.npcCatchable[Type] = false;
@@ -356,9 +351,6 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shiny Magikarp");
-            Description.SetDefault("*glub... glub...*");
-
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

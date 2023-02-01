@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Globals;
@@ -48,12 +49,12 @@ public sealed class CrowdControlItem : GlobalItem
     #endregion
 
     #region Methods
-
-    public override void OnCreate(Item item, ItemCreationContext context)
+    
+    public override void OnCreated(Item item, ItemCreationContext context)
     {
-        if (context is RecipeCreationContext recipeCreationContext)
+        if (context is RecipeItemCreationContext recipeCreationContext)
         {
-            OnCraftedHook?.Invoke(recipeCreationContext.recipe);
+            OnCraftedHook?.Invoke(recipeCreationContext.Recipe);
         }
     }
 

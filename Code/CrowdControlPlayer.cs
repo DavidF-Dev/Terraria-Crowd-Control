@@ -118,27 +118,24 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     #region Methods
 
-    public override void OnEnterWorld(Player player)
+    public override void OnEnterWorld()
     {
-        if (Main.myPlayer == player.whoAmI)
-        {
-            // Start the crowd control session upon entering a world
-            CrowdControlMod.GetInstance().StartCrowdControlSession();
-        }
+        // Start the crowd control session upon entering a world
+        CrowdControlMod.GetInstance().StartCrowdControlSession();
     }
 
-    public override void PlayerDisconnect(Player player)
+    public override void PlayerDisconnect()
     {
-        if (Main.myPlayer == player.whoAmI)
+        if (Main.myPlayer == Player.whoAmI)
         {
             // Stop the crowd control session upon disconnecting from a server
             CrowdControlMod.GetInstance().StopCrowdControlSession();
         }
 
-        PlayerDisconnectHook?.Invoke(player);
+        PlayerDisconnectHook?.Invoke(Player);
     }
 
-    public override void OnRespawn(Player player)
+    public override void OnRespawn()
     {
         OnRespawnHook?.Invoke();
     }

@@ -185,7 +185,16 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault(SteamUtils.IsTeebu ? "Teebu's Favourite Boss" : "Dungeon Guardian");
+            // TODO: Can we use Terraria's localisation for Dungeon Guardian instead of specifying our own?
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // TODO: Check if this works...
+            if (IsTeebu)
+            {
+                typeName = "Teebu's Favourite Boss";
+            }
         }
 
         public override void SetDefaults()
@@ -224,10 +233,10 @@ public sealed class SpawnGuardian : CrowdControlEffect
             return !IsFake;
         }
 
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)
         {
             // Ignore others if fake
-            return IsFake ? false : null;
+            return !IsFake;
         }
 
         public override void BossHeadSlot(ref int index)

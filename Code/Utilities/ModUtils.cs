@@ -70,7 +70,7 @@ public static class ModUtils
             var buff = BuffLoader.GetBuff(i);
             if (buff != null && buff.Mod == mod && (predicate?.Invoke(buff) ?? true))
             {
-                TerrariaUtils.WriteDebug($"[{buff.Type}] {buff.DisplayName.GetDefault()} ({buff.Name}): {buff.Description.GetDefault()}");
+                TerrariaUtils.WriteDebug($"[{buff.Type}] {buff.DisplayName.Value} ({buff.Name}): {buff.Description.Value}");
             }
         }
     }
@@ -91,7 +91,7 @@ public static class ModUtils
             var proj = ProjectileLoader.GetProjectile(i);
             if (proj != null && proj.Mod == mod && (predicate?.Invoke(proj) ?? true))
             {
-                TerrariaUtils.WriteDebug($"[{proj.Type}] {proj.DisplayName.GetDefault()} ({proj.Name})");
+                TerrariaUtils.WriteDebug($"[{proj.Type}] {proj.DisplayName.Value} ({proj.Name})");
             }
         }
     }
@@ -112,7 +112,7 @@ public static class ModUtils
             var item = ItemLoader.GetItem(i);
             if (item != null && item.Mod == mod && (predicate?.Invoke(item) ?? true))
             {
-                TerrariaUtils.WriteDebug($"[{item.Type}] {item.DisplayName.GetDefault()} ({item.Name})");
+                TerrariaUtils.WriteDebug($"[{item.Type}] {item.DisplayName.Value} ({item.Name})");
             }
         }
     }
@@ -133,7 +133,7 @@ public static class ModUtils
             var npc = NPCLoader.GetNPC(i);
             if (npc != null && npc.Mod == mod && (predicate?.Invoke(npc) ?? true))
             {
-                TerrariaUtils.WriteDebug($"[{npc.Type}] {npc.DisplayName.GetDefault()} ({npc.Name})");
+                TerrariaUtils.WriteDebug($"[{npc.Type}] {npc.DisplayName.Value} ({npc.Name})");
             }
         }
     }

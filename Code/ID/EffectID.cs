@@ -67,6 +67,7 @@ public static class EffectID
 
     // --- World effects
     public const string UseSunDial = "sun_dial";
+    public const string UseMoonDial = "moon_dial";
     public const string SetTimeNoon = "time_noon";
     public const string SetTimeMidnight = "time_midnight";
     public const string SetTimeSunrise = "time_sunrise";

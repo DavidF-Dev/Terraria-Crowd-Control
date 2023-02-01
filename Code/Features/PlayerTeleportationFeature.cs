@@ -1,6 +1,6 @@
 ﻿using System;
 using CrowdControlMod.Config;
-using On.Terraria;
+using Terraria;
 
 namespace CrowdControlMod.Features;
 
@@ -34,23 +34,23 @@ public sealed class PlayerTeleportationFeature : IFeature
 
     public void SessionStarted()
     {
-        Player.HasUnityPotion += HasUnityPotion;
-        Player.TakeUnityPotion += TakeUnityPotion;
+        On_Player.HasUnityPotion += HasUnityPotion;
+        On_Player.TakeUnityPotion += TakeUnityPotion;
     }
 
     public void SessionStopped()
     {
         _nextUsageTime = DateTime.MinValue;
         _canUseFreeTeleport = false;
-        Player.HasUnityPotion -= HasUnityPotion;
-        Player.TakeUnityPotion -= TakeUnityPotion;
+        On_Player.HasUnityPotion -= HasUnityPotion;
+        On_Player.TakeUnityPotion -= TakeUnityPotion;
     }
 
     public void Dispose()
     {
     }
 
-    private bool HasUnityPotion(Player.orig_HasUnityPotion orig, Terraria.Player self)
+    private bool HasUnityPotion(On_Player.orig_HasUnityPotion orig, Player self)
     {
         if (CrowdControlMod.GetLocalPlayer().Player != self || !CrowdControlMod.GetInstance().IsSessionActive || !IsAllowed || DateTime.Now < _nextUsageTime)
         {
@@ -63,7 +63,7 @@ public sealed class PlayerTeleportationFeature : IFeature
         return true;
     }
 
-    private void TakeUnityPotion(Player.orig_TakeUnityPotion orig, Terraria.Player self)
+    private void TakeUnityPotion(On_Player.orig_TakeUnityPotion orig, Player self)
     {
         // Do not take the potion if a free teleportation was used
         if (CrowdControlMod.GetLocalPlayer().Player == self && _canUseFreeTeleport)

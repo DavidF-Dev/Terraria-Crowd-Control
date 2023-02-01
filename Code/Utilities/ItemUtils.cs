@@ -96,7 +96,7 @@ public static class ItemUtils
 
         public override void LoadData(Item item, TagCompound tag)
         {
-            var owner = tag.GetString("Owner");
+            var owner = tag.ContainsKey("Owner") ? tag.GetString("Owner") : string.Empty;
             if (!string.IsNullOrEmpty(owner))
             {
                 item.GetGlobalItem<ItemOwner>().SetOwner(item, owner);

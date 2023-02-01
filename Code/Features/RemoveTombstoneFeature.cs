@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using CrowdControlMod.Utilities;
-using On.Terraria;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Main = Terraria.Main;
 
 namespace CrowdControlMod.Features;
 
@@ -33,7 +32,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     #region Static Methods
 
-    private static int NewProjectile(Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1)
+    private static int NewProjectile(On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1)
     {
         // Default spawning behaviour
         var proj = Main.projectile[orig.Invoke(spawnSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1)];
@@ -57,7 +56,10 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public RemoveTombstoneFeature()
     {
-        Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += NewProjectile;
+        // TODO: MethodNotFound exception during Mod Load
+        // Also occured for SoundPlayer.Play when placed below
+        // Is this only happening during Mod.Load?
+        // On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += NewProjectile;
     }
 
     #endregion
@@ -74,7 +76,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public void Dispose()
     {
-        Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= NewProjectile;
+        // On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= NewProjectile;
     }
 
     #endregion

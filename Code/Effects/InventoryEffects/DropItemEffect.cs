@@ -169,7 +169,6 @@ public sealed class DropItemEffect : CrowdControlEffect
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Luna's Consumable Owl");
             Main.npcFrameCount[Type] = Main.npcFrameCount[NPCID.Owl];
             Main.npcCatchable[Type] = false;
         }
