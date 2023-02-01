@@ -49,7 +49,7 @@ public sealed class CrowdControlItem : GlobalItem
     #endregion
 
     #region Methods
-    
+
     public override void OnCreated(Item item, ItemCreationContext context)
     {
         if (context is RecipeItemCreationContext recipeCreationContext)
