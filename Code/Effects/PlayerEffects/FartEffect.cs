@@ -73,7 +73,6 @@ public sealed class FartEffect : CrowdControlEffect
         }
 
         // Spawn a poo item
-        // TODO: Test poo item works here
         var pooItemIndex = Item.NewItem(null, player.position, player.width, player.height, ItemID.PoopBlock, noBroadcast: true);
         Main.item[pooItemIndex].velocity = new Vector2(-player.direction * 2f, -2f);
         Main.item[pooItemIndex].noGrabDelay = 60 * 6;
