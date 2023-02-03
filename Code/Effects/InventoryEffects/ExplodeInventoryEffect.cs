@@ -31,20 +31,23 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
         var oldXSpeed = player.Player.velocity.X;
         var oldDir = player.Player.direction;
         var dropChance = 10 * Main.rand.Next(1, 10);
-        for (var i = 0; i < 50; i++)
+        var dropCount = 0;
+        var itemCount = 0;
+        for (var i = 10; i < 50; i++)
         {
-            if (i < 10 || player.Player.inventory[i].type == ItemID.None)
+            if (!player.Player.inventory[i].active || player.Player.inventory[i].IsAir)
             {
                 continue;
             }
 
+            itemCount++;
             if (Main.rand.Next(100) > dropChance)
             {
                 // Increase drop chance so it becomes more likely that a drop will occur
                 dropChance += 20;
                 continue;
             }
-
+            
             dropChance = 0;
 
             // Drop the item in a random direction
@@ -53,12 +56,14 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
             player.Player.direction = Main.rand.Next(100) > 50 ? -1 : 1;
             player.Player.velocity.X = Main.rand.Next(8, 26) * player.Player.direction;
             player.Player.DropSelectedItem();
+            dropCount++;
         }
 
         player.Player.selectedItem = oldSel;
         player.Player.velocity.X = oldXSpeed;
         player.Player.direction = oldDir;
-        return CrowdControlResponseStatus.Success;
+
+        return itemCount == 0 ? CrowdControlResponseStatus.Failure : dropCount == 0 ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)

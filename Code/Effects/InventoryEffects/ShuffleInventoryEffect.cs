@@ -34,33 +34,27 @@ public sealed class ShuffleInventoryEffect : CrowdControlEffect
         // 57 is the last coin slot
         // https://tshock.readme.io/docs/slot-indexes (out-dated)
         List<int> allSlots = new();
-        var hasItem = false;
         for (var i = 0; i < 58; i++)
         {
             allSlots.Add(i);
-
-            if (player.Player.inventory[i].active)
-            {
-                hasItem = true;
-            }
-        }
-
-        if (!hasItem)
-        {
-            // There are literally no items to be shuffled (this shouldn't happen)
-            return CrowdControlResponseStatus.Failure;
         }
 
         // Shuffle and swap the items around
         var slot = 0;
+        var c = 0;
         foreach (var shuffledSlot in allSlots.OrderBy(_ => Main.rand.Next()))
         {
             // Swap the items at 'slot' and 'shuffledSlot'
             (player.Player.inventory[slot], player.Player.inventory[shuffledSlot]) = (player.Player.inventory[shuffledSlot], player.Player.inventory[slot]);
+            if (!player.Player.inventory[slot].IsAir || !player.Player.inventory[shuffledSlot].IsAir)
+            {
+                c++;
+            }
+            
             slot++;
         }
 
-        return CrowdControlResponseStatus.Success;
+        return c != 0 ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)

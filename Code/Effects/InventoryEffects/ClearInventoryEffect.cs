@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -35,13 +34,13 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
         List<int> slotsToClear = new();
         for (var i = 10; i < 50; i++)
         {
-            if (player.Player.inventory[i].active)
+            if (player.Player.inventory[i].active && !player.Player.inventory[i].IsAir)
             {
                 slotsToClear.Add(i);
             }
         }
 
-        if (!slotsToClear.Any())
+        if (slotsToClear.Count == 0)
         {
             // There are no items to be cleared
             return CrowdControlResponseStatus.Failure;
