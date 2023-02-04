@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Added support for Terraria 1.4.4.
+- Added "Use Moon-dial" effect; which fast forwards the time to dusk.
+- Changed "Fart Effect" to spawn a poo item when the player is well-fed.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 
 # [1.1.0] - 2023-01-30
