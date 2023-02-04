@@ -1,4 +1,6 @@
-﻿using CrowdControlMod.ID;
+﻿using System;
+using CrowdControlMod.ID;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -44,6 +46,26 @@ public static class NetUtils
         packet.Send(toClient, ignoreClient);
     }
 
+    /// <summary>
+    ///     Send a tile square that is split up into multiple calls (16x16 squares).
+    /// </summary>
+    public static void SendTileSquare(int whoAmI, int tileX, int tileY, int sizeX, int sizeY)
+    {
+        const int maxSizeX = 16;
+        const int maxSizeY = 16;
+        for (var i = 0; i < (int)MathF.Ceiling(sizeX / (float)maxSizeX); i++)
+        {
+            for (var j = 0; j < (int)MathF.Ceiling(sizeY / (float)maxSizeY); j++)
+            {
+                var x = tileX + maxSizeX * i;
+                var y = tileY + maxSizeY * j;
+                var width = Math.Min(maxSizeX + maxSizeX * i, sizeX) % maxSizeX;
+                var height = Math.Min(maxSizeY + maxSizeY * j, sizeY) % maxSizeY;
+                NetMessage.SendTileSquare(whoAmI, x, y, width, height);
+            }
+        }
+    }
+    
     #endregion
 
     #region Properties

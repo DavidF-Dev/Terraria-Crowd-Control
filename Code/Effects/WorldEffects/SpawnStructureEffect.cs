@@ -86,7 +86,8 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         }
         else
         {
-            NetMessage.SendTileSquare(-1, tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
+            NetUtils.SendTileSquare(-1, tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
+            //NetMessage.SendTileSquare(-1, tileX - extentsX, tileY - extentsY, extentsX * 2, extentsY * 2);
         }
     }
 
@@ -112,6 +113,12 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        // TODO: Spawning structures does not sync with clients in multiplayer
+        if (NetUtils.IsClient)
+        {
+            return CrowdControlResponseStatus.Unavailable;
+        }
+        
         var player = GetLocalPlayer();
 
         if (player.Player.IsWithinSpawnProtection())
