@@ -273,6 +273,8 @@ Mods: {
 				minecart_challenge: Ride a minecart
 				touch_grass_challenge: Touch grass
 				eat_food_challenge: Eat any food
+				# {0} is the scrambled word | {1} is the category
+				word_puzzle_challenge: Unscramble the {1}: {0}
 			}
 
 			Stop: {
@@ -331,6 +333,27 @@ Mods: {
 					EggSpawned: A Shiny Magikarp appeared!
 					EggCaught: "{0} caught a Shiny Magikarp!"
 					EggLost: The Shiny Magikarp got away!
+				}
+
+				word_puzzle_challenge: {
+					Categories: {
+						TownNPC: Town NPC
+						Gemstone: Gemstone
+						Biome: Biome
+						Metal: Metal
+					}
+
+					Words: {
+						TownNPC: guide|nurse|merchant|angler|dryad|painter|golfer|mechanic|clothier|wizard|stylist
+						Gemstone: ruby|emerald|diamond|sapphire|amber|amethyst
+						Biome: forest|hallow|jungle|tundra|ocean|space|desert|corruption|crimson
+						Metal: copper|silver|demonite|crimtane|cobalt|palladium|mythril|adamantite|titanium
+					}
+
+					# {0} is the challenged player's name | {1} is the scrambled word | {2} is the category
+					Assist: Assist {0} in unscrambling the {2}: {1}
+					# {0} is the guesser's player name | {1} is the unscrambled word | {2} is the category
+					Completed: "{0} correctly unscrambled the {2}: {1}"
 				}
 			}
 		}

@@ -22,7 +22,7 @@ public static class TerrariaUtils
     ///     Write a message to the game chat.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>
-    public static void WriteMessage(string message, Color? colour = null, bool doLog = true)
+    public static void WriteMessage(string message, Color? colour = null, bool doLog = true, int excludedPlayer = -1)
     {
         var netText = NetworkText.FromLiteral(message);
         if (netText == NetworkText.Empty)
@@ -47,7 +47,7 @@ public static class TerrariaUtils
         if (NetUtils.IsServer)
         {
             // Broadcast if called from a server
-            ChatHelper.BroadcastChatMessage(netText, colour.GetValueOrDefault(Color.White));
+            ChatHelper.BroadcastChatMessage(netText, colour.GetValueOrDefault(Color.White), excludedPlayer);
             return;
         }
 
@@ -59,15 +59,15 @@ public static class TerrariaUtils
     ///     Write a message to the game chat, prefixed with the provided item.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>
-    public static void WriteMessage(short itemId, string message, Color? colour = null, bool doLog = true)
+    public static void WriteMessage(short itemId, string message, Color? colour = null, bool doLog = true, int excludedPlayer = -1)
     {
         if (itemId == 0)
         {
-            WriteMessage(message, colour, doLog);
+            WriteMessage(message, colour, doLog, excludedPlayer);
             return;
         }
 
-        WriteMessage($"{GetItemRichText(itemId)} {message}", colour, doLog);
+        WriteMessage($"{GetItemRichText(itemId)} {message}", colour, doLog, excludedPlayer);
     }
 
     /// <summary>

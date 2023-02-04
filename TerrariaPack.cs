@@ -210,6 +210,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Start \"minecart\" challenge", "minecart_challenge", ChallengesFolder) {Price = 20, Description = "Challenge the streamer to ride in a minecart"},
                 new Effect("Start \"touch grass\" challenge", "touch_grass_challenge", ChallengesFolder) {Price = 20, Description = "Challenge the streamer to touch a grass block"},
                 new Effect("Start \"eat food\" challenge", "eat_food_challenge", ChallengesFolder) {Price = 20, Description = "Challenge the streamer to consume any food"},
+                new Effect("Start \"word puzzle\" challenge", "word_puzzle_challenge", ChallengesFolder) {Price = 20, Description = "Challenge the streamer to complete a small word puzzle"},
 #endif
             };
         }

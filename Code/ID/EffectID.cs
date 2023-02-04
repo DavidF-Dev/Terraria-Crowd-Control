@@ -139,6 +139,7 @@ public static class EffectID
     public const string MinecartChallenge = "minecart_challenge";
     public const string TouchGrassChallenge = "touch_grass_challenge";
     public const string EatFoodChallenge = "eat_food_challenge";
+    public const string WordPuzzleChallenge = "word_puzzle_challenge";
 
     #endregion
 }

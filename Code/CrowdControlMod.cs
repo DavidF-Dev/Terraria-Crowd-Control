@@ -958,6 +958,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new MinecartChallenge(30f));
         AddEffect(new TouchGrassChallenge(15f));
         AddEffect(new EatFoodChallenge(30f));
+        AddEffect(new WordPuzzleChallenge(30f));
     }
 
     private void AddAllFeatures()
