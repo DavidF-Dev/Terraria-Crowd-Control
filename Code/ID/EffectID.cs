@@ -130,6 +130,8 @@ public static class EffectID
     public const string CritterTakeover = "critter_takeover";
     public const string ScreenShake = "screen_shake";
     public const string SniperMode = "sniper_mode";
+    public const string MonolithShimmer = "monolith_shimmer";
+    public const string MonolithMoonLord = "monolith_moon_lord";
 
     // --- Challenge effects
     public const string RandomChallenge = "random_challenge";

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Use Moon-dial" effect; which fast forwards the time to dusk.
 - Added "Word Puzzle" challenge; which asks the user to complete a small word puzzle.
 - Added "Noclip" effect; which shimmers the player so that they fall through blocks.
+- Added monolith-related effects; which temporarily change the background in-game.
 - Changed "Fart Effect" to spawn a poo item when the player is well-fed.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 

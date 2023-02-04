@@ -949,6 +949,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new CritterTakeoverEffect(60f));
         AddEffect(new ScreenShakeEffect(20f));
         AddEffect(new SniperModeEffect(25f));
+        AddEffect(new MonolithEffect(EffectID.MonolithShimmer, 30f, MonolithEffect.MonolithType.Shimmer));
+        AddEffect(new MonolithEffect(EffectID.MonolithMoonLord, 30f, MonolithEffect.MonolithType.MoonLord));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());

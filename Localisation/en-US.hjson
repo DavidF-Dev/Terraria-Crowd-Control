@@ -265,6 +265,8 @@ Mods: {
 				critter_takeover: "[Viewer] started a critter uprising for [Duration] seconds"
 				screen_shake: "[Viewer] caused [Player]'s screen to shake for [Duration] seconds"
 				sniper_mode: "[Viewer] caused [Player]'s camera to follow their mouse for [Duration] seconds"
+				monolith_shimmer: "[Viewer] enabled the Aether monolith for [Duration] seconds"
+				monolith_moon_lord: "[Viewer] enabled the Void monolith for [Duration] seconds"
 				# Challenge effects
 				challenge: "[Viewer] challenged [Player]: [c/FFE600:{0} within [Duration] seconds]"
 				swim_challenge: Go for a swim
