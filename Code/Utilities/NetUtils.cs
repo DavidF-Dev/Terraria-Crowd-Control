@@ -1,6 +1,5 @@
 ﻿using System;
 using CrowdControlMod.ID;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
