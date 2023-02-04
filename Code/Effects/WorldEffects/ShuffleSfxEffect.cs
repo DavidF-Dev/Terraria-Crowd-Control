@@ -95,7 +95,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
             style = VanillaSfx[(hash + _seed) % VanillaSfx.Length];
             return orig.Invoke(self, ref style, position, callback);
         }
-        catch (AssetLoadException e)
+        catch (AssetLoadException)
         {
             // "AssetLoadException: Asset could not be found: "Sounds\Zombie_131" (seems to be very rare)
             TerrariaUtils.WriteDebug($"Failed to shuffle sfx due to an exception. {nameof(AssetLoadException)}: {original.SoundPath} -> {style.SoundPath} (seed: {_seed}).");

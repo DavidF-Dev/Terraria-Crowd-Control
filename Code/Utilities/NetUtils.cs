@@ -59,7 +59,17 @@ public static class NetUtils
                 var x = tileX + maxSizeX * i;
                 var y = tileY + maxSizeY * j;
                 var width = Math.Min(maxSizeX + maxSizeX * i, sizeX) % maxSizeX;
+                if (width == 0)
+                {
+                    width = maxSizeX;
+                }
+
                 var height = Math.Min(maxSizeY + maxSizeY * j, sizeY) % maxSizeY;
+                if (height == 0)
+                {
+                    height = maxSizeY;
+                }
+
                 NetMessage.SendTileSquare(whoAmI, x, y, width, height);
             }
         }
