@@ -9,7 +9,7 @@
 A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
 
 - Effects and prices can be customised through the Crowd Control application.
-- Built for Terraria 1.4: Journey's End.
+- Built for Terraria 1.4.4: Labour of Love.
 - Supports single-player **and** multi-player.
 - Integrates with Calamity mod.
 - Friendly towards newer Terraria players - your viewers can provide helpful effects.
@@ -23,6 +23,7 @@ Here is just a taste of the effects that this mod has to offer:
 - Explode the player
 - Spawn bosses
 - Enable 'god-mode'
+- Shuffle sound effects
 - Reforge weapons and tools
 - Drop the player's items
 - Drastically increase the spawn-rate
@@ -43,7 +44,8 @@ Alternatively, those that are comfortable reading a little bit of code can view 
 
 ## Usage
 
-Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4, which can be downloaded for free on Steam.<br>
+Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4.4, which can be downloaded for free on
+Steam.<br>
 Older versions are not supported.<br><br>
 <img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
