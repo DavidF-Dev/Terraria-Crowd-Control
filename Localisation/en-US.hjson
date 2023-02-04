@@ -197,6 +197,7 @@ Mods: {
 				buff_confuse: "[Viewer] confused [Player]"
 				buff_invisible: "[Viewer] stole [Player]'s body..."
 				buff_blind: "[Viewer] obstructed [Player]'s screen"
+				buff_curse: "[Viewer] cursed [Player]"
 				# Inventory effects
 				drop_item: "[Viewer] caused [Player] to fumble and drop their {0}"
 				drop_item_stack: "[Viewer] caused [Player] to fumble and drop {1} {0}"
