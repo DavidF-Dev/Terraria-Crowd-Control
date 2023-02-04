@@ -113,6 +113,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Explode inventory", "explode_inventory", InventoryFolder) {Price = 100, Description = "Explode the streamer's inventory, dropping most items in random directions"},
                 new Effect("Clear inventory", "clear_inventory", InventoryFolder) {Price = 1250, Description = "Clear majority of the streamer's inventory, deleting the items"},
                 new Effect("Shuffle inventory", "shuffle_inventory", InventoryFolder) {Price = 75, Description = "Shuffle the streamer's inventory"},
+                new Effect("Switch loadout", "switch_loadout", InventoryFolder) {Price = 15, Description = "Randomly switch the streamer's inventory loadout to a random one"},
                 new Effect("Cannot pickup items", "no_item_pickup", InventoryFolder) {Price = 40, Description = "Temporarily prevent the streamer from picking up any items"},
                 new Effect("Reforge item", "item_prefix", InventoryFolder) {Price = 5, Description = "Reforge the streamer's held weapon or tool if possible"},
                 new Effect("Boost coin drops", "boost_money", InventoryFolder) {Price = 10, Description = "Temporarily increase the coin-drops from enemies"},

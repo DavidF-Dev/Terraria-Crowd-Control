@@ -205,6 +205,7 @@ Mods: {
 				explode_inventory: "[Viewer] exploded [Player]'s inventory"
 				clear_inventory: "[Viewer] cleared [Player]'s inventory"
 				shuffle_inventory: "[Viewer] shuffled [Player]'s inventory"
+				switch_loadout: "[Viewer] switched [Player]'s inventory loadout"
 				no_item_pickup: "[Viewer] prevented [Player] from picking up any items for [Duration] seconds"
 				item_prefix: "[Viewer] changed [Player]'s {0} to be {1}"
 				boost_money: "[Viewer] donated {0} to [Player] and increased coins drops from enemies for [Duration] seconds"
