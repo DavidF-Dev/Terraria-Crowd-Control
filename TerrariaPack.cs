@@ -105,6 +105,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("- Make invisible", "buff_invisible", BuffFolder) {Price = 30, Description = "Temporarily make the streamer invisible"},
                 new Effect("- Blind", "buff_blind", BuffFolder) {Price = 30, Description = "Temporarily decrease the streamer's vision"},
                 new Effect("- Curse", "buff_curse", BuffFolder) {Price = 20, Description = "Temporarily prevent the streamer from using any items"},
+                new Effect("- Noclip", "buff_shimmer", BuffFolder) {Price = 20, Description = "Temporarily cause the streamer to fall through blocks"},
 
                 // --- Inventory effects
                 new Effect("Inventory effects", "inventory_folder", ItemKind.Folder),

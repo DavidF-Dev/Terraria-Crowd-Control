@@ -868,6 +868,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new BuffEffect(EffectID.BuffCurse, EffectSeverity.Negative, 8f,
             ItemID.DemonScythe, EmoteID.DebuffCurse, null,
             BuffID.Cursed, BuffID.NoBuilding));
+        AddEffect(new NoclipEffect(2f));
 
         // -- Inventory effects
         AddEffect(new DropItemEffect());

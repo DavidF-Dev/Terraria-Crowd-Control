@@ -48,6 +48,7 @@ public static class EffectID
     public const string BuffInvisible = "buff_invisible";
     public const string BuffBlind = "buff_blind";
     public const string BuffCurse = "buff_curse";
+    public const string BuffShimmer = "buff_shimmer";
 
     // --- Inventory effects
     public const string DropItem = "drop_item";
