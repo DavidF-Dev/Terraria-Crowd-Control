@@ -198,6 +198,7 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     public override void ModifyScreenPosition()
     {
+        // TODO: ModifyScreenPosition is not being called by tModLoader in PlayerLoader.
         ModifyScreenPositionHook?.Invoke();
     }
 
