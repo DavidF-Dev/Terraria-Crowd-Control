@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using CrowdControlMod.Code.Utilities;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
+using MonoMod.RuntimeDetour.HookGen;
+using ReLogic.Content;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -62,7 +65,9 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        On_SoundPlayer.Play += OnPlaySfx;
+        // TODO: Detour not supported (temporary solution in place)
+        // On_SoundPlayer.Play += OnPlaySfx;
+        HookEndpointManager.Add(DetourUtils.PlaySoundMethod, OnPlaySfx);
         _seed = Main.rand.Next(VanillaSfx.Length);
 
         return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
@@ -70,7 +75,8 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     protected override void OnStop()
     {
-        On_SoundPlayer.Play -= OnPlaySfx;
+        // On_SoundPlayer.Play -= OnPlaySfx;
+        HookEndpointManager.Remove(DetourUtils.PlaySoundMethod, OnPlaySfx);
         _seed = 0;
     }
 
@@ -79,12 +85,23 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.Bell, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
-    private SlotId OnPlaySfx(On_SoundPlayer.orig_Play orig, SoundPlayer self, ref SoundStyle style, Vector2? position)
+    private SlotId OnPlaySfx(DetourUtils.PlaySoundDelegate orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback)
     {
         // Play a random sfx for the attempted sfx
         var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());
-        style = VanillaSfx[(hash + _seed) % VanillaSfx.Length];
-        return orig.Invoke(self, ref style, position);
+        var original = style;
+        try
+        {
+            style = VanillaSfx[(hash + _seed) % VanillaSfx.Length];
+            return orig.Invoke(self, ref style, position, callback);
+        }
+        catch (AssetLoadException e)
+        {
+            // "AssetLoadException: Asset could not be found: "Sounds\Zombie_131" (seems to be very rare)
+            TerrariaUtils.WriteDebug($"Failed to shuffle sfx due to an exception. {nameof(AssetLoadException)}: {original.SoundPath} -> {style.SoundPath} (seed: {_seed}).");
+            style = original;
+            return orig.Invoke(self, ref style, position, callback);
+        }
     }
 
     #endregion

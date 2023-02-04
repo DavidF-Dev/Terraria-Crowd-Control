@@ -1,5 +1,8 @@
 ﻿using System.Reflection;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 
 namespace CrowdControlMod.Code.Utilities;
@@ -14,6 +17,8 @@ public static class DetourUtils
 
     public static readonly MethodBase NewProjectileMethod;
 
+    public static readonly MethodBase PlaySoundMethod;
+    
     #endregion
 
     #region Constructors
@@ -35,6 +40,13 @@ public static class DetourUtils
             typeof(float),
             typeof(float)
         })!;
+
+        PlaySoundMethod = typeof(SoundPlayer).GetMethod("Play", BindingFlags.Public | BindingFlags.Instance, new[]
+        {
+            typeof(SoundStyle).MakeByRefType(),
+            typeof(Vector2?),
+            typeof(SoundUpdateCallback)
+        })!;
     }
 
     #endregion
@@ -54,6 +66,8 @@ public static class DetourUtils
         float ai0,
         float ai1,
         float ai2);
+
+    public delegate SlotId PlaySoundDelegate(SoundPlayer self, ref SoundStyle soundType, Vector2? position, SoundUpdateCallback callback);
 
     #endregion
 }
