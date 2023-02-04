@@ -4,6 +4,7 @@ using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -132,7 +133,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
                     continue;
                 }
 
-                if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
+                if (Collision.IsWorldPointSolid(new Vector2(x, y).ToWorldCoordinates()) || Main.tile[x, y].WallType > 0)
                 {
                     return CrowdControlResponseStatus.Retry;
                 }
