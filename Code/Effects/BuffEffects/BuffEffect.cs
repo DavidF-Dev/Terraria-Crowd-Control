@@ -13,12 +13,6 @@ namespace CrowdControlMod.Effects.BuffEffects;
 /// </summary>
 public sealed class BuffEffect : CrowdControlEffect
 {
-    #region Delegates
-
-    public delegate string GetStartMessageDelegate(string viewerString, string playerString);
-
-    #endregion
-
     #region Fields
 
     private readonly short _itemId;
