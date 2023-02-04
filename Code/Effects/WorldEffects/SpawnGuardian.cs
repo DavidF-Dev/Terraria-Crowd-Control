@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.WorldEffects;
@@ -173,6 +174,8 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override string Texture => $"Terraria/Images/NPC_{NPCID.DungeonGuardian}";
 
+        public override LocalizedText DisplayName => Lang.GetNPCName(NPCID.DungeonGuardian);
+        
         #endregion
 
         #region Events
@@ -183,14 +186,8 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         #region Methods
 
-        public override void SetStaticDefaults()
-        {
-            // TODO: Can we use Terraria's localisation for Dungeon Guardian instead of specifying our own?
-        }
-
         public override void ModifyTypeName(ref string typeName)
         {
-            // TODO: Check if this works...
             if (IsTeebu)
             {
                 typeName = "Teebu's Favourite Boss";
@@ -276,8 +273,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
                 NPC.rotation,
                 frame.Size() / 2f,
                 1.1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f,
-                SpriteEffects.None,
-                0);
+                SpriteEffects.None);
 
             return false;
         }

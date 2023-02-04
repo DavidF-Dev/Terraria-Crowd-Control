@@ -337,7 +337,6 @@ Mods: {
 		NPCs: {
 			LunaOwl.DisplayName: Luna's Consumable Owl
 			MagikarpNPC.DisplayName: Shiny Magikarp
-			CrowdControlGuardian.DisplayName: Dungeon Guardian
 		}
 
 		Projectiles: {
