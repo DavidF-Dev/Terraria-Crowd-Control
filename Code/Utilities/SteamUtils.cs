@@ -46,7 +46,7 @@ public static class SteamUtils
                 CrowdControlMod.GetInstance().Logger.Error($"Steam exception: {e}");
                 _steamId = 0UL;
             }
-            
+
             CrowdControlMod.GetInstance().Logger.Debug($"Steam ID: {_steamId.Value}");
             return _steamId.Value;
         }
