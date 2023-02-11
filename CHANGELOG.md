@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Added support for Terraria 1.4.4.
+- Added support for Terraria 1.4.4: Labour of Love.
 - Added "Use Moon-dial" effect; which fast forwards the time to dusk.
 - Added "Word Puzzle" challenge; which asks the user to complete a small word puzzle.
 - Added "Noclip" effect; which shimmers the player so that they fall through blocks.
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Switch Loadout" effect.
 - Changed "Fart Effect" to spawn a poo item when the player is well-fed.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
+- Fixed "Screen Shake" effect not pausing when game is paused.
 
 # [1.1.0] - 2023-01-30
 

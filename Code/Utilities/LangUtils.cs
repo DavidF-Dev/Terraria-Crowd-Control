@@ -6,7 +6,6 @@ namespace CrowdControlMod.Utilities;
 /// <summary>
 ///     Localisation utils for this mod.<br />
 ///     All localisation requests should happen through this class (except for config).
-///     TODO: tModLoader automatically formats localisation file; I want to format it manually.
 /// </summary>
 public static class LangUtils
 {

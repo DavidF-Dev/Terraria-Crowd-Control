@@ -17,15 +17,6 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
 
     #endregion
 
-    #region Static Methods
-
-    private static void ModifyScreenPosition()
-    {
-        Main.screenPosition += Main.rand.NextVector2Unit(1f, 1f) * Magnitude;
-    }
-
-    #endregion
-
     #region Constructors
 
     public ScreenShakeEffect(float duration) : base(EffectID.ScreenShake, duration, EffectSeverity.Negative)
@@ -54,5 +45,13 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.SoulofFright, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
+    private void ModifyScreenPosition()
+    {
+        if (!IsPaused)
+        {
+            Main.screenPosition += Main.rand.NextVector2Unit(1f, 1f) * Magnitude;
+        }
+    }
+    
     #endregion
 }
