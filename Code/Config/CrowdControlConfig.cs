@@ -8,7 +8,7 @@ using Terraria.ModLoader.Config;
 
 namespace CrowdControlMod.Config;
 
-[Label("Configuration")]
+[Label($"${ConfigPath}Label")]
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlConfig : ModConfig
 {

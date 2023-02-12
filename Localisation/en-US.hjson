@@ -2,6 +2,8 @@
 Mods: {
 	CrowdControlMod: {
 		Config: {
+			Label: Config
+
 			Header: {
 				Effect: "[i:855] Effect settings"
 				World: "[i:4766] World settings"
