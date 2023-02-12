@@ -35,6 +35,7 @@ public static class SteamUtils
                 return _steamId.Value;
             }
 
+            // Try to get the Steam ID from Steamworks; otherwise we assume Steam isn't opened
             try
             {
                 var steamId = SteamAPI.IsSteamRunning() && SteamUser.BLoggedOn() ? SteamUser.GetSteamID() : default;
@@ -42,12 +43,11 @@ public static class SteamUtils
             }
             catch (Exception e)
             {
-                // BUG: Check this is the cause (https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues/2)
-                CrowdControlMod.GetInstance().Logger.Error($"Steam exception: {e}");
+                CrowdControlMod.GetInstance().Logger.Warn($"Failed to retrieve Steam ID due to an exception: {e}");
                 _steamId = 0UL;
             }
 
-            CrowdControlMod.GetInstance().Logger.Debug($"Steam ID: {_steamId.Value}");
+            CrowdControlMod.GetInstance().Logger.Debug($"Loaded using Steam ID: {_steamId.Value}");
             return _steamId.Value;
         }
     }
