@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.Config;
+﻿using System;
+using CrowdControlMod.Config;
 using Steamworks;
 
 namespace CrowdControlMod.Utilities;
@@ -34,8 +35,19 @@ public static class SteamUtils
                 return _steamId.Value;
             }
 
-            var steamId = SteamAPI.IsSteamRunning() && SteamUser.BLoggedOn() ? SteamUser.GetSteamID() : default;
-            _steamId = steamId.IsValid() ? steamId.m_SteamID : 0UL;
+            try
+            {
+                var steamId = SteamAPI.IsSteamRunning() && SteamUser.BLoggedOn() ? SteamUser.GetSteamID() : default;
+                _steamId = steamId.IsValid() ? steamId.m_SteamID : 0UL;
+            }
+            catch (Exception e)
+            {
+                // BUG: Check this is the cause (https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues/2)
+                CrowdControlMod.GetInstance().Logger.Error($"Steam exception: {e}");
+                _steamId = 0UL;
+            }
+
+            CrowdControlMod.GetInstance().Logger.Debug($"Steam ID: {_steamId.Value}");
             return _steamId.Value;
         }
     }
