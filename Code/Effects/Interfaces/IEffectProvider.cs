@@ -11,9 +11,11 @@ public interface IEffectProvider
     #region Methods
 
     /// <summary>
-    ///     Get a collection of effect ids that should be started or stopped.
+    ///     Get a collection of effect ids that should be started or stopped.<br />
+    ///     - If starting; only return one id.<br />
+    ///     - If stopping; return all possible ids.
     /// </summary>
-    public IEnumerable<string> GetEffectIds(CrowdControlRequestType requestType);
+    public IReadOnlyCollection<string> GetEffectIds(CrowdControlRequestType requestType);
 
     #endregion
 }

@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Added support for Terraria 1.4.4: Labour of Love.
+- Added timed effect support in the Crowd Control browser source overlay.
 - Added "Use Moon-dial" effect; which fast forwards the time to dusk.
 - Added "Word Puzzle" challenge; which asks the user to complete a small word puzzle.
 - Added "Noclip" effect; which shimmers the player so that they fall through blocks.

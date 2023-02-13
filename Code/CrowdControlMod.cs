@@ -100,7 +100,7 @@ public sealed class CrowdControlMod : Mod
     ///     Effects are paused if the session is not running, Terraria is paused, or the player is dead.
     /// </summary>
     private bool IsSessionPaused => !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
-    
+
     /// <summary>
     ///     Should the session thread continue operating.
     /// </summary>
@@ -254,7 +254,7 @@ public sealed class CrowdControlMod : Mod
     ///     Queue a response to be sent to Crowd Control by an effect.<br />
     ///     Used by <see cref="CrowdControlEffect" /> when pausing/resuming/finishing.
     /// </summary>
-    public void QueueResponseToCrowdControl(int effectNetId, string effectId, CrowdControlResponseStatus status)
+    public void QueueResponseToCrowdControl(int effectNetId, CrowdControlEffect effect, CrowdControlResponseStatus status)
     {
         if (!IsSessionActive)
         {
@@ -264,12 +264,13 @@ public sealed class CrowdControlMod : Mod
 
         if (effectNetId == -1)
         {
-            TerrariaUtils.WriteDebug($"Attempted to queue a response for '{effectId}' with an invalid {nameof(effectNetId)}: {effectNetId}");
+            TerrariaUtils.WriteDebug($"Attempted to queue a response for '{effect.Id}' with an invalid {nameof(effectNetId)}: {effectNetId}");
             return;
         }
 
         // Generate a response and queue it to be sent in the connection thread
-        var response = new CrowdControlResponse(effectNetId, (int)status, $"{effectId}: {status}");
+        var timeRemaining = (int)(effect.TimeLeft * 1000);
+        var response = new CrowdControlResponse(effectNetId, (int)status, $"{effect.Id}: {status}", timeRemaining);
         var json = CrowdControlResponse.ToJson(response);
         lock (_responseQueue)
         {
@@ -550,25 +551,26 @@ public sealed class CrowdControlMod : Mod
                             var request = CrowdControlRequest.FromJson(data);
 
                             // Process the request
-                            CrowdControlResponseStatus responseStatus;
+                            ProcessEffectResult processResult;
                             try
                             {
-                                responseStatus = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
+                                processResult = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
                             }
                             catch (Exception e)
                             {
                                 TerrariaUtils.WriteDebug($"Cannot process Crowd Control effect '{request.Code}' due to an exception {e.Message}");
-                                responseStatus = CrowdControlResponseStatus.Failure;
+                                processResult = CrowdControlResponseStatus.Failure;
                             }
 
                             // Create a response object
-                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)responseStatus, $"{request.Code}: {responseStatus}"));
+                            var timeRemaining = processResult.Effect == null ? 0 : (int)(processResult.Effect.TimeLeft * 1000);
+                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(request.Id, (int)processResult.Response, $"{request.Code}: {processResult.Response}", timeRemaining));
                             TerrariaUtils.WriteDebug($"Outgoing response: {response}");
                         }
                         catch (Exception e)
                         {
                             TerrariaUtils.WriteDebug($"Cannot parse Crowd Control request due to an exception: {e.Message}");
-                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(0, 0, e.Message));
+                            response = CrowdControlResponse.ToJson(new CrowdControlResponse(0, 0, e.Message, 0));
                         }
 
                         // Send a response back to the crowd control service
@@ -676,7 +678,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private CrowdControlResponseStatus ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
+    private ProcessEffectResult ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
@@ -688,25 +690,27 @@ public sealed class CrowdControlMod : Mod
         // Check if this effect code should be handled specially
         if (_effectProviders.TryGetValue(code, out var provider))
         {
-            // Get the provided ids and attempt to process them, grouping them by the results
+            // Get the provided ids and attempt to process them
             // Note, an infinite loop is possible if the provider processes another (or the same) provider
-            var results = provider.GetEffectIds(requestType)
-                .Where(x => !string.IsNullOrEmpty(x) && !_effectProviders.ContainsKey(x))
-                .Distinct()
-                .GroupBy(x => ProcessEffect(netId, x, viewer, requestType))
-                .ToDictionary(x => x.Key, x => x.Count());
+            var providerIds = provider.GetEffectIds(requestType);
+            if (requestType == CrowdControlRequestType.Start)
+            {
+                // Process the provided effect; ensuring there is only one
+                return providerIds.Count switch
+                {
+                    0 => CrowdControlResponseStatus.Failure,
+                    > 1 => CrowdControlResponseStatus.Failure,
+                    _ => ProcessEffect(netId, providerIds.First(), viewer, requestType)
+                };
+            }
 
-            TerrariaUtils.WriteDebug($"Processed {results.Sum(x => x.Value)} handler request(s) '{requestType} {code}': " +
-                                     $"(suc={results.GetValueOrDefault(CrowdControlResponseStatus.Success)}, " +
-                                     $"retry={results.GetValueOrDefault(CrowdControlResponseStatus.Retry)}, " +
-                                     $"fail={results.GetValueOrDefault(CrowdControlResponseStatus.Failure)}, " +
-                                     $"unavailable={results.GetValueOrDefault(CrowdControlResponseStatus.Unavailable)})");
+            // Simply stop all provided effects
+            foreach (var providerId in providerIds)
+            {
+                ProcessEffect(netId, providerId, viewer, requestType);
+            }
 
-            // Choose an appropriate course of action based on the results
-            return results.ContainsKey(CrowdControlResponseStatus.Success) ? CrowdControlResponseStatus.Success
-                : results.ContainsKey(CrowdControlResponseStatus.Retry) ? CrowdControlResponseStatus.Retry
-                : results.ContainsKey(CrowdControlResponseStatus.Failure) || !results.Any() ? CrowdControlResponseStatus.Failure
-                : CrowdControlResponseStatus.Unavailable;
+            return CrowdControlResponseStatus.Success;
         }
 
         // Ensure the effect is supported
@@ -742,7 +746,7 @@ public sealed class CrowdControlMod : Mod
         }
 
         // TerrariaUtils.WriteDebug($"Processed effect request '{requestType} {code}' with response '{result}'");
-        return result;
+        return new ProcessEffectResult(effect, result);
     }
 
     private void AddEffect(CrowdControlEffect effect)
@@ -985,7 +989,7 @@ public sealed class CrowdControlMod : Mod
             {
                 continue;
             }
-            
+
             // Check if the effect should be paused or resumed
             var shouldUpdate = !sessionPaused && effect.ShouldUpdate();
             switch (shouldUpdate)
@@ -1007,6 +1011,46 @@ public sealed class CrowdControlMod : Mod
             // Update the effect
             effect.Update(delta);
         }
+    }
+
+    #endregion
+
+    #region Nested Types
+
+    private readonly struct ProcessEffectResult
+    {
+        #region Static Methods
+
+        public static implicit operator ProcessEffectResult(CrowdControlResponseStatus response)
+        {
+            return new ProcessEffectResult(null, response);
+        }
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        ///     Processed effect, if any.
+        /// </summary>
+        public readonly CrowdControlEffect? Effect;
+
+        /// <summary>
+        ///     Resulting response.
+        /// </summary>
+        public readonly CrowdControlResponseStatus Response;
+
+        #endregion
+
+        #region Constructors
+
+        public ProcessEffectResult(CrowdControlEffect? effect, CrowdControlResponseStatus response)
+        {
+            Effect = effect;
+            Response = response;
+        }
+
+        #endregion
     }
 
     #endregion

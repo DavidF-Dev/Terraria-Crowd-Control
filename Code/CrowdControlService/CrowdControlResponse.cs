@@ -32,16 +32,20 @@ public readonly struct CrowdControlResponse
     [JsonProperty("message")]
     public readonly string Message;
 
+    [JsonProperty("timeRemaining")]
+    public readonly int TimeRemaining;
+
     #endregion
 
     #region Constructors
 
     [JsonConstructor]
-    public CrowdControlResponse(int id, int status, string message)
+    public CrowdControlResponse(int id, int status, string message, int timeRemaining)
     {
         Id = id;
         Status = status;
         Message = message;
+        TimeRemaining = timeRemaining;
     }
 
     #endregion

@@ -58,7 +58,7 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
 
     #region Methods
 
-    public IEnumerable<string> GetEffectIds(CrowdControlRequestType requestType)
+    public IReadOnlyCollection<string> GetEffectIds(CrowdControlRequestType requestType)
     {
         if (requestType == CrowdControlRequestType.Stop)
         {
