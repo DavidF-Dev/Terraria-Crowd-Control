@@ -26,7 +26,8 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
         EffectID.SleepChallenge,
         EffectID.MinecartChallenge,
         // EffectID.TouchGrassChallenge,
-        EffectID.EatFoodChallenge
+        EffectID.EatFoodChallenge,
+        EffectID.WordPuzzleChallenge
     };
 
     #endregion
