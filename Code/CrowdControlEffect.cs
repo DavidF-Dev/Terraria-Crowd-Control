@@ -285,6 +285,7 @@ public abstract class CrowdControlEffect : IFeature
             TimeLeft -= delta;
             if (TimeLeft <= 0)
             {
+                TimeLeft = 0;
                 Stop();
                 TerrariaUtils.WriteDebug($"Stopped effect '{Id}' because the duration reached zero");
                 return;

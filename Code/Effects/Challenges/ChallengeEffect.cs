@@ -109,7 +109,7 @@ public abstract class ChallengeEffect : CrowdControlEffect
         {
             TerrariaUtils.WriteMessage(ItemID.LargeEmerald, LangUtils.GetEffectMiscText(LocId, "Completed"), Color.Green);
         }
-        else if (CrowdControlMod.GetInstance().IsSessionActive)
+        else if (TimeLeft == 0 && CrowdControlMod.GetInstance().IsSessionActive)
         {
             var player = GetLocalPlayer();
             var reason = LangUtils.GetEffectMiscText(LocId, "Failed", player.Player.name);
