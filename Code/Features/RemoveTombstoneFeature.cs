@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using CrowdControlMod.Code.Utilities;
 using CrowdControlMod.Utilities;
-using MonoMod.RuntimeDetour.HookGen;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -34,7 +32,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     #region Static Methods
 
-    private static int NewProjectile(DetourUtils.NewProjectileDelegate orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1, float ai2)
+    private static int NewProjectile(On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1, float ai2)
     {
         // Default spawning behaviour
         var proj = Main.projectile[orig.Invoke(spawnSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2)];
@@ -58,9 +56,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public RemoveTombstoneFeature()
     {
-        // TODO: Detour not supported (temporary solution in place)
-        // On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += NewProjectile;
-        HookEndpointManager.Add(DetourUtils.NewProjectileMethod, NewProjectile);
+        On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += NewProjectile;
     }
 
     #endregion
@@ -77,8 +73,7 @@ public sealed class RemoveTombstoneFeature : IFeature
 
     public void Dispose()
     {
-        // On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float -= NewProjectile;
-        HookEndpointManager.Remove(DetourUtils.NewProjectileMethod, NewProjectile);
+        On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float -= NewProjectile;
     }
 
     #endregion

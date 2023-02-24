@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using CrowdControlMod.Code.Utilities;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
-using MonoMod.RuntimeDetour.HookGen;
 using ReLogic.Content;
 using ReLogic.Utilities;
 using Terraria;
@@ -65,18 +63,16 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        // TODO: Detour not supported (temporary solution in place)
-        // On_SoundPlayer.Play += OnPlaySfx;
-        HookEndpointManager.Add(DetourUtils.PlaySoundMethod, OnPlaySfx);
+        On_SoundPlayer.Play += OnPlaySfx;
         _seed = Main.rand.Next(VanillaSfx.Length);
-
         return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
     }
 
+    
+
     protected override void OnStop()
     {
-        // On_SoundPlayer.Play -= OnPlaySfx;
-        HookEndpointManager.Remove(DetourUtils.PlaySoundMethod, OnPlaySfx);
+        On_SoundPlayer.Play -= OnPlaySfx;
         _seed = 0;
     }
 
@@ -85,7 +81,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         TerrariaUtils.WriteEffectMessage(ItemID.Bell, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
     }
 
-    private SlotId OnPlaySfx(DetourUtils.PlaySoundDelegate orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback)
+    private SlotId OnPlaySfx(On_SoundPlayer.orig_Play orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback)
     {
         // Play a random sfx for the attempted sfx
         var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());
