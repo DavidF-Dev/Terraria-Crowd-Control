@@ -146,7 +146,7 @@ public class FoxMorphFeature : IFeature
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                Color.White,
+                new Color(0, 102, 255, 255),
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 1.5f,
