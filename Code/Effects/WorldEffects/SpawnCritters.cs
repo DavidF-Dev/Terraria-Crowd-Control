@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.Features;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
@@ -127,6 +128,11 @@ public sealed class SpawnCritters : CrowdControlEffect
             SendPacket(PacketID.HandleEffect, SteamUtils.IsTheJayrBayr);
         }
 
+        if (SteamUtils.IsMagicMalaraith)
+        {
+            CrowdControlMod.GetInstance().GetFeature<FoxMorphFeature>(FeatureID.FoxMorph)?.Enable();
+        }
+        
         return CrowdControlResponseStatus.Success;
     }
 

@@ -35,6 +35,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="ModifyDrawInfo" />
     public delegate void ModifyDrawInfoDelegate(ref PlayerDrawSet drawInfo);
 
+    /// <inheritdoc cref="HideDrawLayers" />
+    public delegate void HideDrawLayersDelegate(PlayerDrawSet drawInfo);
+
     #endregion
 
     #region Fields
@@ -110,6 +113,9 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="ModifyDrawInfo" />
     public event ModifyDrawInfoDelegate? ModifyDrawInfoHook;
+
+    /// <inheritdoc cref="HideDrawLayers" />
+    public event HideDrawLayersDelegate? HideDrawLayersHook;
 
     /// <inheritdoc cref="ModifyScreenPosition" />
     public event Action? ModifyScreenPositionHook;
@@ -194,6 +200,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
         ModifyDrawInfoHook?.Invoke(ref drawInfo);
+    }
+
+    public override void HideDrawLayers(PlayerDrawSet drawInfo)
+    {
+        HideDrawLayersHook?.Invoke(drawInfo);
     }
 
     public override void ModifyScreenPosition()
