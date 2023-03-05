@@ -42,6 +42,12 @@ public enum PacketID : byte
     Fart,
 
     /// <summary>
+    ///     Sync player morph settings (from the server or client).<br />
+    ///     Packet data: (int)whoAmI (int)morphId<br />
+    /// </summary>
+    SyncMorph,
+
+    /// <summary>
     ///     Despawn an npc (from client).<br />
     ///     Packet data: (int)whoAmI
     /// </summary>

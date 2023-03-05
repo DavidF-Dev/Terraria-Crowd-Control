@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using CrowdControlMod.Code.Utilities;
 using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Effects;
@@ -410,6 +411,11 @@ public sealed class CrowdControlMod : Mod
                 FartEffect.HandleClientFart(Main.player[reader.ReadInt32()]);
                 break;
             }
+
+            // Client wants to change its morph
+            case PacketID.SyncMorph:
+                MorphUtils.HandleSync(reader);
+                break;
         }
     }
 
@@ -449,6 +455,11 @@ public sealed class CrowdControlMod : Mod
                 var whoAmI = reader.ReadInt32();
                 Main.npc[whoAmI].active = false;
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, whoAmI);
+                break;
+
+            // Client wants to change its morph
+            case PacketID.SyncMorph:
+                MorphUtils.HandleSync(reader);
                 break;
         }
     }
@@ -977,7 +988,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
         _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
-        _features.Add(FeatureID.FoxMorph, new FoxMorphFeature());
+        _features.Add(FeatureID.MorphUntilDeath, new MorphUntilDeathFeature());
     }
 
     private void OnGameUpdate(GameTime gameTime)
