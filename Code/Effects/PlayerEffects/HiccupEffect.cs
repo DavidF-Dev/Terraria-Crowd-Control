@@ -2,6 +2,7 @@
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -15,6 +16,13 @@ public sealed class HiccupEffect : CrowdControlEffect
 
     private const int MinTime = 60;
     private const int MaxTime = 60 * 8;
+
+    private static readonly SoundStyle[] HiccupSounds =
+    {
+        SoundID.NPCHit25, SoundID.NPCHit26, SoundID.NPCHit21, SoundID.NPCHit46,
+        SoundID.Item87, SoundID.NPCHit27, SoundID.NPCDeath64, SoundID.NPCDeath41,
+        SoundID.NPCDeath31
+    };
 
     #endregion
 
@@ -61,14 +69,23 @@ public sealed class HiccupEffect : CrowdControlEffect
 
         _timer = Main.rand.Next(MinTime, MaxTime);
 
-        // TODO: Implement
         var player = GetLocalPlayer();
         if (player.Player.IsGrounded())
         {
             // On-ground hiccup
+            player.Player.velocity.X += Main.rand.NextFloat(20f);
+            player.Player.velocity.Y = -30f;
+        }
+        else
+        {
+            // Special in-air hiccup
+            player.Player.velocity.X /= -2f;
+            player.Player.velocity.Y = -30f;
         }
 
-        // Special in-air hiccup
+        // Play random 'hiccup' sound
+        SoundEngine.PlaySound(HiccupSounds[Main.rand.Next(HiccupSounds.Length)], player.Player.Center);
+
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
             NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);
