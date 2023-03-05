@@ -67,11 +67,8 @@ public sealed class HiccupEffect : CrowdControlEffect
         {
             // On-ground hiccup
         }
-        else
-        {
-            // Special in-air hiccup
-        }
 
+        // Special in-air hiccup
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
             NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);
