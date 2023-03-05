@@ -1,6 +1,8 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
 
@@ -58,6 +60,22 @@ public sealed class HiccupEffect : CrowdControlEffect
         }
 
         _timer = Main.rand.Next(MinTime, MaxTime);
+
+        // TODO: Implement
+        var player = GetLocalPlayer();
+        if (player.Player.IsGrounded())
+        {
+            // On-ground hiccup
+        }
+        else
+        {
+            // Special in-air hiccup
+        }
+
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.Player.whoAmI);
+        }
     }
 
     #endregion
