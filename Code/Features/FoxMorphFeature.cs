@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace CrowdControlMod.Features;
 
 /// <summary>
-///     Feature that turns the player into a fox until death.
+///     Feature that turns the player into a fox until death. This is not synced in multiplayer.
 /// </summary>
 public class FoxMorphFeature : IFeature
 {
@@ -20,7 +20,7 @@ public class FoxMorphFeature : IFeature
     {
         if (drawInfo.drawPlayer.whoAmI != Main.myPlayer)
         {
-            // Only my player
+            // Only the local player should be affected
             return;
         }
 
@@ -38,6 +38,9 @@ public class FoxMorphFeature : IFeature
 
     #region Properties
 
+    /// <summary>
+    ///     Local player is currently a fox morph until death.
+    /// </summary>
     public bool IsEnabled { get; private set; }
 
     #endregion
@@ -50,7 +53,7 @@ public class FoxMorphFeature : IFeature
 
     public void SessionStopped()
     {
-        Dispose();
+        Disable();
     }
 
     public void Dispose()
@@ -58,6 +61,9 @@ public class FoxMorphFeature : IFeature
         Disable();
     }
 
+    /// <summary>
+    ///     Enable the fox morph for the local player until death.
+    /// </summary>
     public void Enable()
     {
         if (IsEnabled || Main.netMode == NetmodeID.Server)
@@ -70,6 +76,9 @@ public class FoxMorphFeature : IFeature
         IsEnabled = true;
     }
 
+    /// <summary>
+    ///     Disable the fox morph for the local player.
+    /// </summary>
     public void Disable()
     {
         if (!IsEnabled)
