@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -100,7 +101,7 @@ public static class MorphUtils
 
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
-            if (drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
+            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
             {
                 // No morph
                 return;
@@ -109,7 +110,8 @@ public static class MorphUtils
             // Disable all layers except those we care about
             foreach (var layer in PlayerDrawLayerLoader.Layers)
             {
-                if (layer != ModContent.GetInstance<MorphDrawLayer>() && layer != PlayerDrawLayers.HeldItem)
+                if (layer != ModContent.GetInstance<MorphDrawLayer>() && layer != PlayerDrawLayers.HeldItem &&
+                    layer != PlayerDrawLayers.MountFront && layer != PlayerDrawLayers.MountFront)
                 {
                     layer.Hide();
                 }
@@ -126,7 +128,7 @@ public static class MorphUtils
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            return drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph != MorphID.None;
+            return drawInfo.drawPlayer.active && !drawInfo.drawPlayer.dead && drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph != MorphID.None;
         }
 
         public override Position GetDefaultPosition()
@@ -136,35 +138,112 @@ public static class MorphUtils
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
+            var morph = drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph;
+            if (morph == MorphID.None)
+            {
+                return;
+            }
+
             // Calculate draw position
             var position = drawInfo.Center - Main.screenPosition;
             position.X = (int)position.X;
-            position.Y = (int)position.Y - 4;
+            position.Y = (int)position.Y;
+            if (morph == MorphID.Fox)
+            {
+                position.Y -= 4;
+            }
 
             // Get texture
-            Main.instance.LoadProjectile(ProjectileID.FennecFox);
-            var tex = TextureAssets.Projectile[ProjectileID.FennecFox].Value;
-            const int totalFrames = 17;
+            Texture2D? tex = null;
+            var totalFrames = 0;
+            if (morph == MorphID.Fox)
+            {
+                Main.instance.LoadProjectile(ProjectileID.FennecFox);
+                tex = TextureAssets.Projectile[ProjectileID.FennecFox].Value;
+                totalFrames = 17;
+            }
+
+            if (tex == null || totalFrames == 0)
+            {
+                // No texture
+                return;
+            }
+
+            // Determine animation frames          
+            var idleStartFrame = 0;
+            var idleFrameCount = 1;
+            var idleAnimSpeed = 0.25f;
+            var fallingStartFrame = 0;
+            var fallingFrameCount = 1;
+            var fallingAnimSpeed = 0.25f;
+            var walkingStartFrame = 0;
+            var walkingFrameCount = 1;
+            var walkingAnimSpeed = 0.25f;
+            if (morph == MorphID.Fox)
+            {
+                idleStartFrame = 0;
+                idleFrameCount = 3;
+                fallingStartFrame = 11;
+                fallingFrameCount = 5;
+                walkingStartFrame = 4;
+                walkingFrameCount = 6;
+            }
 
             // Determine current frame / animation
-            var currentFrame = 0;
-            if (drawInfo.drawPlayer.velocity.Y != 0f)
+            int currentFrame;
+            var animStartFrame = 0;
+            var animFrameCount = 1;
+            var animSpeed = 1f;
+            if (drawInfo.drawPlayer.velocity == Vector2.Zero || drawInfo.drawPlayer.mount.Active || drawInfo.drawPlayer.grappling[0] > -1)
             {
-                currentFrame = 11 + (int)(Main.GameUpdateCount / 2) % 5;
+                // Idle
+                animStartFrame = idleStartFrame;
+                animFrameCount = idleFrameCount;
+                animSpeed = idleAnimSpeed;
+            }
+            else if (drawInfo.drawPlayer.velocity.Y != 0f)
+            {
+                // Falling
+                animStartFrame = fallingStartFrame;
+                animFrameCount = fallingFrameCount;
+                animSpeed = fallingAnimSpeed;
             }
             else if (drawInfo.drawPlayer.velocity.X != 0f)
             {
-                currentFrame = 4 + (int)(Main.GameUpdateCount / 2) % 7;
+                // Walking
+                animStartFrame = walkingStartFrame;
+                animFrameCount = walkingFrameCount;
+                animSpeed = walkingAnimSpeed;
             }
+
+            if (animFrameCount > 1)
+            {
+                currentFrame = animStartFrame + (int)(Main.GameUpdateCount * animSpeed) % animFrameCount;
+            }
+            else
+            {
+                currentFrame = animStartFrame;
+            }
+
+            // Choose colour
+            var colour = Color.White;
+            if (morph == MorphID.Fox && SteamUtils.IsMagicMalaraith)
+            {
+                colour = new Color(0, 102, 255, 255);
+            }
+
+            // colour = Main.DiscoColor;
+
+            var scale = 1.5f;
 
             drawInfo.DrawDataCache.Add(new DrawData(
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                Color.White,
+                colour,
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
-                1.5f,
+                scale,
                 drawInfo.drawPlayer.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                 0
             ));

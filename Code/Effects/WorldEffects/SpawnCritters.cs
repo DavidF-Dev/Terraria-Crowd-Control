@@ -85,7 +85,7 @@ public sealed class SpawnCritters : CrowdControlEffect
     #region Properties
 
     public override EffectCategory Category => EffectCategory.World;
-    
+
     protected override int StartEmote => EmoteID.ItemBugNet;
 
     #endregion
@@ -134,9 +134,9 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         if (SteamUtils.IsMagicMalaraith)
         {
-            CrowdControlMod.GetInstance().GetFeature<FoxMorphFeature>(FeatureID.FoxMorph)?.Enable();
+            CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Enable(MorphID.Fox);
         }
-        
+
         return CrowdControlResponseStatus.Success;
     }
 

@@ -12,7 +12,7 @@ public static class FeatureID
     public const int ReduceRespawnTime = 2;
     public const int RemoveTombstone = 3;
     public const int TimedEffectDisplay = 4;
-    public const int FoxMorph = 5;
+    public const int MorphUntilDeath = 5;
 
     #endregion
 }
