@@ -968,6 +968,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.ReduceRespawnTime, new ReduceRespawnTimeFeature());
         _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
+        _features.Add(FeatureID.FoxMorph, new FoxMorphFeature());
     }
 
     private void OnGameUpdate(GameTime gameTime)

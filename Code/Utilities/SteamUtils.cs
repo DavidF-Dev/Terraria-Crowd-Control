@@ -18,6 +18,7 @@ public static class SteamUtils
     private static bool? _isLunadabintu;
     private static bool? _isThatGrayson;
     private static bool? _isTheJayrBayr;
+    private static bool? _isMagicMalaraith;
 
     #endregion
 
@@ -81,6 +82,11 @@ public static class SteamUtils
     ///     https://www.twitch.tv/thejayrbayr
     /// </summary>
     public static bool IsTheJayrBayr => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isTheJayrBayr ?? (_isTheJayrBayr = SteamId == 76561198884016816UL).Value);
-    
+
+    /// <summary>
+    ///     https://www.twitch.tv/magicmalaraith
+    /// </summary>
+    public static bool IsMagicMalaraith => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isMagicMalaraith ?? (_isMagicMalaraith = SteamId == 76561198136302414UL).Value);
+
     #endregion
 }
