@@ -68,6 +68,13 @@ public sealed class SpawnGuardian : CrowdControlEffect
             return;
         }
 
+        var tile = GetLocalPlayer().Player.Center.ToTileCoordinates();
+        if (WorldUtils.IsDungeonWall(tile.X, tile.Y) && !NPC.downedBoss3)
+        {
+            // Hide the chat message if the player is in the dungeon before skeletron is defeated - we do a little trolling ;)
+            return;
+        }
+        
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, LangUtils.GetEffectStartText(EffectID.SpawnGuardian, viewerString, playerString, durationString), Severity);
     }
 

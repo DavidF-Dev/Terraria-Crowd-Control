@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Switch Loadout" effect.
 - Added "Hiccup" effect.
 - Changed "Fart Effect" to spawn a poo item when the player is well-fed.
+- Changed Dungeon Guardian effects to hide the chat message if the player is in the dungeon pre-skeletron.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 - Fixed "Screen Shake" effect not pausing when game is paused.
 

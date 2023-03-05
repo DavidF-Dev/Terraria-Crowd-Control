@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using CrowdControlMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace CrowdControlMod.Utilities;
 
@@ -190,6 +191,15 @@ public static class WorldUtils
     {
         return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
                Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tile[x, y].IsActuated;
+    }
+
+    /// <summary>
+    ///     Check if the provided tile is a dungeon wall.
+    /// </summary>
+    [Pure]
+    public static bool IsDungeonWall(int x, int y)
+    {
+        return x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY && Main.tile[x, y].WallType != WallID.None && WallID.Search.GetName(Main.tile[x, y].WallType).ToLower().Contains("dungeon");
     }
 
     #endregion
