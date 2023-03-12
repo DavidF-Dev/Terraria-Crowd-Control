@@ -13,6 +13,7 @@ public static class FeatureID
     public const int RemoveTombstone = 3;
     public const int TimedEffectDisplay = 4;
     public const int MorphUntilDeath = 5;
+    public const int KaylaEgg = 6;
 
     #endregion
 }

@@ -240,7 +240,7 @@ public static class MorphUtils
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                colour,
+                colour.MultiplyRGB(Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f))),
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 scale,
