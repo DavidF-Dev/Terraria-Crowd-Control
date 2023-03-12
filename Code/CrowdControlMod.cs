@@ -980,6 +980,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.RemoveTombstone, new RemoveTombstoneFeature());
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
         _features.Add(FeatureID.MorphUntilDeath, new MorphUntilDeathFeature());
+        _features.Add(FeatureID.KaylaEgg, new KaylaEggFeature());
     }
 
     private void OnGameUpdate(GameTime gameTime)
