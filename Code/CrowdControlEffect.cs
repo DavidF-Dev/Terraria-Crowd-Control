@@ -161,7 +161,13 @@ public abstract class CrowdControlEffect : IFeature
 
         _netId = netId;
         Viewer = viewer;
-        TimeLeft = _duration.GetValueOrDefault();
+        if (_isTimedEffect)
+        {
+            var duration = _duration.GetValueOrDefault();
+            ModifyDuration(ref duration);
+            TimeLeft = duration;
+        }
+
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
 
@@ -450,6 +456,13 @@ public abstract class CrowdControlEffect : IFeature
     {
     }
 
+    /// <summary>
+    ///     Modify the duration of the effect when it is started.
+    /// </summary>
+    protected virtual void ModifyDuration(ref float duration)
+    {
+    }
+    
     private void PlayerDisconnect(Player player)
     {
         // Server-side

@@ -83,6 +83,15 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(false)]
     public bool HideDropItemMessage;
 
+    [Label($"${ConfigPath}ChallengeDurationFactor.Label")]
+    [Tooltip($"${ConfigPath}ChallengeDurationFactor.Tooltip")]
+    [BackgroundColor(EffectR, EffectG, EffectB)]
+    [Range(0.5f, 2.5f)]
+    [Increment(0.1f)]
+    [DrawTicks]
+    [DefaultValue(1f)]
+    public float ChallengeDurationFactor;
+
     [Label($"${ConfigPath}AllowCalamity.Label")]
     [Tooltip($"${ConfigPath}AllowCalamity.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]

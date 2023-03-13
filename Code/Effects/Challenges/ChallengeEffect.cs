@@ -1,4 +1,5 @@
 ﻿using System;
+using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
@@ -37,13 +38,17 @@ public abstract class ChallengeEffect : CrowdControlEffect
 
     #endregion
 
-    public sealed override EffectCategory Category => EffectCategory.Challenge;
-
     #region Constructors
 
     protected ChallengeEffect(string id, float duration) : base(id, duration, EffectSeverity.Neutral)
     {
     }
+
+    #endregion
+
+    #region Properties
+
+    public sealed override EffectCategory Category => EffectCategory.Challenge;
 
     #endregion
 
@@ -115,6 +120,11 @@ public abstract class ChallengeEffect : CrowdControlEffect
             var reason = LangUtils.GetEffectMiscText(LocId, "Failed", player.Player.name);
             player.Player.KillMe(PlayerDeathReason.ByCustomReason(reason), 1000, 0);
         }
+    }
+
+    protected sealed override void ModifyDuration(ref float duration)
+    {
+        duration *= CrowdControlConfig.GetInstance().ChallengeDurationFactor;
     }
 
     /// <summary>

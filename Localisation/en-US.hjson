@@ -61,6 +61,16 @@ Mods: {
 				Tooltip: Enable to hide the effect message in chat when the "Drop Item" effect is triggered.
 			}
 
+			ChallengeDurationFactor: {
+				Label: '''[i: 889]  Challenge timer'''
+				Tooltip:
+					'''
+					Increase to allow more time to complete challenges.
+					Decrease to reduce the time to complete challenges.
+					x1 is default time.
+					'''
+			}
+
 			AllowCalamity: {
 				Label: "[i: 4765]  Calamity mod integration"
 				Tooltip: Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.
