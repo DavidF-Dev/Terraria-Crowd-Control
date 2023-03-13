@@ -63,14 +63,9 @@ public sealed class KaylaEggFeature : IFeature
 
         #region Methods
 
-        public override bool IsLoadingEnabled(Mod mod)
-        {
-            return SteamUtils.IsKaylaJayde;
-        }
-
         public override void PostUpdate()
         {
-            if (Main.myPlayer != Player.whoAmI)
+            if (!SteamUtils.IsKaylaJayde || Main.myPlayer != Player.whoAmI)
             {
                 // Ignore
                 return;
@@ -97,11 +92,6 @@ public sealed class KaylaEggFeature : IFeature
     private sealed class KaylaItem : GlobalItem
     {
         #region Methods
-
-        public override bool IsLoadingEnabled(Mod mod)
-        {
-            return SteamUtils.IsKaylaJayde;
-        }
 
         public override void PostDrawInWorld(Item item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
@@ -131,11 +121,6 @@ public sealed class KaylaEggFeature : IFeature
     private sealed class KaylaNPC : GlobalNPC
     {
         #region Methods
-
-        public override bool IsLoadingEnabled(Mod mod)
-        {
-            return SteamUtils.IsKaylaJayde;
-        }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
