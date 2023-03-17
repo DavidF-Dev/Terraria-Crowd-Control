@@ -29,11 +29,15 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
         player.Player.hasLuckyCoin = true;
     }
 
-    private static bool StrikeNpc(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+    private static void StrikeNpc(NPC npc, Entity source, Player? player, NPC.HitInfo info, int damageDone)
     {
+        if (player == null || !player.active || player.whoAmI != Main.myPlayer)
+        {
+            return;
+        }
+
         // Midas causes enemy to drop more coins
         npc.AddBuff(BuffID.Midas, 60 * MidasDuration);
-        return true;
     }
 
     #endregion

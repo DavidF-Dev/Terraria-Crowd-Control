@@ -62,7 +62,7 @@ Mods: {
 			}
 
 			ChallengeDurationFactor: {
-				Label: '''[i: 889]  Challenge timer'''
+				Label: "[i: 889]  Challenge timer"
 				Tooltip:
 					'''
 					Increase to allow more time to complete challenges.

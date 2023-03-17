@@ -300,7 +300,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             }
 
             // Despawn
-            HitEffect(NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1, 0d);
+            HitEffect(default);
             SoundEngine.PlaySound(SoundID.Drown, NPC.position);
 
             if (NetUtils.IsSinglePlayer)
@@ -329,7 +329,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             return NetUtils.IsSinglePlayer && spawnInfo.Water && SteamUtils.IsTheJayrBayr ? 0.5f : 0f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // Water explosion
             for (var n = 0; n < 80; n++)

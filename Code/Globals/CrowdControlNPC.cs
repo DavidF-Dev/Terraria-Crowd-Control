@@ -14,8 +14,7 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="EditSpawnRate" />
     public delegate void EditSpawnRateDelegate(Player player, ref int spawnRate, ref int maxSpawns);
 
-    /// <inheritdoc cref="StrikeNPC" />
-    public delegate bool StrikeNPCDelegate(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit);
+    public delegate void StrikeNPCDelegate(NPC npc, Entity source, Player? player, NPC.HitInfo hit, int damageDone);
 
     /// <inheritdoc cref="PreDraw" />
     public delegate bool PreDrawDelegate(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColour);
@@ -27,7 +26,6 @@ public sealed class CrowdControlNPC : GlobalNPC
     /// <inheritdoc cref="EditSpawnRate" />
     public static event EditSpawnRateDelegate? EditSpawnRateHook;
 
-    /// <inheritdoc cref="StrikeNPC" />
     public static event StrikeNPCDelegate? StrikeNPCHook;
 
     /// <inheritdoc cref="PreDraw" />
@@ -45,9 +43,14 @@ public sealed class CrowdControlNPC : GlobalNPC
         EditSpawnRateHook?.Invoke(player, ref spawnRate, ref maxSpawns);
     }
 
-    public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+    public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
     {
-        return StrikeNPCHook?.Invoke(npc, ref damage, defense, ref knockback, hitDirection, ref crit) ?? base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+        StrikeNPCHook?.Invoke(npc, item, player, hit, damageDone);
+    }
+
+    public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
+    {
+        StrikeNPCHook?.Invoke(npc, projectile, projectile.owner >= 0 && projectile.owner < Main.maxPlayers ? Main.player[projectile.owner] : null, hit, damageDone);
     }
 
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
