@@ -26,8 +26,12 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Player;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -62,7 +66,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
         player.Player.immune = true;
         player.Player.immuneNoBlink = true;
         player.Player.immuneTime = 60;
-        
+
         // Fling the player upwards!
         player.Player.velocity.X /= 8f;
         player.Player.velocity.Y = -FlingSpeed;

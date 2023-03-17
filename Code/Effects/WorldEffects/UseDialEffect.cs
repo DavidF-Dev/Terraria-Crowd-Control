@@ -13,8 +13,12 @@ namespace CrowdControlMod.Effects.WorldEffects;
 /// </summary>
 public sealed class UseDialEffect : CrowdControlEffect
 {
+    #region Fields
+
     private readonly bool _sun;
-    
+
+    #endregion
+
     #region Constructors
 
     public UseDialEffect(bool sun) : base(sun ? EffectID.UseSunDial : EffectID.UseMoonDial, null, EffectSeverity.Neutral)
@@ -24,8 +28,12 @@ public sealed class UseDialEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.World;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -80,7 +88,7 @@ public sealed class UseDialEffect : CrowdControlEffect
         {
             Main.fastForwardTimeToDusk = true;
         }
-        
+
         NetMessage.SendData(MessageID.WorldData);
     }
 

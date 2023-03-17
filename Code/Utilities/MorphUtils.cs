@@ -244,8 +244,7 @@ public static class MorphUtils
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 scale,
-                drawInfo.drawPlayer.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                0
+                drawInfo.drawPlayer.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
             ));
         }
 

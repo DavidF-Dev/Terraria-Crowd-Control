@@ -43,8 +43,6 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.Screen;
-    
     #region Constructors
 
     public CritterTakeoverEffect(float duration) : base(EffectID.CritterTakeover, duration, EffectSeverity.Neutral)
@@ -62,6 +60,12 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
             Main.instance.LoadNPC(critterId);
         }
     }
+
+    #endregion
+
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.Screen;
 
     #endregion
 
@@ -127,8 +131,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
             npc.rotation,
             origin,
             scale,
-            npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-            0);
+            npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
 
         return false;
     }

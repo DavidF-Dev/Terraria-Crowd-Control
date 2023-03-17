@@ -111,7 +111,7 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
     #region Properties
 
     public override EffectCategory Category => EffectCategory.World;
-    
+
     protected override int StartEmote => GetEmoteId(_chosenNPC);
 
     #endregion

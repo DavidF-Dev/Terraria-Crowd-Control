@@ -23,7 +23,7 @@ public enum PacketID : byte
     /// <summary>
     ///     Sync an npc in non-vanilla ways (from the server).<br />
     ///     Packet data: (int)whoAmI (int)lifeMax (int)life<br />
-    ///     Use <see cref="Utilities.NetUtils.SyncNPCSpecial"/>.
+    ///     Use <see cref="Utilities.NetUtils.SyncNPCSpecial" />.
     /// </summary>
     SyncNPCSpecial,
 

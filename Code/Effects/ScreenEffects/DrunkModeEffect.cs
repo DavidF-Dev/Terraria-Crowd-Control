@@ -84,8 +84,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
             0f,
             origin,
             scale,
-            SpriteEffects.None,
-            0);
+            SpriteEffects.None);
 
         return false;
     }
@@ -116,7 +115,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
     int IMusicEffect.MusicPriority => 10;
 
     public override EffectCategory Category => EffectCategory.Screen;
-    
+
     protected override int StartEmote => EmoteID.ItemBeer;
 
     #endregion

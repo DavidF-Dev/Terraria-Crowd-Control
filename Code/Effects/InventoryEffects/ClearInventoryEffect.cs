@@ -19,7 +19,11 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Inventory;
+
+    #endregion
 
     #region Methods
 

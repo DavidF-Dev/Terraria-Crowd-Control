@@ -159,7 +159,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                         ItemID.IronskinPotion, ItemID.LifeforcePotion, ItemID.NightOwlPotion, ItemID.ObsidianSkinPotion, ItemID.RagePotion, ItemID.RegenerationPotion,
                         ItemID.ShinePotion, ItemID.SpelunkerPotion, ItemID.SummoningPotion, ItemID.SwiftnessPotion, ItemID.ThornsPotion, ItemID.TitanPotion, ItemID.WrathPotion,
                         ItemID.FlaskofCursedFlames, ItemID.FlaskofFire, ItemID.FlaskofGold, ItemID.FlaskofIchor, ItemID.FlaskofNanites, ItemID.FlaskofParty, ItemID.FlaskofPoison, ItemID.FlaskofVenom,
-                        ItemID.BiomeSightPotion    
+                        ItemID.BiomeSightPotion
                     }
                 }
             }
@@ -370,7 +370,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
     #region Properties
 
     public override EffectCategory Category => EffectCategory.Inventory;
-    
+
     protected override int StartEmote { get; }
 
     #endregion

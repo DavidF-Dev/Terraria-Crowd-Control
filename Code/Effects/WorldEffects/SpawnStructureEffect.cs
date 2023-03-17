@@ -36,7 +36,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
         // Choose the structure based on the player's location in the world
         var tile = player.position.ToTileCoordinates();
         var wall = Main.tile[tile.X, tile.Y].WallType;
-        
+
         if (player.ZoneCorrupt || player.ZoneCrimson)
         {
             return wall is not WallID.EbonstoneUnsafe ? Structure.DeepChasm : Structure.None;
@@ -107,8 +107,12 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.World;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -139,7 +143,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
                 }
             }
         }
-        
+
         // Determine which structure to generate based on the player's location
         _chosenStructure = ChooseStructure(player.Player);
         if (_chosenStructure == Structure.None)

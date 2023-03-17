@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace CrowdControlMod;
 

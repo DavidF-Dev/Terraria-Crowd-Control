@@ -68,7 +68,6 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
     }
 
-    
 
     protected override void OnStop()
     {

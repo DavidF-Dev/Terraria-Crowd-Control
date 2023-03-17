@@ -12,7 +12,7 @@ public readonly struct CrowdControlResponse
     {
         return JsonConvert.DeserializeObject<CrowdControlResponse>(data);
     }
-    
+
     [Pure]
     public static string ToJson(in CrowdControlResponse response)
     {

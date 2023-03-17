@@ -41,8 +41,6 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.Player;
-    
     #region Constructors
 
     public ForceMountEffect(float duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
@@ -57,6 +55,12 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
         _allMountOptions = allMountOptions;
     }
+
+    #endregion
+
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.Player;
 
     #endregion
 

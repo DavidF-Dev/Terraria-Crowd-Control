@@ -114,8 +114,6 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.Player;
-    
     #region Constructors
 
     public ShootExplosives(float duration, Shoot shoot) : base(GetId(shoot), duration, GetSeverity(shoot))
@@ -142,6 +140,12 @@ public sealed class ShootExplosives : CrowdControlEffect
 
         _allExplosiveOptions[Shoot.Grenades] = allGrenadeOptions;
     }
+
+    #endregion
+
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.Player;
 
     #endregion
 

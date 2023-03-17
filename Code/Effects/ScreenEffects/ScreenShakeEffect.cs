@@ -25,8 +25,12 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Screen;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -52,6 +56,6 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
             Main.screenPosition += Main.rand.NextVector2Unit(1f, 1f) * Magnitude;
         }
     }
-    
+
     #endregion
 }

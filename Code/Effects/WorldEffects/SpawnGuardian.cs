@@ -42,6 +42,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.World;
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -74,7 +80,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
             // Hide the chat message if the player is in the dungeon before skeletron is defeated - we do a little trolling ;)
             return;
         }
-        
+
         TerrariaUtils.WriteEffectMessage(ItemID.Skull, LangUtils.GetEffectStartText(EffectID.SpawnGuardian, viewerString, playerString, durationString), Severity);
     }
 
@@ -146,8 +152,6 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.World;
-    
     #region Nested Types
 
     // ReSharper disable once ClassNeverInstantiated.Local
@@ -182,7 +186,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
         public override string Texture => $"Terraria/Images/NPC_{NPCID.DungeonGuardian}";
 
         public override LocalizedText DisplayName => Lang.GetNPCName(NPCID.DungeonGuardian);
-        
+
         #endregion
 
         #region Events

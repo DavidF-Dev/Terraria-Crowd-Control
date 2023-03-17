@@ -31,7 +31,7 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
     #region Properties
 
     public override EffectCategory Category => EffectCategory.World;
-    
+
     protected override int StartEmote => EmoteID.EmoteNote;
 
     private bool SwapMusic
