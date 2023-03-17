@@ -3,6 +3,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -31,13 +32,20 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 
     private static void StrikeNpc(NPC npc, Entity source, Player? player, NPC.HitInfo info, int damageDone)
     {
-        if (player == null || !player.active || player.whoAmI != Main.myPlayer)
+        if (npc.life <= 0 || player == null || !player.active || player.whoAmI != Main.myPlayer)
         {
             return;
         }
 
         // Midas causes enemy to drop more coins
         npc.AddBuff(BuffID.Midas, 60 * MidasDuration);
+
+        // Spawn some flashy gore to keep the kids happy
+        var goreIndex = Gore.NewGore(null, npc.Center, new Vector2(3f * info.HitDirection, -3f), GoreID.ShadowMimicCoins);
+        if (NetUtils.IsClient)
+        {
+            NetUtils.SyncNewGore(goreIndex);
+        }
     }
 
     #endregion

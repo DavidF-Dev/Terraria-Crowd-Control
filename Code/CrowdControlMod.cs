@@ -416,6 +416,11 @@ public sealed class CrowdControlMod : Mod
             case PacketID.SyncMorph:
                 MorphUtils.HandleSync(reader);
                 break;
+
+            // Client wants to spawn a new gore
+            case PacketID.SyncNewGore:
+                NetUtils.HandleSyncNewGore(reader, -1);
+                break;
         }
     }
 
@@ -460,6 +465,11 @@ public sealed class CrowdControlMod : Mod
             // Client wants to change its morph
             case PacketID.SyncMorph:
                 MorphUtils.HandleSync(reader);
+                break;
+
+            // Client wants to spawn a new gore
+            case PacketID.SyncNewGore:
+                NetUtils.HandleSyncNewGore(reader, sender);
                 break;
         }
     }

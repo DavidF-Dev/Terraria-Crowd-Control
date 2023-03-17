@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using CrowdControlMod.ID;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -74,7 +76,53 @@ public static class NetUtils
             }
         }
     }
-    
+
+    /// <summary>
+    ///     Sync a newly spawned gore for all other clients (client-side).
+    /// </summary>
+    public static void SyncNewGore(int whoAmI)
+    {
+        var gore = Main.gore[whoAmI];
+        var packet = CrowdControlMod.GetInstance().GetPacket();
+        packet.Write((byte)PacketID.SyncNewGore);
+        packet.Write(gore.type);
+        packet.Write(gore.position.X);
+        packet.Write(gore.position.Y);
+        packet.Write(gore.velocity.X);
+        packet.Write(gore.velocity.Y);
+        packet.Write(gore.scale);
+        packet.Send();
+    }
+
+    public static void HandleSyncNewGore(BinaryReader reader, int sender)
+    {
+        // Read gore values
+        var type = reader.ReadInt32();
+        var x = reader.ReadSingle();
+        var y = reader.ReadSingle();
+        var speedX = reader.ReadSingle();
+        var speedY = reader.ReadSingle();
+        var scale = reader.ReadSingle();
+
+        if (IsServer)
+        {
+            // Forward to clients
+            var packet = CrowdControlMod.GetInstance().GetPacket();
+            packet.Write((byte)PacketID.SyncNewGore);
+            packet.Write(type);
+            packet.Write(x);
+            packet.Write(y);
+            packet.Write(speedX);
+            packet.Write(speedY);
+            packet.Write(scale);
+            packet.Send(-1, sender);
+            return;
+        }
+
+        // Spawn on client
+        Gore.NewGore(null, new Vector2(x, y), new Vector2(speedX, speedY), type, scale);
+    }
+
     #endregion
 
     #region Properties

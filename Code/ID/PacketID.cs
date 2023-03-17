@@ -48,6 +48,12 @@ public enum PacketID : byte
     SyncMorph,
 
     /// <summary>
+    ///     Sync newly spawned gore on other clients (from client).<br />
+    ///     Packet data: (int)type (float)x (float)y (float)speedX (float)speedY (float)scale
+    /// </summary>
+    SyncNewGore,
+
+    /// <summary>
     ///     Despawn an npc (from client).<br />
     ///     Packet data: (int)whoAmI
     /// </summary>
