@@ -37,7 +37,7 @@ public static class MaxStatUtils
         {
             amount = player.statLifeMax < 20 ? player.statLifeMax - 20 : 0;
         }
-        
+
         player.statLifeMax -= amount;
         return amount;
 #else
@@ -127,7 +127,7 @@ public static class MaxStatUtils
         {
             amount = player.statManaMax < 20 ? player.statManaMax - 20 : 0;
         }
-        
+
         player.statManaMax -= amount;
         return amount;
 #else

@@ -19,8 +19,12 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Inventory;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

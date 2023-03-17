@@ -104,8 +104,12 @@ public sealed class MysteryBlocksEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.World;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

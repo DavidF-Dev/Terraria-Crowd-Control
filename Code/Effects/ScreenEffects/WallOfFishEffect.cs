@@ -77,7 +77,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
     int IMusicEffect.MusicPriority => 0;
 
     public override EffectCategory Category => EffectCategory.Screen;
-    
+
     protected override int StartEmote => EmoteID.ItemCookedFish;
 
     #endregion

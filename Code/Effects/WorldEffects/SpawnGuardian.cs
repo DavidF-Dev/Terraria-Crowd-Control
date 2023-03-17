@@ -41,6 +41,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.World;
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
@@ -138,8 +144,6 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.World;
-    
     #region Nested Types
 
     // ReSharper disable once ClassNeverInstantiated.Local

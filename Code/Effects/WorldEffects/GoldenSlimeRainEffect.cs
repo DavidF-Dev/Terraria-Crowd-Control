@@ -95,7 +95,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
     int IMusicEffect.MusicPriority => 0;
 
     public override EffectCategory Category => EffectCategory.World;
-    
+
     #endregion
 
     #region Methods

@@ -28,8 +28,12 @@ public sealed class FlipScreenEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Screen;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()

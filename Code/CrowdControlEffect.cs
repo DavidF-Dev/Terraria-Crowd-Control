@@ -223,7 +223,7 @@ public abstract class CrowdControlEffect : IFeature
         IsPaused = false;
         TimeLeft = 0f;
         _netId = -1;
-        
+
         OnStop();
 
         Viewer = string.Empty;

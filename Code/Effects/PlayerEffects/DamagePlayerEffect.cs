@@ -30,7 +30,7 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
     #region Properties
 
     public override EffectCategory Category => EffectCategory.Player;
-    
+
     protected override int StartEmote => EmoteID.EmotionAnger;
 
     #endregion

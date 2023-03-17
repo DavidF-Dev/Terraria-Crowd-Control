@@ -103,7 +103,7 @@ public sealed class CrowdControlMod : Mod
     ///     Effects are paused if the session is not running, Terraria is paused, or the player is dead.
     /// </summary>
     private bool IsSessionPaused => !IsSessionActive || Main.gamePaused || GetLocalPlayer().Player.dead;
-    
+
     /// <summary>
     ///     Should the session thread continue operating.
     /// </summary>
@@ -994,7 +994,7 @@ public sealed class CrowdControlMod : Mod
             {
                 continue;
             }
-            
+
             // Check if the effect should be paused or resumed
             var shouldUpdate = !sessionPaused && effect.ShouldUpdate();
             switch (shouldUpdate)

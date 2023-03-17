@@ -73,8 +73,6 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     #endregion
 
-    public override EffectCategory Category => EffectCategory.Player;
-    
     #region Constructors
 
     public GivePetEffect(PetType petType) : base(petType == PetType.Pet ? EffectID.GivePet : EffectID.GiveLightPet, null, EffectSeverity.Neutral)
@@ -93,6 +91,12 @@ public sealed class GivePetEffect : CrowdControlEffect
         _allPetOptions = allPetOptions;
         _petOptions = _allPetOptions.ToList();
     }
+
+    #endregion
+
+    #region Properties
+
+    public override EffectCategory Category => EffectCategory.Player;
 
     #endregion
 

@@ -30,8 +30,12 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
 
     #endregion
 
+    #region Properties
+
     public override EffectCategory Category => EffectCategory.Player;
-    
+
+    #endregion
+
     #region Methods
 
     protected override CrowdControlResponseStatus OnStart()
