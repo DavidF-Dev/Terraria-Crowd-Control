@@ -281,7 +281,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             Main.LocalPlayer.currentShoppingSettings.HappinessReport = string.Empty;
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (!firstButton)
             {
@@ -315,7 +315,7 @@ public sealed class SpawnCritters : CrowdControlEffect
                 packet.Send();
             }
         }
-
+        
         public override void PostAI()
         {
             if (NPC.velocity.X != 0f)

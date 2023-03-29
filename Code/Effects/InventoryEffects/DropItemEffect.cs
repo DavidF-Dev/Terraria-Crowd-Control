@@ -230,35 +230,23 @@ public sealed class DropItemEffect : CrowdControlEffect
             Main.LocalPlayer.currentShoppingSettings.HappinessReport = string.Empty;
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
-                shop = true;
+                shopName = "Shop";
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ItemID.Owl);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 5);
-            nextSlot += 1;
-
-            shop.item[nextSlot].SetDefaults(ItemID.OwlStatue);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 20);
-            nextSlot += 1;
-
-            shop.item[nextSlot].SetDefaults(ItemID.OwlCage);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10);
-            nextSlot += 1;
-
-            shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 15);
-            nextSlot += 1;
-
-            shop.item[nextSlot].SetDefaults(ItemID.Acorn);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 20);
-            nextSlot += 1;
+            new NPCShop(Type)
+                .Add(new Item(ItemID.Owl) {shopCustomPrice = Item.buyPrice(0, 0, 5)})
+                .Add(new Item(ItemID.OwlStatue) {shopCustomPrice = Item.buyPrice(0, 0, 20)})
+                .Add(new Item(ItemID.OwlCage) {shopCustomPrice = Item.buyPrice(0, 0, 10)})
+                .Add(new Item(ItemID.NightOwlPotion) {shopCustomPrice = Item.buyPrice(0, 0, 15)})
+                .Add(new Item(ItemID.Acorn) {shopCustomPrice = Item.buyPrice(0, 0, 20)})
+                .Register();
         }
 
         public override void HitEffect(NPC.HitInfo hit)
