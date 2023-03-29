@@ -83,7 +83,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Slippery boots", "icy_feet") {Category = PlayerFolder, Price = 40, Description = "Temporarily make the ground very slippery under the streamer"},
                 new Effect("Fling upwards", "fling_upwards") {Category = PlayerFolder, Price = 30, Description = "Fling the streamer upwards violently where there is space to do so"},
                 new Effect("Play fart sound", "fart_sound") {Category = PlayerFolder, Price = 1, Description = "Play a fart sound in-game"},
-
+                new Effect("Give hiccups", "hiccup") {Category = PlayerFolder, Price = 10, Description = "Temporarily give the streamer hiccups, causing them to hop"},
+                
                 // --- Buff effects (positive)
                 new Effect("+ Boost survivability", "buff_survivability") {Category = BuffFolder, Price = 10, Description = "Temporarily give the streamer survivability buffs"},
                 new Effect("+ Boost health regeneration", "buff_regen") {Category = BuffFolder, Price = 10, Description = "Temporarily give the streamer regeneration buffs"},
@@ -103,12 +104,14 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("- Make invisible", "buff_invisible") {Category = BuffFolder, Price = 30, Description = "Temporarily make the streamer invisible"},
                 new Effect("- Blind", "buff_blind") {Category = BuffFolder, Price = 30, Description = "Temporarily decrease the streamer's vision"},
                 new Effect("- Curse", "buff_curse") {Category = BuffFolder, Price = 20, Description = "Temporarily prevent the streamer from using any items"},
-
+                new Effect("- Noclip", "buff_shimmer") {Category = BuffFolder, Price = 20, Description = "Temporarily cause the streamer to fall through blocks"},
+                
                 // --- Inventory effects
                 new Effect("Drop item", "drop_item") {Category = InventoryFolder, Price = 15, Description = "Drop the streamer's held item"},
                 new Effect("Explode inventory", "explode_inventory") {Category = InventoryFolder, Price = 100, Description = "Explode the streamer's inventory, dropping most items in random directions"},
                 new Effect("Clear inventory", "clear_inventory") {Category = InventoryFolder, Price = 1250, Description = "Clear majority of the streamer's inventory, deleting the items"},
                 new Effect("Shuffle inventory", "shuffle_inventory") {Category = InventoryFolder, Price = 75, Description = "Shuffle the streamer's inventory"},
+                new Effect("Switch loadout", "switch_loadout") {Category = InventoryFolder, Price = 15, Description = "Randomly switch the streamer's inventory loadout to a random one"},
                 new Effect("Cannot pickup items", "no_item_pickup") {Category = InventoryFolder, Price = 40, Description = "Temporarily prevent the streamer from picking up any items"},
                 new Effect("Reforge item", "item_prefix") {Category = InventoryFolder, Price = 5, Description = "Reforge the streamer's held weapon or tool if possible"},
                 new Effect("Boost coin drops", "boost_money") {Category = InventoryFolder, Price = 10, Description = "Temporarily increase the coin-drops from enemies"},
@@ -122,6 +125,7 @@ public sealed class Terraria : SimpleTCPPack
 
                 // --- World effects
                 new Effect("Use a sun dial", "sun_dial") {Category = WorldFolder, Price = 50, Description = "Fast-forward the time to morning"},
+                new Effect("Use a moon dial", "moon_dial") {Category = WorldFolder, Price = 50, Description = "Fast-forward the time to dusk"},
                 new Effect("Set to noon", "time_noon") {Category = WorldFolder, Price = 40, Description = "Set the time to noon"},
                 new Effect("Set to midnight", "time_midnight") {Category = WorldFolder, Price = 40, Description = "Set the time to midnight"},
                 new Effect("Set to sunrise", "time_sunrise") {Category = WorldFolder, Price = 40, Description = "Set the time to sunrise"},
@@ -183,7 +187,9 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Critter takeover", "critter_takeover") {Category = ScreenFolder, Price = 15, Description = "Temporarily alter NPC textures to look like harmless critters"},
                 new Effect("Screen shake", "screen_shake") {Category = ScreenFolder, Price = 50, Description = "Temporarily shake the streamer's screen"},
                 new Effect("Sniper mode", "sniper_mode") {Category = ScreenFolder, Price = 50, Description = "Temporarily cause the camera to follow the streamer's mouse"},
-
+                new Effect("Monolith (Aether)", "monolith_shimmer") {Category = ScreenFolder, Price = 10, Description = "Temporarily enable the Aether monolith"},
+                new Effect("Monolith (Void)", "monolith_moon_lord") {Category = ScreenFolder, Price = 10, Description = "Temporarily enable the Void monolith"},
+                    
                 // --- Challenge effects
                 new Effect("Do-or-die challenge", "random_challenge")
                 {
@@ -203,6 +209,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Start \"minecart\" challenge", "minecart_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Description = "Challenge the streamer to ride in a minecart"},
                 new Effect("Start \"touch grass\" challenge", "touch_grass_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Description = "Challenge the streamer to touch a grass block"},
                 new Effect("Start \"eat food\" challenge", "eat_food_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Description = "Challenge the streamer to consume any food"},
+                new Effect("Start \"word puzzle\" challenge", "word_puzzle_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Description = "Challenge the streamer to complete a small word puzzle"},
 #endif
             };
         }
