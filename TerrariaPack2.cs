@@ -1,5 +1,5 @@
 /// <summary>
-/// Crowd Control for Terraria. Pack for Crowd Control 1.
+/// Crowd Control for Terraria. Pack for Crowd Control 2.
 /// Author: David F Dev.
 /// Source: https://github.com/DavidF-Dev/Terraria-Crowd-Control
 /// </summary>
