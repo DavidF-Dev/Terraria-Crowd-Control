@@ -149,6 +149,8 @@ public sealed class CrowdControlMod : Mod
         }
 
         _features.Clear();
+
+        base.Close();
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
