@@ -8,14 +8,11 @@ using Terraria.ModLoader.Config;
 
 namespace CrowdControlMod.Config;
 
-[Label($"${ConfigPath}Label")]
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CrowdControlConfig : ModConfig
 {
     #region Static Fields and Constants
 
-    private const string ConfigPath = $"{LangUtils.ModPath}Config.";
-    private const string HeaderPath = $"{ConfigPath}Header.";
     private const int EffectR = 164;
     private const int EffectG = 120;
     private const int EffectB = 240;
@@ -46,45 +43,31 @@ public sealed class CrowdControlConfig : ModConfig
     #region Fields
 
     // --- Effect settings
-    [Header($"${HeaderPath}Effect")]
-    [Label($"${ConfigPath}ShowEffectMessagesInChat.Label")]
-    [Tooltip($"${ConfigPath}ShowEffectMessagesInChat.Tooltip")]
+    [Header("Effect")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool ShowEffectMessagesInChat;
 
-    [Label($"${ConfigPath}UseAnonymousNamesInChat.Label")]
-    [Tooltip($"${ConfigPath}UseAnonymousNamesInChat.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(false)]
     public bool UseAnonymousNamesInChat;
 
-    [Label($"${ConfigPath}UseEffectMusic.Label")]
-    [Tooltip($"${ConfigPath}UseEffectMusic.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectMusic;
 
-    [Label($"${ConfigPath}UseEffectEmotes.Label")]
-    [Tooltip($"${ConfigPath}UseEffectEmotes.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectEmotes;
 
-    [Label($"${ConfigPath}UseEffectHairDyes.Label")]
-    [Tooltip($"${ConfigPath}UseEffectHairDyes.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     public bool UseEffectHairDyes;
 
-    [Label($"${ConfigPath}HideDropItemMessage.Label")]
-    [Tooltip($"${ConfigPath}HideDropItemMessage.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(false)]
     public bool HideDropItemMessage;
 
-    [Label($"${ConfigPath}ChallengeDurationFactor.Label")]
-    [Tooltip($"${ConfigPath}ChallengeDurationFactor.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [Range(0.5f, 2.5f)]
     [Increment(0.1f)]
@@ -92,23 +75,17 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(1f)]
     public float ChallengeDurationFactor;
 
-    [Label($"${ConfigPath}AllowCalamity.Label")]
-    [Tooltip($"${ConfigPath}AllowCalamity.Tooltip")]
     [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     [ReloadRequired]
     public bool AllowCalamity;
 
     // --- World settings
-    [Header($"${HeaderPath}World")]
-    [Label($"${ConfigPath}DisableTombstones.Label")]
-    [Tooltip($"${ConfigPath}DisableTombstones.Tooltip")]
+    [Header("World")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool DisableTombstones;
 
-    [Label($"${ConfigPath}RespawnTimeFactor.Label")]
-    [Tooltip($"${ConfigPath}RespawnTimeFactor.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0.2f, 1f)]
     [Increment(0.1f)]
@@ -116,14 +93,10 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(0.5f)]
     public float RespawnTimeFactor;
 
-    [Label($"${ConfigPath}EnableSpawnProtection.Label")]
-    [Tooltip($"${ConfigPath}EnableSpawnProtection.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(true)]
     public bool EnableSpawnProtection;
 
-    [Label($"${ConfigPath}SpawnProtectionRadius.Label")]
-    [Tooltip($"${ConfigPath}SpawnProtectionRadius.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(10, 100)]
     [Increment(10)]
@@ -131,26 +104,18 @@ public sealed class CrowdControlConfig : ModConfig
     [DefaultValue(30)]
     public int SpawnProtectionRadius;
 
-    [Label($"${ConfigPath}AllowTimeChangeDuringBoss.Label")]
-    [Tooltip($"${ConfigPath}AllowTimeChangeDuringBoss.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowTimeChangeDuringBoss;
 
-    [Label($"${ConfigPath}ForceDespawnBosses.Label")]
-    [Tooltip($"${ConfigPath}ForceDespawnBosses.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool ForceDespawnBosses;
 
-    [Label($"${ConfigPath}AllowPlayerTeleportation.Label")]
-    [Tooltip($"${ConfigPath}AllowPlayerTeleportation.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [DefaultValue(false)]
     public bool AllowPlayerTeleportation;
 
-    [Label($"${ConfigPath}PlayerTeleportationCooldown.Label")]
-    [Tooltip($"${ConfigPath}PlayerTeleportationCooldown.Tooltip")]
     [BackgroundColor(WorldR, WorldG, WorldB)]
     [Range(0f, 600f)]
     [Increment(5)]
@@ -159,15 +124,11 @@ public sealed class CrowdControlConfig : ModConfig
     public int PlayerTeleportationCooldown;
 
     // --- Developer settings
-    [Header($"${HeaderPath}Developer")]
-    [Label($"${ConfigPath}DeveloperMode.Label")]
-    [Tooltip($"${ConfigPath}DeveloperMode.Tooltip")]
+    [Header("Developer")]
     [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
     [DefaultValue(false)]
     public bool DeveloperMode;
 
-    [Label($"${ConfigPath}ForceEasterEggs.Label")]
-    [Tooltip($"${ConfigPath}ForceEasterEggs.Tooltip")]
     [BackgroundColor(DeveloperR, DeveloperG, DeveloperB)]
     [DefaultValue(false)]
     [ReloadRequired]

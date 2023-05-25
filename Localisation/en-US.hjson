@@ -1,157 +1,5 @@
-
 Mods: {
 	CrowdControlMod: {
-		Config: {
-			Label: Config
-
-			Header: {
-				Effect: "[i:855] Effect settings"
-				World: "[i:4766] World settings"
-				Developer: "[i:1757] [Advanced] Developer settings"
-			}
-
-			# Effect settings
-			ShowEffectMessagesInChat: {
-				Label: "[i:3617]  Show effect messages in chat"
-				Tooltip:
-					'''
-					Disable to stop effect messages from showing in chat.
-					Useful if you would like to use the browser source.
-					'''
-			}
-
-			UseAnonymousNamesInChat: {
-				Label: "[i:888]  Use anonymous names in chat"
-				Tooltip:
-					'''
-					Enable to hide viewer names in the effect messages.
-					Useful if you are worried about inappropriate names showing.
-					'''
-			}
-
-			UseEffectMusic: {
-				Label: "[i:494]  Use effect music"
-				Tooltip:
-					'''
-					A few effects override the music whilst active.
-					Disable this to stop effects from overriding the music.
-					'''
-			}
-
-			UseEffectEmotes: {
-				Label: "[i:5061]  Use effect emotes"
-				Tooltip:
-					'''
-					A few effects show an emote bubble beside the player.
-					Disable this to stop effects from displaying any emote bubbles.
-					'''
-			}
-
-			UseEffectHairDyes: {
-				Label: "[i:1982]  Use effect hair dyes"
-				Tooltip:
-					'''
-					A few effects change the player's hair dye.
-					Disable this to stop effects from changing the hair dye.
-					'''
-			}
-
-			HideDropItemMessage: {
-				Label: '''[i: 890]  Hide "Drop Item" effect message'''
-				Tooltip: Enable to hide the effect message in chat when the "Drop Item" effect is triggered.
-			}
-
-			ChallengeDurationFactor: {
-				Label: "[i: 889]  Challenge timer"
-				Tooltip:
-					'''
-					Increase to allow more time to complete challenges.
-					Decrease to reduce the time to complete challenges.
-					x1 is default time.
-					'''
-			}
-
-			AllowCalamity: {
-				Label: "[i: 4765]  Calamity mod integration"
-				Tooltip: Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.
-			}
-
-			# World settings
-			DisableTombstones: {
-				Label: "[i:321]  Disable tombstones"
-				Tooltip:
-					'''
-					Enable to prevent your tombstone from spawning when you die.
-					In multi-player, this will only affect your player.
-					'''
-			}
-
-			RespawnTimeFactor: {
-				Label: "[i:224]  Respawn timer"
-				Tooltip:
-					'''
-					Reduce the respawn timer by this factor.
-					This allows you to get back into the game quicker after being killed.
-					x1 is default time.
-					'''
-			}
-
-			EnableSpawnProtection: {
-				Label: "[i:63]  Enable spawn protection for world-altering effects"
-				Tooltip: Enable to delay world-altering effects if you are too close to spawn.
-			}
-
-			SpawnProtectionRadius: {
-				Label: "[i:2799]  Spawn protection radius"
-				Tooltip: If spawn protection is enabled, then this is the range around your spawn point that will be protected.
-			}
-
-			AllowTimeChangeDuringBoss: {
-				Label: "[i:4747]  Allow time-changing effects during bosses"
-				Tooltip: Disable to prevent time-changing effects during boss fights, invasions or events.
-			}
-
-			ForceDespawnBosses: {
-				Label: "[i:3117]  Forcefully despawn bosses if all players are dead"
-				Tooltip:
-					'''
-					Enable this to override Terraria's default behaviour for all bosses spawned via effects.
-					Bosses & mini-bosses will despawn if all players are dead.
-					In multi-player, only one player needs to have this option enabled.
-					'''
-			}
-
-			AllowPlayerTeleportation: {
-				Label: "[i:2997]  Allow teleporting to other players"
-				Tooltip:
-					'''
-					Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.
-					You can only teleport to players if you're on the same in-game team.
-					You can only teleport to players if you have Crowd Control connected.
-					'''
-			}
-
-			PlayerTeleportationCooldown: {
-				Label: "[i:709]  Teleportation cooldown (seconds)"
-				Tooltip: Cooldown, in seconds, between usages of the teleportation to other players feature.
-			}
-
-			# Developer settings
-			DeveloperMode: {
-				Label: "[i:1344]  Show developer messages in chat"
-				Tooltip:
-					'''
-					Enable to show developer messages in chat.
-					This is for debugging purposes for advanced users.
-					'''
-			}
-
-			ForceEasterEggs: {
-				Label: "[i:3857]  Forcefully enable easter eggs"
-				Tooltip: Enable easter eggs that are usually unavailable except in unique cases.
-			}
-		}
-
 		Chat: {
 			Connecting: Attempting to connect to Crowd Control
 			Connected: Connected to Crowd Control
@@ -388,6 +236,156 @@ Mods: {
 			MagikarpPetBuff: {
 				DisplayName: Shiny Magikarp
 				Description: *glub... glub...*
+			}
+		}
+
+		Configs: {
+			CrowdControlConfig: {
+				DisplayName: Config
+
+				ShowEffectMessagesInChat: {
+					Label: "[i:3617]  Show effect messages in chat"
+					Tooltip:
+						'''
+						Disable to stop effect messages from showing in chat.
+						Useful if you would like to use the browser source.
+						'''
+				}
+
+				UseAnonymousNamesInChat: {
+					Label: "[i:888]  Use anonymous names in chat"
+					Tooltip:
+						'''
+						Enable to hide viewer names in the effect messages.
+						Useful if you are worried about inappropriate names showing.
+						'''
+				}
+
+				UseEffectMusic: {
+					Label: "[i:494]  Use effect music"
+					Tooltip:
+						'''
+						A few effects override the music whilst active.
+						Disable this to stop effects from overriding the music.
+						'''
+				}
+
+				UseEffectEmotes: {
+					Label: "[i:5061]  Use effect emotes"
+					Tooltip:
+						'''
+						A few effects show an emote bubble beside the player.
+						Disable this to stop effects from displaying any emote bubbles.
+						'''
+				}
+
+				UseEffectHairDyes: {
+					Label: "[i:1982]  Use effect hair dyes"
+					Tooltip:
+						'''
+						A few effects change the player's hair dye.
+						Disable this to stop effects from changing the hair dye.
+						'''
+				}
+
+				HideDropItemMessage: {
+					Label: '''[i: 890]  Hide "Drop Item" effect message'''
+					Tooltip: Enable to hide the effect message in chat when the "Drop Item" effect is triggered.
+				}
+
+				ChallengeDurationFactor: {
+					Label: "[i: 889]  Challenge timer"
+					Tooltip:
+						'''
+						Increase to allow more time to complete challenges.
+						Decrease to reduce the time to complete challenges.
+						x1 is default time.
+						'''
+				}
+
+				AllowCalamity: {
+					Label: "[i: 4765]  Calamity mod integration"
+					Tooltip: Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.
+				}
+
+				DisableTombstones: {
+					Label: "[i:321]  Disable tombstones"
+					Tooltip:
+						'''
+						Enable to prevent your tombstone from spawning when you die.
+						In multi-player, this will only affect your player.
+						'''
+				}
+
+				RespawnTimeFactor: {
+					Label: "[i:224]  Respawn timer"
+					Tooltip:
+						'''
+						Reduce the respawn timer by this factor.
+						This allows you to get back into the game quicker after being killed.
+						x1 is default time.
+						'''
+				}
+
+				EnableSpawnProtection: {
+					Label: "[i:63]  Enable spawn protection for world-altering effects"
+					Tooltip: Enable to delay world-altering effects if you are too close to spawn.
+				}
+
+				SpawnProtectionRadius: {
+					Label: "[i:2799]  Spawn protection radius"
+					Tooltip: If spawn protection is enabled, then this is the range around your spawn point that will be protected.
+				}
+
+				AllowTimeChangeDuringBoss: {
+					Label: "[i:4747]  Allow time-changing effects during bosses"
+					Tooltip: Disable to prevent time-changing effects during boss fights, invasions or events.
+				}
+
+				ForceDespawnBosses: {
+					Label: "[i:3117]  Forcefully despawn bosses if all players are dead"
+					Tooltip:
+						'''
+						Enable this to override Terraria's default behaviour for all bosses spawned via effects.
+						Bosses & mini-bosses will despawn if all players are dead.
+						In multi-player, only one player needs to have this option enabled.
+						'''
+				}
+
+				AllowPlayerTeleportation: {
+					Label: "[i:2997]  Allow teleporting to other players"
+					Tooltip:
+						'''
+						Enable to allow yourself to teleport to other players on a server without requiring a wormhole potion.
+						You can only teleport to players if you're on the same in-game team.
+						You can only teleport to players if you have Crowd Control connected.
+						'''
+				}
+
+				PlayerTeleportationCooldown: {
+					Label: "[i:709]  Teleportation cooldown (seconds)"
+					Tooltip: Cooldown, in seconds, between usages of the teleportation to other players feature.
+				}
+
+				DeveloperMode: {
+					Label: "[i:1344]  Show developer messages in chat"
+					Tooltip:
+						'''
+						Enable to show developer messages in chat.
+						This is for debugging purposes for advanced users.
+						'''
+				}
+
+				ForceEasterEggs: {
+					Label: "[i:3857]  Forcefully enable easter eggs"
+					Tooltip: Enable easter eggs that are usually unavailable except in unique cases.
+				}
+
+				Headers: {
+					Effect: "[i:855] Effect settings"
+					World: "[i:4766] World settings"
+					Developer: "[i:1757] [Advanced] Developer settings"
+				}
 			}
 		}
 	}
