@@ -983,6 +983,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.TimedEffectDisplay, new TimedEffectDisplayFeature());
         _features.Add(FeatureID.MorphUntilDeath, new MorphUntilDeathFeature());
         _features.Add(FeatureID.KaylaEgg, new KaylaEggFeature());
+        _features.Add(FeatureID.OfficialConduitEgg, new OfficialConduitEggFeature());
     }
 
     private void OnGameUpdate(GameTime gameTime)
