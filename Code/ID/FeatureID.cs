@@ -14,6 +14,7 @@ public static class FeatureID
     public const int TimedEffectDisplay = 4;
     public const int MorphUntilDeath = 5;
     public const int KaylaEgg = 6;
+    public const int OfficialConduitEgg = 7;
 
     #endregion
 }

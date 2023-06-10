@@ -19,7 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 - Fixed "Screen Shake" effect not pausing when game is paused.
 
+# [1.1.3]
+
 - Added support for Crowd Control 2.
+- Added easter eggs.
 - Fixed mod not disposing properly.
 
 # [1.1.2] - 2023-03-12
