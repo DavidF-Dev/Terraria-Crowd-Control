@@ -55,8 +55,8 @@ public class OfficialConduitEggFeature : IFeature
             // Spawn birthday-related item
             int itemType = Main.rand.NextFromList(ItemID.PartyPresent, ItemID.PartyHat, ItemID.PartyBalloonAnimal,
                 ItemID.PartyBundleOfBalloonTile, ItemID.FlaskofParty, ItemID.BubbleMachine, ItemID.FireworkFountain,
-                ItemID.FireworksBox, ItemID.SliceOfCake, ItemID.BluePresent, ItemID.GreenPresent, ItemID.YellowPresent,
-                ItemID.RainbowCampfire, ItemID.Cog);
+                ItemID.FireworksBox, ItemID.SliceOfCake, ItemID.RainbowCampfire, ItemID.Cog, ItemID.SlapHand,
+                ItemID.Maggot);
             var itemIndex = Item.NewItem(null, npc.position, npc.width, npc.height, itemType);
             Main.item[itemIndex].SetItemOwner("Conduit");
             if (NetUtils.IsClient)
