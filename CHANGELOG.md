@@ -9,21 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Drunk Mode" effect to shuffle items' tooltips.
 - Changed "Spawn Critters" effect to no longer spawn Empress Butterfly.
 
-# [1.1.3] - 2023-06-10
+## [1.1.3] - 2023-06-10
 
 - Added support for Crowd Control 2.
 - Added easter eggs.
 - Fixed mod not disposing properly.
 
-# [1.1.2] - 2023-03-12
+## [1.1.2] - 2023-03-12
 
 - Minor changes.
 
-# [1.1.1] - 2023-03-05
+## [1.1.1] - 2023-03-05
 
 - Minor changes.
 
-# [1.1.0] - 2023-01-30
+## [1.1.0] - 2023-01-30
 
 - Added "Curse" effect; temporarily preventing the streamer from using any items.
 - Changed trap effects to retry if the player is already in the trap.
