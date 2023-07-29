@@ -48,6 +48,7 @@ Mods: {
 				run_boost: "[Viewer] made [Player] really, really fast for [Duration] seconds"
 				icy_feet: "[Viewer] made the ground very slippery"
 				fling_upwards: "[Viewer] flung [Player] upwards into the air"
+				hiccup: "[Viewer] gave [Player] the hiccups"
 				# Buff effects (positive)
 				buff_survivability: "[Viewer] provided [Player] with survivability buffs"
 				buff_regen: "[Viewer] provided [Player] with regeneration buffs"

@@ -15,7 +15,7 @@ public sealed class HiccupEffect : CrowdControlEffect
     #region Static Fields and Constants
 
     private const int MinTime = 60;
-    private const int MaxTime = 60 * 8;
+    private const int MaxTime = 60 * 5;
 
     private static readonly SoundStyle[] HiccupSounds =
     {
@@ -60,9 +60,20 @@ public sealed class HiccupEffect : CrowdControlEffect
         _timer = 0;
     }
 
-    private void OnPostUpdateRunSpeeds()
+    protected override void OnUpdate(float delta)
     {
         if (_timer-- > 0)
+        {
+            return;
+        }
+
+        // Ensure player isn't grappling
+        GetLocalPlayer().Player.RemoveAllGrapplingHooks();
+    }
+
+    private void OnPostUpdateRunSpeeds()
+    {
+        if (_timer > 0)
         {
             return;
         }
@@ -73,14 +84,14 @@ public sealed class HiccupEffect : CrowdControlEffect
         if (player.Player.IsGrounded())
         {
             // On-ground hiccup
-            player.Player.velocity.X += Main.rand.NextFloat(20f);
-            player.Player.velocity.Y = -30f;
+            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * Main.rand.NextFloatDirection();
+            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f);
         }
         else
         {
             // Special in-air hiccup
             player.Player.velocity.X /= -2f;
-            player.Player.velocity.Y = -30f;
+            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f);
         }
 
         // Play random 'hiccup' sound
