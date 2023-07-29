@@ -836,6 +836,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ForceMountEffect(25f));
         AddEffect(new ShootExplosives(15f, ShootExplosives.Shoot.Bombs));
         AddEffect(new ShootExplosives(20f, ShootExplosives.Shoot.Grenades));
+        AddEffect(new IncreaseKnockbackEffect(40f));
         AddEffect(new JumpBoostEffect(25f));
         AddEffect(new RunBoostEffect(25f));
         AddEffect(new IcyFeetEffect(25f));

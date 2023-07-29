@@ -78,6 +78,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Force mount", "force_mount") {Category = PlayerFolder, Price = 50, Description = "Temporarily force the streamer to ride a mount"},
                 new Effect("Shoot bombs", "shoot_bombs") {Category = PlayerFolder, Price = 600, Description = "Temporarily cause the streamer to drop and shoot bombs that are capable of destroying blocks"},
                 new Effect("Shoot grenades", "shoot_grenades") {Category = PlayerFolder, Price = 200, Description = "Temporarily cause the streamer to drop and shoot grenades"},
+                new Effect("Increase knockback", "increase_knockback") {Category = PlayerFolder, Price = 40, Description = "Temporarily increase the knockback received and dealt by the streamer"},
                 new Effect("Increase jump height", "jump_boost") {Category = PlayerFolder, Price = 40, Description = "Temporarily increase the streamer's jump height by a large amount"},
                 new Effect("Increase movement speed", "run_boost") {Category = PlayerFolder, Price = 40, Description = "Temporarily increase the streamer's movement speed by a large amount"},
                 new Effect("Slippery boots", "icy_feet") {Category = PlayerFolder, Price = 40, Description = "Temporarily make the ground very slippery under the streamer"},

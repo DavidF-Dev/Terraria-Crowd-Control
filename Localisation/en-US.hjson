@@ -3,11 +3,14 @@ Mods: {
 		Chat: {
 			Connecting: Attempting to connect to Crowd Control
 			Connected: Connected to Crowd Control
-			ConnectedOutOfDate: '''
-                                Note: Crowd Control for Terraria 1.4.3 is no longer officially supported
-                                - You may experience bugs or missing features
-                                - Please consider upgrading to Crowd Control for Terraria 1.4.4
-                                '''Disconnected: Lost connection to Crowd Control
+			ConnectedOutOfDate:
+				'''
+				         Note: Crowd Control for Terraria 1.4.3 is no longer officially supported
+				         - You may experience bugs or missing features
+				         - Please consider upgrading to Crowd Control for Terraria 1.4.4
+				         
+				'''
+			Disconnected: Lost connection to Crowd Control
 			FirstTimeStart:
 				'''
 				Thank you for choosing to play Crowd Control for Terraria 1.4
@@ -40,6 +43,7 @@ Mods: {
 				force_mount: "[Viewer] is forcing [Player] to ride a {0}"
 				shoot_bombs: "[Viewer] caused [Player] to shoot bombs for [Duration] seconds"
 				shoot_grenades: "[Viewer] caused [Player] to shoot grenades for [Duration] seconds"
+				increase_knockback: "[Viewer] increased knockback received and dealt by [Player] for [Duration] seconds"
 				jump_boost: "[Viewer] made it so [Player] can jump very high for [Duration] seconds"
 				run_boost: "[Viewer] made [Player] really, really fast for [Duration] seconds"
 				icy_feet: "[Viewer] made the ground very slippery"
@@ -151,6 +155,7 @@ Mods: {
 				infinite_ammo: Ammo and mana are back to normal
 				shoot_bombs: No longer shooting explosives
 				shoot_grenades: No longer shooting explosives
+				increase_knockback: Knockback is back to normal
 				jump_boost: Jump height is back to normal
 				run_boost: Movement speed is back to normal
 				icy_feet: Ground is no longer slippery

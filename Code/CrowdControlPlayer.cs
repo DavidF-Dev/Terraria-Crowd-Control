@@ -26,12 +26,18 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="CanBeHitByProjectile" />
     public delegate bool CanBeHitByProjectileDelegate(Projectile projectile);
 
+    /// <inheritdoc cref="ModifyHurt" />
+    public delegate void ModifyHurtDelegate(ref Player.HurtModifiers modifiers);
+
     /// <inheritdoc cref="CanConsumeAmmo" />
     public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
 
     /// <inheritdoc cref="Shoot" />
     public delegate bool ShootDelegate(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback);
 
+    /// <inheritdoc cref="ModifyWeaponKnockback" />
+    public delegate void ModifyWeaponKnockbackDelegate(Item item, ref StatModifier knockback);
+    
     /// <inheritdoc cref="ModifyDrawInfo" />
     public delegate void ModifyDrawInfoDelegate(ref PlayerDrawSet drawInfo);
 
@@ -93,6 +99,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="CanBeHitByProjectile" />
     public event CanBeHitByProjectileDelegate? CanBeHitByProjectileHook;
 
+    /// <inheritdoc cref="ModifyHurt" />
+    public event ModifyHurtDelegate? ModifyHurtHook;
+    
     /// <inheritdoc cref="CanConsumeAmmo" />
     public event CanConsumeAmmoDelegate? CanConsumeAmmoHook;
 
@@ -110,6 +119,9 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="Shoot" />
     public event ShootDelegate? ShootHook;
+
+    /// <inheritdoc cref="ModifyWeaponKnockback" />
+    public event ModifyWeaponKnockbackDelegate? ModifyWeaponKnockbackHook;
 
     /// <inheritdoc cref="ModifyDrawInfo" />
     public event ModifyDrawInfoDelegate? ModifyDrawInfoHook;
@@ -167,6 +179,11 @@ public sealed class CrowdControlPlayer : ModPlayer
         return CanBeHitByProjectileHook?.Invoke(proj) ?? base.CanBeHitByProjectile(proj);
     }
 
+    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+    {
+        ModifyHurtHook?.Invoke(ref modifiers);
+    }
+
     public override bool CanConsumeAmmo(Item weapon, Item ammo)
     {
         return CanConsumeAmmoHook?.Invoke(weapon, ammo) ?? base.CanConsumeAmmo(weapon, ammo);
@@ -195,6 +212,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
     {
         return ShootHook?.Invoke(item, source, position, velocity, type, damage, knockback) ?? base.Shoot(item, source, position, velocity, type, damage, knockback);
+    }
+
+    public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
+    {
+        ModifyWeaponKnockbackHook?.Invoke(item, ref knockback);
     }
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)

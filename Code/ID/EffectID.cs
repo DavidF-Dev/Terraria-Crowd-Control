@@ -23,6 +23,7 @@ public static class EffectID
     public const string ForceMount = "force_mount";
     public const string ShootBombs = "shoot_bombs";
     public const string ShootGrenades = "shoot_grenades";
+    public const string IncreaseKnockback = "increase_knockback";
     public const string JumpBoost = "jump_boost";
     public const string RunBoost = "run_boost";
     public const string IcyFeet = "icy_feet";
