@@ -11,7 +11,7 @@ public sealed class IncreaseKnockbackEffect : CrowdControlEffect
 
     private static void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
-        modifiers.Knockback += Main.rand.NextFloat(3.5f, 5.5f);
+        modifiers.Knockback += Main.rand.NextFloat(3.5f, 5f);
         modifiers.KnockbackImmunityEffectiveness *= 0f;
     }
 
@@ -19,7 +19,7 @@ public sealed class IncreaseKnockbackEffect : CrowdControlEffect
     {
         var player = GetLocalPlayer();
         player.Player.noKnockback = false;
-        player.Player.GetKnockback(DamageClass.Generic) += Main.rand.NextFloat(4.5f, 6.5f);
+        player.Player.GetKnockback(DamageClass.Generic) += Main.rand.NextFloat(4.5f, 7f);
     }
 
     #endregion
