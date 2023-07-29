@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed Dungeon Guardian effects to hide the chat message if the player is in the dungeon pre-skeletron.
 - Changed "Money Boost" effect to only detect NPC strikes from the affected player.
 - Changed "Drunk Mode" effect to shuffle items' tooltips.
+- Changed "Spawn Critters" effect to no longer spawn Empress Butterfly.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 - Fixed "Screen Shake" effect not pausing when game is paused.
 
