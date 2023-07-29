@@ -44,7 +44,7 @@ public class OfficialConduitEggFeature : IFeature
 
         #region Methods
 
-        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        public override void HitEffect(NPC npc, NPC.HitInfo hit)
         {
             // 1/5 chance to spawn an item if killed by birthday player
             if (npc.life > 0 || npc.lastInteraction < 0 || npc.lastInteraction >= Main.maxPlayers || Main.myPlayer != npc.lastInteraction || !IsEggEnabled || !Main.rand.NextBool(5))
