@@ -20,7 +20,7 @@ public sealed class WordPuzzleChallenge : ChallengeEffect
     /// <summary>
     ///     Possible categories to choose from. Values matching localisation keys.
     /// </summary>
-    private static readonly string[] Categories = {"TownNPC", "Gemstone", "Biome", "Metal"};
+    private static readonly string[] Categories = {"TownNPC", "Gemstone", "Biome", "Metal", "Herb"};
 
     #endregion
 

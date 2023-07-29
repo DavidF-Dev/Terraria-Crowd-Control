@@ -215,6 +215,7 @@ Mods: {
 						Gemstone: Gemstone
 						Biome: Biome
 						Metal: Metal
+						Herb: Herb
 					}
 
 					Words: {
@@ -222,6 +223,7 @@ Mods: {
 						Gemstone: ruby|emerald|diamond|sapphire|amber|amethyst
 						Biome: forest|hallow|jungle|tundra|ocean|space|desert|corruption|crimson
 						Metal: copper|silver|demonite|crimtane|cobalt|palladium|mythril|adamantite|titanium
+						Herb: blinkroot|daybloom|deathweed|fireblossom|moonglow|shiverthorn|waterleaf
 					}
 
 					# {0} is the challenged player's name | {1} is the scrambled word | {2} is the category
