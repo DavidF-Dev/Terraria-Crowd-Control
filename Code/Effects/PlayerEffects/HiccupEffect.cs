@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
@@ -89,8 +90,15 @@ public sealed class HiccupEffect : CrowdControlEffect
         }
         else
         {
+            // Determine hiccup x direction
+            var dir = -MathF.Sign(player.Player.velocity.X);
+            if (dir == 0)
+            {
+                dir = (int)Main.rand.NextFloatDirection();
+            }
+            
             // Special in-air hiccup
-            player.Player.velocity.X /= -2f;
+            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * dir;
             player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f);
         }
 
