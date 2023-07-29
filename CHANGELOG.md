@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Added message notifying 1.4.3 users about Crowd Control for Terraria 1.4.4.
 - Changed "Drunk Mode" effect to shuffle items' tooltips.
+- Changed "Spawn Critters" effect to no longer spawn Empress Butterfly.
 
 # [1.1.3] - 2023-06-10
 
