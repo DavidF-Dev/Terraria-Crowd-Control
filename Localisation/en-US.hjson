@@ -154,6 +154,11 @@
         {
             Connecting:         "Attempting to connect to Crowd Control"
             Connected:          "Connected to Crowd Control"
+            ConnectedOutOfDate: '''
+                                Note: Crowd Control for Terraria 1.4.3 is no longer officially supported
+                                - You may experience bugs or missing features
+                                - Please consider upgrading to Crowd Control for Terraria 1.4.4
+                                '''
             Disconnected:       "Lost connection to Crowd Control"
             FirstTimeStart:     '''
                                 Thank you for choosing to play Crowd Control for Terraria 1.4

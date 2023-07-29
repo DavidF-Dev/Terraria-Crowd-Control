@@ -83,6 +83,8 @@ public static class LangUtils
 
     public static string ConnectedText => GetText("Chat.Connected");
 
+    public static string ConnectedOutOfDateText => GetText("Chat.ConnectedOutOfDate");
+
     public static string DisconnectedText => GetText("Chat.Disconnected");
 
     public static string FirstTimeStartText => GetText("Chat.FirstTimeStart");
