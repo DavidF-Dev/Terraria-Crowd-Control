@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Added support for Terraria 1.4.4: Labour of Love.
+- Added message notifying 1.4.3 users about Crowd Control for Terraria 1.4.4.
 - Added timed effect support in the Crowd Control browser source overlay.
 - Added "Use Moon-dial" effect; which fast forwards the time to dusk.
 - Added "Word Puzzle" challenge; which asks the user to complete a small word puzzle.
@@ -16,10 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Fart Effect" to spawn a poo item when the player is well-fed.
 - Changed Dungeon Guardian effects to hide the chat message if the player is in the dungeon pre-skeletron.
 - Changed "Money Boost" effect to only detect NPC strikes from the affected player.
+- Changed "Drunk Mode" effect to shuffle items' tooltips.
 - Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
 - Fixed "Screen Shake" effect not pausing when game is paused.
 
-# [1.1.3]
+# [1.1.3] - 2023-06-10
 
 - Added support for Crowd Control 2.
 - Added easter eggs.

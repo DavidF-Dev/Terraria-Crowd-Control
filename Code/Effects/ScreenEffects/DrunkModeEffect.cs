@@ -13,6 +13,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace CrowdControlMod.Effects.ScreenEffects;
 
@@ -60,6 +61,21 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
             }
         }
 
+        // Shuffle tooltip contents periodically
+        var rng = new FastRandom(Main.GameUpdateCount / 30);
+        foreach (var tooltipLine in tooltips)
+        {
+            if (rng.Next(3) == 0)
+            {
+                tooltipLine.OverrideColor = Main.DiscoColor;
+            }
+
+            if (!SteamUtils.IsThatGrayson)
+            {
+                tooltipLine.Text = string.Join(' ', tooltipLine.Text.Split(' ').OrderBy(x => x.GetHashCode()));
+            }
+        }
+        
         // Shuffle tooltip order
         var shuffled = tooltips.OrderBy(x => x.Text.GetHashCode()).ToList();
         tooltips.Clear();
