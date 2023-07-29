@@ -1,6 +1,8 @@
 ﻿using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
+using CrowdControlMod.Utilities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -53,6 +55,16 @@ public sealed class IncreaseKnockbackEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         player.ModifyHurtHook -= ModifyHurt;
         player.PostUpdateEquipsHook -= PostUpdateEquips;
+    }
+
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.SlapHand, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
+    }
+
+    protected override void SendStopMessage()
+    {
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     #endregion

@@ -61,6 +61,11 @@ public sealed class HiccupEffect : CrowdControlEffect
         _timer = 0;
     }
 
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.Lemonade, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
+    }
+
     protected override void OnUpdate(float delta)
     {
         if (_timer-- > 0)
