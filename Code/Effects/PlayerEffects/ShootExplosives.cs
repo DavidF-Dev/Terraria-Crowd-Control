@@ -40,7 +40,7 @@ public sealed class ShootExplosives : CrowdControlEffect
             Shoot.Bombs, new[]
             {
                 ProjectileID.Bomb, ProjectileID.StickyBomb, ProjectileID.BouncyBomb, ProjectileID.Dynamite, ProjectileID.BouncyDynamite,
-                ProjectileID.DirtBomb, ProjectileID.HoneyBomb, ProjectileID.LavaBomb, ProjectileID.WetBomb, ProjectileID.BombFish,
+                ProjectileID.DirtBomb, ProjectileID.HoneyBomb, /*ProjectileID.LavaBomb, */ProjectileID.WetBomb, ProjectileID.BombFish,
                 ProjectileID.ScarabBomb, ProjectileID.SmokeBomb
             }
         },
