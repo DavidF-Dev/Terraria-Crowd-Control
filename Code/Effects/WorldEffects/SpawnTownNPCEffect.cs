@@ -80,15 +80,29 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
         };
     }
 
-    private static void Spawn(Vector2 spawnPos, int npcId)
+    private static void Spawn(Vector2 spawnPos, int npcId, string givenName)
     {
         // Spawn the Town NPC
         var index = NPC.NewNPC(null, (int)spawnPos.X, (int)spawnPos.Y, npcId);
 
-        if (NetUtils.IsServer)
+        // Attempt to assign the town NPC a given name
+        var newName = false;
+        if (!string.IsNullOrEmpty(givenName))
         {
-            // Notify clients
-            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+            Main.npc[index].GivenName = givenName;
+            newName = true;
+        }
+
+        if (!NetUtils.IsServer)
+        {
+            return;
+        }
+
+        // Notify clients
+        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        if (newName)
+        {
+            NetMessage.SendData(MessageID.UniqueTownNPCInfoSyncRequest, -1, -1, null, index);
         }
     }
 
@@ -145,15 +159,16 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
         } while (npcId == _chosenNPC);
 
         _chosenNPC = npcId;
+        var givenName = !string.IsNullOrEmpty(Viewer) ? Viewer : string.Empty;
         var player = GetLocalPlayer();
 
         if (NetUtils.IsSinglePlayer)
         {
-            Spawn(player.Player.Center, _chosenNPC);
+            Spawn(player.Player.Center, _chosenNPC, givenName);
         }
         else
         {
-            SendPacket(PacketID.HandleEffect, _chosenNPC);
+            SendPacket(PacketID.HandleEffect, _chosenNPC, givenName);
         }
 
         // Play sfx
@@ -165,7 +180,7 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         // Handle on server
-        Spawn(player.Player.Center, reader.ReadInt16());
+        Spawn(player.Player.Center, reader.ReadInt16(), reader.ReadString());
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
