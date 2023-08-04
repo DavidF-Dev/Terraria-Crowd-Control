@@ -68,7 +68,6 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
     }
 
-
     protected override void OnStop()
     {
         On_SoundPlayer.Play -= OnPlaySfx;
@@ -97,13 +96,13 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
                 Type = style.Type,
                 Volume = style.Volume
             };
-            return orig.Invoke(self, ref shuffled, position);
+            return orig.Invoke(self, ref shuffled, position, callback);
         }
         catch (AssetLoadException)
         {
             // "AssetLoadException: Asset could not be found: "Sounds\Zombie_131" (seems to be very rare)
             TerrariaUtils.WriteDebug($"Failed to shuffle sfx due to an exception. {nameof(AssetLoadException)}: {style.SoundPath} -> {shuffled.SoundPath} (seed: {_seed}).");
-            return orig.Invoke(self, ref style, position);
+            return orig.Invoke(self, ref style, position, callback);
         }
     }
 
