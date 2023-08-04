@@ -80,7 +80,7 @@ public sealed class WordPuzzleChallenge : ChallengeEffect
         if (NetUtils.IsClient)
         {
             // Notify other players that they can assist in completing the challenge
-            TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(Id, "Assist", Main.LocalPlayer.name, _word.ToUpper(), _localisedCategory!), excludedPlayer: Main.myPlayer);
+            TerrariaUtils.BroadcastMessage(LangUtils.GetEffectMiscText(Id, "Assist", Main.LocalPlayer.name, _scrambledWord!.ToUpper(), _localisedCategory!), excludedPlayer: Main.myPlayer);
         }
 
         On_ChatHelper.DisplayMessage += OnDisplayMessage;
@@ -94,7 +94,7 @@ public sealed class WordPuzzleChallenge : ChallengeEffect
         {
             // Notify everyone that the word was guessed
             var excluded = _correctGuesser == Main.LocalPlayer ? Main.myPlayer : -1;
-            TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(Id, "Completed", _correctGuesser.name, _word.ToUpper(), _localisedCategory!), excludedPlayer: excluded);
+            TerrariaUtils.BroadcastMessage(LangUtils.GetEffectMiscText(Id, "Completed", _correctGuesser.name, _word.ToUpper(), _localisedCategory!), excludedPlayer: excluded);
         }
 
         _word = null;
