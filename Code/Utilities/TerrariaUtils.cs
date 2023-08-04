@@ -71,6 +71,58 @@ public static class TerrariaUtils
     }
 
     /// <summary>
+    ///     Broadcast a message to all client's game chats.
+    /// </summary>
+    public static void BroadcastMessage(string message, Color? colour = null, bool doLog = true, int excludedPlayer = -1)
+    {
+        var netText = NetworkText.FromLiteral(message);
+        if (netText == NetworkText.Empty)
+        {
+            // Ignore
+            return;
+        }
+
+        // Check if we should log this message to client.log or server.log
+        if (doLog)
+        {
+            CrowdControlMod.GetInstance().Logger.Info(message);
+        }
+
+        if (Main.gameMenu)
+        {
+            // Cannot send chat if on the main menu
+            // If chat is sent on the main menu, the sound engine thread gets stuck
+            return;
+        }
+
+        if (NetUtils.IsSinglePlayer)
+        {
+            if (excludedPlayer != Main.myPlayer)
+            {
+                // Send to client
+                Main.NewText(netText, colour.GetValueOrDefault(Color.White));
+            }
+
+            return;
+        }
+
+        if (NetUtils.IsServer)
+        {
+            // Simply broadcast normally if we're already on the server
+            ChatHelper.BroadcastChatMessage(netText, colour.GetValueOrDefault(Color.White), excludedPlayer);
+            return;
+        }
+
+        // Broadcast to all clients (except the included player if any)
+        var packet = CrowdControlMod.GetInstance().GetPacket();
+        packet.Write((byte)PacketID.BroadcastMessage);
+        netText.Serialize(packet);
+        packet.Write(colour.GetValueOrDefault(Color.White).PackedValue);
+        packet.Write(excludedPlayer);
+        packet.Send();
+    }
+
+    /// <summary>
     ///     Write an effect message to the game chat, prefixed with the provided item.<br />
     ///     Server will notify clients of the effect message, letting them handle it.
     ///     Message will only appear if configured to.

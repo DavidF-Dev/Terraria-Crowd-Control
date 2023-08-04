@@ -15,6 +15,12 @@ public enum PacketID : byte
     EffectMessage,
 
     /// <summary>
+    ///     Send a chat message to all clients (from the client).<br />
+    ///     Packet data: (NetworkText)netText (uint)colour (int)ignoreClient
+    /// </summary>
+    BroadcastMessage,
+
+    /// <summary>
     ///     Sync the weather on the client (from the server).<br />
     ///     Packet data: (float)cloudAlpha (float)windSpeedTarget (int)windCounter (int)extremeWindCounter
     /// </summary>

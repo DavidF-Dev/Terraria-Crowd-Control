@@ -23,6 +23,7 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Chat;
 using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
@@ -433,6 +434,18 @@ public sealed class CrowdControlMod : Mod
         var player = Main.player[sender].GetModPlayer<CrowdControlPlayer>();
         switch (packetId)
         {
+            // Client wants the server to broadcast a chat message
+            case PacketID.BroadcastMessage:
+            {
+                var netText = NetworkText.Deserialize(reader);
+                var colour = default(Color);
+                colour.PackedValue = reader.ReadUInt32();
+                var excludedPlayer = reader.ReadInt32();
+                TerrariaUtils.WriteDebug($"Server is forwarding broadcast message: \"{TerrariaUtils.GetColouredRichText(netText.ToString(), colour)}\", excluding {excludedPlayer}.");
+                ChatHelper.BroadcastChatMessage(netText, colour, excludedPlayer);
+                break;
+            }
+            
             // Client is letting the server know about their configuration settings
             case PacketID.ConfigState:
                 player.ServerDisableTombstones = reader.ReadBoolean();
