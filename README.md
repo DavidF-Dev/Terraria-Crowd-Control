@@ -6,7 +6,9 @@
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
-A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
+A mod, for streamers, which allows viewers to spend money on in-game effects via
+the [Crowd Control](https://crowdcontrol.live/) extension. Supports all streaming platforms: Twitch, YouTube, Kick,
+TikTok and beyond.
 
 - Effects and prices can be customised through the Crowd Control application.
 - Built for Terraria 1.4: Journey's End.
@@ -54,13 +56,16 @@ The mod can be installed in a few ways:
   in `Documents/My Games/Terraria/tModLoader/Mods`
 
 ### Starting Crowd Control
+
 To begin playing, simply join a single-player or multi-player world (*the server must also have the mod installed*).
 Upon entering the world, the mod will begin attempting to connect to the Crowd Control application.
-Ensure that you have the application set up and running correctly by following [this guide](https://crowdcontrol.live/setup).
+Ensure that you have the application set up and running correctly by
+following [this guide](https://crowdcontrol.live/setup).
 <br><br>
 <img src=".github/connect.png" width=50%></src>
 <br><br>
-You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
+You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this
+point, your viewers can begin affecting your game through the Crowd Control extension!
 
 ### Configuration
 
@@ -78,4 +83,5 @@ A few to highlight include:
 
 If you have any questions or would like to get in contact, shoot me an email at `contact@davidfdev.com`.<br>
 Alternatively, you can send me a direct message on Twitter at [@DavidF_Dev](https://twitter.com/DavidF_Dev).<br><br>
-For support with the Crowd Control application or Twitch extension, head over to the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.
+For support with the Crowd Control application or extension, head over to
+the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.
