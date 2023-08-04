@@ -10,6 +10,7 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
@@ -96,7 +97,16 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
                 Type = style.Type,
                 Volume = style.Volume
             };
-            return orig.Invoke(self, ref shuffled, position, callback);
+
+            // Check that the asset exists before committing
+            if (ModContent.HasAsset(shuffled.Variants.Length == 0 ? shuffled.SoundPath : shuffled.SoundPath + "_" + shuffled.Variants[0]))
+            {
+                return orig.Invoke(self, ref shuffled, position, callback);
+            }
+
+            // Asset doesn't exist
+            TerrariaUtils.WriteDebug($"Failed to shuffle sfx. Asset doesn't exist: {style.SoundPath} (original) -> {shuffled.SoundPath} (shuffled) (seed: {_seed}).");
+            return orig.Invoke(self, ref style, position);
         }
         catch (AssetLoadException)
         {
