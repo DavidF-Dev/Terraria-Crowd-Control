@@ -5,6 +5,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -82,10 +83,29 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     private SlotId OnPlaySfx(SoundPlayer.orig_Play orig, Terraria.Audio.SoundPlayer self, ref SoundStyle style, Vector2? position)
     {
-        // Play a random sfx for the attempted sfx
-        var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());
-        style = VanillaSfx[(hash + _seed) % VanillaSfx.Length];
-        return orig.Invoke(self, ref style, position);
+        SoundStyle shuffled = default;
+        try
+        {
+            // Play a random sfx for the attempted sfx; do not modify the provided style EVER!
+            var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());
+            shuffled = VanillaSfx[(hash + _seed) % VanillaSfx.Length] with
+            {
+                Identifier = style.Identifier,
+                IsLooped = style.IsLooped,
+                MaxInstances = style.MaxInstances,
+                PlayOnlyIfFocused = style.PlayOnlyIfFocused,
+                SoundLimitBehavior = style.SoundLimitBehavior,
+                Type = style.Type,
+                Volume = style.Volume
+            };
+            return orig.Invoke(self, ref shuffled, position);
+        }
+        catch (AssetLoadException)
+        {
+            // "AssetLoadException: Asset could not be found: "Sounds\Zombie_131" (seems to be very rare)
+            TerrariaUtils.WriteDebug($"Failed to shuffle sfx due to an exception. {nameof(AssetLoadException)}: {style.SoundPath} -> {shuffled.SoundPath} (seed: {_seed}).");
+            return orig.Invoke(self, ref style, position);
+        }
     }
 
     #endregion
