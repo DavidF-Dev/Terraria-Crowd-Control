@@ -527,10 +527,10 @@ public sealed class CrowdControlMod : Mod
             if (_isSessionConnected)
             {
                 TerrariaUtils.WriteMessage(ItemID.LargeEmerald, LangUtils.ConnectedText, Color.Green);
-                /*if (Version.Major < 2)
+                if (Version.Major < 2)
                 {
                     TerrariaUtils.WriteMessage(ItemID.BrokenHeroSword, LangUtils.ConnectedOutOfDateText, Color.White);
-                }*/
+                }
 
                 // Connection successful, so keep checking for received data whilst the socket remains connected
                 while (ShouldSessionThreadContinue && socket.Connected)

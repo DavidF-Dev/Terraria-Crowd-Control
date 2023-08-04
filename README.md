@@ -9,8 +9,7 @@
 **IMPORTANT: Crowd Control mod for 1.4.4 is not released yet;
 use [Crowd Control mod for 1.4.3](https://github.com/DavidF-Dev/Terraria-Crowd-Control/tree/1.4.3#readme).**
 
-A mod, for streamers, which allows viewers to spend money on in-game effects via
-the [Crowd Control](https://crowdcontrol.live/) Twitch extension.
+A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) extension. Supports all streaming platforms: Twitch, YouTube, Kick, TikTok and beyond.
 
 - Effects and prices can be customised through the Crowd Control application.
 - Built for Terraria 1.4.4: Labour of Love.
@@ -48,8 +47,7 @@ Alternatively, those that are comfortable reading a little bit of code can view 
 
 ## Usage
 
-Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4.4, which can be downloaded for free on
-Steam.<br>
+Firstly, the mod requires [tModLoader](https://tmodloader.net/) for Terraria 1.4.4, which can be downloaded for free on Steam.<br>
 Older versions are not supported.<br><br>
 <img src=".github/mod.png" width=70%></src><br><br>
 The mod can be installed in a few ways:
@@ -66,7 +64,7 @@ Ensure that you have the application set up and running correctly by following [
 <br><br>
 <img src=".github/connect.png" width=50%></src>
 <br><br>
-You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
+You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control extension!
 
 ### Configuration
 
@@ -84,4 +82,4 @@ A few to highlight include:
 
 If you have any questions or would like to get in contact, shoot me an email at `contact@davidfdev.com`.<br>
 Alternatively, you can send me a direct message on Twitter at [@DavidF_Dev](https://twitter.com/DavidF_Dev).<br><br>
-For support with the Crowd Control application or Twitch extension, head over to the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.
+For support with the Crowd Control application or extension, head over to the [forums](https://forum.warp.world/c/crowdcontrol) or join the [Discord](https://discord.warp.world/) server.

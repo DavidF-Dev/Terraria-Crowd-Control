@@ -1,5 +1,5 @@
 ﻿[img]https://raw.githubusercontent.com/DavidF-Dev/Terraria-Crowd-Control/main/.github/banner.png[/img]
-A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control Twitch extension.
+A mod, for streamers, which allows viewers to spend money on in-game effects via the Crowd Control extension. Supports all streaming platforms: Twitch, YouTube, Kick, TikTok and beyond.
 [list]
 [*] Effects and prices can be customised through the Crowd Control application.
 [*] Built for Terraria 1.4.4: Labour of Love.
@@ -36,7 +36,7 @@ Listed are just a few of the effects available. A full list can be viewed in the
 [h1]Usage[/h1]
 To begin playing, simply join a single-player or multi-player world ([b]the server must also have the mod installed[/b]). Upon entering the world, the mod will begin attempting to connect to the Crowd Control application. Ensure that you have the application set up and running correctly by following [url=https://crowdcontrol.live/setup]this guide[/url].
 [img]https://raw.githubusercontent.com/DavidF-Dev/Terraria-Crowd-Control/main/.github/connect.png[/img]
-You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control Twitch extension!
+You will be notified via the in-game chat when the mod successfully connects to the Crowd Control application. At this point, your viewers can begin affecting your game through the Crowd Control extension!
 
 [h2]Configuration[/h2]
 The effects and prices can be configured through the Crowd Control application, however the mod also offers additional options through the in-game configuration menu.
@@ -51,4 +51,4 @@ A few to highlight include:
 
 [h1]Contact & Support[/h1]
 Source is available on GitHub [url=https://github.com/DavidF-Dev/Terraria-Crowd-Control]here[/url].
-For support with the Crowd Control application or Twitch extension, head over to the [url=https://forum.warp.world/c/crowdcontrol]forums[/url] or join the [url=https://discord.warp.world/]Discord[/url] server.
+For support with the Crowd Control application or extension, head over to the [url=https://forum.warp.world/c/crowdcontrol]forums[/url] or join the [url=https://discord.warp.world/]Discord[/url] server.
