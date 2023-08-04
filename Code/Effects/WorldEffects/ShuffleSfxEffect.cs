@@ -106,7 +106,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
             // Asset doesn't exist
             TerrariaUtils.WriteDebug($"Failed to shuffle sfx. Asset doesn't exist: {style.SoundPath} (original) -> {shuffled.SoundPath} (shuffled) (seed: {_seed}).");
-            return orig.Invoke(self, ref style, position);
+            return orig.Invoke(self, ref style, position, callback);
         }
         catch (AssetLoadException)
         {
