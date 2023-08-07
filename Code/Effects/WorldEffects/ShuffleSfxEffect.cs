@@ -19,37 +19,23 @@ namespace CrowdControlMod.Effects.WorldEffects;
 /// </summary>
 public sealed class ShuffleSfxEffect : CrowdControlEffect
 {
-    #region Static Fields and Constants
-
-    private static readonly SoundStyle[] VanillaSfx;
-
-    #endregion
-
     #region Fields
 
+    private readonly SoundStyle[] _vanillaSfx;
     private int _seed;
 
     #endregion
 
     #region Constructors
 
-    static ShuffleSfxEffect()
-    {
-        if (NetUtils.IsServer)
-        {
-            VanillaSfx = Array.Empty<SoundStyle>();
-            return;
-        }
-
-        // Cache all the vanilla sfx for future use
-        VanillaSfx = typeof(SoundID).GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(x => x.FieldType == typeof(SoundStyle))
-            .Select(x => (SoundStyle)x.GetValue(null)!)
-            .ToArray();
-    }
-
     public ShuffleSfxEffect(float duration) : base(EffectID.ShuffleSfx, duration, EffectSeverity.Neutral)
     {
+        // Cache all the vanilla sfx for future use
+        _vanillaSfx = typeof(SoundID).GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(x => x.FieldType == typeof(SoundStyle))
+            .Select(x => (SoundStyle)x.GetValue(null)!)
+            .Where(x => ModContent.HasAsset(x.Variants.Length == 0 ? x.SoundPath : x.SoundPath + "_" + x.Variants[0]))
+            .ToArray();
     }
 
     #endregion
@@ -65,8 +51,8 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         On_SoundPlayer.Play += OnPlaySfx;
-        _seed = Main.rand.Next(VanillaSfx.Length);
-        return VanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
+        _seed = Main.rand.Next(_vanillaSfx.Length);
+        return _vanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
@@ -87,7 +73,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
         {
             // Play a random sfx for the attempted sfx; do not modify the provided style EVER!
             var hash = Math.Abs((style.Identifier ?? style.SoundPath).GetHashCode());
-            shuffled = VanillaSfx[(hash + _seed) % VanillaSfx.Length] with
+            shuffled = _vanillaSfx[(hash + _seed) % _vanillaSfx.Length] with
             {
                 Identifier = style.Identifier,
                 IsLooped = style.IsLooped,
@@ -99,6 +85,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
             };
 
             // Check that the asset exists before committing
+            // The VanillaSfx collection has been stripped of invalid assets, so this shouldn't be an issue
             if (ModContent.HasAsset(shuffled.Variants.Length == 0 ? shuffled.SoundPath : shuffled.SoundPath + "_" + shuffled.Variants[0]))
             {
                 return orig.Invoke(self, ref shuffled, position, callback);
