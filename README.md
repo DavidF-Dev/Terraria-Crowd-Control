@@ -6,9 +6,6 @@
 [![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
-**IMPORTANT: Crowd Control mod for 1.4.4 is not released yet;
-use [Crowd Control mod for 1.4.3](https://github.com/DavidF-Dev/Terraria-Crowd-Control/tree/1.4.3#readme).**
-
 A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) extension. Supports all streaming platforms: Twitch, YouTube, Kick, TikTok and beyond.
 
 - Effects and prices can be customised through the Crowd Control application.
