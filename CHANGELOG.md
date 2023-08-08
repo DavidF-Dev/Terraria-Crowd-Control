@@ -17,11 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Fart Effect" to spawn a poo item when the player is well-fed.
 - Changed Dungeon Guardian effects to hide the chat message if the player is in the dungeon pre-skeletron.
 - Changed "Money Boost" effect to only detect NPC strikes from the affected player.
+- Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
+- Fixed "Screen Shake" effect not pausing when game is paused.
+
+## [1.1.4] - 2023-08-08
+- Added message notifying 1.4.3 users about Crowd Control for Terraria 1.4.4.
 - Changed "Drunk Mode" effect to shuffle items' tooltips.
 - Changed "Spawn Critters" effect to no longer spawn Empress Butterfly.
 - Changed "Spawn Town NPC" effect to name the spawned NPC after the redeeming viewer.
-- Fixed "Clear/Explode/Shuffle Inventory" effects not failing when there are no items.
-- Fixed "Screen Shake" effect not pausing when game is paused.
 - Fixed "Shuffle Sfx" effect not finishing properly.
 
 ## [1.1.3] - 2023-06-10
