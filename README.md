@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/steam/downloads/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
 [![File Size](https://img.shields.io/steam/size/2833108684?style=flat-square)](https://steamcommunity.com/sharedfiles/filedetails/?id=2833108684)
 [![Issues](https://img.shields.io/github/issues/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/issues)
-[![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/LICENSE.md)
+[![License](https://img.shields.io/github/license/DavidF-Dev/Terraria-Crowd-Control?style=flat-square)](LICENSE.md)
 [![Discord](https://img.shields.io/discord/168430302954258433?label=discord&style=flat-square)](https://discord.warp.world/)
 
 A mod, for streamers, which allows viewers to spend money on in-game effects via the [Crowd Control](https://crowdcontrol.live/) extension. Supports all streaming platforms: Twitch, YouTube, Kick, TikTok and beyond.
@@ -39,8 +39,10 @@ Here is just a taste of the effects that this mod has to offer:
 - Summon a giant wall of fish
 - Challenge the player to complete a goal within a short time
 
-Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can also edit the pricing per effect.
-Alternatively, those that are comfortable reading a little bit of code can view a full list of effects in [TerrariaPack.cs](https://github.com/DavidF-Dev/Terraria-Crowd-Control/blob/main/TerrariaPack.cs).
+Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can
+also edit the pricing per effect.
+Alternatively, those that are comfortable reading a little bit of code can view a full list of effects
+in [TerrariaPack2.cs](TerrariaPack2.cs).
 
 ## Usage
 
