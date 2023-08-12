@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
@@ -46,6 +47,14 @@ public static class MorphUtils
         packet.Write(player.whoAmI);
         packet.Write(morph);
         packet.Send();
+    }
+
+    /// <summary>
+    ///     Get the morph of the provided player (server or client).
+    /// </summary>
+    public static byte GetMorph(this Player player)
+    {
+        return player.GetModPlayer<MorphPlayer>().CurrentMorph;
     }
 
     public static void HandleSync(BinaryReader reader)
@@ -118,6 +127,14 @@ public static class MorphUtils
             }
         }
 
+        public override void PostUpdateEquips()
+        {
+            if (CurrentMorph is MorphID.BlueFairy)
+            {
+                Lighting.AddLight(Player.Center, TorchID.Blue);
+            }
+        }
+
         #endregion
     }
 
@@ -148,19 +165,40 @@ public static class MorphUtils
             var position = drawInfo.Center - Main.screenPosition;
             position.X = (int)position.X;
             position.Y = (int)position.Y;
-            if (morph == MorphID.Fox)
+            switch (morph)
             {
-                position.Y -= 4;
+                case MorphID.Fox:
+                    position.Y -= 4;
+                    break;
+                case MorphID.BlueFairy:
+                    position.X += MathF.Sin(Main.GlobalTimeWrappedHourly * 1f) * 3;
+                    position.Y -= 7 + MathF.Sin(Main.GlobalTimeWrappedHourly * 2.5f) * 6;
+                    break;
+                case MorphID.Junimo:
+                    position.Y += 2;
+                    break;
             }
 
             // Get texture
             Texture2D? tex = null;
             var totalFrames = 0;
-            if (morph == MorphID.Fox)
+            switch (morph)
             {
-                Main.instance.LoadProjectile(ProjectileID.FennecFox);
-                tex = TextureAssets.Projectile[ProjectileID.FennecFox].Value;
-                totalFrames = 17;
+                case MorphID.Fox:
+                    Main.instance.LoadProjectile(ProjectileID.FennecFox);
+                    tex = TextureAssets.Projectile[ProjectileID.FennecFox].Value;
+                    totalFrames = 17;
+                    break;
+                case MorphID.Junimo:
+                    Main.instance.LoadProjectile(ProjectileID.JunimoPet);
+                    tex = TextureAssets.Projectile[ProjectileID.JunimoPet].Value;
+                    totalFrames = 16;
+                    break;
+                case MorphID.BlueFairy:
+                    Main.instance.LoadProjectile(ProjectileID.BlueFairy);
+                    tex = TextureAssets.Projectile[ProjectileID.BlueFairy].Value;
+                    totalFrames = 4;
+                    break;
             }
 
             if (tex == null || totalFrames == 0)
@@ -179,14 +217,35 @@ public static class MorphUtils
             var walkingStartFrame = 0;
             var walkingFrameCount = 1;
             var walkingAnimSpeed = 0.25f;
-            if (morph == MorphID.Fox)
+            switch (morph)
             {
-                idleStartFrame = 0;
-                idleFrameCount = 3;
-                fallingStartFrame = 11;
-                fallingFrameCount = 5;
-                walkingStartFrame = 4;
-                walkingFrameCount = 6;
+                case MorphID.Fox:
+                    idleStartFrame = 0;
+                    idleFrameCount = 3;
+                    fallingStartFrame = 11;
+                    fallingFrameCount = 5;
+                    walkingStartFrame = 4;
+                    walkingFrameCount = 6;
+                    break;
+                case MorphID.Junimo:
+                    idleStartFrame = 0;
+                    idleFrameCount = 4;
+                    idleAnimSpeed = 0.1f;
+                    fallingStartFrame = 13;
+                    fallingFrameCount = 3;
+                    fallingAnimSpeed = 0.1f;
+                    walkingStartFrame = 4;
+                    walkingFrameCount = 8;
+                    walkingAnimSpeed = 0.1f;
+                    break;
+                case MorphID.BlueFairy:
+                    idleStartFrame = 0;
+                    idleFrameCount = 3;
+                    fallingStartFrame = 0;
+                    fallingFrameCount = 3;
+                    walkingStartFrame = 0;
+                    walkingFrameCount = 3;
+                    break;
             }
 
             // Determine current frame / animation
@@ -232,19 +291,23 @@ public static class MorphUtils
                 colour = new Color(0, 102, 255, 255);
             }
 
-            // colour = Main.DiscoColor;
+            var scale = 1f;
+            if (morph == MorphID.Fox)
+            {
+                scale = 1.5f;
+            }
 
-            var scale = 1.5f;
+            var flipDirection = morph is MorphID.Junimo;
 
             drawInfo.DrawDataCache.Add(new DrawData(
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                colour.MultiplyRGB(Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f))),
+                Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour),
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 scale,
-                drawInfo.drawPlayer.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
+                drawInfo.drawPlayer.direction == (flipDirection ? 1 : -1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally
             ));
         }
 

@@ -1021,6 +1021,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.MorphUntilDeath, new MorphUntilDeathFeature());
         _features.Add(FeatureID.KaylaEgg, new KaylaEggFeature());
         _features.Add(FeatureID.OfficialConduitEgg, new OfficialConduitEggFeature());
+        _features.Add(FeatureID.MoonlitFayeAndMakenBaconEgg, new MoonlitFayeAndMakenBaconEggFeature());
     }
 
     private void OnGameUpdate(GameTime gameTime)
