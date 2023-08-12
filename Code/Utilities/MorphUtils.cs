@@ -5,6 +5,7 @@ using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -132,6 +133,69 @@ public static class MorphUtils
             if (CurrentMorph is MorphID.BlueFairy)
             {
                 Lighting.AddLight(Player.Center, TorchID.Blue);
+            }
+        }
+
+        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (CurrentMorph is not MorphID.BlueFairy || !Main.rand.NextBool(3))
+            {
+                return;
+            }
+
+            const int dustCount = 1;
+            for (var i = 0; i < dustCount; i++)
+            {
+                Dust.NewDust(Player.position + new Vector2(0f, 8f), Player.width, Player.height / 2, DustID.BlueFairy, Scale: 0.5f);
+            }
+        }
+
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+        {
+            if (CurrentMorph is MorphID.BlueFairy or MorphID.Junimo)
+            {
+                modifiers.DisableSound();
+            }
+
+            if (CurrentMorph is MorphID.BlueFairy)
+            {
+                modifiers.DisableDust();
+            }
+        }
+
+        public override void OnHurt(Player.HurtInfo info)
+        {
+            if (NetUtils.IsServer)
+            {
+                return;
+            }
+
+            if (CurrentMorph is MorphID.BlueFairy)
+            {
+                SoundEngine.PlaySound(SoundID.NPCHit5 with
+                {
+                    MaxInstances = SoundID.PlayerHit.MaxInstances,
+                    SoundLimitBehavior = SoundID.PlayerHit.SoundLimitBehavior,
+                    PlayOnlyIfFocused = SoundID.PlayerHit.PlayOnlyIfFocused
+                }, Player.Center);
+
+                const int dustCount = 15;
+                var speed = new Vector2(info.HitDirection * info.Knockback, -3f);
+                for (var i = 0; i < dustCount; i++)
+                {
+                    Dust.NewDust(Player.position + new Vector2(0f, 8f), Player.width, Player.height / 2, DustID.BlueFairy, speed.X, speed.Y, Scale: 0.85f);
+                }
+            }
+
+            if (CurrentMorph is MorphID.Junimo)
+            {
+                SoundEngine.PlaySound(new SoundStyle("CrowdControlMod/Assets/Sounds/JunimoMeep")
+                {
+                    PitchVariance = 0.2f,
+                    MaxInstances = SoundID.PlayerHit.MaxInstances,
+                    SoundLimitBehavior = SoundID.PlayerHit.SoundLimitBehavior,
+                    PlayOnlyIfFocused = SoundID.PlayerHit.PlayOnlyIfFocused
+                }, Player.Center);
             }
         }
 

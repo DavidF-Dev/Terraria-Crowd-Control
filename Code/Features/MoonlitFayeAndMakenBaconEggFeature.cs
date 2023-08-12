@@ -36,12 +36,12 @@ public sealed class MoonlitFayeAndMakenBaconEggFeature : IFeature
 
         public override void OnConsumeItem(Item item, Player player)
         {
-            if (SteamUtils.IsMoonlitFaye && item.type is ItemID.Apple or ItemID.AppleJuice or ItemID.ApplePie or ItemID.ApplePieSlice)
+            if (SteamUtils.IsMoonlitFaye && item.type is ItemID.Apple)
             {
                 CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.Junimo);
             }
 
-            if (SteamUtils.IsMakenBacon && item.type is ItemID.Lemon or ItemID.Lemonade)
+            if (SteamUtils.IsMakenBacon && item.type is ItemID.Lemon)
             {
                 CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.BlueFairy);
             }
@@ -57,14 +57,29 @@ public sealed class MoonlitFayeAndMakenBaconEggFeature : IFeature
 
         public override void ModifyShop(NPCShop shop)
         {
+            if (shop.NpcType != NPCID.Merchant)
+            {
+                return;
+            }
+
             if (SteamUtils.IsMoonlitFaye)
             {
-                shop.Add(new Item(ItemID.Apple) {stack = 1, shopCustomPrice = Item.buyPrice(silver: 1)});
+                shop.Add(new Item(ItemID.Apple)
+                {
+                    stack = 1,
+                    shopCustomPrice = Item.buyPrice(silver: 1),
+                    rare = ItemRarityID.Green
+                });
             }
 
             if (SteamUtils.IsMakenBacon)
             {
-                shop.Add(new Item(ItemID.Lemon) {stack = 1, shopCustomPrice = Item.buyPrice(silver: 1)});
+                shop.Add(new Item(ItemID.Lemon)
+                {
+                    stack = 1,
+                    shopCustomPrice = Item.buyPrice(silver: 1),
+                    rare = ItemRarityID.Blue
+                });
             }
         }
 
