@@ -116,7 +116,7 @@ public sealed class ShootExplosives : CrowdControlEffect
 
     #region Constructors
 
-    public ShootExplosives(float duration, Shoot shoot) : base(GetId(shoot), duration, GetSeverity(shoot))
+    public ShootExplosives(int duration, Shoot shoot) : base(GetId(shoot), duration, GetSeverity(shoot))
     {
         _shoot = shoot;
 

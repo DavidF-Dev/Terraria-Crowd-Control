@@ -30,7 +30,7 @@ public sealed class SummonNpcsEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SummonNpcsEffect() : base(EffectID.SummonNpcs, null, EffectSeverity.Neutral)
+    public SummonNpcsEffect() : base(EffectID.SummonNpcs, 0, EffectSeverity.Neutral)
     {
     }
 

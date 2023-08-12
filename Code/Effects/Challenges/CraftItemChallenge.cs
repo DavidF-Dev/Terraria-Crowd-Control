@@ -42,7 +42,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
 
     #region Constructors
 
-    public CraftItemChallenge(float duration) : base(EffectID.CraftItemChallenge, duration)
+    public CraftItemChallenge(int duration) : base(EffectID.CraftItemChallenge, duration)
     {
     }
 

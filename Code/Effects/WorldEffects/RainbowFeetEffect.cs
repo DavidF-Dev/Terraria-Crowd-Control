@@ -35,7 +35,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     #region Constructors
 
-    public RainbowFeetEffect(float duration) : base(EffectID.RainbowFeet, duration, EffectSeverity.Neutral)
+    public RainbowFeetEffect(int duration) : base(EffectID.RainbowFeet, duration, EffectSeverity.Neutral)
     {
         CrowdControlNPC.OnKillHook += NPCKill;
     }

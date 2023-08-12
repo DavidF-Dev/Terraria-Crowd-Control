@@ -71,7 +71,7 @@ public sealed class GivePetEffect : CrowdControlEffect
 
     #region Constructors
 
-    public GivePetEffect(PetType petType) : base(petType == PetType.Pet ? EffectID.GivePet : EffectID.GiveLightPet, null, EffectSeverity.Neutral)
+    public GivePetEffect(PetType petType) : base(petType == PetType.Pet ? EffectID.GivePet : EffectID.GiveLightPet, 0, EffectSeverity.Neutral)
     {
         _slot = petType == PetType.Pet ? 0 : 1;
 

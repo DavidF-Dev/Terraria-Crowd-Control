@@ -35,7 +35,7 @@ public sealed class HiccupEffect : CrowdControlEffect
 
     #region Constructors
 
-    public HiccupEffect(float duration) : base(EffectID.Hiccup, duration, EffectSeverity.Negative)
+    public HiccupEffect(int duration) : base(EffectID.Hiccup, duration, EffectSeverity.Negative)
     {
     }
 

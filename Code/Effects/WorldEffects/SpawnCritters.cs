@@ -63,7 +63,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnCritters() : base(EffectID.SpawnCritters, null, EffectSeverity.Neutral)
+    public SpawnCritters() : base(EffectID.SpawnCritters, 0, EffectSeverity.Neutral)
     {
         // Create a list of all available critter types
         var allCritterOptions = VanillaCritters.ToList();

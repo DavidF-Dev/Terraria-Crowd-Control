@@ -21,7 +21,7 @@ public sealed class UseDialEffect : CrowdControlEffect
 
     #region Constructors
 
-    public UseDialEffect(bool sun) : base(sun ? EffectID.UseSunDial : EffectID.UseMoonDial, null, EffectSeverity.Neutral)
+    public UseDialEffect(bool sun) : base(sun ? EffectID.UseSunDial : EffectID.UseMoonDial, 0, EffectSeverity.Neutral)
     {
         _sun = sun;
     }

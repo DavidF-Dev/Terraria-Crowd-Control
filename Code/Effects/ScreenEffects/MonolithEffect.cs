@@ -74,7 +74,7 @@ public sealed class MonolithEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public MonolithEffect(string id, float duration, MonolithType type) : base(id, duration, EffectSeverity.Neutral)
+    public MonolithEffect(string id, int duration, MonolithType type) : base(id, duration, EffectSeverity.Neutral)
     {
         _type = type;
     }

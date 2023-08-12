@@ -21,7 +21,7 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 
     #region Constructors
 
-    public SwitchSoundtrack() : base(EffectID.SwitchSoundtrack, null, EffectSeverity.Neutral)
+    public SwitchSoundtrack() : base(EffectID.SwitchSoundtrack, 0, EffectSeverity.Neutral)
     {
         _swapMusicField = typeof(Main).GetField("swapMusic", BindingFlags.Static | BindingFlags.NonPublic);
     }

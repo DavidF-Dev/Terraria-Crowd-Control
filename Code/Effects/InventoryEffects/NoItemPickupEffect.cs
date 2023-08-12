@@ -24,7 +24,7 @@ public sealed class NoItemPickupEffect : CrowdControlEffect
 
     #region Constructors
 
-    public NoItemPickupEffect(float duration) : base(EffectID.NoItemPickup, duration, EffectSeverity.Negative)
+    public NoItemPickupEffect(int duration) : base(EffectID.NoItemPickup, duration, EffectSeverity.Negative)
     {
     }
 

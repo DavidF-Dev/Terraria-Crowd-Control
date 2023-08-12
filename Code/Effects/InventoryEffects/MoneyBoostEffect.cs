@@ -58,7 +58,7 @@ public sealed class MoneyBoostEffect : CrowdControlEffect
 
     #region Constructors
 
-    public MoneyBoostEffect(float duration) : base(EffectID.MoneyBoost, duration, EffectSeverity.Positive)
+    public MoneyBoostEffect(int duration) : base(EffectID.MoneyBoost, duration, EffectSeverity.Positive)
     {
     }
 

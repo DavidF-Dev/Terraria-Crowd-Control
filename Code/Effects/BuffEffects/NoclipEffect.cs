@@ -13,7 +13,7 @@ public sealed class NoclipEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public NoclipEffect(float duration) : base(EffectID.BuffShimmer, duration, EffectSeverity.Negative)
+    public NoclipEffect(int duration) : base(EffectID.BuffShimmer, duration, EffectSeverity.Negative)
     {
     }
 

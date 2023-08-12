@@ -15,7 +15,7 @@ public sealed class ShuffleInventoryEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public ShuffleInventoryEffect() : base(EffectID.ShuffleInventory, null, EffectSeverity.Negative)
+    public ShuffleInventoryEffect() : base(EffectID.ShuffleInventory, 0, EffectSeverity.Negative)
     {
     }
 

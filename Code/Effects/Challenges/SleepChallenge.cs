@@ -7,7 +7,7 @@ public sealed class SleepChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public SleepChallenge(float duration) : base(EffectID.SleepChallenge, duration)
+    public SleepChallenge(int duration) : base(EffectID.SleepChallenge, duration)
     {
     }
 

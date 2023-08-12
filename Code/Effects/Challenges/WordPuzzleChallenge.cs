@@ -37,7 +37,7 @@ public sealed class WordPuzzleChallenge : ChallengeEffect
 
     #region Constructors
 
-    public WordPuzzleChallenge(float duration) : base(EffectID.WordPuzzleChallenge, duration)
+    public WordPuzzleChallenge(int duration) : base(EffectID.WordPuzzleChallenge, duration)
     {
     }
 

@@ -13,7 +13,7 @@ public sealed class HealPlayerEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public HealPlayerEffect() : base(EffectID.HealPlayer, null, EffectSeverity.Positive)
+    public HealPlayerEffect() : base(EffectID.HealPlayer, 0, EffectSeverity.Positive)
     {
     }
 

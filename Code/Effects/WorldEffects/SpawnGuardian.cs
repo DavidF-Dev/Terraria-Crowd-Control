@@ -35,7 +35,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnGuardian(bool isFake) : base(isFake ? EffectID.SpawnFakeGuardian : EffectID.SpawnGuardian, null, EffectSeverity.Negative)
+    public SpawnGuardian(bool isFake) : base(isFake ? EffectID.SpawnFakeGuardian : EffectID.SpawnGuardian, 0, EffectSeverity.Negative)
     {
         _isFake = isFake;
     }

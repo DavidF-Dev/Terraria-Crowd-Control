@@ -69,13 +69,6 @@ public sealed class CrowdControlConfig : ModConfig
     public bool HideDropItemMessage;
 
     [BackgroundColor(EffectR, EffectG, EffectB)]
-    [Range(0.5f, 2.5f)]
-    [Increment(0.1f)]
-    [DrawTicks]
-    [DefaultValue(1f)]
-    public float ChallengeDurationFactor;
-
-    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     [ReloadRequired]
     public bool AllowCalamity;

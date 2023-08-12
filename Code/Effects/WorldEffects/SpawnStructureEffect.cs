@@ -101,7 +101,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnStructureEffect() : base(EffectID.SpawnStructure, null, EffectSeverity.Neutral)
+    public SpawnStructureEffect() : base(EffectID.SpawnStructure, 0, EffectSeverity.Neutral)
     {
     }
 

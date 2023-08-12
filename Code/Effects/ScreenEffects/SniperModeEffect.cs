@@ -46,7 +46,7 @@ public sealed class SniperModeEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SniperModeEffect(float duration) : base(EffectID.SniperMode, duration, EffectSeverity.Neutral)
+    public SniperModeEffect(int duration) : base(EffectID.SniperMode, duration, EffectSeverity.Neutral)
     {
     }
 

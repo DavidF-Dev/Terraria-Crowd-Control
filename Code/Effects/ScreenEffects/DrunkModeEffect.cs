@@ -116,7 +116,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public DrunkModeEffect(float duration) : base(EffectID.DrunkMode, duration, EffectSeverity.Negative)
+    public DrunkModeEffect(int duration) : base(EffectID.DrunkMode, duration, EffectSeverity.Negative)
     {
         _sineShader = new ScreenShader("SH_Sine", "CreateSine", $"{Id}_1");
         _glitchShader = new ScreenShader("SH_Glitch", "CreateGlitch", $"{Id}_2");

@@ -82,7 +82,7 @@ public sealed class GoldenSlimeRainEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public GoldenSlimeRainEffect(float duration) : base(EffectID.GoldenSlimeRain, duration, EffectSeverity.Neutral)
+    public GoldenSlimeRainEffect(int duration) : base(EffectID.GoldenSlimeRain, duration, EffectSeverity.Neutral)
     {
     }
 

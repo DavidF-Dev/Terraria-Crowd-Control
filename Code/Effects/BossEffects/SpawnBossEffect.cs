@@ -55,7 +55,7 @@ public sealed class SpawnBossEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnBossEffect(short bossType) : base(GetId(bossType), null, EffectSeverity.Negative)
+    public SpawnBossEffect(short bossType) : base(GetId(bossType), 0, EffectSeverity.Negative)
     {
         _spawnableNpc = SpawnableNpc.Get(bossType);
     }

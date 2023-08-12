@@ -348,7 +348,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     #region Constructors
 
-    public GiveItemEffect(GiveItem giveItem) : base(GetId(giveItem), null, GetSeverity(giveItem))
+    public GiveItemEffect(GiveItem giveItem) : base(GetId(giveItem), 0, GetSeverity(giveItem))
     {
         _giveItem = giveItem;
         _stack = GetStackSize(_giveItem);

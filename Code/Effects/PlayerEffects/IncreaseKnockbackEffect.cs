@@ -28,7 +28,7 @@ public sealed class IncreaseKnockbackEffect : CrowdControlEffect
 
     #region Constructors
 
-    public IncreaseKnockbackEffect(float duration) : base(EffectID.IncreaseKnockback, duration, EffectSeverity.Neutral)
+    public IncreaseKnockbackEffect(int duration) : base(EffectID.IncreaseKnockback, duration, EffectSeverity.Neutral)
     {
     }
 

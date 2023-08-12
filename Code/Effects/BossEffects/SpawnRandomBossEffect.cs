@@ -175,7 +175,7 @@ public sealed class SpawnRandomBossEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnRandomBossEffect() : base(EffectID.RandomBoss, null, EffectSeverity.Negative)
+    public SpawnRandomBossEffect() : base(EffectID.RandomBoss, 0, EffectSeverity.Negative)
     {
         // Add vanilla types
         foreach (var (progress, types) in VanillaTypesByProgression)

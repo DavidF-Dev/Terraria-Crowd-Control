@@ -35,7 +35,7 @@ public sealed class RunBoostEffect : CrowdControlEffect
 
     #region Constructors
 
-    public RunBoostEffect(float duration) : base(EffectID.RunBoost, duration, EffectSeverity.Neutral)
+    public RunBoostEffect(int duration) : base(EffectID.RunBoost, duration, EffectSeverity.Neutral)
     {
     }
 

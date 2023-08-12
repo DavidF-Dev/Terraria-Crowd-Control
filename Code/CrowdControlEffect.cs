@@ -40,15 +40,10 @@ public abstract class CrowdControlEffect : IFeature
     private int _netId = -1;
 
     /// <summary>
-    ///     How long the effect lasts for, or null if the effect is instantaneous.
+    ///     Duration to use if none is provided by the effect request, or 0 if instantaneous.
     /// </summary>
-    private readonly float? _duration;
-
-    /// <summary>
-    ///     Effect is timed (if the duration is non-null and above zero).
-    /// </summary>
-    private readonly bool _isTimedEffect;
-
+    private readonly int _defaultDuration;
+    
     /// <summary>
     ///     Collection of players with this timed effect active (server-side).
     /// </summary>
@@ -58,11 +53,10 @@ public abstract class CrowdControlEffect : IFeature
 
     #region Constructors
 
-    protected CrowdControlEffect(string id, float? duration, EffectSeverity severity)
+    protected CrowdControlEffect(string id, int duration, EffectSeverity severity)
     {
         Id = id;
-        _duration = duration;
-        _isTimedEffect = _duration is > 0f;
+        _defaultDuration = duration;
         Severity = severity;
 
         if (NetUtils.IsServer)
@@ -97,9 +91,19 @@ public abstract class CrowdControlEffect : IFeature
     public bool IsPaused { get; private set; }
 
     /// <summary>
+    ///     How long the effect lasts for, or 0 if it is instantaneous. Only correct whilst the effect is active.
+    /// </summary>
+    public int Duration { get; private set; }
+    
+    /// <summary>
     ///     Current time remaining on the effect.
     /// </summary>
     public float TimeLeft { get; private set; }
+
+    /// <summary>
+    ///     Effect is a timed effect. Only correct whilst the effect is active.
+    /// </summary>
+    public bool IsTimedEffect => Duration > 0;
 
     /// <summary>
     ///     Category of the effect; 1:1 with folders in the Terraria Pack.
@@ -152,7 +156,7 @@ public abstract class CrowdControlEffect : IFeature
     /// <summary>
     ///     Start the effect (client-side).
     /// </summary>
-    public CrowdControlResponseStatus Start(int netId, string viewer)
+    public CrowdControlResponseStatus Start(int netId, string viewer, int duration)
     {
         if (IsActive)
         {
@@ -161,19 +165,22 @@ public abstract class CrowdControlEffect : IFeature
 
         _netId = netId;
         Viewer = viewer;
-        if (_isTimedEffect)
+
+        duration = Math.Max(0, duration);
+        if (duration == 0)
         {
-            var duration = _duration.GetValueOrDefault();
-            ModifyDuration(ref duration);
-            TimeLeft = duration;
+            duration = Math.Max(0, _defaultDuration);
         }
+
+        TimeLeft = duration;
+        Duration = duration;
 
         var responseStatus = OnStart();
         IsActive = responseStatus == CrowdControlResponseStatus.Success;
 
         if (IsActive)
         {
-            SendStartMessage(viewer, GetLocalPlayer().Player.name, _isTimedEffect ? $"{TimeLeft:0.}" : null);
+            SendStartMessage(viewer, GetLocalPlayer().Player.name, IsTimedEffect ? $"{TimeLeft:0.}" : null);
 
             // Show emote if one is provided
             if (StartEmote != -1)
@@ -181,7 +188,7 @@ public abstract class CrowdControlEffect : IFeature
                 GetLocalPlayer().Player.Emote(StartEmote);
             }
 
-            if (!_isTimedEffect)
+            if (!IsTimedEffect)
             {
                 // Effect should stop straight away as it isn't timed
                 Stop();
@@ -196,6 +203,7 @@ public abstract class CrowdControlEffect : IFeature
         {
             // Effect could not start, so reset variables
             TimeLeft = 0;
+            Duration = 0;
         }
 
         return responseStatus;
@@ -211,13 +219,13 @@ public abstract class CrowdControlEffect : IFeature
             return;
         }
 
-        if (NetUtils.IsClient && _isTimedEffect)
+        if (NetUtils.IsClient && IsTimedEffect)
         {
             // Notify the server that the timed effect finished
             SendPacket(PacketID.EffectStatus, false);
         }
 
-        if (_isTimedEffect && !requested)
+        if (IsTimedEffect && !requested)
         {
             // Let Crowd Control know that the timed effect has finished
             CrowdControlMod.GetInstance().QueueResponseToCrowdControl(_netId, this, CrowdControlResponseStatus.Finished);
@@ -228,6 +236,7 @@ public abstract class CrowdControlEffect : IFeature
         IsActive = false;
         IsPaused = false;
         TimeLeft = 0f;
+        Duration = 0;
         _netId = -1;
 
         OnStop();
@@ -240,7 +249,7 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     public void Pause()
     {
-        if (!IsActive || !_isTimedEffect || IsPaused)
+        if (!IsActive || !IsTimedEffect || IsPaused)
         {
             // Ignore
             return;
@@ -254,7 +263,7 @@ public abstract class CrowdControlEffect : IFeature
 
     public void Resume()
     {
-        if (!IsActive || !_isTimedEffect || !IsPaused)
+        if (!IsActive || !IsTimedEffect || !IsPaused)
         {
             // Ignore
             return;
@@ -286,7 +295,7 @@ public abstract class CrowdControlEffect : IFeature
         }
 
         // Reduce the timer, stopping the effect if it reaches zero
-        if (_isTimedEffect)
+        if (IsTimedEffect)
         {
             TimeLeft -= delta;
             if (TimeLeft <= 0)
@@ -453,13 +462,6 @@ public abstract class CrowdControlEffect : IFeature
     ///     Invoked when a packet is received, meant for this effect to handle on the server-side (server-side).
     /// </summary>
     protected virtual void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
-    {
-    }
-
-    /// <summary>
-    ///     Modify the duration of the effect when it is started.
-    /// </summary>
-    protected virtual void ModifyDuration(ref float duration)
     {
     }
 

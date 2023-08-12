@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Added support for custom effect durations; configure via the Crowd Control app.
+- Removed "Challenge Duration Factor" setting from mod config.
 
 ## [2.0.0] - 2023-08-08
 

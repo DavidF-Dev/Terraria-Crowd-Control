@@ -21,7 +21,7 @@ public sealed class DamagePlayerEffect : CrowdControlEffect
 
     #region Constructors
 
-    public DamagePlayerEffect() : base(EffectID.DamagePlayer, null, EffectSeverity.Negative)
+    public DamagePlayerEffect() : base(EffectID.DamagePlayer, 0, EffectSeverity.Negative)
     {
     }
 

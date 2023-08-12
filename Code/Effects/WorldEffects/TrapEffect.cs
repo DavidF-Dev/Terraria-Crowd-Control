@@ -67,7 +67,7 @@ public sealed class TrapEffect : CrowdControlEffect
 
     #region Constructors
 
-    public TrapEffect(TrapType type) : base(GetId(type), null, EffectSeverity.Negative)
+    public TrapEffect(TrapType type) : base(GetId(type), 0, EffectSeverity.Negative)
     {
         _type = type;
     }

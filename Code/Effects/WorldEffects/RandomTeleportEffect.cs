@@ -20,7 +20,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
 
     #region Constructors
 
-    public RandomTeleportEffect() : base(EffectID.RandomTeleport, null, EffectSeverity.Neutral)
+    public RandomTeleportEffect() : base(EffectID.RandomTeleport, 0, EffectSeverity.Neutral)
     {
     }
 

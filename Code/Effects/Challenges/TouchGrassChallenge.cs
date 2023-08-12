@@ -11,7 +11,7 @@ public sealed class TouchGrassChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public TouchGrassChallenge(float duration) : base(EffectID.TouchGrassChallenge, duration)
+    public TouchGrassChallenge(int duration) : base(EffectID.TouchGrassChallenge, duration)
     {
     }
 

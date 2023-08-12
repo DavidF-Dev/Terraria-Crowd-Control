@@ -19,7 +19,7 @@ public sealed class ScreenShakeEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ScreenShakeEffect(float duration) : base(EffectID.ScreenShake, duration, EffectSeverity.Negative)
+    public ScreenShakeEffect(int duration) : base(EffectID.ScreenShake, duration, EffectSeverity.Negative)
     {
     }
 

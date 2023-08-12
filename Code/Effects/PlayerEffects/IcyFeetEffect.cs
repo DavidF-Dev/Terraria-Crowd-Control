@@ -33,7 +33,7 @@ public sealed class IcyFeetEffect : CrowdControlEffect
 
     #region Constructors
 
-    public IcyFeetEffect(float duration) : base(EffectID.IcyFeet, duration, EffectSeverity.Negative)
+    public IcyFeetEffect(int duration) : base(EffectID.IcyFeet, duration, EffectSeverity.Negative)
     {
     }
 

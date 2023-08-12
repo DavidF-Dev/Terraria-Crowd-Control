@@ -13,7 +13,7 @@ public class SwitchLoadoutEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public SwitchLoadoutEffect() : base(EffectID.SwitchLoadout, null, EffectSeverity.Negative)
+    public SwitchLoadoutEffect() : base(EffectID.SwitchLoadout, 0, EffectSeverity.Negative)
     {
     }
 

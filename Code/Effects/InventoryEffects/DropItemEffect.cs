@@ -35,7 +35,7 @@ public sealed class DropItemEffect : CrowdControlEffect
 
     #region Constructors
 
-    public DropItemEffect() : base(EffectID.DropItem, null, EffectSeverity.Negative)
+    public DropItemEffect() : base(EffectID.DropItem, 0, EffectSeverity.Negative)
     {
     }
 

@@ -91,7 +91,7 @@ public sealed class FartEffect : CrowdControlEffect
 
     #region Constructors
 
-    public FartEffect() : base(EffectID.FartSound, null, EffectSeverity.Neutral)
+    public FartEffect() : base(EffectID.FartSound, 0, EffectSeverity.Neutral)
     {
     }
 

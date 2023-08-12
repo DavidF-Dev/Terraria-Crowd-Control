@@ -73,7 +73,7 @@ public sealed class ReforgeItemEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ReforgeItemEffect() : base(EffectID.ReforgeItem, null, EffectSeverity.Neutral)
+    public ReforgeItemEffect() : base(EffectID.ReforgeItem, 0, EffectSeverity.Neutral)
     {
     }
 

@@ -14,7 +14,7 @@ public sealed class EatFoodChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public EatFoodChallenge(float duration) : base(EffectID.EatFoodChallenge, duration)
+    public EatFoodChallenge(int duration) : base(EffectID.EatFoodChallenge, duration)
     {
     }
 

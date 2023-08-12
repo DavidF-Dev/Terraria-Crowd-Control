@@ -11,7 +11,7 @@ public sealed class MinecartChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public MinecartChallenge(float duration) : base(EffectID.MinecartChallenge, duration)
+    public MinecartChallenge(int duration) : base(EffectID.MinecartChallenge, duration)
     {
     }
 

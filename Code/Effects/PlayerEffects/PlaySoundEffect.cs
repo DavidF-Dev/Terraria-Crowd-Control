@@ -21,7 +21,7 @@ public sealed class PlaySoundEffect : CrowdControlEffect
 
     #region Constructors
 
-    public PlaySoundEffect(string id, float? overrideVolume, params SoundStyle[] soundStyles) : base(id, null, EffectSeverity.Neutral)
+    public PlaySoundEffect(string id, float? overrideVolume, params SoundStyle[] soundStyles) : base(id, 0, EffectSeverity.Neutral)
     {
         _overrideVolume = overrideVolume;
         _soundStyles = soundStyles;

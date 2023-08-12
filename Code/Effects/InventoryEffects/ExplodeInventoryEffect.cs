@@ -13,7 +13,7 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public ExplodeInventoryEffect() : base(EffectID.ExplodeInventory, null, EffectSeverity.Negative)
+    public ExplodeInventoryEffect() : base(EffectID.ExplodeInventory, 0, EffectSeverity.Negative)
     {
     }
 

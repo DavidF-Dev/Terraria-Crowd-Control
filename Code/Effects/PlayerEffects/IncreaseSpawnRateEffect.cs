@@ -20,7 +20,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     #region Constructors
 
-    public IncreaseSpawnRateEffect(float duration) : base(EffectID.IncreaseSpawnRate, duration, EffectSeverity.Negative)
+    public IncreaseSpawnRateEffect(int duration) : base(EffectID.IncreaseSpawnRate, duration, EffectSeverity.Negative)
     {
         CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
     }

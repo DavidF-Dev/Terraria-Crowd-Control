@@ -74,13 +74,13 @@ public sealed class ToggleWorldSeedEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ToggleWorldSeedEffect(SeedType seedType, bool enabled) : base(GetId(seedType, enabled ? SeedState.Enable : SeedState.Disable), null, EffectSeverity.Neutral)
+    public ToggleWorldSeedEffect(SeedType seedType, bool enabled) : base(GetId(seedType, enabled ? SeedState.Enable : SeedState.Disable), 0, EffectSeverity.Neutral)
     {
         _seedType = seedType;
         _seedState = enabled ? SeedState.Enable : SeedState.Disable;
     }
 
-    public ToggleWorldSeedEffect(SeedType seedType, float duration) : base(GetId(seedType, SeedState.Temp), duration, EffectSeverity.Neutral)
+    public ToggleWorldSeedEffect(SeedType seedType, int duration) : base(GetId(seedType, SeedState.Temp), duration, EffectSeverity.Neutral)
     {
         _seedType = seedType;
         _seedState = SeedState.Temp;

@@ -28,7 +28,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ShuffleSfxEffect(float duration) : base(EffectID.ShuffleSfx, duration, EffectSeverity.Neutral)
+    public ShuffleSfxEffect(int duration) : base(EffectID.ShuffleSfx, duration, EffectSeverity.Neutral)
     {
         // Cache all the vanilla sfx for future use
         _vanillaSfx = typeof(SoundID).GetFields(BindingFlags.Public | BindingFlags.Static)

@@ -43,7 +43,7 @@ public sealed class ForceMountEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ForceMountEffect(float duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
+    public ForceMountEffect(int duration) : base(EffectID.ForceMount, duration, EffectSeverity.Neutral)
     {
         // Create a list of all the mounts
         var allMountOptions = VanillaMounts.ToList();

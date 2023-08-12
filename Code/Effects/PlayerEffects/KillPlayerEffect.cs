@@ -13,7 +13,7 @@ public sealed class KillPlayerEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public KillPlayerEffect() : base(EffectID.KillPlayer, null, EffectSeverity.Negative)
+    public KillPlayerEffect() : base(EffectID.KillPlayer, 0, EffectSeverity.Negative)
     {
     }
 

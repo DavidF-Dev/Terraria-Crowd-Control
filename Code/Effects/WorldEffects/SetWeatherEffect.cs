@@ -48,7 +48,7 @@ public sealed class SetWeatherEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetWeatherEffect(WorldUtils.Weather weather) : base(GetId(weather), null, EffectSeverity.Neutral)
+    public SetWeatherEffect(WorldUtils.Weather weather) : base(GetId(weather), 0, EffectSeverity.Neutral)
     {
         _weather = weather;
         StartEmote = _weather switch

@@ -23,7 +23,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ExplodePlayerEffect() : base(EffectID.ExplodePlayer, null, EffectSeverity.Negative)
+    public ExplodePlayerEffect() : base(EffectID.ExplodePlayer, 0, EffectSeverity.Negative)
     {
         _instantDynamiteType = ModContent.ProjectileType<InstantDynamite>();
     }

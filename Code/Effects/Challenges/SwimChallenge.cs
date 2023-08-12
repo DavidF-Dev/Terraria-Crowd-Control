@@ -11,7 +11,7 @@ public sealed class SwimChallenge : ChallengeEffect
 {
     #region Constructors
 
-    public SwimChallenge(float duration) : base(EffectID.SwimChallenge, duration)
+    public SwimChallenge(int duration) : base(EffectID.SwimChallenge, duration)
     {
     }
 

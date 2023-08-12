@@ -27,7 +27,7 @@ public sealed class TeleportToDeathEffect : CrowdControlEffect
 
     #region Constructors
 
-    public TeleportToDeathEffect() : base(EffectID.DeathTeleport, null, EffectSeverity.Neutral)
+    public TeleportToDeathEffect() : base(EffectID.DeathTeleport, 0, EffectSeverity.Neutral)
     {
     }
 

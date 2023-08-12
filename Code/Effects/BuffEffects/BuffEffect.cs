@@ -29,7 +29,7 @@ public sealed class BuffEffect : CrowdControlEffect
 
     #region Constructors
 
-    public BuffEffect(string id, EffectSeverity severity, float duration, short itemId, int emoteId, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
+    public BuffEffect(string id, EffectSeverity severity, int duration, short itemId, int emoteId, Action<CrowdControlPlayer>? onStart, params int[] buffs) : base(id, duration, severity)
     {
         _itemId = itemId;
         StartEmote = emoteId;

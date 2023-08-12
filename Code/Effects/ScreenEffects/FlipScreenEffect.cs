@@ -21,7 +21,7 @@ public sealed class FlipScreenEffect : CrowdControlEffect
 
     #region Constructors
 
-    public FlipScreenEffect(float duration) : base(EffectID.FlipScreen, duration, EffectSeverity.Negative)
+    public FlipScreenEffect(int duration) : base(EffectID.FlipScreen, duration, EffectSeverity.Negative)
     {
         _flipScreenShader = new ScreenShader("SH_FlipVertical", "FilterMyShader", Id);
     }

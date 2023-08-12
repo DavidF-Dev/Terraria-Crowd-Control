@@ -61,7 +61,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     #region Constructors
 
-    public StandOnBlockChallenge(float duration) : base(EffectID.StandOnBlockChallenge, duration)
+    public StandOnBlockChallenge(int duration) : base(EffectID.StandOnBlockChallenge, duration)
     {
     }
 

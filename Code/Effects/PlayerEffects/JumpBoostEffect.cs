@@ -29,7 +29,7 @@ public sealed class JumpBoostEffect : CrowdControlEffect
 
     #region Constructors
 
-    public JumpBoostEffect(float duration) : base(EffectID.JumpBoost, duration, EffectSeverity.Neutral)
+    public JumpBoostEffect(int duration) : base(EffectID.JumpBoost, duration, EffectSeverity.Neutral)
     {
     }
 

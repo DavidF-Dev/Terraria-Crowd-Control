@@ -28,7 +28,7 @@ public sealed class ZoomEffect : CrowdControlEffect
 
     #region Constructors
 
-    public ZoomEffect(float duration, bool zoomIn) : base(zoomIn ? EffectID.ZoomIn : EffectID.ZoomOut, duration, EffectSeverity.Negative)
+    public ZoomEffect(int duration, bool zoomIn) : base(zoomIn ? EffectID.ZoomIn : EffectID.ZoomOut, duration, EffectSeverity.Negative)
     {
         _zoomIn = zoomIn;
     }

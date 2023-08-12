@@ -39,7 +39,7 @@ public sealed class InfiniteAmmoEffect : CrowdControlEffect
 
     #region Constructors
 
-    public InfiniteAmmoEffect(float duration) : base(EffectID.InfiniteAmmo, duration, EffectSeverity.Positive)
+    public InfiniteAmmoEffect(int duration) : base(EffectID.InfiniteAmmo, duration, EffectSeverity.Positive)
     {
     }
 

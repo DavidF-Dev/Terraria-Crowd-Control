@@ -13,7 +13,7 @@ public sealed class ClearInventoryEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public ClearInventoryEffect() : base(EffectID.ClearInventory, null, EffectSeverity.Negative)
+    public ClearInventoryEffect() : base(EffectID.ClearInventory, 0, EffectSeverity.Negative)
     {
     }
 

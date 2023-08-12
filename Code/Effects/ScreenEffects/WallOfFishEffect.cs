@@ -33,7 +33,7 @@ public sealed class WallOfFishEffect : CrowdControlEffect, IMusicEffect
 
     #region Constructors
 
-    public WallOfFishEffect(float duration) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
+    public WallOfFishEffect(int duration) : base(EffectID.WallOfFish, duration, EffectSeverity.Negative)
     {
         if (NetUtils.IsServer)
         {

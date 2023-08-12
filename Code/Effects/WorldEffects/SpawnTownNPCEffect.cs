@@ -116,7 +116,7 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SpawnTownNPCEffect() : base(EffectID.SpawnTownNpc, null, EffectSeverity.Neutral)
+    public SpawnTownNPCEffect() : base(EffectID.SpawnTownNpc, 0, EffectSeverity.Neutral)
     {
     }
 

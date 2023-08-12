@@ -14,7 +14,7 @@ public sealed class ChangeGenderEffect : CrowdControlEffect
 {
     #region Constructors
 
-    public ChangeGenderEffect() : base(EffectID.ChangeGender, null, EffectSeverity.Neutral)
+    public ChangeGenderEffect() : base(EffectID.ChangeGender, 0, EffectSeverity.Neutral)
     {
     }
 

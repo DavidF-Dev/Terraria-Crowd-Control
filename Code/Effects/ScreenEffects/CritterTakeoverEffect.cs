@@ -45,7 +45,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
 
     #region Constructors
 
-    public CritterTakeoverEffect(float duration) : base(EffectID.CritterTakeover, duration, EffectSeverity.Neutral)
+    public CritterTakeoverEffect(int duration) : base(EffectID.CritterTakeover, duration, EffectSeverity.Neutral)
     {
         CrowdControlNPC.EditSpawnRateHook += EditSpawnRate;
 

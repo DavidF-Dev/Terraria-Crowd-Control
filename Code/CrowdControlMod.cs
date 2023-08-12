@@ -594,7 +594,7 @@ public sealed class CrowdControlMod : Mod
                             ProcessEffectResult processResult;
                             try
                             {
-                                processResult = ProcessEffect(request.Id, request.Code, request.Viewer, (CrowdControlRequestType)request.Type);
+                                processResult = ProcessEffect(request.Id, request.Code, request.Viewer, request.Duration / 1000, (CrowdControlRequestType)request.Type);
                             }
                             catch (Exception e)
                             {
@@ -718,7 +718,7 @@ public sealed class CrowdControlMod : Mod
         }
     }
 
-    private ProcessEffectResult ProcessEffect(int netId, string code, string viewer, CrowdControlRequestType requestType)
+    private ProcessEffectResult ProcessEffect(int netId, string code, string viewer, int duration, CrowdControlRequestType requestType)
     {
         // Ensure the session is active (in case of multi-threaded shenanigans)
         if (!IsSessionActive)
@@ -740,14 +740,14 @@ public sealed class CrowdControlMod : Mod
                 {
                     0 => CrowdControlResponseStatus.Failure,
                     > 1 => CrowdControlResponseStatus.Failure,
-                    _ => ProcessEffect(netId, providerIds.First(), viewer, requestType)
+                    _ => ProcessEffect(netId, providerIds.First(), viewer, duration, requestType)
                 };
             }
 
             // Simply stop all provided effects
             foreach (var providerId in providerIds)
             {
-                ProcessEffect(netId, providerId, viewer, requestType);
+                ProcessEffect(netId, providerId, viewer, duration, requestType);
             }
 
             return CrowdControlResponseStatus.Success;
@@ -777,7 +777,7 @@ public sealed class CrowdControlMod : Mod
         CrowdControlResponseStatus result;
         if (requestType == CrowdControlRequestType.Start)
         {
-            result = effect.Start(netId, viewer);
+            result = effect.Start(netId, viewer, duration);
         }
         else
         {
@@ -835,86 +835,85 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ExplodePlayerEffect());
         AddEffect(new HealPlayerEffect());
         AddEffect(new DamagePlayerEffect());
-        AddEffect(new GodModeEffect(30f));
+        AddEffect(new GodModeEffect(30));
         AddEffect(new SetMaxStatEffect(EffectID.IncreaseMaxLife, true, true));
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxLife, false, true));
         AddEffect(new SetMaxStatEffect(EffectID.IncreaseMaxMana, true, false));
         AddEffect(new SetMaxStatEffect(EffectID.DecreaseMaxMana, false, false));
-        AddEffect(new IncreaseSpawnRateEffect(25f));
-        AddEffect(new InfiniteAmmoEffect(30f));
+        AddEffect(new IncreaseSpawnRateEffect(25));
+        AddEffect(new InfiniteAmmoEffect(30));
         AddEffect(new TeleportToDeathEffect());
         AddEffect(new GivePetEffect(GivePetEffect.PetType.Pet));
         AddEffect(new GivePetEffect(GivePetEffect.PetType.LightPet));
         AddEffect(new ChangeGenderEffect());
-        AddEffect(new ForceMountEffect(25f));
-        AddEffect(new ShootExplosives(15f, ShootExplosives.Shoot.Bombs));
-        AddEffect(new ShootExplosives(20f, ShootExplosives.Shoot.Grenades));
-        AddEffect(new IncreaseKnockbackEffect(40f));
-        AddEffect(new JumpBoostEffect(25f));
-        AddEffect(new RunBoostEffect(25f));
-        AddEffect(new IcyFeetEffect(25f));
-        AddEffect(new NoItemPickupEffect(20f));
+        AddEffect(new ForceMountEffect(25));
+        AddEffect(new ShootExplosives(15, ShootExplosives.Shoot.Bombs));
+        AddEffect(new ShootExplosives(20, ShootExplosives.Shoot.Grenades));
+        AddEffect(new IncreaseKnockbackEffect(40));
+        AddEffect(new JumpBoostEffect(25));
+        AddEffect(new RunBoostEffect(25));
+        AddEffect(new IcyFeetEffect(25));
         AddEffect(new FlingUpwardsEffect());
         AddEffect(new FartEffect());
-        AddEffect(new HiccupEffect(60f));
+        AddEffect(new HiccupEffect(60));
 
         // --- Buff effects (positive)
-        AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60,
             ItemID.PaladinsShield, -1, null,
             BuffID.Ironskin, BuffID.Endurance, BuffID.CatBast));
-        AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffRegen, EffectSeverity.Positive, 60,
             ItemID.Heart, -1,
             p => p.Player.SetHairDye(ItemID.LifeHairDye),
             BuffID.Regeneration, BuffID.SoulDrain, BuffID.HeartyMeal, BuffID.ManaRegeneration, BuffID.Lovestruck));
-        AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffLight, EffectSeverity.Positive, 60,
             ItemID.MagicLantern, -1,
             p => p.Player.SetHairDye(ItemID.MartianHairDye),
             BuffID.NightOwl, BuffID.Shine));
-        AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffTreasure, EffectSeverity.Positive, 60,
             ItemID.GoldChest, -1,
             p => p.Player.SetHairDye(ItemID.DepthHairDye),
             BuffID.Spelunker, BuffID.Hunter, BuffID.Dangersense));
-        AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffMovement, EffectSeverity.Positive, 60,
             ItemID.Aglet, EmoteID.PartyCake, null,
             BuffID.Swiftness, BuffID.SugarRush, BuffID.Panic, BuffID.WaterWalking, BuffID.Sunflower));
-        AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffObsidianSkin, EffectSeverity.Positive, 60,
             ItemID.ObsidianSkull, EmoteID.MiscFire, null,
             BuffID.ObsidianSkin, BuffID.Warmth));
-        AddEffect(new BuffEffect(EffectID.BuffMiningSpeed, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffMiningSpeed, EffectSeverity.Positive, 60,
             ItemID.ShroomiteDiggingClaw, EmoteID.ItemPickaxe, null,
             BuffID.Mining, BuffID.SugarRush));
-        AddEffect(new BuffEffect(EffectID.BuffSwimming, EffectSeverity.Positive, 60f,
+        AddEffect(new BuffEffect(EffectID.BuffSwimming, EffectSeverity.Positive, 60,
             ItemID.Flipper, -1, null,
             BuffID.Gills, BuffID.Flipper, BuffID.WaterWalking, BuffID.Merfolk, BuffID.Wet));
 
         // --- Buff effects (negative)
-        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffFreeze, EffectSeverity.Negative, 8,
             ItemID.IceCream, -1, null,
             BuffID.Frozen));
-        AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 10f,
+        AddEffect(new BuffEffect(EffectID.BuffFire, EffectSeverity.Negative, 10,
             ItemID.LivingFireBlock, EmoteID.DebuffBurn,
             p => Projectile.NewProjectile(null, p.Player.position, new Vector2(0f, 10f), ProjectileID.MolotovCocktail, 1, 1f, p.Player.whoAmI),
             BuffID.OnFire));
-        AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 20f,
+        AddEffect(new BuffEffect(EffectID.BuffDaze, EffectSeverity.Negative, 20,
             ItemID.FallenStar, -1, null,
             BuffID.Dazed, BuffID.NoBuilding));
-        AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffLevitate, EffectSeverity.Negative, 25,
             ItemID.FragmentVortex, -1, null,
             BuffID.VortexDebuff));
-        AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffConfuse, EffectSeverity.Negative, 25,
             ItemID.BrainOfConfusion, EmoteID.EmoteConfused, null,
             BuffID.Confused));
-        AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 30f,
+        AddEffect(new BuffEffect(EffectID.BuffInvisible, EffectSeverity.Neutral, 30,
             ItemID.InvisibilityPotion, -1, null,
             BuffID.Invisibility));
-        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 25f,
+        AddEffect(new BuffEffect(EffectID.BuffBlind, EffectSeverity.Negative, 25,
             ItemID.Blindfold, -1,
             p => p.Player.SetHairDye(ItemID.TwilightHairDye),
             BuffID.Obstructed));
-        AddEffect(new BuffEffect(EffectID.BuffCurse, EffectSeverity.Negative, 8f,
+        AddEffect(new BuffEffect(EffectID.BuffCurse, EffectSeverity.Negative, 8,
             ItemID.DemonScythe, EmoteID.DebuffCurse, null,
             BuffID.Cursed, BuffID.NoBuilding));
-        AddEffect(new NoclipEffect(2f));
+        AddEffect(new NoclipEffect(2));
 
         // -- Inventory effects
         AddEffect(new DropItemEffect());
@@ -922,8 +921,9 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ClearInventoryEffect());
         AddEffect(new ShuffleInventoryEffect());
         AddEffect(new SwitchLoadoutEffect());
+        AddEffect(new NoItemPickupEffect(20));
         AddEffect(new ReforgeItemEffect());
-        AddEffect(new MoneyBoostEffect(60f));
+        AddEffect(new MoneyBoostEffect(60));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Pickaxe));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Sword));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Armour));
@@ -948,10 +948,10 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new RandomTeleportEffect());
         AddEffect(new SummonNpcsEffect());
         AddEffect(new SpawnTownNPCEffect());
-        AddEffect(new RainbowFeetEffect(60f));
+        AddEffect(new RainbowFeetEffect(60));
         AddEffect(new SpawnGuardian(false));
         AddEffect(new SpawnGuardian(true));
-        AddEffect(new GoldenSlimeRainEffect(60f));
+        AddEffect(new GoldenSlimeRainEffect(60));
         AddEffect(new SpawnCritters());
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Clear));
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Rain));
@@ -959,13 +959,13 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SetWeatherEffect(WorldUtils.Weather.Windy));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, true));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, false));
-        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, 60f * 5f));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.ForTheWorthy, 60 * 5));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, true));
         AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, false));
-        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, 60f * 5f));
+        AddEffect(new ToggleWorldSeedEffect(ToggleWorldSeedEffect.SeedType.DontStarve, 60 * 5));
         AddEffect(new SwitchSoundtrack());
-        AddEffect(new ShuffleSfxEffect(45f));
-        AddEffect(new MysteryBlocksEffect(30f));
+        AddEffect(new ShuffleSfxEffect(45));
+        AddEffect(new MysteryBlocksEffect(30));
 
         // --- Boss effects
         AddEffect(new SpawnRandomBossEffect());
@@ -988,27 +988,27 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SpawnBossEffect(NPCID.MoonLordCore));
 
         // --- Screen effects
-        AddEffect(new FlipScreenEffect(25f));
-        AddEffect(new DrunkModeEffect(25f));
-        AddEffect(new ZoomEffect(25f, true));
-        AddEffect(new ZoomEffect(25f, false));
-        AddEffect(new WallOfFishEffect(25f));
-        AddEffect(new CritterTakeoverEffect(60f));
-        AddEffect(new ScreenShakeEffect(20f));
-        AddEffect(new SniperModeEffect(25f));
-        AddEffect(new MonolithEffect(EffectID.MonolithShimmer, 30f, MonolithEffect.MonolithType.Shimmer));
-        AddEffect(new MonolithEffect(EffectID.MonolithMoonLord, 30f, MonolithEffect.MonolithType.MoonLord));
+        AddEffect(new FlipScreenEffect(25));
+        AddEffect(new DrunkModeEffect(25));
+        AddEffect(new ZoomEffect(25, true));
+        AddEffect(new ZoomEffect(25, false));
+        AddEffect(new WallOfFishEffect(25));
+        AddEffect(new CritterTakeoverEffect(60));
+        AddEffect(new ScreenShakeEffect(20));
+        AddEffect(new SniperModeEffect(25));
+        AddEffect(new MonolithEffect(EffectID.MonolithShimmer, 30, MonolithEffect.MonolithType.Shimmer));
+        AddEffect(new MonolithEffect(EffectID.MonolithMoonLord, 30, MonolithEffect.MonolithType.MoonLord));
 
         // --- Challenge effects
         AddEffectProvider(EffectID.RandomChallenge, new RandomChallengeEffectProvider());
-        AddEffect(new SwimChallenge(30f));
-        AddEffect(new StandOnBlockChallenge(40f));
-        AddEffect(new CraftItemChallenge(40f));
-        AddEffect(new SleepChallenge(30f));
-        AddEffect(new MinecartChallenge(30f));
-        AddEffect(new TouchGrassChallenge(15f));
-        AddEffect(new EatFoodChallenge(30f));
-        AddEffect(new WordPuzzleChallenge(30f));
+        AddEffect(new SwimChallenge(30));
+        AddEffect(new StandOnBlockChallenge(40));
+        AddEffect(new CraftItemChallenge(40));
+        AddEffect(new SleepChallenge(30));
+        AddEffect(new MinecartChallenge(30));
+        AddEffect(new TouchGrassChallenge(15));
+        AddEffect(new EatFoodChallenge(30));
+        AddEffect(new WordPuzzleChallenge(30));
     }
 
     private void AddAllFeatures()

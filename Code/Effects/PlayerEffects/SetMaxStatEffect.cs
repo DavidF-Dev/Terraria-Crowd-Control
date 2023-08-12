@@ -25,7 +25,7 @@ public sealed class SetMaxStatEffect : CrowdControlEffect
 
     #region Constructors
 
-    public SetMaxStatEffect(string id, bool increase, bool life) : base(id, null, increase ? EffectSeverity.Positive : EffectSeverity.Negative)
+    public SetMaxStatEffect(string id, bool increase, bool life) : base(id, 0, increase ? EffectSeverity.Positive : EffectSeverity.Negative)
     {
         _increase = increase;
         _life = life;

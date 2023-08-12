@@ -20,7 +20,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 
     #region Constructors
 
-    public FlingUpwardsEffect() : base(EffectID.FlingUpwards, null, EffectSeverity.Neutral)
+    public FlingUpwardsEffect() : base(EffectID.FlingUpwards, 0, EffectSeverity.Neutral)
     {
     }
 

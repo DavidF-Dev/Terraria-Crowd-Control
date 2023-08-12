@@ -35,17 +35,21 @@ public readonly struct CrowdControlRequest
     [JsonProperty("type")]
     public readonly int Type;
 
+    [JsonProperty("duration")]
+    public readonly int Duration;
+
     #endregion
 
     #region Constructors
 
     [JsonConstructor]
-    public CrowdControlRequest(int id, string code, string viewer, int type)
+    public CrowdControlRequest(int id, string code, string viewer, int type, int duration)
     {
         Id = id;
         Code = code;
         Viewer = viewer;
         Type = type;
+        Duration = duration;
     }
 
     #endregion
