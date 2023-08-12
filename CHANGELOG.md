@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Added support for custom effect durations; configure via the Crowd Control app.
+- Changed some effect descriptions to be more descriptive.
 - Removed "Challenge Duration Factor" setting from mod config.
 
 ## [2.0.0] - 2023-08-08

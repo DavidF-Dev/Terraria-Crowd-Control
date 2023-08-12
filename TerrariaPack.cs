@@ -188,8 +188,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Critter takeover", "critter_takeover") {Category = ScreenFolder, Price = 15, Duration = 60, Description = "Temporarily alter NPC textures to look like harmless critters"},
                 new Effect("Screen shake", "screen_shake") {Category = ScreenFolder, Price = 50, Duration = 20, Description = "Temporarily shake the streamer's screen"},
                 new Effect("Sniper mode", "sniper_mode") {Category = ScreenFolder, Price = 50, Duration= 25, Description = "Temporarily cause the camera to follow the streamer's mouse"},
-                new Effect("Monolith (Aether)", "monolith_shimmer") {Category = ScreenFolder, Price = 10, Duration = 30, Description = "Temporarily enable the Aether monolith"},
-                new Effect("Monolith (Void)", "monolith_moon_lord") {Category = ScreenFolder, Price = 10, Duration = 30, Description = "Temporarily enable the Void monolith"},
+                new Effect("Monolith (Aether)", "monolith_shimmer") {Category = ScreenFolder, Price = 10, Duration = 30, Description = "Temporarily enable the Aether monolith visual effect"},
+                new Effect("Monolith (Void)", "monolith_moon_lord") {Category = ScreenFolder, Price = 10, Duration = 30, Description = "Temporarily enable the Void monolith visual effect"},
                     
                 // --- Challenge effects
                 new Effect("Do-or-die challenge", "random_challenge")
