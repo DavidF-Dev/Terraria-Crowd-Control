@@ -1,4 +1,6 @@
-﻿using CrowdControlMod.CrowdControlService;
+﻿using System;
+using System.Linq;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
@@ -19,6 +21,8 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
 
     #endregion
 
+    private const float DropPercent = 0.8f;
+
     #region Properties
 
     public override EffectCategory Category => EffectCategory.Inventory;
@@ -29,45 +33,42 @@ public sealed class ExplodeInventoryEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        // Iterate over the inventory and randomly drop items
-        var player = GetLocalPlayer();
-        var oldSel = player.Player.selectedItem;
-        var oldXSpeed = player.Player.velocity.X;
-        var oldDir = player.Player.direction;
-        var dropChance = 10 * Main.rand.Next(1, 10);
-        var dropCount = 0;
-        var itemCount = 0;
-        for (var i = 10; i < 50; i++)
+        // Remember the player's properties before we change them, so that they can be reverted at the end
+        var player = GetLocalPlayer().Player;
+        var oldSel = player.selectedItem;
+        var oldXSpeed = player.velocity.X;
+        var oldDir = player.direction;
+
+        const int startIndex = 10;
+        const int endIndex = 50;
+
+        // Retrieve a collection of the player's filled inventory slots, excluding the hot-bar, and determine how many should be dropped
+        var filledSlots = Enumerable.Range(startIndex, endIndex - startIndex).Where(i => player.inventory[i].active && !player.inventory[i].IsAir).ToList();
+        var targetDrop = (int)Math.Ceiling(filledSlots.Count * DropPercent);
+        if (targetDrop == 0 || targetDrop > filledSlots.Count)
         {
-            if (!player.Player.inventory[i].active || player.Player.inventory[i].IsAir)
-            {
-                continue;
-            }
-
-            itemCount++;
-            if (Main.rand.Next(100) > dropChance)
-            {
-                // Increase drop chance so it becomes more likely that a drop will occur
-                dropChance += 20;
-                continue;
-            }
-
-            dropChance = 0;
-
-            // Drop the item in a random direction
-            player.Player.inventory[i].favorited = false;
-            player.Player.selectedItem = i;
-            player.Player.direction = Main.rand.Next(100) > 50 ? -1 : 1;
-            player.Player.velocity.X = Main.rand.Next(8, 26) * player.Player.direction;
-            player.Player.DropSelectedItem();
-            dropCount++;
+            return CrowdControlResponseStatus.Failure;
         }
 
-        player.Player.selectedItem = oldSel;
-        player.Player.velocity.X = oldXSpeed;
-        player.Player.direction = oldDir;
+        const int minThrowSpeed = 2;
+        const int maxThrowSpeed = 15;
 
-        return itemCount == 0 ? CrowdControlResponseStatus.Failure : dropCount == 0 ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
+        // Iterate over the filled slots at random, dropping a percentage of the player's inventory
+        foreach (var i in filledSlots.OrderBy(_ => Main.rand.Next()).Take(targetDrop))
+        {
+            // Drop the item in a random direction
+            player.inventory[i].favorited = false;
+            player.selectedItem = i;
+            player.direction = Main.rand.Next(100) > 50 ? -1 : 1;
+            player.velocity.X = Main.rand.Next(minThrowSpeed, maxThrowSpeed) * player.direction;
+            player.DropSelectedItem();
+        }
+
+        // Revert the player's properties
+        player.selectedItem = oldSel;
+        player.velocity.X = oldXSpeed;
+        player.direction = oldDir;
+        return CrowdControlResponseStatus.Success;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
