@@ -42,7 +42,7 @@ Here is just a taste of the effects that this mod has to offer:
 Listed are just a few of the effects available. A full list can be viewed in the Crowd Control application where you can
 also edit the pricing per effect.
 Alternatively, those that are comfortable reading a little bit of code can view a full list of effects
-in [TerrariaPack2.cs](TerrariaPack2.cs).
+in [TerrariaPack.cs](TerrariaPack.cs).
 
 ## Usage
 
