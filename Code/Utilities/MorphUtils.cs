@@ -110,7 +110,7 @@ public static class MorphUtils
 
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
-            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
+            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || Main.mapFullscreen || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
             {
                 // No morph
                 return;
@@ -241,10 +241,13 @@ public static class MorphUtils
                 case MorphID.BlueFairy:
                     idleStartFrame = 0;
                     idleFrameCount = 3;
+                    idleAnimSpeed = 0.1f;
                     fallingStartFrame = 0;
                     fallingFrameCount = 3;
+                    fallingAnimSpeed = 0.1f;
                     walkingStartFrame = 0;
                     walkingFrameCount = 3;
+                    walkingAnimSpeed = 0.1f;
                     break;
             }
 

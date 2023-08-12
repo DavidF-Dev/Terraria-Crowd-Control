@@ -38,12 +38,12 @@ public sealed class MoonlitFayeAndMakenBaconEggFeature : IFeature
         {
             if (SteamUtils.IsMoonlitFaye && item.type is ItemID.Apple or ItemID.AppleJuice or ItemID.ApplePie or ItemID.ApplePieSlice)
             {
-                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Enable(MorphID.Junimo);
+                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.Junimo);
             }
 
             if (SteamUtils.IsMakenBacon && item.type is ItemID.Lemon or ItemID.Lemonade)
             {
-                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Enable(MorphID.BlueFairy);
+                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.BlueFairy);
             }
         }
 

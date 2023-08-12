@@ -41,9 +41,14 @@ public class MorphUntilDeathFeature : IFeature
     /// </summary>
     public void Enable(byte morph)
     {
-        if (IsEnabled || Main.netMode == NetmodeID.Server || morph == MorphID.None)
+        if (Main.netMode == NetmodeID.Server || morph == MorphID.None || Main.LocalPlayer.GetMorph() == morph)
         {
             return;
+        }
+
+        if (IsEnabled)
+        {
+            Disable();
         }
 
         IsEnabled = true;
@@ -66,6 +71,21 @@ public class MorphUntilDeathFeature : IFeature
         IsEnabled = false;
     }
 
+    /// <summary>
+    ///     Toggle the provided morph for the local player.
+    /// </summary>
+    public void Toggle(byte morph)
+    {
+        if (Main.LocalPlayer.GetMorph() != morph)
+        {
+            Enable(morph);
+        }
+        else
+        {
+            Disable();
+        }
+    }
+    
     private void OnGameUpdate(GameTime gameTime)
     {
         // Disable after death
