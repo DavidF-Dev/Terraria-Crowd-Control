@@ -130,7 +130,7 @@ public sealed class SpawnCritters : CrowdControlEffect
 
         if (SteamUtils.IsMagicMalaraith)
         {
-            CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Enable(MorphID.Fox);
+            MorphUntilDeathFeature.Instance?.Enable(MorphID.Fox);
         }
 
         return CrowdControlResponseStatus.Success;

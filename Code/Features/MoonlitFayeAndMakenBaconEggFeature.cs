@@ -30,27 +30,6 @@ public sealed class MoonlitFayeAndMakenBaconEggFeature : IFeature
     #region Nested Types
 
     // ReSharper disable once UnusedType.Local
-    private sealed class EggGlobalItem : GlobalItem
-    {
-        #region Methods
-
-        public override void OnConsumeItem(Item item, Player player)
-        {
-            if (SteamUtils.IsMoonlitFaye && item.type is ItemID.Apple)
-            {
-                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.Junimo);
-            }
-
-            if (SteamUtils.IsMakenBacon && item.type is ItemID.Lemon)
-            {
-                CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath)?.Toggle(MorphID.BlueFairy);
-            }
-        }
-
-        #endregion
-    }
-
-    // ReSharper disable once UnusedType.Local
     private sealed class EggGlobalNPC : GlobalNPC
     {
         #region Methods
@@ -64,23 +43,101 @@ public sealed class MoonlitFayeAndMakenBaconEggFeature : IFeature
 
             if (SteamUtils.IsMoonlitFaye)
             {
-                shop.Add(new Item(ItemID.Apple)
-                {
-                    stack = 1,
-                    shopCustomPrice = Item.buyPrice(silver: 1),
-                    rare = ItemRarityID.Green
-                });
+                shop.Add(new Item(ModContent.ItemType<GreenAppleItem>()) {stack = 1});
             }
 
             if (SteamUtils.IsMakenBacon)
             {
-                shop.Add(new Item(ItemID.Lemon)
-                {
-                    stack = 1,
-                    shopCustomPrice = Item.buyPrice(silver: 1),
-                    rare = ItemRarityID.Blue
-                });
+                shop.Add(new Item(ModContent.ItemType<FairyTonicItem>()) {stack = 1});
             }
+        }
+
+        #endregion
+    }
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class GreenAppleItem : ModItem
+    {
+        #region Properties
+
+        public override string Texture => $"{nameof(CrowdControlMod)}/Assets/Textures/GreenAppleItem";
+
+        #endregion
+
+        #region Methods
+
+        public override void SetDefaults()
+        {
+            Item.width = 26;
+            Item.height = 26;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useTurn = true;
+            Item.UseSound = SoundID.Item2;
+            Item.maxStack = Item.CommonMaxStack;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(silver: 1);
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return MorphUntilDeathFeature.Instance != null;
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (Main.myPlayer == player.whoAmI)
+            {
+                MorphUntilDeathFeature.Instance!.Toggle(MorphID.Junimo);
+            }
+
+            return true;
+        }
+
+        #endregion
+    }
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class FairyTonicItem : ModItem
+    {
+        #region Properties
+
+        public override string Texture => "Terraria/Images/Item_" + ItemID.FairyQueenPetItem;
+
+        #endregion
+
+        #region Methods
+
+        public override void SetDefaults()
+        {
+            Item.width = ContentSamples.ItemsByType[ItemID.FairyQueenPetItem].width;
+            Item.height = ContentSamples.ItemsByType[ItemID.FairyQueenPetItem].height;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useTurn = true;
+            Item.UseSound = SoundID.Item3;
+            Item.maxStack = Item.CommonMaxStack;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.buyPrice(silver: 1);
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return MorphUntilDeathFeature.Instance != null;
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (Main.myPlayer == player.whoAmI)
+            {
+                MorphUntilDeathFeature.Instance!.Toggle(MorphID.BlueFairy);
+            }
+
+            return true;
         }
 
         #endregion

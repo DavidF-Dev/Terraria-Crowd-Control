@@ -400,5 +400,17 @@ Mods: {
 				}
 			}
 		}
+
+		Items: {
+			FairyTonicItem: {
+				DisplayName: Fairy Tonic
+				Tooltip: "'Hey, listen!'"
+			}
+
+			GreenAppleItem: {
+				DisplayName: Green Apple
+				Tooltip: "'Meep!'"
+			}
+		}
 	}
 }

@@ -13,6 +13,8 @@ public class MorphUntilDeathFeature : IFeature
 {
     #region Properties
 
+    public static MorphUntilDeathFeature? Instance => CrowdControlMod.GetInstance().GetFeature<MorphUntilDeathFeature>(FeatureID.MorphUntilDeath);
+
     /// <summary>
     ///     Local player is currently a morph until death.
     /// </summary>
@@ -85,7 +87,7 @@ public class MorphUntilDeathFeature : IFeature
             Disable();
         }
     }
-    
+
     private void OnGameUpdate(GameTime gameTime)
     {
         // Disable after death
