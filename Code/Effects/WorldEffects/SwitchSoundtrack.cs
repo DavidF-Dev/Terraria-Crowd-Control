@@ -34,6 +34,8 @@ public sealed class SwitchSoundtrack : CrowdControlEffect
 
     protected override int StartEmote => EmoteID.EmoteNote;
 
+    protected override bool RequireGameMusic => true;
+
     private bool SwapMusic
     {
         get => (bool)_swapMusicField?.GetValue(null)!;

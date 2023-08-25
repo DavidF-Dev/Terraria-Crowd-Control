@@ -44,6 +44,8 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     public override EffectCategory Category => EffectCategory.World;
 
+    protected override bool RequireGameSounds => true;
+
     #endregion
 
     #region Methods

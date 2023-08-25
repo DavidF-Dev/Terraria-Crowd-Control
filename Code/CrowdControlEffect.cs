@@ -120,6 +120,16 @@ public abstract class CrowdControlEffect : IFeature
     /// </summary>
     protected virtual int StartEmote => -1;
 
+    /// <summary>
+    ///     Whether the effect requires game sounds to be unmuted.
+    /// </summary>
+    protected virtual bool RequireGameSounds => false;
+
+    /// <summary>
+    ///     Whether the effect requires game music to be unmuted.
+    /// </summary>
+    protected virtual bool RequireGameMusic => false;
+
     #endregion
 
     #region Methods
@@ -161,6 +171,12 @@ public abstract class CrowdControlEffect : IFeature
         if (IsActive)
         {
             return CrowdControlResponseStatus.Retry;
+        }
+
+        if ((RequireGameSounds && Main.soundVolume <= 0f) ||
+            (RequireGameMusic && Main.musicVolume <= 0f))
+        {
+            return CrowdControlResponseStatus.Failure;
         }
 
         _netId = netId;
