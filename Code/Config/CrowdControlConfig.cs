@@ -69,6 +69,13 @@ public sealed class CrowdControlConfig : ModConfig
     public bool HideDropItemMessage;
 
     [BackgroundColor(EffectR, EffectG, EffectB)]
+    [Range(0.0f, 2f)]
+    [Increment(0.1f)]
+    [DrawTicks]
+    [DefaultValue(1f)]
+    public float ShuffleSfxVolumeFactor;
+
+    [BackgroundColor(EffectR, EffectG, EffectB)]
     [DefaultValue(true)]
     [ReloadRequired]
     public bool AllowCalamity;

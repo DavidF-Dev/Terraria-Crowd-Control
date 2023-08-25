@@ -301,8 +301,18 @@ Mods: {
 				}
 
 				HideDropItemMessage: {
-					Label: '''[i: 890]  Hide "Drop Item" effect message'''
+					Label: '''[i: 3783]  Hide "Drop Item" effect message'''
 					Tooltip: Enable to hide the effect message in chat when the "Drop Item" effect is triggered.
+				}
+
+				ShuffleSfxVolumeFactor: {
+					Label: '''[i: 890]  "Shuffle Sfx" volume'''
+					Tooltip:
+						'''
+						Increase to make the sound effects louder.
+						Decrease to make the sound effects quieter.
+						x1 is default.
+						'''
 				}
 
 				ChallengeDurationFactor: {

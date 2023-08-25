@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using CrowdControlMod.Config;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -52,6 +53,11 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        if (CrowdControlConfig.GetInstance().ShuffleSfxVolumeFactor <= 0f)
+        {
+            return CrowdControlResponseStatus.Failure;
+        }
+        
         On_SoundPlayer.Play += OnPlaySfx;
         _seed = Main.rand.Next(_vanillaSfx.Length);
         return _vanillaSfx.Length == 0 ? CrowdControlResponseStatus.Unavailable : CrowdControlResponseStatus.Success;
@@ -83,7 +89,7 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
                 PlayOnlyIfFocused = style.PlayOnlyIfFocused,
                 SoundLimitBehavior = style.SoundLimitBehavior,
                 Type = style.Type,
-                Volume = style.Volume
+                Volume = style.Volume * CrowdControlConfig.GetInstance().ShuffleSfxVolumeFactor
             };
 
             // Check that the asset exists before committing

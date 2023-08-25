@@ -6,10 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added option in config to modify the volume for the "Shuffle Sfx" effect.
+- Changed audio-related effects to fail if game sounds are muted.
+
 ## [2.0.2] - 2023-08-18
 
 - Changed "Explode Inventory" effect to scale with inventory size.
-- Changed audio-related effects to fail if game sounds are muted.
 - Fixed some issues with player morphs.
 
 ## [2.0.1] - 2023-08-12
