@@ -76,6 +76,11 @@ public sealed class ShuffleSfxEffect : CrowdControlEffect
 
     private SlotId OnPlaySfx(On_SoundPlayer.orig_Play orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback)
     {
+        if (Main.gamePaused)
+        {
+            return orig.Invoke(self, ref style, position, callback);
+        }
+        
         SoundStyle shuffled = default;
         try
         {
