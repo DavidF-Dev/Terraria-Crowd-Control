@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3] - 2023-08-26
+
 - Added "Give Magic Weapon", "Give Summon Weapon", and "Give Ranged Weapon" effects.
 - Added option in config to modify the volume for the "Shuffle Sfx" effect.
 - Changed audio-related effects to fail if game sounds are muted.
