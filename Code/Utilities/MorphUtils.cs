@@ -192,6 +192,7 @@ public static class MorphUtils
                 SoundEngine.PlaySound(new SoundStyle("CrowdControlMod/Assets/Sounds/JunimoMeep")
                 {
                     PitchVariance = 0.2f,
+                    Volume = 0.75f,
                     MaxInstances = SoundID.PlayerHit.MaxInstances,
                     SoundLimitBehavior = SoundID.PlayerHit.SoundLimitBehavior,
                     PlayOnlyIfFocused = SoundID.PlayerHit.PlayOnlyIfFocused
