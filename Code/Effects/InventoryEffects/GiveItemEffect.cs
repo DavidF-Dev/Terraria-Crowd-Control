@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -21,6 +22,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         Pickaxe,
         Sword,
+        Magic,
+        Summon,
+        Ranged,
         Armour,
         HealingPotion,
         Potion,
@@ -56,8 +60,47 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {ProgressionUtils.Progression.PreMech, new[] {ItemID.SlapHand, ItemID.CobaltSword, ItemID.PalladiumSword, ItemID.OrichalcumSword, ItemID.MythrilSword, ItemID.DD2SquireDemonSword, ItemID.IceSickle, ItemID.BreakerBlade, ItemID.Cutlass, ItemID.AdamantiteSword, ItemID.TitaniumSword, ItemID.Frostbrand, ItemID.BeamSword, ItemID.FetidBaghnakhs, ItemID.Bladetongue}},
                 {ProgressionUtils.Progression.PreGolem, new[] {ItemID.Excalibur, ItemID.ChlorophyteSaber, ItemID.TrueExcalibur, ItemID.DeathSickle, ItemID.PsychoKnife, ItemID.Keybrand, ItemID.ChlorophyteClaymore, ItemID.TheHorsemansBlade, ItemID.ChristmasTreeSword, ItemID.TrueNightsEdge, ItemID.Seedler}},
                 {ProgressionUtils.Progression.PreLunar, new[] {ItemID.Seedler, ItemID.DD2SquireBetsySword, ItemID.TerraBlade, ItemID.InfluxWaver}},
-                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.DD2SquireBetsySword, ItemID.TerraBlade, ItemID.InfluxWaver}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.DD2SquireBetsySword}},
                 {ProgressionUtils.Progression.PostGame, new[] {ItemID.StarWrath, ItemID.Meowmere}}
+            }
+        },
+        {
+            GiveItem.Magic, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.WandofSparking, ItemID.WandofFrosting, ItemID.AmethystStaff, ItemID.TopazStaff, ItemID.SapphireStaff, ItemID.EmeraldStaff, ItemID.AmberStaff, ItemID.RubyStaff, ItemID.DiamondStaff, ItemID.ThunderStaff}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.Vilethorn, ItemID.DiamondStaff, ItemID.ThunderStaff, ItemID.ZapinatorGray, ItemID.SpaceGun, ItemID.BeeGun, ItemID.WaterBolt, ItemID.CrimsonRod}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.AquaScepter, ItemID.MagicMissile, ItemID.WeatherPain, ItemID.Flamelash, ItemID.FlowerofFire, ItemID.SpaceGun, ItemID.BeeGun, ItemID.DemonScythe, ItemID.BookofSkulls, ItemID.WaterBolt, ItemID.HoundiusShootius}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.SkyFracture, ItemID.MeteorStaff, ItemID.CrystalSerpent, ItemID.CrystalVileShard, ItemID.SoulDrain, ItemID.PoisonStaff, ItemID.FrostStaff, ItemID.FlowerofFrost, ItemID.UnholyTrident, ItemID.LaserRifle, ItemID.ZapinatorOrange, ItemID.CursedFlames, ItemID.GoldenShower, ItemID.CrystalStorm, ItemID.MagicalHarp, ItemID.NimbusRod, ItemID.ShadowFlameHexDoll, ItemID.SpiritFlame, ItemID.ClingerStaff, ItemID.MedusaHead, ItemID.MagicDagger, ItemID.IceRod}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.RainbowRod, ItemID.BookStaff, ItemID.NettleBurst, ItemID.VenomStaff, ItemID.WaspGun, ItemID.LeafBlower, ItemID.RainbowGun, ItemID.MagnetSphere, ItemID.RazorbladeTyphoon, ItemID.ToxicFlask}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.ShadowbeamStaff, ItemID.InfernoFork, ItemID.SpectreStaff, ItemID.BatScepter, ItemID.Razorpine, ItemID.BlizzardStaff, ItemID.PrincessWeapon, ItemID.StaffofEarth, ItemID.HeatRay, ItemID.LaserMachinegun, ItemID.ChargedBlasterCannon, ItemID.BubbleGun, ItemID.SparkleGuitar, ItemID.FairyQueenMagicItem}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.ApprenticeStaffT3, ItemID.LunarFlareBook, ItemID.NebulaBlaze, ItemID.NebulaArcanum}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.LastPrism, ItemID.PortalGun}}
+            }
+        },
+        {
+            GiveItem.Summon, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.AbigailsFlower, ItemID.BabyBirdStaff, ItemID.FlinxStaff, ItemID.SlimeStaff}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.HornetStaff, ItemID.DD2BallistraTowerT1Popper, ItemID.DD2ExplosiveTrapT1Popper, ItemID.DD2FlameburstTowerT1Popper, ItemID.DD2LightningAuraT1Popper}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.ImpStaff, ItemID.VampireFrogStaff, ItemID.HoundiusShootius}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.SpiderStaff, ItemID.PirateStaff, ItemID.SanguineStaff, ItemID.DD2BallistraTowerT2Popper, ItemID.DD2ExplosiveTrapT2Popper, ItemID.DD2FlameburstTowerT2Popper, ItemID.DD2LightningAuraT2Popper, ItemID.QueenSpiderStaff}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.OpticStaff, ItemID.Smolstar, ItemID.DeadlySphereStaff, ItemID.PygmyStaff, ItemID.RavenStaff, ItemID.StaffoftheFrostHydra}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.StormTigerStaff, ItemID.TempestStaff, ItemID.XenoStaff, ItemID.DD2BallistraTowerT3Popper, ItemID.DD2ExplosiveTrapT3Popper, ItemID.DD2FlameburstTowerT3Popper, ItemID.DD2LightningAuraT3Popper, ItemID.StaffoftheFrostHydra}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.StardustCellStaff, ItemID.StardustDragonStaff, ItemID.EmpressBlade}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.EmpressBlade, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff}}
+            }
+        },
+        {
+            GiveItem.Ranged, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.WoodenBow, ItemID.CopperBow, ItemID.TinBow, ItemID.IronBow, ItemID.LeadBow, ItemID.SilverBow, ItemID.TungstenBow, ItemID.AshWoodBow, ItemID.GoldBow, ItemID.PlatinumBow, ItemID.Blowpipe, ItemID.FlintlockPistol, ItemID.SnowballCannon, ItemID.MolotovCocktail}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.DemonBow, ItemID.TendonBow, ItemID.BloodRainBow, ItemID.Minishark, ItemID.Boomstick, ItemID.Revolver, ItemID.RedRyder, ItemID.Sandgun, ItemID.Musket, ItemID.TheUndertaker, ItemID.AleThrowingGlove, ItemID.PainterPaintballGun, ItemID.Harpoon}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.MoltenFury, ItemID.BeesKnees, ItemID.HellwingBow, ItemID.StarCannon, ItemID.Blowgun, ItemID.QuadBarrelShotgun, ItemID.Handgun, ItemID.PewMaticHorn, ItemID.PhoenixBlaster}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.DaedalusStormbow, ItemID.IceBow, ItemID.ShadowFlameBow, ItemID.Marrow, ItemID.PulseBow, ItemID.CobaltRepeater, ItemID.PalladiumRepeater, ItemID.MythrilRepeater, ItemID.OrichalcumRepeater, ItemID.AdamantiteRepeater, ItemID.TitaniumRepeater, ItemID.ClockworkAssaultRifle, ItemID.Gatligator, ItemID.Shotgun, ItemID.OnyxBlaster, ItemID.CoinGun, ItemID.Uzi, ItemID.DartRifle, ItemID.DartPistol}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.DD2PhoenixBow, ItemID.Tsunami, ItemID.HallowedRepeater, ItemID.ChlorophyteShotbow, ItemID.SuperStarCannon, ItemID.Megashark, ItemID.Flamethrower, ItemID.VenusMagnum, ItemID.GrenadeLauncher, ItemID.PiranhaGun, ItemID.Toxikarp}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.DD2BetsyBow, ItemID.FairyQueenRangedItem, ItemID.StakeLauncher, ItemID.TacticalShotgun, ItemID.SniperRifle, ItemID.CandyCornRifle, ItemID.ChainGun, ItemID.ElfMelter, ItemID.Xenopopper, ItemID.ProximityMineLauncher, ItemID.RocketLauncher, ItemID.NailGun, ItemID.JackOLanternLauncher, ItemID.SnowmanCannon, ItemID.Stynger, ItemID.ElectrosphereLauncher, ItemID.FireworksLauncher}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.Phantasm, ItemID.VortexBeater}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.SDMG, ItemID.Celeb2}}
             }
         },
         {
@@ -297,6 +340,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Pickaxe => EffectID.GivePickaxe,
             GiveItem.Sword => EffectID.GiveSword,
+            GiveItem.Magic => EffectID.GiveMagicWeapon,
+            GiveItem.Summon => EffectID.GiveSummonWeapon,
+            GiveItem.Ranged => EffectID.GiveRangedWeapon,
             GiveItem.Armour => EffectID.GiveArmour,
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
@@ -312,6 +358,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Pickaxe => EffectSeverity.Positive,
             GiveItem.Sword => EffectSeverity.Positive,
+            GiveItem.Magic => EffectSeverity.Positive,
+            GiveItem.Summon => EffectSeverity.Positive,
+            GiveItem.Ranged => EffectSeverity.Positive,
             GiveItem.Armour => EffectSeverity.Positive,
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
@@ -327,6 +376,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Pickaxe => 1,
             GiveItem.Sword => 1,
+            GiveItem.Magic => 1,
+            GiveItem.Ranged => 1,
+            GiveItem.Summon => 1,
             GiveItem.Armour => 1,
             GiveItem.HealingPotion => 2,
             GiveItem.Potion => 1,
@@ -342,6 +394,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
     private readonly GiveItem _giveItem;
     private readonly int _stack;
+    private readonly bool _includePreviousTier;
     private Item? _item;
 
     #endregion
@@ -352,16 +405,25 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         _giveItem = giveItem;
         _stack = GetStackSize(_giveItem);
+        _includePreviousTier = giveItem switch
+        {
+            GiveItem.Pickaxe => true,
+            GiveItem.Sword => true,
+            GiveItem.Magic => true,
+            GiveItem.Summon => true,
+            GiveItem.Ranged => true,
+            _ => false
+        };
         StartEmote = giveItem switch
         {
             GiveItem.Pickaxe => EmoteID.ItemPickaxe,
             GiveItem.Sword => EmoteID.ItemSword,
-            GiveItem.Armour => -1,
+            GiveItem.Magic => EmoteID.ItemManaPotion,
+            GiveItem.Ranged => EmoteID.ItemMinishark,
             GiveItem.HealingPotion => EmoteID.ItemLifePotion,
             GiveItem.Potion => EmoteID.ItemManaPotion,
-            GiveItem.Kite => -1,
             GiveItem.Food => EmoteID.ItemSoup,
-            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+            _ => -1
         };
     }
 
@@ -394,13 +456,23 @@ public sealed class GiveItemEffect : CrowdControlEffect
         // Add vanilla items
         availableOptions.AddRange(vanillaItems);
 
+        // Check if we should include the items from the previous tier of progression too
+        if (_includePreviousTier && (int)progress - 1 >= 0 && vanillaItemsByProgression.TryGetValue((ProgressionUtils.Progression)((int)progress - 1), out vanillaItems))
+        {
+            availableOptions.AddRange(vanillaItems);
+        }
+        
         // Try to add calamity items
         if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity) &&
             CalamityItems.TryGetValue(_giveItem, out var calamityItemsByProgression) &&
             calamityItemsByProgression.TryGetValue(progress, out var calamityItems))
         {
+            // ReSharper disable once AccessToModifiedClosure
             ModUtils.IterateTypes<ModItem>(calamity, calamityItems, x => availableOptions.Add((short)x.Type));
         }
+
+        // Ensure distinct elements
+        availableOptions = availableOptions.Distinct().ToList();
 
         // Choose the item and spawn it in
         var player = GetLocalPlayer();
