@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added option in config to modify the volume for the "Shuffle Sfx" effect.
 - Changed audio-related effects to fail if game sounds are muted.
 - Fixed player morphs causing the player to appear invisible on the minimap or big map.
+- Fixed items being renamed improperly in some cases. "Reforge Item" effect no longer renames the item.
 
 ## [2.0.2] - 2023-08-18
 
