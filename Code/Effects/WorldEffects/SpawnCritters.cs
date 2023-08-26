@@ -292,7 +292,7 @@ public sealed class SpawnCritters : CrowdControlEffect
             if (Main.rand.NextBool(5))
             {
                 Main.LocalPlayer.AddBuff(ModContent.BuffType<MagikarpPetBuff>(), 3600);
-                TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggLost", Main.LocalPlayer.name));
+                TerrariaUtils.WriteMessage(LangUtils.GetEffectMiscText(EffectID.SpawnCritters, "EggCaught", Main.LocalPlayer.name));
             }
             else
             {
