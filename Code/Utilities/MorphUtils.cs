@@ -111,7 +111,7 @@ public static class MorphUtils
 
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
-            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || Main.mapFullscreen || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
+            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || drawInfo.headOnlyRender || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
             {
                 // No morph
                 return;
