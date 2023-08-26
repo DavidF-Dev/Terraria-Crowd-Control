@@ -408,6 +408,13 @@ public sealed class GiveItemEffect : CrowdControlEffect
         var itemIndex = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height, chosenId, _stack, noGrabDelay: true);
         _item = Main.item[itemIndex];
 
+        if (itemIndex == Main.maxItems || !_item.active || _item.type != chosenId)
+        {
+            // Something went wrong - case where item from inventory was returned - how is this even possible!?
+            // We'll try to catch that VERY odd case here...
+            return CrowdControlResponseStatus.Retry;
+        }
+
         if (_item.stack == 1 && !string.IsNullOrEmpty(Viewer))
         {
             // Set a custom name on the item using the viewer's name
