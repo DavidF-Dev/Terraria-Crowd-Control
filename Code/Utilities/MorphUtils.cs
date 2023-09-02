@@ -221,7 +221,7 @@ public static class MorphUtils
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             var morph = drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph;
-            if (morph == MorphID.None)
+            if (morph == MorphID.None || drawInfo.hideEntirePlayer)
             {
                 return;
             }
@@ -359,6 +359,11 @@ public static class MorphUtils
                 colour = new Color(0, 102, 255, 255);
             }
 
+            // Lighting / Stealth / shadow / immunity
+            colour = Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour);
+            colour *= drawInfo.stealth;
+            colour = drawInfo.drawPlayer.GetImmuneAlpha(colour, drawInfo.shadow);
+
             var scale = 1f;
             if (morph == MorphID.Fox)
             {
@@ -371,7 +376,7 @@ public static class MorphUtils
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour),
+                colour,
                 drawInfo.rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 scale,
