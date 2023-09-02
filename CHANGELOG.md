@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2023-09-02
+
 - Fixed "Give Item" effects not working in multiplayer.
 - Fixed player morphs not using correct alpha in some cases.
 
