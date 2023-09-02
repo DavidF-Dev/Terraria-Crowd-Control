@@ -471,32 +471,31 @@ public sealed class GiveItemEffect : CrowdControlEffect
             ModUtils.IterateTypes<ModItem>(calamity, calamityItems, x => availableOptions.Add((short)x.Type));
         }
 
-        // Ensure distinct elements
+        // Create a distinct set and ensure it contains elements
         availableOptions = availableOptions.Distinct().ToList();
-
-        // Choose the item and spawn it in
-        var player = GetLocalPlayer();
-        var chosenId = availableOptions[Main.rand.Next(availableOptions.Count)];
-        var itemIndex = Item.NewItem(null, player.Player.position, player.Player.width, player.Player.height, chosenId, _stack, noGrabDelay: true);
-        _item = Main.item[itemIndex];
-
-        if (itemIndex == Main.maxItems || !_item.active || _item.type != chosenId)
+        if (availableOptions.Count == 0)
         {
-            // Something went wrong - case where item from inventory was returned - how is this even possible!?
-            // We'll try to catch that VERY odd case here...
-            return CrowdControlResponseStatus.Retry;
+            return CrowdControlResponseStatus.Failure;
         }
 
-        if (_item.stack == 1 && !string.IsNullOrEmpty(Viewer))
+        // Choose the item type from a distinct set
+        var chosenId = availableOptions[Main.rand.Next(availableOptions.Count)];
+
+        // Create an instance of the item which will be cloned into the world
+        _item = new Item(chosenId);
+        if (_item.maxStack == 1 && !string.IsNullOrEmpty(Viewer))
         {
             // Set a custom name on the item using the viewer's name
             _item.SetItemOwner(Viewer);
         }
 
-        if (NetUtils.IsClient)
+        // Spawn the item
+        _item = GetLocalPlayer().Player.QuickSpawnItemDirect(null, _item, _stack);
+        if (_item.whoAmI == Main.maxItems || !_item.active || _item.type != chosenId)
         {
-            // Notify server of the item
-            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);
+            // Something went wrong - case where item from inventory was returned - how is this even possible!?
+            // We'll try to catch that VERY odd case here...
+            return CrowdControlResponseStatus.Retry;
         }
 
         return CrowdControlResponseStatus.Success;
