@@ -19,16 +19,28 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
 
     private const int MaxTrackedPaintedTiles = 3;
 
-    private static readonly byte[] PaintIds = {13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+    private static readonly byte[] PaintIds =
+    {
+        PaintID.DeepRedPaint,
+        PaintID.DeepOrangePaint,
+        PaintID.DeepYellowPaint,
+        PaintID.DeepLimePaint,
+        PaintID.DeepGreenPaint,
+        PaintID.DeepTealPaint,
+        PaintID.DeepCyanPaint,
+        PaintID.DeepSkyBluePaint,
+        PaintID.DeepBluePaint,
+        PaintID.DeepPurplePaint,
+        PaintID.DeepVioletPaint,
+        PaintID.DeepPinkPaint
+    };
 
     #endregion
 
     #region Fields
 
     private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
-
     private int _paintIndex;
-
     private int _trackedPaintedTilesCounter;
 
     #endregion
