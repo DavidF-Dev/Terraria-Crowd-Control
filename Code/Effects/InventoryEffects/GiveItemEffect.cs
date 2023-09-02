@@ -80,13 +80,13 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Summon, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
             {
-                {ProgressionUtils.Progression.PreEye, new[] {ItemID.AbigailsFlower, ItemID.BabyBirdStaff, ItemID.FlinxStaff, ItemID.SlimeStaff}},
-                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.HornetStaff, ItemID.DD2BallistraTowerT1Popper, ItemID.DD2ExplosiveTrapT1Popper, ItemID.DD2FlameburstTowerT1Popper, ItemID.DD2LightningAuraT1Popper}},
-                {ProgressionUtils.Progression.PreWall, new[] {ItemID.ImpStaff, ItemID.VampireFrogStaff, ItemID.HoundiusShootius}},
-                {ProgressionUtils.Progression.PreMech, new[] {ItemID.SpiderStaff, ItemID.PirateStaff, ItemID.SanguineStaff, ItemID.DD2BallistraTowerT2Popper, ItemID.DD2ExplosiveTrapT2Popper, ItemID.DD2FlameburstTowerT2Popper, ItemID.DD2LightningAuraT2Popper, ItemID.QueenSpiderStaff}},
-                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.OpticStaff, ItemID.Smolstar, ItemID.DeadlySphereStaff, ItemID.PygmyStaff, ItemID.RavenStaff, ItemID.StaffoftheFrostHydra}},
-                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.StormTigerStaff, ItemID.TempestStaff, ItemID.XenoStaff, ItemID.DD2BallistraTowerT3Popper, ItemID.DD2ExplosiveTrapT3Popper, ItemID.DD2FlameburstTowerT3Popper, ItemID.DD2LightningAuraT3Popper, ItemID.StaffoftheFrostHydra}},
-                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.StardustCellStaff, ItemID.StardustDragonStaff, ItemID.EmpressBlade}},
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.AbigailsFlower, ItemID.BabyBirdStaff, ItemID.FlinxStaff, ItemID.SlimeStaff, ItemID.BlandWhip}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.HornetStaff, ItemID.DD2BallistraTowerT1Popper, ItemID.DD2ExplosiveTrapT1Popper, ItemID.DD2FlameburstTowerT1Popper, ItemID.DD2LightningAuraT1Popper, ItemID.ThornWhip}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.ImpStaff, ItemID.VampireFrogStaff, ItemID.HoundiusShootius, ItemID.BoneWhip}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.SpiderStaff, ItemID.PirateStaff, ItemID.SanguineStaff, ItemID.DD2BallistraTowerT2Popper, ItemID.DD2ExplosiveTrapT2Popper, ItemID.DD2FlameburstTowerT2Popper, ItemID.DD2LightningAuraT2Popper, ItemID.QueenSpiderStaff, ItemID.FireWhip, ItemID.CoolWhip}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.OpticStaff, ItemID.Smolstar, ItemID.DeadlySphereStaff, ItemID.PygmyStaff, ItemID.RavenStaff, ItemID.StaffoftheFrostHydra, ItemID.SwordWhip}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.StormTigerStaff, ItemID.TempestStaff, ItemID.XenoStaff, ItemID.DD2BallistraTowerT3Popper, ItemID.DD2ExplosiveTrapT3Popper, ItemID.DD2FlameburstTowerT3Popper, ItemID.DD2LightningAuraT3Popper, ItemID.StaffoftheFrostHydra, ItemID.ScytheWhip, ItemID.MaceWhip}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.StardustCellStaff, ItemID.StardustDragonStaff, ItemID.EmpressBlade, ItemID.RainbowWhip}},
                 {ProgressionUtils.Progression.PostGame, new[] {ItemID.EmpressBlade, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff}}
             }
         },
