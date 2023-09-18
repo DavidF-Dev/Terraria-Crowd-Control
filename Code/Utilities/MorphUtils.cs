@@ -1,13 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
+using CrowdControlMod.Code.Utilities.Morphs;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,6 +14,12 @@ namespace CrowdControlMod.Code.Utilities;
 
 public static class MorphUtils
 {
+    #region Static Fields and Constants
+
+    private static readonly Dictionary<byte, MorphInfo> MorphInfoById = new();
+
+    #endregion
+
     #region Static Methods
 
     /// <summary>
@@ -56,6 +61,39 @@ public static class MorphUtils
     public static byte GetMorph(this Player player)
     {
         return player.GetModPlayer<MorphPlayer>().CurrentMorph;
+    }
+
+    /// <summary>
+    ///     Get the morph info for the provided morph id.
+    /// </summary>
+    public static MorphInfo? GetMorphData(byte morph)
+    {
+        if (morph == MorphID.None)
+        {
+            return null;
+        }
+
+        // Check if an instance already exists
+        if (MorphInfoById.TryGetValue(morph, out var morphInfo))
+        {
+            return morphInfo;
+        }
+
+        // Otherwise create a new instance and cache it for re-use
+        morphInfo = morph switch
+        {
+            MorphID.Fox => new FoxMorphInfo(),
+            MorphID.Junimo => new JunimoMorphInfo(),
+            MorphID.BlueFairy => new BlueFairyMorphInfo(),
+            _ => null
+        };
+
+        if (morphInfo != null)
+        {
+            MorphInfoById.Add(morph, morphInfo);
+        }
+
+        return morphInfo;
     }
 
     public static void HandleSync(BinaryReader reader)
@@ -111,7 +149,7 @@ public static class MorphUtils
 
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
-            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || drawInfo.headOnlyRender || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None)
+            if (!drawInfo.drawPlayer.active || drawInfo.drawPlayer.dead || drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph == MorphID.None || (drawInfo.headOnlyRender && !ModContent.GetInstance<MorphDrawLayer>().IsHeadLayer))
             {
                 // No morph
                 return;
@@ -120,8 +158,7 @@ public static class MorphUtils
             // Disable all layers except those we care about
             foreach (var layer in PlayerDrawLayerLoader.Layers)
             {
-                if (layer != ModContent.GetInstance<MorphDrawLayer>() && layer != PlayerDrawLayers.HeldItem &&
-                    layer != PlayerDrawLayers.MountFront && layer != PlayerDrawLayers.MountBack)
+                if (layer != ModContent.GetInstance<MorphDrawLayer>() && layer != PlayerDrawLayers.HeldItem)
                 {
                     layer.Hide();
                 }
@@ -130,74 +167,22 @@ public static class MorphUtils
 
         public override void PostUpdateEquips()
         {
-            if (CurrentMorph is MorphID.BlueFairy)
-            {
-                Lighting.AddLight(Player.Center, TorchID.Blue);
-            }
+            GetMorphData(CurrentMorph)?.PostUpdateEquips(Player);
         }
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            if (CurrentMorph is not MorphID.BlueFairy || !Main.rand.NextBool(3))
-            {
-                return;
-            }
-
-            const int dustCount = 1;
-            for (var i = 0; i < dustCount; i++)
-            {
-                Dust.NewDust(Player.position + new Vector2(0f, 8f), Player.width, Player.height / 2, DustID.BlueFairy, Scale: 0.5f);
-            }
+            GetMorphData(CurrentMorph)?.DrawEffects(Player);
         }
 
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            if (CurrentMorph is MorphID.BlueFairy or MorphID.Junimo)
-            {
-                modifiers.DisableSound();
-            }
-
-            if (CurrentMorph is MorphID.BlueFairy)
-            {
-                modifiers.DisableDust();
-            }
+            GetMorphData(CurrentMorph)?.ModifyHurt(Player, ref modifiers);
         }
 
         public override void OnHurt(Player.HurtInfo info)
         {
-            if (NetUtils.IsServer)
-            {
-                return;
-            }
-
-            if (CurrentMorph is MorphID.BlueFairy)
-            {
-                SoundEngine.PlaySound(SoundID.NPCHit5 with
-                {
-                    MaxInstances = SoundID.PlayerHit.MaxInstances,
-                    SoundLimitBehavior = SoundID.PlayerHit.SoundLimitBehavior,
-                    PlayOnlyIfFocused = SoundID.PlayerHit.PlayOnlyIfFocused
-                }, Player.Center);
-
-                const int dustCount = 15;
-                var speed = new Vector2(info.HitDirection * info.Knockback, -3f);
-                for (var i = 0; i < dustCount; i++)
-                {
-                    Dust.NewDust(Player.position + new Vector2(0f, 8f), Player.width, Player.height / 2, DustID.BlueFairy, speed.X, speed.Y, Scale: 0.85f);
-                }
-            }
-
-            if (CurrentMorph is MorphID.Junimo)
-            {
-                SoundEngine.PlaySound(new SoundStyle("CrowdControlMod/Assets/Sounds/JunimoMeep")
-                {
-                    PitchVariance = 0.2f,
-                    Volume = 0.75f,
-                    MaxInstances = SoundID.PlayerHit.MaxInstances,
-                    SoundLimitBehavior = SoundID.PlayerHit.SoundLimitBehavior,
-                    PlayOnlyIfFocused = SoundID.PlayerHit.PlayOnlyIfFocused
-                }, Player.Center);
-            }
+            GetMorphData(CurrentMorph)?.OnHurt(Player, in info);
         }
 
         #endregion
@@ -206,6 +191,12 @@ public static class MorphUtils
     // ReSharper disable once ClassNeverInstantiated.Local
     private sealed class MorphDrawLayer : PlayerDrawLayer
     {
+        #region Properties
+
+        public override bool IsHeadLayer => false;
+
+        #endregion
+
         #region Methods
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
@@ -221,28 +212,19 @@ public static class MorphUtils
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             var morph = drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph;
-            if (morph == MorphID.None || drawInfo.hideEntirePlayer)
+            MorphInfo? morphInfo;
+            if (morph == MorphID.None || (morphInfo = GetMorphData(morph)) == null || morphInfo.Texture == null || morphInfo.TotalFrames == 0)
             {
                 return;
             }
+
+            var fullRender = !drawInfo.headOnlyRender;
 
             // Calculate draw position
             var position = drawInfo.Center - Main.screenPosition;
             position.X = (int)position.X;
             position.Y = (int)position.Y;
-            switch (morph)
-            {
-                case MorphID.Fox:
-                    position.Y -= 4;
-                    break;
-                case MorphID.BlueFairy:
-                    position.X += MathF.Sin(Main.GlobalTimeWrappedHourly * 1f) * 3;
-                    position.Y -= 7 + MathF.Sin(Main.GlobalTimeWrappedHourly * 2.5f) * 6;
-                    break;
-                case MorphID.Junimo:
-                    position.Y += 2;
-                    break;
-            }
+            morphInfo.ModifyPosition(ref position, in drawInfo);
 
             // Account for step stool
             if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
@@ -259,6 +241,7 @@ public static class MorphUtils
 
             // Calculate draw rotation
             var rotation = drawInfo.rotation;
+            morphInfo.ModifyRotation(ref rotation, in drawInfo);
 
             // Account for sleeping in a bed
             if (drawInfo.drawPlayer.sleeping.isSleeping)
@@ -266,79 +249,11 @@ public static class MorphUtils
                 rotation += MathHelper.PiOver2 * drawInfo.drawPlayer.direction;
             }
 
-            // Get texture
-            Texture2D? tex = null;
-            var totalFrames = 0;
-            switch (morph)
-            {
-                case MorphID.Fox:
-                    Main.instance.LoadProjectile(ProjectileID.FennecFox);
-                    tex = TextureAssets.Projectile[ProjectileID.FennecFox].Value;
-                    totalFrames = 17;
-                    break;
-                case MorphID.Junimo:
-                    Main.instance.LoadProjectile(ProjectileID.JunimoPet);
-                    tex = TextureAssets.Projectile[ProjectileID.JunimoPet].Value;
-                    totalFrames = 16;
-                    break;
-                case MorphID.BlueFairy:
-                    Main.instance.LoadProjectile(ProjectileID.BlueFairy);
-                    tex = TextureAssets.Projectile[ProjectileID.BlueFairy].Value;
-                    totalFrames = 4;
-                    break;
-            }
+            // Calculate draw scale
+            var scale = 1f;
+            morphInfo.ModifyScale(ref scale, in drawInfo);
 
-            if (tex == null || totalFrames == 0)
-            {
-                // No texture
-                return;
-            }
-
-            // Determine animation frames          
-            var idleStartFrame = 0;
-            var idleFrameCount = 1;
-            var idleAnimSpeed = 0.25f;
-            var fallingStartFrame = 0;
-            var fallingFrameCount = 1;
-            var fallingAnimSpeed = 0.25f;
-            var walkingStartFrame = 0;
-            var walkingFrameCount = 1;
-            var walkingAnimSpeed = 0.25f;
-            switch (morph)
-            {
-                case MorphID.Fox:
-                    idleStartFrame = 0;
-                    idleFrameCount = 3;
-                    fallingStartFrame = 11;
-                    fallingFrameCount = 5;
-                    walkingStartFrame = 4;
-                    walkingFrameCount = 6;
-                    break;
-                case MorphID.Junimo:
-                    idleStartFrame = 0;
-                    idleFrameCount = 4;
-                    idleAnimSpeed = 0.1f;
-                    fallingStartFrame = 13;
-                    fallingFrameCount = 3;
-                    fallingAnimSpeed = 0.1f;
-                    walkingStartFrame = 4;
-                    walkingFrameCount = 8;
-                    walkingAnimSpeed = 0.1f;
-                    break;
-                case MorphID.BlueFairy:
-                    idleStartFrame = 0;
-                    idleFrameCount = 3;
-                    idleAnimSpeed = 0.1f;
-                    fallingStartFrame = 0;
-                    fallingFrameCount = 3;
-                    fallingAnimSpeed = 0.1f;
-                    walkingStartFrame = 0;
-                    walkingFrameCount = 3;
-                    walkingAnimSpeed = 0.1f;
-                    break;
-            }
-
-            // Determine current frame / animation
+            // Determine current frame group
             int currentFrame;
             var animStartFrame = 0;
             var animFrameCount = 1;
@@ -346,25 +261,26 @@ public static class MorphUtils
             if (drawInfo.drawPlayer.velocity == Vector2.Zero || drawInfo.drawPlayer.mount.Active || drawInfo.drawPlayer.grappling[0] > -1)
             {
                 // Idle
-                animStartFrame = idleStartFrame;
-                animFrameCount = idleFrameCount;
-                animSpeed = idleAnimSpeed;
+                animStartFrame = morphInfo.IdleStartFrame;
+                animFrameCount = morphInfo.IdleFrameCount;
+                animSpeed = morphInfo.IdleAnimSpeed;
             }
             else if (drawInfo.drawPlayer.velocity.Y != 0f)
             {
                 // Falling
-                animStartFrame = fallingStartFrame;
-                animFrameCount = fallingFrameCount;
-                animSpeed = fallingAnimSpeed;
+                animStartFrame = morphInfo.FallingStartFrame;
+                animFrameCount = morphInfo.FallingFrameCount;
+                animSpeed = morphInfo.FallingAnimSpeed;
             }
             else if (drawInfo.drawPlayer.velocity.X != 0f)
             {
                 // Walking
-                animStartFrame = walkingStartFrame;
-                animFrameCount = walkingFrameCount;
-                animSpeed = walkingAnimSpeed;
+                animStartFrame = morphInfo.WalkingStartFrame;
+                animFrameCount = morphInfo.WalkingFrameCount;
+                animSpeed = morphInfo.WalkingAnimSpeed;
             }
 
+            // Animate
             if (animFrameCount > 1)
             {
                 currentFrame = animStartFrame + (int)(Main.GameUpdateCount * animSpeed) % animFrameCount;
@@ -374,47 +290,54 @@ public static class MorphUtils
                 currentFrame = animStartFrame;
             }
 
-            // Choose colour
+            // Determine colour
             var colour = Color.White;
-            if (morph == MorphID.Fox && SteamUtils.IsMagicMalaraith)
+            morphInfo.ModifyColour(ref colour, in drawInfo);
+            if (fullRender)
             {
-                colour = new Color(0, 102, 255, 255);
+                // Lighting / Stealth / shadow / immunity
+                colour = Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour);
+                colour *= drawInfo.stealth;
+                colour = drawInfo.drawPlayer.GetImmuneAlpha(colour, drawInfo.shadow);
             }
 
-            // Lighting / Stealth / shadow / immunity
-            colour = Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour);
-            colour *= drawInfo.stealth;
-            colour = drawInfo.drawPlayer.GetImmuneAlpha(colour, drawInfo.shadow);
+            // Determine direction
+            var direction = drawInfo.drawPlayer.direction;
+            morphInfo.ModifyDirection(ref direction, in drawInfo);
 
-            var scale = 1f;
-            if (morph == MorphID.Fox)
+            if (fullRender)
             {
-                scale = 1.5f;
+                // Draw mount (back)
+                PlayerDrawLayers.MountBack.SetVisible();
+                PlayerDrawLayers.MountBack.DrawWithTransformationAndChildren(ref drawInfo);
+
+                // Draw step stool
+                if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+                {
+                    PlayerDrawLayers.PortableStool.SetVisible();
+                    PlayerDrawLayers.PortableStool.DrawWithTransformationAndChildren(ref drawInfo);
+                }
             }
 
-            var flipDirection = morph is MorphID.Junimo;
-
-            // Draw mount (back)
-            PlayerDrawLayers.MountBack.SetVisible();
-            PlayerDrawLayers.MountBack.DrawWithTransformationAndChildren(ref drawInfo);
-
-            // Draw step stool
-            if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+            if (!fullRender || !drawInfo.hideEntirePlayer)
             {
-                PlayerDrawLayers.PortableStool.SetVisible();
-                PlayerDrawLayers.PortableStool.DrawWithTransformationAndChildren(ref drawInfo);
+                // Draw the morph
+                drawInfo.DrawDataCache.Add(new DrawData(
+                    morphInfo.Texture,
+                    position,
+                    new Rectangle(0, currentFrame * (morphInfo.Texture.Height / morphInfo.TotalFrames), morphInfo.Texture.Width, morphInfo.Texture.Height / morphInfo.TotalFrames),
+                    colour,
+                    rotation,
+                    new Vector2(morphInfo.Texture.Width, morphInfo.Texture.Height / (float)morphInfo.TotalFrames) * 0.5f,
+                    scale,
+                    direction != 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
+                ));
             }
 
-            drawInfo.DrawDataCache.Add(new DrawData(
-                tex,
-                position,
-                new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
-                colour,
-                rotation,
-                new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
-                scale,
-                drawInfo.drawPlayer.direction == (flipDirection ? 1 : -1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally
-            ));
+            if (!fullRender)
+            {
+                return;
+            }
 
             // Draw mount (front)
             PlayerDrawLayers.MountFront.SetVisible();
