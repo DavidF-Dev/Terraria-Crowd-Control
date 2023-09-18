@@ -26,7 +26,7 @@ public sealed class MinecartChallenge : ChallengeEffect
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
-        return !GetLocalPlayer().Player.mount.Cart ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
+        return !GetLocalPlayer().Player.mount.Cart ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
     }
 
     protected override void OnUpdate(float delta)

@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.ID;
+﻿using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 
 namespace CrowdControlMod.Effects.Challenges;
@@ -14,6 +15,11 @@ public sealed class SitChallenge : ChallengeEffect
     #endregion
 
     #region Methods
+
+    protected override CrowdControlResponseStatus OnChallengeStart()
+    {
+        return !GetLocalPlayer().Player.sitting.isSitting ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
+    }
 
     protected override void OnUpdate(float delta)
     {

@@ -1,4 +1,5 @@
-﻿using CrowdControlMod.ID;
+﻿using CrowdControlMod.CrowdControlService;
+using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria.ID;
 
@@ -18,6 +19,11 @@ public sealed class TouchGrassChallenge : ChallengeEffect
     #endregion
 
     #region Methods
+
+    protected override CrowdControlResponseStatus OnChallengeStart()
+    {
+        return !GetLocalPlayer().Player.IsStandingOn(TileID.Grass) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
+    }
 
     protected override string GetChallengeDescription()
     {

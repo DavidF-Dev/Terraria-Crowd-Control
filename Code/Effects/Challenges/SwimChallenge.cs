@@ -21,7 +21,7 @@ public sealed class SwimChallenge : ChallengeEffect
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
-        return GetLocalPlayer().Player.IsInLiquid() ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
+        return !GetLocalPlayer().Player.IsInLiquid() ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Retry;
     }
 
     protected override string GetChallengeDescription()
