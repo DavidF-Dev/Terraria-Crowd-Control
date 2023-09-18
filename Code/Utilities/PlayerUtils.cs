@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 using CrowdControlMod.Config;
 using CrowdControlMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Utilities;
 
 public static class PlayerUtils
 {
+    #region Static Fields and Constants
+
+    private static readonly PropertyInfo? PlayerDrawLayerVisiblePropertyInfo;
+
+    #endregion
+
     #region Static Methods
 
     /// <summary>
@@ -296,6 +304,28 @@ public static class PlayerUtils
     {
         var centerTile = player.Center.ToTileCoordinates();
         return WorldUtils.GetTilesAround(centerTile.X, centerTile.Y, halfWidth, halfHeight);
+    }
+
+    /// <summary>
+    ///     Set the provided player draw layer to be visible. May have unexpected results.
+    /// </summary>
+    public static void SetVisible(this PlayerDrawLayer layer)
+    {
+        if (PlayerDrawLayerVisiblePropertyInfo == null)
+        {
+            return;
+        }
+
+        PlayerDrawLayerVisiblePropertyInfo.SetValue(layer, true);
+    }
+
+    #endregion
+
+    #region Constructors
+
+    static PlayerUtils()
+    {
+        PlayerDrawLayerVisiblePropertyInfo = typeof(PlayerDrawLayer).GetProperty("Visible", BindingFlags.Instance | BindingFlags.Public);
     }
 
     #endregion

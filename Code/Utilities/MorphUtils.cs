@@ -121,7 +121,7 @@ public static class MorphUtils
             foreach (var layer in PlayerDrawLayerLoader.Layers)
             {
                 if (layer != ModContent.GetInstance<MorphDrawLayer>() && layer != PlayerDrawLayers.HeldItem &&
-                    layer != PlayerDrawLayers.MountFront && layer != PlayerDrawLayers.MountFront)
+                    layer != PlayerDrawLayers.MountFront && layer != PlayerDrawLayers.MountBack)
                 {
                     layer.Hide();
                 }
@@ -242,6 +242,28 @@ public static class MorphUtils
                 case MorphID.Junimo:
                     position.Y += 2;
                     break;
+            }
+
+            // Account for step stool
+            if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+            {
+                position.Y += drawInfo.drawPlayer.portableStoolInfo.VisualYOffset / 2f;
+            }
+
+            // Account for sitting
+            if (drawInfo.drawPlayer.sitting.isSitting)
+            {
+                drawInfo.drawPlayer.sitting.GetSittingOffsetInfo(drawInfo.drawPlayer, out _, out var sittingHeight);
+                position.Y += sittingHeight;
+            }
+
+            // Calculate draw rotation
+            var rotation = drawInfo.rotation;
+
+            // Account for sleeping in a bed
+            if (drawInfo.drawPlayer.sleeping.isSleeping)
+            {
+                rotation += MathHelper.PiOver2 * drawInfo.drawPlayer.direction;
             }
 
             // Get texture
@@ -372,16 +394,35 @@ public static class MorphUtils
 
             var flipDirection = morph is MorphID.Junimo;
 
+            // Draw mount (back)
+            PlayerDrawLayers.MountBack.SetVisible();
+            PlayerDrawLayers.MountBack.DrawWithTransformationAndChildren(ref drawInfo);
+
+            // Draw step stool
+            if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+            {
+                PlayerDrawLayers.PortableStool.SetVisible();
+                PlayerDrawLayers.PortableStool.DrawWithTransformationAndChildren(ref drawInfo);
+            }
+
             drawInfo.DrawDataCache.Add(new DrawData(
                 tex,
                 position,
                 new Rectangle(0, currentFrame * (tex.Height / totalFrames), tex.Width, tex.Height / totalFrames),
                 colour,
-                drawInfo.rotation,
+                rotation,
                 new Vector2(tex.Width, tex.Height / (float)totalFrames) * 0.5f,
                 scale,
                 drawInfo.drawPlayer.direction == (flipDirection ? 1 : -1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally
             ));
+
+            // Draw mount (front)
+            PlayerDrawLayers.MountFront.SetVisible();
+            PlayerDrawLayers.MountFront.DrawWithTransformationAndChildren(ref drawInfo);
+
+            // Draw frozen / webbed buff
+            PlayerDrawLayers.FrozenOrWebbedDebuff.SetVisible();
+            PlayerDrawLayers.FrozenOrWebbedDebuff.DrawWithTransformationAndChildren(ref drawInfo);
         }
 
         #endregion
