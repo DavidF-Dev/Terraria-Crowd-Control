@@ -87,7 +87,7 @@ public sealed class CrowdControlConfig : ModConfig
     public bool DisableTombstones;
 
     [BackgroundColor(WorldR, WorldG, WorldB)]
-    [Range(0.2f, 1f)]
+    [Range(0.1f, 1f)]
     [Increment(0.1f)]
     [DrawTicks]
     [DefaultValue(0.5f)]
