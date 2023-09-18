@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Added "Take a Seat" challenge.
+- Added "Catch a Critter" challenge.
 - Added whips to "Give Summon Weapon" effect.
 - Changed some challenges to wait if they would be completed instantly.
 

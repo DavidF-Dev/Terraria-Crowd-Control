@@ -32,6 +32,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="CanConsumeAmmo" />
     public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
 
+    /// <inheritdoc cref="OnCatchNPC" />
+    public delegate void OnCatchNPCDelegate(NPC npc, Item item, bool failed);
+
     /// <inheritdoc cref="Shoot" />
     public delegate bool ShootDelegate(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback);
 
@@ -104,6 +107,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     
     /// <inheritdoc cref="CanConsumeAmmo" />
     public event CanConsumeAmmoDelegate? CanConsumeAmmoHook;
+
+    /// <inheritdoc cref="OnCatchNPC" />
+    public event OnCatchNPCDelegate? OnCatchNPCHook;
 
     /// <inheritdoc cref="PreUpdateBuffs" />
     public event Action? PreUpdateBuffsHook;
@@ -187,6 +193,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override bool CanConsumeAmmo(Item weapon, Item ammo)
     {
         return CanConsumeAmmoHook?.Invoke(weapon, ammo) ?? base.CanConsumeAmmo(weapon, ammo);
+    }
+
+    public override void OnCatchNPC(NPC npc, Item item, bool failed)
+    {
+        OnCatchNPCHook?.Invoke(npc, item, failed);
     }
 
     public override void PreUpdateBuffs()

@@ -146,6 +146,7 @@ public static class EffectID
     public const string CraftItemChallenge = "craft_item_challenge";
     public const string SleepChallenge = "sleep_challenge";
     public const string SitChallenge = "sit_challenge";
+    public const string CatchCritterChallenge = "catch_critter_challenge";
     public const string MinecartChallenge = "minecart_challenge";
     public const string TouchGrassChallenge = "touch_grass_challenge";
     public const string EatFoodChallenge = "eat_food_challenge";

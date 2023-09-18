@@ -147,6 +147,7 @@ Mods: {
 				craft_item_challenge: Craft a {0}
 				sleep_challenge: Rest in a bed
 				sit_challenge: Take a seat
+				catch_critter_challenge: Catch a critter
 				minecart_challenge: Ride a minecart
 				touch_grass_challenge: Touch grass
 				eat_food_challenge: Eat any food
