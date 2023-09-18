@@ -210,6 +210,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Start \"stand on block\" challenge", "stand_on_block_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 40, Description = "Challenge the streamer to stand on a specific block"},
                 new Effect("Start \"craft item\" challenge", "craft_item_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 40, Description = "Challenge the streamer to craft a specific item"},
                 new Effect("Start \"sleep\" challenge", "sleep_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 30, Description = "Challenge the streamer to go to sleep"},
+                new Effect("Start \"sit\" challenge", "sit_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 30, Description = "Challenge the streamer to take a seat"},
                 new Effect("Start \"minecart\" challenge", "minecart_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 30, Description = "Challenge the streamer to ride in a minecart"},
                 new Effect("Start \"touch grass\" challenge", "touch_grass_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 15, Description = "Challenge the streamer to touch a grass block"},
                 new Effect("Start \"eat food\" challenge", "eat_food_challenge") {Category = ChallengesFolder, Inactive = true, Price = 20, Duration = 30, Description = "Challenge the streamer to consume any food"},

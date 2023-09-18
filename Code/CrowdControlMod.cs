@@ -1008,6 +1008,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new StandOnBlockChallenge(40));
         AddEffect(new CraftItemChallenge(40));
         AddEffect(new SleepChallenge(30));
+        AddEffect(new SitChallenge(30));
         AddEffect(new MinecartChallenge(30));
         AddEffect(new TouchGrassChallenge(15));
         AddEffect(new EatFoodChallenge(30));
