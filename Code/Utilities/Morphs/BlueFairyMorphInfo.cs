@@ -32,6 +32,11 @@ public sealed class BlueFairyMorphInfo : MorphInfo
 
     public override void ModifyPosition(ref Vector2 position, in PlayerDrawSet drawData)
     {
+        if (drawData.headOnlyRender)
+        {
+            return;
+        }
+        
         position.X += MathF.Sin(Main.GlobalTimeWrappedHourly * 1f) * 3;
         position.Y -= 7 + MathF.Sin(Main.GlobalTimeWrappedHourly * 2.5f) * 6;
     }

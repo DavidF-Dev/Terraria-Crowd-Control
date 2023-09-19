@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added whips to "Give Summon Weapon" effect.
 - Changed some challenges to wait if they would be completed instantly.
 - Fixed player morphs not rendering mounts.
+- Fixed player morphs not rendering on the minimap or fullscreen map.
 
 ## [2.0.4] - 2023-09-02
 

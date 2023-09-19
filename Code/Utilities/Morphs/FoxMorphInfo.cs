@@ -32,11 +32,21 @@ public sealed class FoxMorphInfo : MorphInfo
 
     public override void ModifyPosition(ref Vector2 position, in PlayerDrawSet drawData)
     {
+        if (drawData.headOnlyRender)
+        {
+            return;
+        }
+        
         position.Y -= 4;
     }
 
     public override void ModifyScale(ref float scale, in PlayerDrawSet drawData)
     {
+        if (drawData.headOnlyRender)
+        {
+            return;
+        }
+        
         scale = 1.5f;
     }
 

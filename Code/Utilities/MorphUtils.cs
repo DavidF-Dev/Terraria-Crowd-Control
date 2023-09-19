@@ -66,7 +66,7 @@ public static class MorphUtils
     /// <summary>
     ///     Get the morph info for the provided morph id.
     /// </summary>
-    public static MorphInfo? GetMorphData(byte morph)
+    public static MorphInfo? GetMorphInfo(byte morph)
     {
         if (morph == MorphID.None)
         {
@@ -167,22 +167,22 @@ public static class MorphUtils
 
         public override void PostUpdateEquips()
         {
-            GetMorphData(CurrentMorph)?.PostUpdateEquips(Player);
+            GetMorphInfo(CurrentMorph)?.PostUpdateEquips(Player);
         }
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            GetMorphData(CurrentMorph)?.DrawEffects(Player);
+            GetMorphInfo(CurrentMorph)?.DrawEffects(Player);
         }
 
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            GetMorphData(CurrentMorph)?.ModifyHurt(Player, ref modifiers);
+            GetMorphInfo(CurrentMorph)?.ModifyHurt(Player, ref modifiers);
         }
 
         public override void OnHurt(Player.HurtInfo info)
         {
-            GetMorphData(CurrentMorph)?.OnHurt(Player, in info);
+            GetMorphInfo(CurrentMorph)?.OnHurt(Player, in info);
         }
 
         #endregion
@@ -193,7 +193,7 @@ public static class MorphUtils
     {
         #region Properties
 
-        public override bool IsHeadLayer => false;
+        public override bool IsHeadLayer => true;
 
         #endregion
 
@@ -213,42 +213,47 @@ public static class MorphUtils
         {
             var morph = drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph;
             MorphInfo? morphInfo;
-            if (morph == MorphID.None || (morphInfo = GetMorphData(morph)) == null || morphInfo.Texture == null || morphInfo.TotalFrames == 0)
+            if (morph == MorphID.None || (morphInfo = GetMorphInfo(morph)) == null || morphInfo.Texture == null || morphInfo.TotalFrames == 0)
             {
                 return;
             }
-
-            var fullRender = !drawInfo.headOnlyRender;
-
+            
             // Calculate draw position
             var position = drawInfo.Center - Main.screenPosition;
-            position.X = (int)position.X;
-            position.Y = (int)position.Y;
-            morphInfo.ModifyPosition(ref position, in drawInfo);
-
-            // Account for step stool
-            if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+            if (drawInfo.headOnlyRender)
             {
-                position.Y += drawInfo.drawPlayer.portableStoolInfo.VisualYOffset / 2f;
+                position.Y -= 20f;
             }
-
-            // Account for sitting
-            if (drawInfo.drawPlayer.sitting.isSitting)
+            
+            morphInfo.ModifyPosition(ref position, in drawInfo);
+            if (!drawInfo.headOnlyRender)
             {
-                drawInfo.drawPlayer.sitting.GetSittingOffsetInfo(drawInfo.drawPlayer, out _, out var sittingHeight);
-                position.Y += sittingHeight;
+                // Account for step stool
+                if (drawInfo.drawPlayer.portableStoolInfo.IsInUse)
+                {
+                    position.Y += drawInfo.drawPlayer.portableStoolInfo.VisualYOffset / 2f;
+                }
+
+                // Account for sitting
+                if (drawInfo.drawPlayer.sitting.isSitting)
+                {
+                    drawInfo.drawPlayer.sitting.GetSittingOffsetInfo(drawInfo.drawPlayer, out _, out var sittingHeight);
+                    position.Y += sittingHeight;
+                }
             }
 
             // Calculate draw rotation
             var rotation = drawInfo.rotation;
             morphInfo.ModifyRotation(ref rotation, in drawInfo);
-
-            // Account for sleeping in a bed
-            if (drawInfo.drawPlayer.sleeping.isSleeping)
+            if (!drawInfo.headOnlyRender)
             {
-                rotation += MathHelper.PiOver2 * drawInfo.drawPlayer.direction;
+                // Account for sleeping in a bed
+                if (drawInfo.drawPlayer.sleeping.isSleeping)
+                {
+                    rotation += MathHelper.PiOver2 * drawInfo.drawPlayer.direction;
+                }
             }
-
+            
             // Calculate draw scale
             var scale = 1f;
             morphInfo.ModifyScale(ref scale, in drawInfo);
@@ -293,9 +298,9 @@ public static class MorphUtils
             // Determine colour
             var colour = Color.White;
             morphInfo.ModifyColour(ref colour, in drawInfo);
-            if (fullRender)
+            if (!drawInfo.headOnlyRender)
             {
-                // Lighting / Stealth / shadow / immunity
+                // Lighting / stealth / shadow / immunity
                 colour = Lighting.GetColor((int)(drawInfo.Center.X / 16f), (int)(drawInfo.Center.Y / 16f), colour);
                 colour *= drawInfo.stealth;
                 colour = drawInfo.drawPlayer.GetImmuneAlpha(colour, drawInfo.shadow);
@@ -305,7 +310,7 @@ public static class MorphUtils
             var direction = drawInfo.drawPlayer.direction;
             morphInfo.ModifyDirection(ref direction, in drawInfo);
 
-            if (fullRender)
+            if (!drawInfo.headOnlyRender)
             {
                 // Draw mount (back)
                 PlayerDrawLayers.MountBack.SetVisible();
@@ -319,12 +324,12 @@ public static class MorphUtils
                 }
             }
 
-            if (!fullRender || !drawInfo.hideEntirePlayer)
+            if (drawInfo.headOnlyRender || !drawInfo.hideEntirePlayer)
             {
                 // Draw the morph
                 drawInfo.DrawDataCache.Add(new DrawData(
                     morphInfo.Texture,
-                    position,
+                    position.Floor(),
                     new Rectangle(0, currentFrame * (morphInfo.Texture.Height / morphInfo.TotalFrames), morphInfo.Texture.Width, morphInfo.Texture.Height / morphInfo.TotalFrames),
                     colour,
                     rotation,
@@ -334,7 +339,7 @@ public static class MorphUtils
                 ));
             }
 
-            if (!fullRender)
+            if (drawInfo.headOnlyRender)
             {
                 return;
             }

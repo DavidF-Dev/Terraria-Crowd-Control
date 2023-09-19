@@ -33,6 +33,11 @@ public sealed class JunimoMorphInfo : MorphInfo
 
     public override void ModifyPosition(ref Vector2 position, in PlayerDrawSet drawData)
     {
+        if (drawData.headOnlyRender)
+        {
+            return;
+        }
+        
         position.Y += 2;
     }
 
