@@ -85,6 +85,10 @@ public static class MorphUtils
             MorphID.Fox => new FoxMorphInfo(),
             MorphID.Junimo => new JunimoMorphInfo(),
             MorphID.BlueFairy => new BlueFairyMorphInfo(),
+            MorphID.Bunny => new BunnyMorphInfo(),
+            MorphID.BabyPenguin => new BabyPenguinMorphInfo(),
+            MorphID.BlueChicken => new BlueChickenMorphInfo(),
+            MorphID.Spiffo => new SpiffoMorphInfo(),
             _ => null
         };
 
