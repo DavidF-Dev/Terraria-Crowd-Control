@@ -46,8 +46,11 @@ public sealed class FoxMorphInfo : MorphInfo
         {
             return;
         }
-        
-        scale = 1.5f;
+
+        if (SteamUtils.IsMagicMalaraith)
+        {
+            scale = 1.5f;
+        }
     }
 
     public override void ModifyColour(ref Color colour, in PlayerDrawSet drawData)

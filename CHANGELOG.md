@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Take a Seat" challenge.
 - Added "Catch a Critter" challenge.
 - Added whips to "Give Summon Weapon" effect.
+- Changed "Critter Takeover" effect to temporarily morph the player into a critter.
 - Changed some challenges to wait if they would be completed instantly.
 - Fixed player morphs not rendering mounts.
 - Fixed player morphs not rendering on the minimap or fullscreen map.

@@ -1,4 +1,5 @@
 ﻿using System;
+using CrowdControlMod.Code.Utilities;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
@@ -40,6 +41,7 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
     #region Fields
 
     private int _seed;
+    private byte _morph;
 
     #endregion
 
@@ -81,6 +83,14 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         // Get a random seed so that the textures are different each time the effect is activated
         _seed = Main.rand.Next(CritterOptions.Length);
 
+        // Turn the player into a critter for the duration of the effect
+        var player = GetLocalPlayer();
+        if (player.Player.GetMorph() == MorphID.None)
+        {
+            _morph = Main.rand.Next(new[] {MorphID.Fox, MorphID.Bunny, MorphID.BabyPenguin, MorphID.BlueChicken, MorphID.Spiffo});
+            player.Player.SetMorph(_morph);
+        }
+
         CrowdControlNPC.PreDrawHook += PreDraw;
         return CrowdControlResponseStatus.Success;
     }
@@ -88,6 +98,15 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
     protected override void OnStop()
     {
         _seed = 0;
+
+        // Turn the player back to normal if they are still morphed as a critter
+        var player = GetLocalPlayer();
+        if (_morph != MorphID.None && player.Player.GetMorph() == _morph)
+        {
+            player.Player.SetMorph(MorphID.None);
+        }
+
+        _morph = MorphID.None;
 
         CrowdControlNPC.PreDrawHook -= PreDraw;
     }
