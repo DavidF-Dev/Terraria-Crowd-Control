@@ -245,7 +245,7 @@ public static class MorphUtils
             
             // Calculate draw position
             var position = drawInfo.Center - Main.screenPosition;
-            position = position.Floor();
+            position = new Vector2((int)position.X, (int)position.Y);
             if (drawInfo.headOnlyRender)
             {
                 position.Y -= 20f;
@@ -352,6 +352,8 @@ public static class MorphUtils
 
             if (drawInfo.headOnlyRender || !drawInfo.hideEntirePlayer)
             {
+                morphInfo.OnDrawBack(in drawInfo, position, colour, rotation, scale, direction, currentFrame);
+                
                 // Draw the morph
                 drawInfo.DrawDataCache.Add(new DrawData(
                     texture,
@@ -363,6 +365,8 @@ public static class MorphUtils
                     scale,
                     direction != 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
                 ));
+
+                morphInfo.OnDrawFront(in drawInfo, position, colour, rotation, scale, direction, currentFrame);
             }
 
             if (drawInfo.headOnlyRender)

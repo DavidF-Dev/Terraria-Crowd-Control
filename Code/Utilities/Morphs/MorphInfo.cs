@@ -62,6 +62,14 @@ public abstract class MorphInfo
     {
     }
 
+    public virtual void OnDrawBack(in PlayerDrawSet drawData, Vector2 position, Color colour, float rotation, float scale, int direction, int currentFrame)
+    {
+    }
+
+    public virtual void OnDrawFront(in PlayerDrawSet drawData, Vector2 position, Color colour, float rotation, float scale, int direction, int currentFrame)
+    {
+    }
+
     public virtual void PostUpdateEquips(Player player)
     {
     }
