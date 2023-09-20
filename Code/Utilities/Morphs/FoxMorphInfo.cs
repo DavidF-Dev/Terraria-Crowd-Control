@@ -30,14 +30,16 @@ public sealed class FoxMorphInfo : MorphInfo
 
     #endregion
 
+    #region Methods
+
     public override void ModifyPosition(ref Vector2 position, in PlayerDrawSet drawData)
     {
         if (drawData.headOnlyRender)
         {
             return;
         }
-        
-        position.Y -= 4;
+
+        position.Y += SteamUtils.IsMagicMalaraith ? -4 : 4;
     }
 
     public override void ModifyScale(ref float scale, in PlayerDrawSet drawData)
@@ -60,4 +62,6 @@ public sealed class FoxMorphInfo : MorphInfo
             colour = new Color(0, 102, 255, 255);
         }
     }
+
+    #endregion
 }

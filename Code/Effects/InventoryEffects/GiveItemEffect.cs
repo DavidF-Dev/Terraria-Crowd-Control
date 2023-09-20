@@ -374,17 +374,8 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         return giveItem switch
         {
-            GiveItem.Pickaxe => 1,
-            GiveItem.Sword => 1,
-            GiveItem.Magic => 1,
-            GiveItem.Ranged => 1,
-            GiveItem.Summon => 1,
-            GiveItem.Armour => 1,
             GiveItem.HealingPotion => 2,
-            GiveItem.Potion => 1,
-            GiveItem.Kite => 1,
-            GiveItem.Food => 1,
-            _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
+            _ => 1
         };
     }
 

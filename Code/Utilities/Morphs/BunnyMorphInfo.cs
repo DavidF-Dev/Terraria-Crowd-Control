@@ -10,11 +10,15 @@ public sealed class BunnyMorphInfo : MorphInfo
 {
     #region Constructors
 
-    public BunnyMorphInfo()
+    public BunnyMorphInfo() : this(NPCID.Bunny)
     {
-        Main.instance.LoadProjectile(ProjectileID.Bunny);
-        Texture = TextureAssets.Projectile[ProjectileID.Bunny].Value;
-        TotalFrames = 8;
+    }
+
+    public BunnyMorphInfo(int bunnyNpcType)
+    {
+        Main.instance.LoadNPC(bunnyNpcType);
+        Texture = TextureAssets.Npc[bunnyNpcType].Value;
+        TotalFrames = 7;
 
         IdleStartFrame = 0;
         IdleFrameCount = 1;

@@ -87,7 +87,13 @@ public sealed class CritterTakeoverEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         if (player.Player.GetMorph() == MorphID.None)
         {
-            _morph = Main.rand.Next(new[] {MorphID.Fox, MorphID.Bunny, MorphID.BabyPenguin, MorphID.BlueChicken, MorphID.Spiffo});
+            _morph = Main.rand.Next(new[]
+            {
+                MorphID.Fox, MorphID.Bunny, MorphID.BabyPenguin, MorphID.BlueChicken, MorphID.Spiffo,
+                MorphID.HalloweenBunny, MorphID.ChristmasBunny, MorphID.GoldBunny, MorphID.PartyBunny,
+                MorphID.AmethystBunny, MorphID.TopazBunny, MorphID.SapphireBunny, MorphID.EmeraldBunny,
+                MorphID.RubyBunny, MorphID.DiamondBunny, MorphID.AmberBunny
+            });
             player.Player.SetMorph(_morph);
         }
 

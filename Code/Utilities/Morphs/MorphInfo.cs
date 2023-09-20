@@ -38,6 +38,10 @@ public abstract class MorphInfo
 
     #region Methods
 
+    public virtual void ModifyTexture(ref Texture2D? texture, ref int totalFrames)
+    {
+    }
+    
     public virtual void ModifyPosition(ref Vector2 position, in PlayerDrawSet drawData)
     {
     }

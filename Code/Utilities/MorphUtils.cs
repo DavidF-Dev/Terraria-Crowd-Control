@@ -89,6 +89,17 @@ public static class MorphUtils
             MorphID.BabyPenguin => new BabyPenguinMorphInfo(),
             MorphID.BlueChicken => new BlueChickenMorphInfo(),
             MorphID.Spiffo => new SpiffoMorphInfo(),
+            MorphID.HalloweenBunny => new BunnyMorphInfo(NPCID.BunnySlimed),
+            MorphID.ChristmasBunny => new BunnyMorphInfo(NPCID.BunnyXmas),
+            MorphID.GoldBunny => new BunnyMorphInfo(NPCID.GoldBunny),
+            MorphID.PartyBunny => new BunnyMorphInfo(NPCID.PartyBunny),
+            MorphID.AmethystBunny => new BunnyMorphInfo(NPCID.GemBunnyAmethyst),
+            MorphID.TopazBunny => new BunnyMorphInfo(NPCID.GemBunnyTopaz),
+            MorphID.SapphireBunny => new BunnyMorphInfo(NPCID.GemBunnySapphire),
+            MorphID.EmeraldBunny => new BunnyMorphInfo(NPCID.GemBunnyEmerald),
+            MorphID.RubyBunny => new BunnyMorphInfo(NPCID.GemBunnyRuby),
+            MorphID.DiamondBunny => new BunnyMorphInfo(NPCID.GemBunnyDiamond),
+            MorphID.AmberBunny => new BunnyMorphInfo(NPCID.GemBunnyAmber),
             _ => null
         };
 
@@ -217,13 +228,24 @@ public static class MorphUtils
         {
             var morph = drawInfo.drawPlayer.GetModPlayer<MorphPlayer>().CurrentMorph;
             MorphInfo? morphInfo;
-            if (morph == MorphID.None || (morphInfo = GetMorphInfo(morph)) == null || morphInfo.Texture == null || morphInfo.TotalFrames == 0)
+            if (morph == MorphID.None || (morphInfo = GetMorphInfo(morph)) == null)
+            {
+                return;
+            }
+
+            // Determine texture to use
+            var texture = morphInfo.Texture;
+            var totalFrames = morphInfo.TotalFrames;
+            morphInfo.ModifyTexture(ref texture, ref totalFrames);
+
+            if (texture == null || totalFrames == 0)
             {
                 return;
             }
             
             // Calculate draw position
             var position = drawInfo.Center - Main.screenPosition;
+            position = position.Floor();
             if (drawInfo.headOnlyRender)
             {
                 position.Y -= 20f;
@@ -332,12 +354,12 @@ public static class MorphUtils
             {
                 // Draw the morph
                 drawInfo.DrawDataCache.Add(new DrawData(
-                    morphInfo.Texture,
-                    position.Floor(),
-                    new Rectangle(0, currentFrame * (morphInfo.Texture.Height / morphInfo.TotalFrames), morphInfo.Texture.Width, morphInfo.Texture.Height / morphInfo.TotalFrames),
+                    texture,
+                    position,
+                    new Rectangle(0, currentFrame * (texture.Height / totalFrames), texture.Width, texture.Height / totalFrames),
                     colour,
                     rotation,
-                    new Vector2(morphInfo.Texture.Width, morphInfo.Texture.Height / (float)morphInfo.TotalFrames) * 0.5f,
+                    new Vector2(texture.Width, texture.Height / (float)totalFrames) * 0.5f,
                     scale,
                     direction != 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
                 ));
