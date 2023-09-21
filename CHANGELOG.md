@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed "Reforge Item" effect to be able to reforge any valid item.
+
 ## [2.0.5] - 2023-09-20
 
 - Added "Take a Seat" challenge.
