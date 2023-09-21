@@ -50,7 +50,7 @@ public sealed class JunimoMorphInfo : MorphInfo
 
     public override void OnDrawFront(in PlayerDrawSet drawData, Vector2 position, Color colour, float rotation, float scale, int direction, int currentFrame)
     {
-        if (DateTime.Now.Month != 9)
+        if (DateTime.Now.Month != 9 || DateTime.Now.Day < 19 - 2 || DateTime.Now.Day > 19 + 2)
         {
             return;
         }
