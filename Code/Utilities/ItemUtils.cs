@@ -106,10 +106,9 @@ public static class ItemUtils
         public override GlobalItem Clone(Item from, Item to)
         {
             var clone = base.Clone(from, to);
-            var owner = from.GetGlobalItem<ItemOwner>().Owner;
-            if (!string.IsNullOrEmpty(owner))
+            if (from.TryGetGlobalItem(out ItemOwner owner) && !string.IsNullOrEmpty(owner.Owner))
             {
-                ApplyOwner(to, owner);
+                ApplyOwner(to, owner.Owner);
             }
 
             return clone;
