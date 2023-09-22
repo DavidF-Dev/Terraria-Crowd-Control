@@ -106,6 +106,10 @@ public sealed class CatchCritterChallenge : ChallengeEffect
             {
                 player.Player.inventory[existingNet].TurnToAir();
             }
+            else if (player.Player.HeldItem.type == ItemID.BugNet)
+            {
+                player.Player.HeldItem.TurnToAir();
+            }
         }
 
         _providedNet = false;
