@@ -52,7 +52,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Sand => (13, 13),
             TrapType.Water => (9, 7),
             TrapType.Lava => (5, 5),
-            TrapType.Honey => (9, 7),
+            TrapType.Honey => (5, 5),
             _ => throw new ArgumentOutOfRangeException(nameof(trapType))
         };
     }
