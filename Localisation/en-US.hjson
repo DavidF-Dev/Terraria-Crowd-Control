@@ -405,7 +405,11 @@ Mods: {
 
 				ForceEasterEggs: {
 					Label: "[i:3857]  Forcefully enable easter eggs"
-					Tooltip: Enable easter eggs that are usually unavailable except in unique cases.
+					Tooltip:
+					    '''
+					    Enable easter eggs that are usually active for only specific users.
+					    Not recommended, as the easter eggs are personalised and may cause confusion.
+					    '''
 				}
 
 				Headers: {
