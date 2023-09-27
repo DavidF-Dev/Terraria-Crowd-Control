@@ -46,7 +46,7 @@ A few to highlight include:
 [*] Display anonymous viewer names in chat.
 [*] Alter the respawn time, so that you can get back into the gameplay sooner after dying.
 [*] Enable spawn protection. Useful in stopping your spawn point from becoming a massive crater.
-[*] Disable tombstones, so that you're world does not become one big graveyard.
+[*] Disable tombstones, so that your world does not become one big graveyard.
 [*] Enable the ability to teleport to other players in multi-player freely (or with a cooldown).[/list]
 
 [h1]Contact & Support[/h1]
