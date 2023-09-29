@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.6] - 2023-09-29
+
 - Changed "Reforge Item" effect to be able to reforge any valid item.
 - Changed "Increase Spawn Rate" effect to allow enemies to spawn in towns.
 - Changed "Spawn Honey Trap" effect to spawn a smaller amount of honey.
