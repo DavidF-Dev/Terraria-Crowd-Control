@@ -3,6 +3,7 @@ using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.BuffEffects;
 
@@ -30,7 +31,7 @@ public sealed class NoclipEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.Player.HasBuff(BuffID.Shimmer) || !player.Player.IsGrounded())
+        if (player.Player.HasBuff(BuffID.Shimmer) || player.Player.shimmering || !player.Player.IsGrounded())
         {
             // Retry if the player is already shimmered or not grounded
             return CrowdControlResponseStatus.Retry;
@@ -62,6 +63,43 @@ public sealed class NoclipEffect : CrowdControlEffect
         }
 
         player.Player.AddBuff(BuffID.Shimmer, (int)Math.Ceiling(60 * TimeLeft));
+        player.Player.GetModPlayer<ShimmerPlayer>().Shimmering = true;
+    }
+
+    #endregion
+
+    #region Nested Types
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private class ShimmerPlayer : ModPlayer
+    {
+        #region Fields
+
+        public bool Shimmering;
+
+        #endregion
+
+        #region Methods
+
+        public override void PostUpdateBuffs()
+        {
+            if (!Shimmering)
+            {
+                // Ignore
+                return;
+            }
+
+            if (Player.HasBuff(BuffID.Shimmer) || Player.shimmering)
+            {
+                Player.AddBuff(BuffID.Cursed, 2);
+            }
+            else
+            {
+                Shimmering = false;
+            }
+        }
+
+        #endregion
     }
 
     #endregion
