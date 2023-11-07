@@ -137,6 +137,15 @@ public static class PlayerUtils
     }
 
     /// <summary>
+    ///     Check if the player is grappling or grappled.
+    /// </summary>
+    [Pure]
+    public static bool IsGrappling(this Player player)
+    {
+        return player.grapCount > 0;
+    }
+
+    /// <summary>
     ///     Check if the player is within spawn protection (if enabled in the configuration).
     /// </summary>
     [Pure]

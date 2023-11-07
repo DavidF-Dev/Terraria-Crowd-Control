@@ -37,14 +37,10 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.Player.mount.Active)
+        if (player.Player.HasBuff(BuffID.Shimmer) || player.Player.HasBuff(BuffID.Frozen) ||
+            player.Player.IsInLiquid() || player.Player.IsStandingIn(TileID.Cobweb))
         {
-            // Ensure the player isn't riding a mount
-            player.Player.mount.Dismount(player.Player);
-            if (player.Player.mount.Active)
-            {
-                return CrowdControlResponseStatus.Retry;
-            }
+            return CrowdControlResponseStatus.Retry;
         }
 
         // Ensure the player has a suitable area to be flung upwards
@@ -59,6 +55,26 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
                 {
                     return CrowdControlResponseStatus.Retry;
                 }
+            }
+        }
+
+        // Ensure the player isn't riding a mount
+        if (player.Player.mount.Active)
+        {
+            player.Player.mount.Dismount(player.Player);
+            if (player.Player.mount.Active)
+            {
+                return CrowdControlResponseStatus.Retry;
+            }
+        }
+
+        // Ensure the player isn't grappling
+        if (player.Player.IsGrappling())
+        {
+            player.Player.RemoveAllGrapplingHooks();
+            if (player.Player.IsGrappling())
+            {
+                return CrowdControlResponseStatus.Retry;
             }
         }
 
