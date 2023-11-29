@@ -96,6 +96,25 @@ public static class PlayerUtils
     }
 
     [Pure]
+    public static bool IsStandingOn(this Player player, Predicate<(int x, int y)> predicate)
+    {
+        var tile = player.position.ToTileCoordinates();
+        for (var x = tile.X; x <= tile.X + 1; x++)
+        {
+            for (var y = tile.Y + 2; y < tile.Y + 4; y++)
+            {
+                if (x >= 0 && x < Main.maxTilesX && y >= 0 && y < Main.maxTilesY &&
+                    Main.tile[x, y].HasTile && predicate((x, y)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    [Pure]
     public static bool IsStandingIn(this Player player, ushort id)
     {
         var tile = player.position.ToTileCoordinates();

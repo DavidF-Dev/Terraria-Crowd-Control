@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
@@ -55,6 +56,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     #region Fields
 
+    private readonly HashSet<int> _woodTileIds = new();
     private (ushort tileId, short itemId)? _chosen;
 
     #endregion
@@ -68,6 +70,22 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     #endregion
 
     #region Methods
+
+    protected override void OnSessionStarted()
+    {
+        base.OnSessionStarted();
+
+        // Collate wood tiles
+        _woodTileIds.Clear();
+        var group = RecipeGroup.recipeGroups[RecipeGroupID.Wood];
+        foreach (var item in ContentSamples.ItemsByType.Values)
+        {
+            if (item.createTile > -1 && group.ContainsItem(item.type))
+            {
+                _woodTileIds.Add(item.createTile);
+            }
+        }
+    }
 
     protected override CrowdControlResponseStatus OnChallengeStart()
     {
@@ -100,18 +118,21 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (!GetLocalPlayer().Player.IsStandingOn(_chosen!.Value.tileId))
+        if (_chosen != null && (GetLocalPlayer().Player.IsStandingOn(_chosen.Value.tileId) || CheckWood()))
         {
-            return;
+            SetChallengeCompleted();
         }
-
-        SetChallengeCompleted();
     }
 
     protected override string GetChallengeDescription()
     {
         var itemName = Lang.GetItemName(_chosen!.Value.itemId).Value;
         return LangUtils.GetEffectStartText(Id, string.Empty, string.Empty, string.Empty, itemName);
+    }
+
+    private bool CheckWood()
+    {
+        return _chosen!.Value.itemId == ItemID.Wood && GetLocalPlayer().Player.IsStandingOn(t => _woodTileIds.Contains(Main.tile[t.x, t.y].TileType));
     }
 
     #endregion
