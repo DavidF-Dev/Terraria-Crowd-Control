@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Catch Critter" challenge to highlight on-screen critters.
 - Changed "Craft Item" challenge to accept any torch or wooden sword.
 - Changed "Stand On Block" challenge to accept any wood.
+- Changed "Rainbow Feet" effect to spawn paint balls when striking NPCs also (single player).
 
 ## [2.0.6] - 2023-09-29
 

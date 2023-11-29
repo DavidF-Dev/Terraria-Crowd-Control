@@ -50,6 +50,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     public RainbowFeetEffect(int duration) : base(EffectID.RainbowFeet, duration, EffectSeverity.Neutral)
     {
         CrowdControlNPC.OnKillHook += NPCKill;
+        CrowdControlNPC.StrikeNPCHook += StrikeNPC;
     }
 
     #endregion
@@ -181,11 +182,25 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
             return;
         }
 
-        // Spawn paint projectile in random directions from the dead npc's center
-        const int minCount = 5;
-        const int maxCount = 8;
-        const float minSpeed = 2f;
-        const float maxSpeed = 5f;
+        SpawnPaintBalls(npc);
+    }
+
+    private void StrikeNPC(NPC npc, Entity source, Player? player, NPC.HitInfo hit, int damageDone)
+    {
+        if ((NetUtils.IsSinglePlayer && !IsActive) ||
+            (NetUtils.IsServer && !IsActiveOnServer()) ||
+            NetUtils.IsClient)
+        {
+            // Ignore
+            return;
+        }
+
+        SpawnPaintBalls(npc, 1, 2, damageMult: 0f);
+    }
+
+    private static void SpawnPaintBalls(NPC npc, int minCount = 5, int maxCount = 8, float minSpeed = 2, float maxSpeed = 5, float damageMult = 1f)
+    {
+        // Spawn paint projectiles in random directions from the npc's center
         var count = Main.rand.Next(minCount, maxCount);
         for (var i = 0; i < count; i++)
         {
@@ -193,7 +208,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
                 null, npc.Center,
                 Main.rand.NextVector2Unit() * Main.rand.NextFloat(minSpeed, maxSpeed),
                 ProjectileID.PainterPaintball,
-                npc.lifeMax / 6, 3f,
+                (int)(npc.lifeMax / 6f * damageMult), 3f,
                 Main.myPlayer,
                 ai1: Main.rand.Next(12) / 6f);
             if (NetUtils.IsServer)
