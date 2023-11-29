@@ -58,13 +58,13 @@ public sealed class CatchCritterChallenge : ChallengeEffect
 
         // Spawn a few critters nearby
         const int maxAttempts = 300;
-        const int maxSpawns = 1;
+        const int maxSpawns = 2;
         var spawned = 0;
         var attempt = 0;
         var minDist = Math.Max(Main.LogicCheckScreenWidth, Main.LogicCheckScreenHeight) / 2f;
         while (spawned < maxSpawns)
         {
-            var pos = player.Player.Center + Main.rand.NextVector2Unit() * minDist * Main.rand.NextFloat(1.3f, 1.7f);
+            var pos = player.Player.Center + Main.rand.NextVector2Unit() * minDist * Main.rand.NextFloat(1.1f, 1.4f);
             if (Collision.IsWorldPointSolid(pos, true))
             {
                 if (++attempt >= maxAttempts)
