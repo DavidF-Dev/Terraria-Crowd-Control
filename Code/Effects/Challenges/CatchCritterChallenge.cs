@@ -70,7 +70,7 @@ public sealed class CatchCritterChallenge : ChallengeEffect
         var minDist = Math.Max(Main.LogicCheckScreenWidth, Main.LogicCheckScreenHeight) / 2f;
         while (spawned < maxSpawns)
         {
-            var pos = player.Player.Center + Main.rand.NextVector2Unit() * minDist * Main.rand.NextFloat(1.1f, 1.4f);
+            var pos = player.Player.Center + Main.rand.NextVector2Unit() * minDist * Main.rand.NextFloat(1.1f, 1.25f);
             if (Collision.IsWorldPointSolid(pos, true))
             {
                 if (++attempt >= maxAttempts)
