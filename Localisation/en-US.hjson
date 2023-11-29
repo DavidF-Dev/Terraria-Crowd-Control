@@ -152,7 +152,7 @@ Mods: {
 				touch_grass_challenge: Touch grass
 				eat_food_challenge: Eat any food
 				# {0} is the scrambled word | {1} is the category
-				word_puzzle_challenge: Unscramble the {1}: {0}
+				word_puzzle_challenge: Unscramble the Terraria {1}: {0}
 			}
 
 			Stop: {
