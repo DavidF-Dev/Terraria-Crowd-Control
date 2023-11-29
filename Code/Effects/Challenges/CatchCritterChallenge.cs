@@ -24,6 +24,11 @@ public sealed class CatchCritterChallenge : ChallengeEffect
         }
     }
 
+    private static bool OnCanApplyHunterPotionEffects(On_NPC.orig_CanApplyHunterPotionEffects orig, NPC self)
+    {
+        return self.CountsAsACritter || orig.Invoke(self);
+    }
+
     #endregion
 
     #region Fields
@@ -46,6 +51,7 @@ public sealed class CatchCritterChallenge : ChallengeEffect
     {
         var player = GetLocalPlayer();
         player.OnCatchNPCHook += OnCatchNPC;
+        On_NPC.CanApplyHunterPotionEffects += OnCanApplyHunterPotionEffects;
 
         // Provide the player with a net so that the challenge is completable
         if (!player.Player.HasItem(ItemID.BugNet))
@@ -96,6 +102,7 @@ public sealed class CatchCritterChallenge : ChallengeEffect
     {
         var player = GetLocalPlayer();
         player.OnCatchNPCHook -= OnCatchNPC;
+        On_NPC.CanApplyHunterPotionEffects -= OnCanApplyHunterPotionEffects;
 
         // Remove the net if one was provided
         // Note, this doesn't prevent the player from stashing in a chest first, but they would probably fail the challenge
