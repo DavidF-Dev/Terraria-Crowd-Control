@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed Challenge effects to give 5 Gold Coins when completed successfully.
 - Changed "Noclip" effect to prevent item use whilst being shimmered.
 - Changed "Noclip" effect to continue falling if in lava.
+- Changed "Random Teleport" effect to ignore the Demon Conch if the world's spawn is in Hell.
 
 ## [2.0.6] - 2023-09-29
 

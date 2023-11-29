@@ -42,7 +42,7 @@ public sealed class RandomTeleportEffect : CrowdControlEffect
             // Teleport somewhere random
             player.Player.TeleportationPotion();
         }
-        else if (Main.rand.Next(100) < 50 && !player.Player.ZoneUnderworldHeight)
+        else if (Main.rand.Next(100) < 50 && !player.Player.ZoneUnderworldHeight && Main.spawnTileY > Main.tile.Height - 200)
         {
             // Teleport to hell
             if (NetUtils.IsSinglePlayer)
