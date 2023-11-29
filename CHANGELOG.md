@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Fling Upwards" effect to force the player to stop grappling.
 - Changed Challenge effects to give 5 Gold Coins when completed successfully.
 - Changed "Noclip" effect to prevent item use whilst being shimmered.
+- Changed "Noclip" effect to continue falling if in lava.
 
 ## [2.0.6] - 2023-09-29
 
