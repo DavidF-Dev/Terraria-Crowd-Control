@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Random Teleport" effect to ignore the Demon Conch if the world's spawn is in Hell.
 - Changed "Catch Critter" challenge to spawn 2 critters nearby, closer than before.
 - Changed "Catch Critter" challenge to highlight on-screen critters.
+- Changed "Craft Item" challenge to accept any torch or wooden sword.
 
 ## [2.0.6] - 2023-09-29
 

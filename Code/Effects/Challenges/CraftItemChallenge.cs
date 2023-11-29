@@ -6,6 +6,7 @@ using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CrowdControlMod.Effects.Challenges;
 
@@ -57,7 +58,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
         ).SelectMany(x => x).Distinct().ToList()));
-
+        
         CrowdControlItem.OnCraftedHook += OnCrafted;
         return CrowdControlResponseStatus.Success;
     }
@@ -76,12 +77,23 @@ public sealed class CraftItemChallenge : ChallengeEffect
     private void OnCrafted(Recipe recipe)
     {
         // Check if the recipe produced the required item
-        if (_chosenItem != null && !recipe.HasResult(_chosenItem.type))
+        if (_chosenItem != null && (recipe.HasResult(_chosenItem.type) || CheckTorch(recipe) || CheckWoodenSword(recipe)))
         {
-            return;
+            SetChallengeCompleted();
         }
+    }
 
-        SetChallengeCompleted();
+    private bool CheckTorch(Recipe recipe)
+    {
+        return _chosenItem!.type == ItemID.Torch && ItemID.Sets.Torches[recipe.createItem.type];
+    }
+
+    private bool CheckWoodenSword(Recipe recipe)
+    {
+        return _chosenItem!.type == ItemID.WoodenSword && recipe.requiredItem.Count == 1 &&
+               recipe.createItem.pick == 0 && recipe.createItem.hammer == 0 && recipe.createItem.axe == 0 &&
+               (recipe.HasRecipeGroup(RecipeGroupID.Wood) || RecipeGroup.recipeGroups[RecipeGroupID.Wood].ContainsItem(recipe.requiredItem[0].type)) &&
+               recipe.createItem.DamageType.CountsAsClass(DamageClass.Melee);
     }
 
     #endregion
