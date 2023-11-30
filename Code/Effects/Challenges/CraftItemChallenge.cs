@@ -93,7 +93,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
         return _chosenItem!.type == ItemID.WoodenSword && recipe.requiredItem.Count == 1 &&
                recipe.createItem.pick == 0 && recipe.createItem.hammer == 0 && recipe.createItem.axe == 0 &&
                (recipe.HasRecipeGroup(RecipeGroupID.Wood) || RecipeGroup.recipeGroups[RecipeGroupID.Wood].ContainsItem(recipe.requiredItem[0].type)) &&
-               recipe.createItem.DamageType.CountsAsClass(DamageClass.Melee);
+               (recipe.createItem.DamageType?.CountsAsClass(DamageClass.Melee) ?? false);
     }
 
     #endregion
