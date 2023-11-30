@@ -17,7 +17,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
 {
     #region Static Fields and Constants
 
-    private static readonly short[] PreEyeTiles = {ItemID.WoodenSword, ItemID.Torch, ItemID.CactusPickaxe, ItemID.Glass};
+    private static readonly short[] PreEyeTiles = {ItemID.WoodenSword, ItemID.Torch, ItemID.Campfire, ItemID.Glass};
 
     private static readonly short[] PreSkeletronTiles = {ItemID.BottledWater, ItemID.Keg, ItemID.SandstoneBrick, ItemID.SnowBrick};
 
@@ -58,6 +58,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
         ).SelectMany(x => x).Distinct().ToList()));
+        _chosenItem = new Item(ItemID.Campfire);
         
         CrowdControlItem.OnCraftedHook += OnCrafted;
         return CrowdControlResponseStatus.Success;
@@ -77,7 +78,7 @@ public sealed class CraftItemChallenge : ChallengeEffect
     private void OnCrafted(Recipe recipe)
     {
         // Check if the recipe produced the required item
-        if (_chosenItem != null && (recipe.HasResult(_chosenItem.type) || CheckTorch(recipe) || CheckWoodenSword(recipe)))
+        if (_chosenItem != null && (recipe.HasResult(_chosenItem.type) || CheckTorch(recipe) || CheckCampfire(recipe) || CheckWoodenSword(recipe)))
         {
             SetChallengeCompleted();
         }
@@ -88,6 +89,11 @@ public sealed class CraftItemChallenge : ChallengeEffect
         return _chosenItem!.type == ItemID.Torch && ItemID.Sets.Torches[recipe.createItem.type];
     }
 
+    private bool CheckCampfire(Recipe recipe)
+    {
+        return _chosenItem!.type == ItemID.Campfire && recipe.createItem.createTile > -1 && TileID.Sets.Campfire[recipe.createItem.createTile];
+    }
+    
     private bool CheckWoodenSword(Recipe recipe)
     {
         return _chosenItem!.type == ItemID.WoodenSword && recipe.requiredItem.Count == 1 &&
