@@ -17,15 +17,15 @@ public sealed class CraftItemChallenge : ChallengeEffect
 {
     #region Static Fields and Constants
 
-    private static readonly short[] PreEyeTiles = {ItemID.WoodenSword, ItemID.Torch, ItemID.Campfire, ItemID.Glass};
+    private static readonly short[] PreEyeTiles = {ItemID.WoodenSword, ItemID.Torch, ItemID.Campfire, ItemID.DirtBlock, ItemID.StoneBlock};
 
-    private static readonly short[] PreSkeletronTiles = {ItemID.BottledWater, ItemID.Keg, ItemID.SandstoneBrick, ItemID.SnowBrick};
+    private static readonly short[] PreSkeletronTiles = {ItemID.BottledWater, ItemID.ClayPot, ItemID.Glass, ItemID.FlamingArrow};
 
-    private static readonly short[] PreWallTiles = {ItemID.IceBrick, ItemID.Boulder};
+    private static readonly short[] PreWallTiles = {ItemID.IceBrick, ItemID.Boulder, ItemID.Keg, ItemID.SandstoneBrick, ItemID.MudBlock};
 
-    private static readonly short[] PreMechTiles = {ItemID.Toilet};
+    private static readonly short[] PreMechTiles = {ItemID.Toilet, ItemID.Candle, ItemID.Terrarium};
 
-    private static readonly short[] PreGolemTiles = {ItemID.BottledHoney};
+    private static readonly short[] PreGolemTiles = {ItemID.BottledHoney, ItemID.PearlwoodHammer};
 
     private static readonly short[] PreLunarTiles = Array.Empty<short>();
 
