@@ -23,6 +23,7 @@ public static class SteamUtils
     private static bool? _isOfficialConduit;
     private static bool? _isMoonlightFaye;
     private static bool? _isMakenbacon;
+    private static bool? _isPixyWixy;
 
     #endregion
 
@@ -112,5 +113,10 @@ public static class SteamUtils
     /// </summary>
     public static bool IsMakenBacon => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isMakenbacon ?? (_isMakenbacon = SteamId == 76561198080674794UL).Value);
 
+    /// <summary>
+    ///     https://www.twitch.tv/pixywixy
+    /// </summary>
+    public static bool IsPixyWixy => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isPixyWixy ?? (_isPixyWixy = SteamId == 76561198109975921UL).Value);
+    
     #endregion
 }
