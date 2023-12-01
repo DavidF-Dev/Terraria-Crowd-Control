@@ -86,12 +86,16 @@ public sealed class HiccupEffect : CrowdControlEffect
 
         _timer = Main.rand.Next(MinTime, MaxTime);
 
+        var moreVolatile = CrowdControlMod.GetInstance().IsEffectActive(EffectID.IncreaseKnockback);
+        var hiccupModifierX = moreVolatile ? 3f : 1f;
+        var hiccupModifierY = moreVolatile ? 1.5f : 1f;
+
         var player = GetLocalPlayer();
         if (player.Player.IsGrounded())
         {
             // On-ground hiccup
-            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * Main.rand.NextFloatDirection();
-            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f);
+            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * Main.rand.NextFloatDirection() * hiccupModifierX;
+            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f) * hiccupModifierY;
         }
         else
         {
@@ -103,8 +107,8 @@ public sealed class HiccupEffect : CrowdControlEffect
             }
             
             // Special in-air hiccup
-            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * dir;
-            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f);
+            player.Player.velocity.X += Main.rand.NextFloat(6f, 12f) * dir * hiccupModifierX;
+            player.Player.velocity.Y = -Main.rand.NextFloat(8f, 12f) * hiccupModifierY;
         }
 
         // Play random 'hiccup' sound
