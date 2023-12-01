@@ -24,7 +24,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     private static readonly (ushort tileId, short itemId)[] PreSkeletronTiles =
     {
-        (TileID.SnowBlock, ItemID.SnowBlock), (TileID.IceBlock, ItemID.IceBlock), (TileID.Cloud, ItemID.Cloud),
+        (TileID.SnowBlock, ItemID.SnowBlock), (TileID.IceBlock, ItemID.IceBlock),
         (TileID.RichMahogany, ItemID.RichMahogany), (TileID.BorealWood, ItemID.BorealWood), (TileID.Campfire, ItemID.Campfire)
     };
 
@@ -40,7 +40,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     private static readonly (ushort tileId, short itemId)[] PreGolemTiles =
     {
-        (TileID.SnowBrick, ItemID.SnowBrick), (TileID.IceBrick, ItemID.IceBrick)
+        (TileID.SnowBrick, ItemID.SnowBrick), (TileID.IceBrick, ItemID.IceBrick), (TileID.Cloud, ItemID.Cloud)
     };
 
     private static readonly (ushort tileId, short itemId)[] PreLunarTiles =
@@ -118,7 +118,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (_chosen != null && (GetLocalPlayer().Player.IsStandingOn(_chosen.Value.tileId) || CheckWood()))
+        if (_chosen != null && (GetLocalPlayer().Player.IsStandingOn(_chosen.Value.tileId) || CheckWood() || CheckCloud()))
         {
             SetChallengeCompleted();
         }
@@ -133,6 +133,11 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     private bool CheckWood()
     {
         return _chosen!.Value.itemId == ItemID.Wood && GetLocalPlayer().Player.IsStandingOn(t => _woodTileIds.Contains(Main.tile[t.x, t.y].TileType));
+    }
+
+    private bool CheckCloud()
+    {
+        return _chosen!.Value.itemId == ItemID.Cloud && (GetLocalPlayer().Player.IsStandingOn(TileID.RainCloud) || GetLocalPlayer().Player.IsStandingOn(TileID.SnowCloud));
     }
 
     #endregion
