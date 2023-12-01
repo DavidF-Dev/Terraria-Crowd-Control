@@ -114,6 +114,13 @@ public static class ItemUtils
             return clone;
         }
 
+        public override bool CanStack(Item destination, Item source)
+        {
+            var destinationOwner = destination.GetItemOwner();
+            var sourceOwner = source.GetItemOwner();
+            return destinationOwner.Equals(sourceOwner) || (string.IsNullOrEmpty(destinationOwner) && string.IsNullOrEmpty(sourceOwner));
+        }
+
         #endregion
     }
 

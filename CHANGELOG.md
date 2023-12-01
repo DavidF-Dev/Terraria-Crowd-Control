@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Changed "Hiccup" effect to be more volatile if "Increase Knockback" is active.
+- Fixed named items so that they no longer stack with other items unless they have the same name.
 
 ## [2.0.7] - 2023-11-30
 
