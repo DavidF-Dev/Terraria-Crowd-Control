@@ -89,6 +89,8 @@ public sealed class CrowdControlMod : Mod
     /// </summary>
     private readonly Dictionary<int, IFeature> _features = new();
 
+    private readonly List<string> _rememberedViewerNames = new();
+
     #endregion
 
     #region Properties
@@ -192,6 +194,7 @@ public sealed class CrowdControlMod : Mod
 
         _isSessionRunning = true;
         _sessionCallerThread = Thread.CurrentThread;
+        _rememberedViewerNames.Clear();
 
         // Initialise the effects
         foreach (var effect in _effects.Values)
@@ -348,6 +351,14 @@ public sealed class CrowdControlMod : Mod
         return musicId != 0;
     }
 
+    /// <summary>
+    ///     Get the remembered viewer names.
+    /// </summary>
+    public IReadOnlyList<string> GetRememberedViewerNames()
+    {
+        return _rememberedViewerNames;
+    }
+
     private void HandleClientPacket(BinaryReader reader)
     {
         // Determine what to do with the incoming packet (client-side)
@@ -445,7 +456,7 @@ public sealed class CrowdControlMod : Mod
                 ChatHelper.BroadcastChatMessage(netText, colour, excludedPlayer);
                 break;
             }
-            
+
             // Client is letting the server know about their configuration settings
             case PacketID.ConfigState:
                 player.ServerDisableTombstones = reader.ReadBoolean();
@@ -778,6 +789,10 @@ public sealed class CrowdControlMod : Mod
         if (requestType == CrowdControlRequestType.Start)
         {
             result = effect.Start(netId, viewer, duration);
+            if (result == CrowdControlResponseStatus.Success)
+            {
+                RememberViewer(viewer);
+            }
         }
         else
         {
@@ -1027,6 +1042,17 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.KaylaEgg, new KaylaEggFeature());
         _features.Add(FeatureID.OfficialConduitEgg, new OfficialConduitEggFeature());
         _features.Add(FeatureID.MoonlitFayeAndMakenBaconEgg, new MoonlitFayeAndMakenBaconEggFeature());
+    }
+
+    private void RememberViewer(string viewer)
+    {
+        if (string.IsNullOrEmpty(viewer) || viewer is "Chat" or "a ghost")
+        {
+            return;
+        }
+
+        _rememberedViewerNames.Remove(viewer);
+        _rememberedViewerNames.Add(viewer);
     }
 
     private void OnGameUpdate(GameTime gameTime)
