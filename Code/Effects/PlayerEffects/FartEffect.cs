@@ -149,7 +149,7 @@ public sealed class FartEffect : CrowdControlEffect
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
-        if (!SteamUtils.IsPixyWixy || !Main.rand.NextBool(3))
+        if (!SteamUtils.IsPixyWixy || !NetUtils.IsSinglePlayer || !Main.rand.NextBool(3))
         {
             return;
         }
