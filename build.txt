@@ -1,6 +1,6 @@
 displayName = Crowd Control for Terraria
 author = DavidFDev
-version = 2.0.9
+version = 2.0.10
 homepage = https://github.com/DavidF-Dev/Terraria-Crowd-Control
 hideCode = false
 hideResources = false
