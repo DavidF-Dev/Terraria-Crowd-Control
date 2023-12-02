@@ -192,6 +192,22 @@ Mods: {
 
 				drop_item.Owl: " and... a talkative owl [i:4395]?"
 
+				fart_sound: {
+					PixyWixyFart: {
+						0: "{0} let loose a massive stinker! Plug your noses, Chatty"
+						1: "{0}, you can't blame this one on Chatty! Own up"
+						2: "{0} broke the World Record for world's stinkiest fart"
+						3: "{0} couldn't hold it any longer"
+						4: "{0} is spreading their love with Chatty... Smelly love"
+						5: Hold your breath, Chatty! {0} is stinking up the place
+						6: "{0} shouldn't have eaten a whole can of baked beans earlier"
+						7: "{0} started a new trend of crapping your pants #CrappersOfTikTok"
+						8: "{0} is stinky and so is Chatty"
+						9: "{0} pooed ferociously"
+						10: "{0} stank up the place. Thanks {0}. Thanks a lot"
+					}
+				}
+
 				spawn_fake_guardian: {
 					Phony: The Dungeon Guardian was a phony
 					PhonyEgg: Teebu's favourite boss was a phony

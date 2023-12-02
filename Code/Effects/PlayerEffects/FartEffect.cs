@@ -146,6 +146,16 @@ public sealed class FartEffect : CrowdControlEffect
         HandleFart(player.Player);
     }
 
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
+    {
+        if (!SteamUtils.IsPixyWixy)
+        {
+            return;
+        }
+
+        TerrariaUtils.WriteEffectMessage(ItemID.PoopBlock, LangUtils.GetEffectMiscText(Id, "PixyWixyFart." + Main.rand.Next(11), playerString), Severity);
+    }
+
     #endregion
 
     #region Nested Types
