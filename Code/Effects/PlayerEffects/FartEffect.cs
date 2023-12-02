@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -284,7 +285,7 @@ public sealed class FartEffect : CrowdControlEffect
 
                 // Choose a name for the poo
                 var names = CrowdControlMod.GetInstance().GetRememberedViewerNames();
-                var name = names.Count == 0 ? Main.LocalPlayer.name : names[names.Count - 1 - _processed % names.Count];
+                var name = names.Count == 0 ? Main.LocalPlayer.name : names[names.Count - 1 - _processed % Math.Min(names.Count, 8)];
 
                 // Spawn a poo item
                 var pooItemIndex = Item.NewItem(null, npc.position, npc.width, npc.height, ItemID.PoopBlock, noBroadcast: true);
