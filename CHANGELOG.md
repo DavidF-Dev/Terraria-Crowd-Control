@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed stinky easter to include chat messages (and other minor changes).
+
 ## [2.0.8] - 2023-12-02
 
 - Added a stinky easter egg.
