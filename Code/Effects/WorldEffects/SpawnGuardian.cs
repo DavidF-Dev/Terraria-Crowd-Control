@@ -6,6 +6,7 @@ using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
@@ -52,15 +53,26 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        var mode = CrowdControlGuardian.GuardianMode.None;
+        if (SteamUtils.IsTeebu)
+        {
+            mode |= CrowdControlGuardian.GuardianMode.Fishron;
+        }
+
+        if (SteamUtils.IsKulprid && !_isFake)
+        {
+            mode |= CrowdControlGuardian.GuardianMode.Persistent;
+        }
+
         if (NetUtils.IsSinglePlayer)
         {
             // In single-player, simply spawn the custom dungeon guardian
-            Spawn(GetLocalPlayer(), SteamUtils.IsTeebu);
+            Spawn(GetLocalPlayer(), mode);
         }
         else
         {
             // If on server, spawn on server (no need to pass arguments)
-            SendPacket(PacketID.HandleEffect, SteamUtils.IsTeebu);
+            SendPacket(PacketID.HandleEffect, (int)mode);
         }
 
         return CrowdControlResponseStatus.Success;
@@ -87,10 +99,10 @@ public sealed class SpawnGuardian : CrowdControlEffect
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
     {
         // Spawn the dungeon guardian on the server
-        Spawn(player, reader.ReadBoolean());
+        Spawn(player, (CrowdControlGuardian.GuardianMode)reader.ReadInt32());
     }
 
-    private void Spawn(CrowdControlPlayer player, bool isTeebu)
+    private void Spawn(CrowdControlPlayer player, CrowdControlGuardian.GuardianMode mode)
     {
         // Determine spawn position
         var circleEdge = Main.rand.NextVector2CircularEdge(HalfRangeWidth, HalfRangeHeight);
@@ -107,7 +119,9 @@ public sealed class SpawnGuardian : CrowdControlEffect
         // Set whether it is fake or not
         var guardian = (CrowdControlGuardian)npc.ModNPC;
         guardian.IsFake = _isFake;
-        guardian.IsTeebu = isTeebu;
+        guardian.Mode = mode;
+        var isTeebu = guardian.IsFishron;
+        var isKulprid = guardian.IsPersistent;
 
         if (isTeebu)
         {
@@ -135,14 +149,14 @@ public sealed class SpawnGuardian : CrowdControlEffect
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
         }
 
-        if (!isTeebu)
+        if (!isTeebu && !isKulprid)
         {
             return;
         }
 
         // Special life for teebu
-        npc.lifeMax = 69420;
-        npc.life = 69420;
+        npc.lifeMax = isKulprid ? Main.hardMode ? 100 : 30 : 69420;
+        npc.life = npc.lifeMax;
 
         if (NetUtils.IsServer)
         {
@@ -157,6 +171,18 @@ public sealed class SpawnGuardian : CrowdControlEffect
     // ReSharper disable once ClassNeverInstantiated.Local
     private sealed class CrowdControlGuardian : ModNPC
     {
+        #region Enums
+
+        [Flags]
+        public enum GuardianMode
+        {
+            None = 0,
+            Fishron = 1,
+            Persistent = 2
+        }
+
+        #endregion
+
         #region Fields
 
         private int _timeLeft;
@@ -175,13 +201,23 @@ public sealed class SpawnGuardian : CrowdControlEffect
         }
 
         /// <summary>
-        ///     Whether the guardian is an easter egg for Teebu.
+        ///     Guardian mode.
         /// </summary>
-        public bool IsTeebu
+        public GuardianMode Mode
         {
-            get => NPC.ai[NPC.maxAI - 1] > 0f;
-            set => NPC.ai[NPC.maxAI - 1] = value ? 1f : 0f;
+            get => (GuardianMode)(int)NPC.ai[NPC.maxAI - 1];
+            set => NPC.ai[NPC.maxAI - 1] = (int)value;
         }
+
+        /// <summary>
+        ///     Uses a fishron overlay (Teebu easter egg).
+        /// </summary>
+        public bool IsFishron => Mode.HasFlag(GuardianMode.Fishron);
+
+        /// <summary>
+        ///     Doesn't despawn but has reduced life (Kulprid easter egg).
+        /// </summary>
+        public bool IsPersistent => Mode.HasFlag(GuardianMode.Persistent);
 
         public override string Texture => $"Terraria/Images/NPC_{NPCID.DungeonGuardian}";
 
@@ -199,7 +235,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (IsTeebu)
+            if (IsFishron)
             {
                 typeName = "Teebu's Favourite Boss";
             }
@@ -216,8 +252,49 @@ public sealed class SpawnGuardian : CrowdControlEffect
         public override bool PreAI()
         {
             NPC.type = NPCID.DungeonGuardian;
-            NPC.ShowNameOnHover = NetUtils.IsSinglePlayer || !IsTeebu;
+            NPC.ShowNameOnHover = NetUtils.IsSinglePlayer || !IsFishron;
 
+            if (IsPersistent)
+            {
+                // Never run out of time if persistent
+                _timeLeft = 60 * SurvivalDuration;
+                NPC.timeLeft = 60 * SurvivalDuration + 1;
+
+                if (!NetUtils.IsServer && NPC.localAI[0] == 0f)
+                {
+                    NPC.localAI[0] = 1f;
+                    Roar();
+                }
+
+                // Ensure vanilla AI doesn't despawn the guardian if all players are dead
+                if (NPC.target < 0 || NPC.target >= Main.maxPlayers || !Main.player[NPC.target].active || Main.player[NPC.target].dead)
+                {
+                    NPC.target = -1;
+                    NPC.TargetClosest(false);
+                    if (NPC.target < 0 || NPC.target >= Main.maxPlayers || !Main.player[NPC.target].active || Main.player[NPC.target].dead)
+                    {
+                        NPC.target = -1;
+                        NPC.rotation %= MathF.PI * 2;
+                        NPC.rotation *= 0.95f;
+                        NPC.velocity *= 0.98f;
+                        return false;
+                    }
+
+                    // Reacquired a target, so roar!
+                    if (!NetUtils.IsServer)
+                    {
+                        Roar();
+                    }
+                }
+
+                // Move towards player (emulating vanilla behaviour)
+                var speedMult = NPC.DistanceSQ(Main.player[NPC.target].position) > 16 * 16 * 180 * 180 ? 5f : 1f;
+                NPC.velocity = NPC.DirectionTo(Main.player[NPC.target].position) * 8.75f * speedMult;
+                NPC.rotation += MathHelper.ToRadians(11);
+
+                return false;
+            }
+            
             // Reduce the time left timer
             _timeLeft--;
             if (_timeLeft != 0)
@@ -235,6 +312,22 @@ public sealed class SpawnGuardian : CrowdControlEffect
             return base.PreAI();
         }
 
+        public override bool CheckActive()
+        {
+            // Don't despawn if persistent
+            if (IsPersistent && _timeLeft > 0)
+            {
+                return false;
+            }
+
+            return base.CheckActive();
+        }
+
+        public override void OnKill()
+        {
+            Item.NewItem(null, NPC.position, NPC.width, NPC.height, ItemID.GoldCoin, 2);
+        }
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             // Ignore player if fake
@@ -249,7 +342,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override void BossHeadSlot(ref int index)
         {
-            if (IsTeebu)
+            if (IsFishron)
             {
                 index = NPCID.Sets.BossHeadTextures[NPCID.DukeFishron];
             }
@@ -257,7 +350,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (!IsTeebu)
+            if (!IsFishron)
             {
                 return base.PreDraw(spriteBatch, screenPos, drawColor);
             }
@@ -289,6 +382,12 @@ public sealed class SpawnGuardian : CrowdControlEffect
             return false;
         }
 
+        private void Roar()
+        {
+            var pos = Main.LocalPlayer.position + Main.LocalPlayer.DirectionTo(NPC.position) * 16f * 20f;
+            SoundEngine.PlaySound(SoundID.Roar with {SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest}, pos);
+        }
+        
         #endregion
     }
 
