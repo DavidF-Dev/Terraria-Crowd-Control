@@ -23,7 +23,7 @@ public sealed class RandomChallengeEffectProvider : IEffectProvider
         EffectID.SwimChallenge,
         EffectID.StandOnBlockChallenge,
         EffectID.CraftItemChallenge,
-        EffectID.SleepChallenge,
+        //EffectID.SleepChallenge,
         EffectID.SitChallenge,
         EffectID.CatchCritterChallenge,
         EffectID.MinecartChallenge,
