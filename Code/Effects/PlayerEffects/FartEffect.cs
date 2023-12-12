@@ -210,6 +210,7 @@ public sealed class FartEffect : CrowdControlEffect
         private int _timer;
         private int _index;
         private int _processed;
+        private int _nameCounter;
 
         #endregion
 
@@ -227,6 +228,7 @@ public sealed class FartEffect : CrowdControlEffect
             _timer = MinDelay;
             _index = 0;
             _processed = 0;
+            _nameCounter = 0;
 
             // Spawn poo fly particles and fart in a jar dust around the player
             SpawnFlies();
@@ -283,15 +285,18 @@ public sealed class FartEffect : CrowdControlEffect
                     Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(npc.Hitbox), Vector2.Zero, ProjectileID.ToiletEffect, 0, 0f);
                 }
 
-                // Choose a name for the poo
-                var names = CrowdControlMod.GetInstance().GetRememberedViewerNames();
-                var name = names.Count == 0 ? Main.LocalPlayer.name : names[names.Count - 1 - _processed % Math.Min(names.Count, 8)];
+                if (npc.townNPC || Main.rand.NextBool(4))
+                {
+                    // Choose a name for the poo
+                    var names = CrowdControlMod.GetInstance().GetRememberedViewerNames();
+                    var name = names.Count == 0 ? Main.LocalPlayer.name : names[names.Count - 1 - _nameCounter++ % Math.Min(names.Count, 4)];
 
-                // Spawn a poo item
-                var pooItemIndex = Item.NewItem(null, npc.position, npc.width, npc.height, ItemID.PoopBlock, noBroadcast: true);
-                Main.item[pooItemIndex].velocity = new Vector2(-npc.direction * 2f, -2f);
-                Main.item[pooItemIndex].noGrabDelay = 60 * 4;
-                Main.item[pooItemIndex].SetItemOwner(name);
+                    // Spawn a poo item
+                    var pooItemIndex = Item.NewItem(null, npc.position, npc.width, npc.height, ItemID.PoopBlock, noBroadcast: true);
+                    Main.item[pooItemIndex].velocity = new Vector2(-npc.direction * 2f, -2f);
+                    Main.item[pooItemIndex].noGrabDelay = 60 * 4;
+                    Main.item[pooItemIndex].SetItemOwner(name);
+                }
 
                 _timer = Main.rand.Next(MinDelay, MaxDelay);
                 _processed++;
