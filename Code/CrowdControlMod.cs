@@ -1042,6 +1042,7 @@ public sealed class CrowdControlMod : Mod
         _features.Add(FeatureID.KaylaEgg, new KaylaEggFeature());
         _features.Add(FeatureID.OfficialConduitEgg, new OfficialConduitEggFeature());
         _features.Add(FeatureID.MoonlitFayeAndMakenBaconEgg, new MoonlitFayeAndMakenBaconEggFeature());
+        _features.Add(FeatureID.RespawnImmunity, new RespawnImmunityFeature());
     }
 
     private void RememberViewer(string viewer)
