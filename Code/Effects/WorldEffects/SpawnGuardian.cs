@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
@@ -294,7 +295,7 @@ public sealed class SpawnGuardian : CrowdControlEffect
 
                 return false;
             }
-            
+
             // Reduce the time left timer
             _timeLeft--;
             if (_timeLeft != 0)
@@ -387,7 +388,48 @@ public sealed class SpawnGuardian : CrowdControlEffect
             var pos = Main.LocalPlayer.position + Main.LocalPlayer.DirectionTo(NPC.position) * 16f * 20f;
             SoundEngine.PlaySound(SoundID.Roar with {SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest}, pos);
         }
-        
+
+        #endregion
+    }
+
+    // ReSharper disable once UnusedType.Local
+    private sealed class GuardianEternityFix : ModSystem
+    {
+        #region Static Methods
+
+        private static int NewProjectile(On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float orig, IEntitySource spawnSource, float x, float y, float speedX, float speedY, int type, int damage, float knockback, int owner, float ai0, float ai1, float ai2)
+        {
+            // Default spawning behaviour
+            var proj = Main.projectile[orig.Invoke(spawnSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2)];
+
+            // Prevent the fake dungeon guardian from spawning any projectiles
+            // Some mods change the vanilla dungeon guardian to shoot hostile (instant-kill) projectiles
+            // See: https://terrariamods.wiki.gg/wiki/Fargo%27s_Mod/Dungeon_Guardian_%28Eternity_Mode%29
+            // See: https://calamitymod.wiki.gg/wiki/Revengeance_Mode
+            if (spawnSource is EntitySource_Parent {Entity: NPC {ModNPC: CrowdControlGuardian {IsFake: true}}})
+            {
+                // Kill the projectile (this will automatically let the clients know if on a server)
+                proj.Kill();
+            }
+
+            // Make sure to return the projectile's index
+            return proj.whoAmI;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override void Load()
+        {
+            On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += NewProjectile;
+        }
+
+        public override void Unload()
+        {
+            On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float -= NewProjectile;
+        }
+
         #endregion
     }
 
