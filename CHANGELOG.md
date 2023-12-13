@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.11] - 2023-12-13
+
 - Changed "Do-or-die" effect to no longer include "Sleep" challenge.
 - Changed "Enable Spawn Protection" option to also increase respawn immunity time if spawn is deemed too dangerous.
 - Fixed "Craft Item" challenge only choosing Campfire.
