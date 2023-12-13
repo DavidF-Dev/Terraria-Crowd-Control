@@ -58,7 +58,6 @@ public sealed class CraftItemChallenge : ChallengeEffect
             PreEyeTiles, PreSkeletronTiles, PreWallTiles, PreMechTiles,
             PreGolemTiles, PreLunarTiles, PreMoonLordTiles, PostGameTiles
         ).SelectMany(x => x).Distinct().ToList()));
-        _chosenItem = new Item(ItemID.Campfire);
         
         CrowdControlItem.OnCraftedHook += OnCrafted;
         return CrowdControlResponseStatus.Success;
