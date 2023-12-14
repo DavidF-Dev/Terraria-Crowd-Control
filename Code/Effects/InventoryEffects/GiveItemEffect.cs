@@ -22,6 +22,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
     {
         Pickaxe,
         Sword,
+        Yoyo,
         Magic,
         Summon,
         Ranged,
@@ -62,6 +63,19 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {ProgressionUtils.Progression.PreLunar, new[] {ItemID.Seedler, ItemID.DD2SquireBetsySword, ItemID.TerraBlade, ItemID.InfluxWaver}},
                 {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.DD2SquireBetsySword}},
                 {ProgressionUtils.Progression.PostGame, new[] {ItemID.StarWrath, ItemID.Meowmere}}
+            }
+        },
+        {
+            GiveItem.Yoyo, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, new[] {ItemID.WoodYoyo, ItemID.Rally, ItemID.CorruptYoyo, ItemID.CrimsonYoyo, ItemID.JungleYoyo}},
+                {ProgressionUtils.Progression.PreSkeletron, new[] {ItemID.CorruptYoyo, ItemID.CrimsonYoyo, ItemID.JungleYoyo, ItemID.Code1, ItemID.HiveFive}},
+                {ProgressionUtils.Progression.PreWall, new[] {ItemID.Code1, ItemID.HiveFive, ItemID.Cascade, ItemID.Valor}},
+                {ProgressionUtils.Progression.PreMech, new[] {ItemID.Chik, ItemID.FormatC, ItemID.HelFire, ItemID.Amarok}},
+                {ProgressionUtils.Progression.PreGolem, new[] {ItemID.HelFire, ItemID.Amarok, ItemID.Gradient, ItemID.Code2, ItemID.Yelets, ItemID.ValkyrieYoyo, ItemID.RedsYoyo}},
+                {ProgressionUtils.Progression.PreLunar, new[] {ItemID.Gradient, ItemID.Code2, ItemID.Yelets, ItemID.ValkyrieYoyo, ItemID.RedsYoyo, ItemID.Kraken, ItemID.TheEyeOfCthulhu}},
+                {ProgressionUtils.Progression.PreMoonLord, new[] {ItemID.ValkyrieYoyo, ItemID.RedsYoyo, ItemID.Kraken, ItemID.TheEyeOfCthulhu, ItemID.Terrarian}},
+                {ProgressionUtils.Progression.PostGame, new[] {ItemID.TheEyeOfCthulhu, ItemID.Terrarian}}
             }
         },
         {
@@ -263,9 +277,9 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {
                     ProgressionUtils.Progression.PreSkeletron, new[]
                     {
-                        "AirSpinner", "Basher", "Bonebreaker", "CausticEdge", "GoldplumeSpear",
+                        "Basher", "Bonebreaker", "CausticEdge", "GoldplumeSpear",
                         "PerfectDark", "RedtideSpear", "SeashineSword", "TeardropCleaver", "VeinBurster",
-                        "WindBlade", "TheGodsGambit", "Riptide", "SausageMaker", "UrchinFlail", "MonstrousKnives"
+                        "WindBlade", "SausageMaker", "UrchinFlail", "MonstrousKnives"
                     }
                 },
                 {ProgressionUtils.Progression.PreWall, new[] {"BloodyEdge", "GaussDagger", "GeliticBlade", "OldLordOathsword"}},
@@ -280,7 +294,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {
                     ProgressionUtils.Progression.PreGolem, new[]
                     {
-                        "AbyssBlade", "AnarchyBlade", "Aorta", "Avalanche", "TrueBiomeBlade", "Brimlance",
+                        "AbyssBlade", "AnarchyBlade", "Avalanche", "TrueBiomeBlade", "Brimlance",
                         "Brimlash", "BrimstoneSword", "CatastropheClaymore", "CometQuasher", "DarklightGreatsword",
                         "DepthCrusher", "FeralthornClaymore", "Floodtide", "ForbiddenOathblade", "GalvanizingGlaive",
                         "Greentide", "InfernaCutter", "MantisClaws", "Tumbleweed"
@@ -289,7 +303,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {
                     ProgressionUtils.Progression.PreLunar, new[]
                     {
-                        "AegisBlade", "BrinyBaron", "DiseasedPike", "FaultLine", "TrueTyrantYharimsUltisword",
+                        "AegisBlade", "BrinyBaron", "DiseasedPike", "TrueTyrantYharimsUltisword",
                         "SoulHarvester", "TrueBloodyEdge", "TrueForbiddenOathblade", "UltimusCleaver"
                     }
                 },
@@ -303,12 +317,65 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {
                     ProgressionUtils.Progression.PostGame, new[]
                     {
-                        "ArkoftheCosmos", "ArkoftheElements", "Ataraxia", "Azathoth", "BansheeHook",
+                        "ArkoftheCosmos", "ArkoftheElements", "Ataraxia", "BansheeHook",
                         "CosmicDischarge", "CosmicShiv", "CrescentMoon", "Devastation", "DevilsDevastation",
                         "DevilsSunrise", "DraconicDestruction", "Earth", "ElementalExcalibur", "ElementalLance",
                         "ElementalShiv", "EmpyreanKnives", "EntropicClaymore", "EssenceFlayer", "Excelsus",
                         "Exoblade", "GaelsGreatsword", "GalactusBlade", "GalileoGladius", "GrandGuardian",
                         "GreatswordofBlah", "GreatswordofJudgement", "Grax"
+                    }
+                }
+            }
+        },
+        {
+            GiveItem.Yoyo, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<string>>
+            {
+                {
+                    ProgressionUtils.Progression.PreEye, new[]
+                    {
+                        "Riptide", "SmokingComet"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreSkeletron, new[]
+                    {
+                        "AirSpinner", "Aorta"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreWall, new[]
+                    {
+                        "TheGodsGambit"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreMech, new[]
+                    {
+                        "Shimmerspark", "SulphurousGrabber", "YinYo"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreGolem, new[]
+                    {
+                        "Oblivion", "Quagmire"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreLunar, new[]
+                    {
+                        "FaultLine", "Pandemic", "TheMicrowave"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PreMoonLord, new[]
+                    {
+                        "FaultLine", "Pandemic", "TheMicrowave"
+                    }
+                },
+                {
+                    ProgressionUtils.Progression.PostGame, new[]
+                    {
+                        "Azathoth", "Lacerator", "SolarFlare", "TheObliterator", "Oracle"
                     }
                 }
             }
@@ -340,6 +407,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             GiveItem.Pickaxe => EffectID.GivePickaxe,
             GiveItem.Sword => EffectID.GiveSword,
+            GiveItem.Yoyo => EffectID.GiveYoyo,
             GiveItem.Magic => EffectID.GiveMagicWeapon,
             GiveItem.Summon => EffectID.GiveSummonWeapon,
             GiveItem.Ranged => EffectID.GiveRangedWeapon,
@@ -359,6 +427,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Pickaxe => EffectSeverity.Positive,
             GiveItem.Sword => EffectSeverity.Positive,
             GiveItem.Magic => EffectSeverity.Positive,
+            GiveItem.Yoyo => EffectSeverity.Positive,
             GiveItem.Summon => EffectSeverity.Positive,
             GiveItem.Ranged => EffectSeverity.Positive,
             GiveItem.Armour => EffectSeverity.Positive,
@@ -452,7 +521,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         {
             availableOptions.AddRange(vanillaItems);
         }
-        
+
         // Try to add calamity items
         if (ModUtils.TryGetMod(ModUtils.Calamity.Name, out var calamity) &&
             CalamityItems.TryGetValue(_giveItem, out var calamityItemsByProgression) &&

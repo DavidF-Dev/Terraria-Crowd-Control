@@ -941,6 +941,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new MoneyBoostEffect(60));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Pickaxe));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Sword));
+        AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Yoyo));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Magic));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Summon));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Ranged));

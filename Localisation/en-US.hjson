@@ -80,6 +80,7 @@ Mods: {
 				boost_money: "[Viewer] donated {0} to [Player] and increased coins drops from enemies for [Duration] seconds"
 				give_pickaxe: "[Viewer] gave [Player] a {0}"
 				give_sword: "[Viewer] gave [Player] a {0}"
+				give_yoyo: "[Viewer] gave [Player] a {0}"
 				give_magic_weapon: "[Viewer] gave [Player] a {0}"
 				give_summon_weapon: "[Viewer] gave [Player] a {0}"
 				give_ranged_weapon: "[Viewer] gave [Player] a {0}"

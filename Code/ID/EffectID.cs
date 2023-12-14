@@ -63,6 +63,7 @@ public static class EffectID
     public const string MoneyBoost = "boost_money";
     public const string GivePickaxe = "give_pickaxe";
     public const string GiveSword = "give_sword";
+    public const string GiveYoyo = "give_yoyo";
     public const string GiveMagicWeapon = "give_magic_weapon";
     public const string GiveSummonWeapon = "give_summon_weapon";
     public const string GiveRangedWeapon = "give_ranged_weapon";

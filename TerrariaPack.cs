@@ -118,6 +118,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Boost coin drops", "boost_money") {Category = InventoryFolder, Price = 10, Duration = 60, Description = "Temporarily increase the coin-drops from enemies"},
                 new Effect("Give pickaxe", "give_pickaxe") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random pickaxe based on their world progression"},
                 new Effect("Give sword", "give_sword") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random sword based on their world progression"},
+                new Effect("Give yoyo", "give_yoyo") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random yoyo based on their world progression"},
                 new Effect("Give magic weapon", "give_magic_weapon") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random magic weapon based on their world progression"},
                 new Effect("Give summon weapon", "give_summon_weapon") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random summon weapon based on their world progression"},
                 new Effect("Give ranged weapon", "give_ranged_weapon") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random ranged weapon based on their world progression"},
