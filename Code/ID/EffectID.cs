@@ -68,6 +68,7 @@ public static class EffectID
     public const string GiveSummonWeapon = "give_summon_weapon";
     public const string GiveRangedWeapon = "give_ranged_weapon";
     public const string GiveArmour = "give_armour";
+    public const string GiveAccessory = "give_accessory";
     public const string GiveHealingPotion = "give_healing_potion";
     public const string GivePotion = "give_potion";
     public const string GiveFood = "give_food";

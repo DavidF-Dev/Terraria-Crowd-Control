@@ -123,6 +123,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give summon weapon", "give_summon_weapon") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random summon weapon based on their world progression"},
                 new Effect("Give ranged weapon", "give_ranged_weapon") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random ranged weapon based on their world progression"},
                 new Effect("Give armour", "give_armour") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random armour piece based on their world progression"},
+                new Effect("Give accessory", "give_accessory") {Category = InventoryFolder, Price = 25, Description = "Provide the streamer with a random accessory based on their world progression"},
                 new Effect("Give healing potion", "give_healing_potion") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a random healing potion based on their world progression"},
                 new Effect("Give random potion", "give_potion") {Category = InventoryFolder, Price = 10, Description = "Provide the streamer with a random potion"},
                 new Effect("Give food", "give_food") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a random food item"},

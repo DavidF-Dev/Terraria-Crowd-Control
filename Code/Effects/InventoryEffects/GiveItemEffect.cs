@@ -27,6 +27,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         Summon,
         Ranged,
         Armour,
+        Accessory,
         HealingPotion,
         Potion,
         Kite,
@@ -36,6 +37,44 @@ public sealed class GiveItemEffect : CrowdControlEffect
     #endregion
 
     #region Static Fields and Constants
+
+    private static readonly IReadOnlyList<short> AccessoriesEarlyGame = new[]
+    {
+        ItemID.Aglet, ItemID.AmphibianBoots, ItemID.AnkletoftheWind, ItemID.BalloonPufferfish, ItemID.ShinyRedBalloon,
+        ItemID.CloudinaBottle, ItemID.BlizzardinaBottle, ItemID.FartinaJar, ItemID.SandstorminaBottle, ItemID.ClimbingClaws,
+        ItemID.SandBoots, ItemID.Flipper, ItemID.FlurryBoots, ItemID.FlyingCarpet, ItemID.FrogLeg, ItemID.HermesBoots,
+        ItemID.IceSkates, ItemID.FloatingTube, ItemID.LuckyHorseshoe, ItemID.Magiluminescence, ItemID.RocketBoots, ItemID.SailfishBoots,
+        ItemID.ShoeSpikes, ItemID.PortableStool, ItemID.TsunamiInABottle, ItemID.WaterWalkingBoots,
+        ItemID.GoldWatch, ItemID.PlatinumWatch, ItemID.DepthMeter, ItemID.Compass, ItemID.Radar,
+        ItemID.LifeformAnalyzer, ItemID.TallyCounter, ItemID.MetalDetector, ItemID.Stopwatch, ItemID.DPSMeter,
+        ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.MechanicalLens, ItemID.Ruler,
+        ItemID.BandofRegeneration, ItemID.BandofStarpower, ItemID.NaturesGift, ItemID.PhilosophersStone,
+        ItemID.ArmorPolish, ItemID.Bezoar, ItemID.CobaltShield, ItemID.FeralClaws, ItemID.HandWarmer, ItemID.HoneyComb, ItemID.MagmaStone,
+        ItemID.ObsidianRose, ItemID.ObsidianSkull, ItemID.PanicNecklace, ItemID.Shackle, ItemID.PygmyNecklace,
+        ItemID.Toolbelt, ItemID.Toolbox, ItemID.PaintSprayer, ItemID.ExtendoGrip, ItemID.PortableCementMixer, ItemID.BrickLayer,
+        ItemID.ActuationAccessory, ItemID.AncientChisel, ItemID.HighTestFishingLine, ItemID.AnglerEarring, ItemID.TackleBox, ItemID.LavaFishingHook,
+        ItemID.WhiteString, ItemID.RainbowString, ItemID.BlackCounterweight, ItemID.RedCounterweight,
+        ItemID.YoYoGlove, ItemID.ClothierVoodooDoll, ItemID.FlowerBoots, ItemID.CordageGuide, ItemID.GuideVoodooDoll, ItemID.JellyfishNecklace,
+        ItemID.WeatherRadio, ItemID.TreasureMagnet, ItemID.RoyalGel, ItemID.EoCShield, ItemID.WormScarf, ItemID.BrainOfConfusion,
+        ItemID.HiveBackpack, ItemID.BoneGlove, ItemID.BoneHelm
+    };
+
+    private static readonly IReadOnlyList<short> AccessoriesMidGame = new[]
+    {
+        ItemID.MoonCharm, ItemID.NeptunesShell, ItemID.Tabi,
+        ItemID.PhilosophersStone, ItemID.AdhesiveBandage, ItemID.ArmorPolish, ItemID.BlackBelt, ItemID.Blindfold,
+        ItemID.CrossNecklace, ItemID.EyeoftheGolem, ItemID.FastClock, ItemID.FleshKnuckles, ItemID.FrozenTurtleShell,
+        ItemID.MagicQuiver, ItemID.Megaphone, ItemID.MoonStone, ItemID.Nazar, ItemID.PaladinsShield, ItemID.PocketMirror,
+        ItemID.PutridScent, ItemID.RangerEmblem, ItemID.RifleScope, ItemID.SorcererEmblem, ItemID.SummonerEmblem, ItemID.WarriorEmblem,
+        ItemID.StarCloak, ItemID.SunStone, ItemID.TitanGlove, ItemID.TrifoldMap, ItemID.Vitamins,
+        ItemID.ApprenticeScarf, ItemID.SquireShield, ItemID.HuntressBuckler, ItemID.MonkBelt, ItemID.HerculesBeetle, ItemID.NecromanticScroll,
+        ItemID.DiscountCard, ItemID.LuckyCoin, ItemID.SpectreGoggles, ItemID.VolatileGelatin
+    };
+
+    private static readonly IReadOnlyList<short> AccessoriesLateGame = new[]
+    {
+        ItemID.SporeSac, ItemID.ShinyStone, ItemID.EmpressFlightBooster, ItemID.GravityGlobe, ItemID.ShimmerCloak
+    };
 
     private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> VanillaItems = new()
     {
@@ -190,6 +229,19 @@ public sealed class GiveItemEffect : CrowdControlEffect
                         ItemID.NebulaHelmet, ItemID.NebulaBreastplate, ItemID.NebulaLeggings, ItemID.StardustHelmet, ItemID.StardustBreastplate, ItemID.StardustLeggings
                     }
                 }
+            }
+        },
+        {
+            GiveItem.Accessory, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, AccessoriesEarlyGame},
+                {ProgressionUtils.Progression.PreSkeletron, AccessoriesEarlyGame},
+                {ProgressionUtils.Progression.PreWall, AccessoriesEarlyGame},
+                {ProgressionUtils.Progression.PreMech, AccessoriesEarlyGame.Concat(AccessoriesMidGame).ToList()},
+                {ProgressionUtils.Progression.PreGolem, AccessoriesEarlyGame.Concat(AccessoriesMidGame).ToList()},
+                {ProgressionUtils.Progression.PreLunar, AccessoriesEarlyGame.Concat(AccessoriesMidGame).ToList()},
+                {ProgressionUtils.Progression.PreMoonLord, AccessoriesMidGame.Concat(AccessoriesLateGame).ToList()},
+                {ProgressionUtils.Progression.PostGame, AccessoriesMidGame.Concat(AccessoriesLateGame).ToList()}
             }
         },
         {
@@ -412,6 +464,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Summon => EffectID.GiveSummonWeapon,
             GiveItem.Ranged => EffectID.GiveRangedWeapon,
             GiveItem.Armour => EffectID.GiveArmour,
+            GiveItem.Accessory => EffectID.GiveAccessory,
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
             GiveItem.Kite => EffectID.GiveKite,
@@ -431,6 +484,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Summon => EffectSeverity.Positive,
             GiveItem.Ranged => EffectSeverity.Positive,
             GiveItem.Armour => EffectSeverity.Positive,
+            GiveItem.Accessory => EffectSeverity.Positive,
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
             GiveItem.Kite => EffectSeverity.Neutral,
