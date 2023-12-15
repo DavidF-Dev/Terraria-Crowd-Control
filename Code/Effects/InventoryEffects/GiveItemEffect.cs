@@ -28,6 +28,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         Ranged,
         Armour,
         Accessory,
+        Vanity,
         HealingPotion,
         Potion,
         Kite,
@@ -74,6 +75,92 @@ public sealed class GiveItemEffect : CrowdControlEffect
     private static readonly IReadOnlyList<short> AccessoriesLateGame = new[]
     {
         ItemID.SporeSac, ItemID.ShinyStone, ItemID.EmpressFlightBooster, ItemID.GravityGlobe, ItemID.ShimmerCloak
+    };
+
+    private static readonly IReadOnlyList<short> VanityAllGame = new[]
+    {
+        // Accessories
+        ItemID.JungleRose, ItemID.WinterCape, ItemID.MysteriousCape, ItemID.RedCape, ItemID.PrinceCape, ItemID.CrimsonCloak,
+        ItemID.DiamondRing, ItemID.AngelHalo, ItemID.GingerBeard, ItemID.Yoraiz0rDarkness, ItemID.LeinforsAccessory,
+        ItemID.PartyBalloonAnimal, ItemID.PartyBundleOfBalloonsAccessory, ItemID.FlameWakerBoots, ItemID.CritterShampoo,
+        ItemID.BunnyTail, ItemID.FoxTail, ItemID.DogTail, ItemID.LizardTail, ItemID.UnicornHornHat, ItemID.HunterCloak,
+        ItemID.RoyalScepter, ItemID.GlassSlipper, ItemID.RainbowCursor,
+
+        // Pieces
+        ItemID.AviatorSunglasses, ItemID.BadgersHat, ItemID.BallaHat, ItemID.Beanie, ItemID.BunnyHood, ItemID.CatEars,
+        ItemID.DeadMansSweater, ItemID.DeadMansSweater, ItemID.DemonHorns, ItemID.DevilHorns, ItemID.DizzyHat,
+        ItemID.EngineeringHelmet, ItemID.EyePatch, ItemID.Eyebrella, ItemID.Fedora, ItemID.Fez, ItemID.GangstaHat, ItemID.GarlandHat,
+        ItemID.GiantBow, ItemID.GoblorcEar, ItemID.GoldCrown, ItemID.GuyFawkesMask, ItemID.HeartHairpin, ItemID.HiTekSunglasses,
+        ItemID.JackOLanternMask, ItemID.JimsCap, ItemID.Kimono, ItemID.MimeMask, ItemID.MoonMask, ItemID.MushroomCap, ItemID.OgreMask,
+        ItemID.PandaEars, ItemID.PartyHat, ItemID.PeddlersHat, ItemID.PlatinumCrown, ItemID.RabbitOrder, ItemID.ReindeerAntlers,
+        ItemID.Robe, ItemID.RobotHat, ItemID.RockGolemHead, ItemID.SWATHelmet, ItemID.Skull, ItemID.SnowHat, ItemID.StarHairpin,
+        ItemID.SteampunkGoggles, ItemID.SummerHat, ItemID.SunMask, ItemID.Sunglasses, ItemID.TamOShanter, ItemID.UglySweater,
+        ItemID.UmbrellaHat, ItemID.VulkelfEar, ItemID.WizardHat, ItemID.BuccaneerBandana,
+
+        // Halloween sets
+        ItemID.BrideofFrankensteinMask, ItemID.BrideofFrankensteinDress, ItemID.CatMask, ItemID.CatShirt, ItemID.CatPants,
+        ItemID.RedHat, ItemID.ClothierJacket, ItemID.ClothierPants, ItemID.CreeperMask, ItemID.CreeperShirt, ItemID.CreeperPants,
+        ItemID.CyborgHelmet, ItemID.CyborgShirt, ItemID.CyborgPants, ItemID.DryadCoverings, ItemID.DryadLoincloth,
+        ItemID.DyeTraderTurban, ItemID.DyeTraderRobe, ItemID.FoxMask, ItemID.FoxShirt, ItemID.FoxPants, ItemID.GhostMask, ItemID.GhostShirt, ItemID.GhostarPants,
+        ItemID.KarateTortoiseMask, ItemID.KarateTortoiseShirt, ItemID.KarateTortoisePants, ItemID.LeprechaunHat, ItemID.LeprechaunShirt, ItemID.LeprechaunPants,
+        ItemID.NurseHat, ItemID.NurseShirt, ItemID.NursePants, ItemID.PixieShirt, ItemID.PixiePants,
+        ItemID.PrincessHat, ItemID.PrincessDress, ItemID.PumpkinMask, ItemID.PumpkinShirt, ItemID.PumpkinPants,
+        ItemID.ReaperHood, ItemID.ReaperRobe, ItemID.RobotMask, ItemID.RobotShirt, ItemID.RobotPants,
+        ItemID.SpaceCreatureMask, ItemID.SpaceCreatureShirt, ItemID.SpaceCreaturePants, ItemID.TreasureHunterShirt, ItemID.TreasureHunterPants,
+        ItemID.UnicornMask, ItemID.UnicornShirt, ItemID.UnicornPants, ItemID.VampireMask, ItemID.VampireShirt, ItemID.VampirePants,
+        ItemID.WitchHat, ItemID.WitchDress, ItemID.WitchBoots, ItemID.WolfMask, ItemID.WolfShirt, ItemID.WolfPants,
+
+        // Christmas sets
+        ItemID.MrsClauseHat, ItemID.MrsClauseShirt, ItemID.MrsClauseHeels, ItemID.ParkaHood, ItemID.ParkaCoat, ItemID.ParkaPants,
+        ItemID.SantaHat, ItemID.SantaShirt, ItemID.SantaPants, ItemID.TreeMask, ItemID.TreeShirt, ItemID.TreeTrunks,
+
+        // Vanity sets
+        ItemID.AncientArmorHat, ItemID.AncientArmorShirt, ItemID.AncientArmorPants, ItemID.ArchaeologistsHat, ItemID.ArchaeologistsJacket, ItemID.ArchaeologistsPants,
+        ItemID.BeeHat, ItemID.BeeShirt, ItemID.BeePants, ItemID.GraduationCapBlack, ItemID.GraduationGownBlack, ItemID.GraduationCapBlue, ItemID.GraduationGownBlue,
+        ItemID.GraduationCapMaroon, ItemID.GraduationGownMaroon, ItemID.BuccaneerBandana, ItemID.BuccaneerShirt, ItemID.BuccaneerPants,
+        ItemID.BunnyEars, ItemID.BunnyTail, ItemID.ButcherMask, ItemID.ButcherApron, ItemID.ButcherPants,
+        ItemID.CapricornMask, ItemID.CapricornChestplate, ItemID.CapricornTail, ItemID.ChefHat, ItemID.ChefShirt, ItemID.ChefPants,
+        ItemID.ClownHat, ItemID.ClownShirt, ItemID.ClownPants, ItemID.GolfHat, ItemID.GolfShirt, ItemID.GolfPants,
+        ItemID.CowboyHat, ItemID.CowboyJacket, ItemID.CowboyPants, ItemID.DogEars, ItemID.DogTail, ItemID.DrManFlyMask, ItemID.DrManFlyLabCoat,
+        ItemID.ElfHat, ItemID.ElfShirt, ItemID.ElfPants, ItemID.FallenTuxedoShirt, ItemID.FallenTuxedoPants, ItemID.FamiliarWig, ItemID.FamiliarShirt, ItemID.FamiliarPants,
+        ItemID.WillowShirt, ItemID.WillowSkirt, ItemID.FishCostumeMask, ItemID.FishCostumeShirt, ItemID.FishCostumeFinskirt,
+        ItemID.FloretProtectorHelmet, ItemID.FloretProtectorChestplate, ItemID.FloretProtectorLegs, ItemID.FoxEars, ItemID.FoxTail,
+        ItemID.FuneralHat, ItemID.FuneralCoat, ItemID.FuneralPants, ItemID.WilsonBeardShort, ItemID.WilsonShirt, ItemID.WilsonPants,
+        ItemID.UndertakerHat, ItemID.UndertakerCoat, ItemID.HerosHat, ItemID.HerosShirt, ItemID.HerosPants, ItemID.LamiaHat, ItemID.LamiaShirt, ItemID.LamiaPants,
+        ItemID.LizardEars, ItemID.LizardTail, ItemID.WhiteLunaticHood, ItemID.WhiteLunaticRobe, ItemID.BlueLunaticHood, ItemID.BlueLunaticRobe,
+        ItemID.MaidHead, ItemID.MaidShirt, ItemID.MaidPants, ItemID.MartianCostumeMask, ItemID.MartianCostumeShirt, ItemID.MartianCostumePants,
+        ItemID.MartianUniformHelmet, ItemID.MartianUniformTorso, ItemID.MartianUniformPants, ItemID.GameMasterShirt, ItemID.GameMasterPants,
+        ItemID.SeashellHairpin, ItemID.MermaidAdornment, ItemID.MermaidTail, ItemID.MummyMask, ItemID.MummyShirt, ItemID.MummyPants,
+        ItemID.MushroomCap, ItemID.MushroomVest, ItemID.MushroomPants,
+        ItemID.PedguinHat, ItemID.PedguinShirt, ItemID.PedguinPants, ItemID.PharaohsMask, ItemID.PharaohsRobe, ItemID.MaidHead2, ItemID.MaidShirt2, ItemID.MaidPants2,
+        ItemID.PirateHat, ItemID.PirateShirt, ItemID.PiratePants, ItemID.PlaguebringerHelmet, ItemID.PlaguebringerChestplate, ItemID.PlaguebringerGreaves,
+        ItemID.PlumbersHat, ItemID.PlumbersShirt, ItemID.PlumbersPants, ItemID.PrettyPinkRibbon, ItemID.PrettyPinkDressSkirt, ItemID.PrettyPinkDressPants,
+        ItemID.PrinceUniform, ItemID.PrincePants, ItemID.Tiara, ItemID.PrincessDress, ItemID.LincolnsHood, ItemID.LincolnsHoodie, ItemID.LincolnsPants,
+        ItemID.RoyalTiara, ItemID.RoyalDressTop, ItemID.RoyalDressBottom, ItemID.RuneHat, ItemID.RuneRobe, ItemID.SailorHat, ItemID.SailorShirt, ItemID.SailorPants,
+        ItemID.ScarecrowHat, ItemID.ScarecrowShirt, ItemID.ScarecrowPants, ItemID.FlowerBoyHat, ItemID.FlowerBoyShirt, ItemID.FlowerBoyPants,
+        ItemID.StarPrincessCrown, ItemID.StarPrincessDress, ItemID.SteampunkHat, ItemID.SteampunkShirt, ItemID.SteampunkPants,
+        ItemID.SuperHeroMask, ItemID.SuperHeroCostume, ItemID.SuperHeroTights, ItemID.TaxCollectorHat, ItemID.TaxCollectorSuit, ItemID.TaxCollectorPants,
+        ItemID.VictorianGothHat, ItemID.VictorianGothDress, ItemID.RoninHat, ItemID.RoninShirt, ItemID.RoninPants,
+        ItemID.TheDoctorsShirt, ItemID.TheDoctorsPants, ItemID.TimelessTravelerHood, ItemID.TimelessTravelerRobe, ItemID.TimelessTravelerBottom,
+        ItemID.TopHat, ItemID.TuxedoShirt, ItemID.TuxedoPants, ItemID.TVHeadMask, ItemID.TVHeadSuit, ItemID.TVHeadPants,
+        ItemID.TheBrideHat, ItemID.TheBrideDress, ItemID.WhiteTuxedoShirt, ItemID.WhiteTuxedoPants,
+
+        // Boss masks
+        ItemID.BrainMask, ItemID.DeerclopsMask, ItemID.DestroyerMask, ItemID.DukeFishronMask, ItemID.BossMaskBetsy, ItemID.BossMaskBetsy,
+        ItemID.EaterMask, ItemID.FairyQueenMask, ItemID.EyeMask, ItemID.GolemMask, ItemID.KingSlimeMask, ItemID.BossMaskCultist, ItemID.BossMaskMoonlord,
+        ItemID.BossMaskOgre, ItemID.PlanteraMask, ItemID.BeeMask, ItemID.QueenSlimeMask, ItemID.SkeletronMask, ItemID.SkeletronPrimeMask,
+        ItemID.TwinMask, ItemID.FleshMask,
+
+        // Dev sets
+        ItemID.AaronsHelmet, ItemID.AaronsBreastplate, ItemID.AaronsLeggings, ItemID.ArkhalisHat, ItemID.ArkhalisShirt, ItemID.ArkhalisPants,
+        ItemID.CenxsTiara, ItemID.CenxsDress, ItemID.CenxsDressPants, ItemID.CenxsBreastplate, ItemID.CenxsLeggings,
+        ItemID.CrownosMask, ItemID.CrownosBreastplate, ItemID.CrownosLeggings, ItemID.DTownsHelmet, ItemID.DTownsBreastplate, ItemID.DTownsLeggings,
+        ItemID.FoodBarbarianHelm, ItemID.FoodBarbarianArmor, ItemID.FoodBarbarianGreaves, ItemID.GhostarSkullPin, ItemID.GhostarShirt, ItemID.GhostarPants,
+        ItemID.GroxTheGreatHelm, ItemID.GroxTheGreatArmor, ItemID.GroxTheGreatGreaves, ItemID.JimsHelmet, ItemID.JimsBreastplate, ItemID.JimsLeggings,
+        ItemID.BejeweledValkyrieHead, ItemID.BejeweledValkyrieBody, ItemID.LeinforsHat, ItemID.LeinforsShirt, ItemID.LeinforsPants,
+        ItemID.LokisHelm, ItemID.LokisShirt, ItemID.LokisPants, ItemID.RedsHelmet, ItemID.RedsBreastplate, ItemID.RedsLeggings,
+        ItemID.SafemanSunHair, ItemID.SafemanSunDress, ItemID.SafemanDressLeggings, ItemID.SkiphsHelm, ItemID.SkiphsShirt, ItemID.SkiphsPants,
+        ItemID.WillsHelmet, ItemID.WillsBreastplate, ItemID.WillsLeggings, ItemID.Yoraiz0rHead, ItemID.Yoraiz0rShirt, ItemID.Yoraiz0rPants
     };
 
     private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> VanillaItems = new()
@@ -242,6 +329,19 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {ProgressionUtils.Progression.PreLunar, AccessoriesEarlyGame.Concat(AccessoriesMidGame).ToList()},
                 {ProgressionUtils.Progression.PreMoonLord, AccessoriesMidGame.Concat(AccessoriesLateGame).ToList()},
                 {ProgressionUtils.Progression.PostGame, AccessoriesMidGame.Concat(AccessoriesLateGame).ToList()}
+            }
+        },
+        {
+            GiveItem.Vanity, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, VanityAllGame},
+                {ProgressionUtils.Progression.PreSkeletron, VanityAllGame},
+                {ProgressionUtils.Progression.PreWall, VanityAllGame},
+                {ProgressionUtils.Progression.PreMech, VanityAllGame},
+                {ProgressionUtils.Progression.PreGolem, VanityAllGame},
+                {ProgressionUtils.Progression.PreLunar, VanityAllGame},
+                {ProgressionUtils.Progression.PreMoonLord, VanityAllGame},
+                {ProgressionUtils.Progression.PostGame, VanityAllGame}
             }
         },
         {
@@ -465,6 +565,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Ranged => EffectID.GiveRangedWeapon,
             GiveItem.Armour => EffectID.GiveArmour,
             GiveItem.Accessory => EffectID.GiveAccessory,
+            GiveItem.Vanity => EffectID.GiveVanity,
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
             GiveItem.Kite => EffectID.GiveKite,
@@ -485,6 +586,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Ranged => EffectSeverity.Positive,
             GiveItem.Armour => EffectSeverity.Positive,
             GiveItem.Accessory => EffectSeverity.Positive,
+            GiveItem.Vanity => EffectSeverity.Neutral,
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
             GiveItem.Kite => EffectSeverity.Neutral,

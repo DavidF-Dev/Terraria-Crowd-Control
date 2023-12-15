@@ -88,6 +88,7 @@ Mods: {
 				give_ranged_weapon: "[Viewer] gave [Player] a {0}"
 				give_armour: "[Viewer] gave [Player] a {0}"
 				give_accessory: "[Viewer] gave [Player] a {0}"
+				give_vanity: "[Viewer] gave [Player] a {0}"
 				give_healing_potion: "[Viewer] gave [Player] a {0}"
 				give_potion: "[Viewer] gave [Player] a {0}"
 				give_food: "[Viewer] gave [Player] a {0} to eat"
