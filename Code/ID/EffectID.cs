@@ -59,6 +59,8 @@ public static class EffectID
     public const string ShuffleInventory = "shuffle_inventory";
     public const string SwitchLoadout = "switch_loadout";
     public const string NoItemPickup = "no_item_pickup";
+    public const string ItemPull = "item_pull";
+    public const string ItemPush = "item_push";
     public const string ReforgeItem = "item_prefix";
     public const string MoneyBoost = "boost_money";
     public const string GivePickaxe = "give_pickaxe";
