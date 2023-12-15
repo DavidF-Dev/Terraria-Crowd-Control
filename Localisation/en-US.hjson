@@ -90,6 +90,7 @@ Mods: {
 				give_potion: "[Viewer] gave [Player] a {0}"
 				give_food: "[Viewer] gave [Player] a {0} to eat"
 				give_kite: "[Viewer] gave [Player] a {0} to fly around"
+				spawn_piggy_bank: "[Viewer] spawned a flying piggy bank for [Player]"
 				# World effects
 				sun_dial: "[Viewer] fast-forward time to the next morning"
 				moon_dial: "[Viewer] fast-forward time to the next dusk"
@@ -190,6 +191,12 @@ Mods: {
 				change_gender: {
 					Boy: boy
 					Girl: girl
+				}
+
+				spawn_piggy_bank: {
+					Spawn: Oink!
+					WaitForMe: Wait for me!
+					OutOfBreath: Out of breath!
 				}
 
 				drop_item.Owl: " and... a talkative owl [i:4395]?"
