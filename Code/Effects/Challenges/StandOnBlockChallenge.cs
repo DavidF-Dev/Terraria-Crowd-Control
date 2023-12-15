@@ -118,7 +118,7 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (_chosen != null && (GetLocalPlayer().Player.IsStandingOn(_chosen.Value.tileId) || CheckWood() || CheckCloud()))
+        if (_chosen != null && (GetLocalPlayer().Player.IsStandingOn(_chosen.Value.tileId) || CheckWood() || CheckCloud() || CheckCampfire()))
         {
             SetChallengeCompleted();
         }
@@ -138,6 +138,11 @@ public sealed class StandOnBlockChallenge : ChallengeEffect
     private bool CheckCloud()
     {
         return _chosen!.Value.itemId == ItemID.Cloud && (GetLocalPlayer().Player.IsStandingOn(TileID.RainCloud) || GetLocalPlayer().Player.IsStandingOn(TileID.SnowCloud));
+    }
+
+    private bool CheckCampfire()
+    {
+        return _chosen!.Value.itemId == ItemID.Campfire && GetLocalPlayer().Player.IsStandingOn(t => TileID.Sets.Campfire[Main.tile[t.x, t.y].TileType]);
     }
 
     #endregion
