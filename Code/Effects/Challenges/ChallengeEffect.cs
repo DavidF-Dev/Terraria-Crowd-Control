@@ -82,7 +82,19 @@ public abstract class ChallengeEffect : CrowdControlEffect
             // Reward the player (heal and provide coins)
             var player = GetLocalPlayer();
             player.Player.statLife = Math.Max(player.Player.statLife, player.Player.statLifeMax2);
-            player.Player.QuickSpawnItem(null, ItemID.GoldCoin, 5);
+            (int itemType, int stack) reward = Main.rand.NextFromList(
+                (ItemID.GoldCoin, 5),
+                (ItemID.Geode, 3),
+                (ItemID.GoodieBag, 1),
+                (ItemID.Present, 1),
+                (ItemID.HerbBag, 1),
+                (Main.hardMode ? ItemID.GoldenCrateHard : ItemID.GoldenCrate, 1),
+                (ItemID.LifeCrystal, 1),
+                (ItemID.ManaCrystal, 1),
+                (ItemID.LifeFruit, 1),
+                (ItemID.GoldenDelight, 1)
+            );
+            player.Player.QuickSpawnItem(null, reward.itemType, reward.stack);
             SoundEngine.PlaySound(SoundID.AchievementComplete, player.Player.position);
             player.Player.Emote(EmoteID.EmoteLaugh);
             var index = Projectile.NewProjectile(null, player.Player.position, Vector2.UnitY * Main.rand.NextFloat(3f, 5f) * -1f, ProjectileID.ConfettiGun, 1, 0f, player.Player.whoAmI);
