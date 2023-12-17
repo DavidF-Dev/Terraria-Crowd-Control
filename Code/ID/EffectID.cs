@@ -112,6 +112,7 @@ public static class EffectID
     public const string SwitchSoundtrack = "switch_soundtrack";
     public const string ShuffleSfx = "shuffle_sfx";
     public const string MysteryBlocks = "mystery_blocks";
+    public const string HotFloor = "hot_floor";
 
     // --- Boss effects
     public const string RandomBoss = "random_boss";

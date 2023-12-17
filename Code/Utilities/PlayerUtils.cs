@@ -68,9 +68,9 @@ public static class PlayerUtils
     ///     Check if the player is currently grounded.
     /// </summary>
     [Pure]
-    public static bool IsGrounded(this Player player)
+    public static bool IsGrounded(this Player player, bool acceptTopSurface = true)
     {
-        return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 32, 8, true);
+        return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 32, 8, acceptTopSurface);
     }
 
     /// <summary>

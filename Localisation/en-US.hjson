@@ -131,6 +131,7 @@ Mods: {
 				switch_soundtrack: "[Viewer] started playing the {0} soundtrack"
 				shuffle_sfx: "[Viewer] shuffled sound effects for [Duration] seconds"
 				mystery_blocks: "[Viewer] hid the identity of blocks for [Duration] seconds"
+				hot_floor: "[Viewer] heated up the ground for [Duration] seconds"
 				# Boss effects
 				random_boss: "[Viewer] summoned {0} on [Player]"
 				# Screen effects

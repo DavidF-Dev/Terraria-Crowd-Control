@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Spawn Flying Piggy Bank" effect (disabled).
 - Added "Item Attractor" effect (disabled).
 - Added "Item Repeller" effect (disabled).
+- Added "Floor Is Lava" effect (disabled).
 - Changed "Do-or-die" effect to have many possible rewards.
 
 ## [2.0.11] - 2023-12-13

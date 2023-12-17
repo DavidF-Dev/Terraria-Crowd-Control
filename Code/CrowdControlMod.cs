@@ -990,6 +990,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new SwitchSoundtrack());
         AddEffect(new ShuffleSfxEffect(45));
         AddEffect(new MysteryBlocksEffect(30));
+        AddEffect(new FloorIsLavaEffect(25));
 
         // --- Boss effects
         AddEffect(new SpawnRandomBossEffect());
