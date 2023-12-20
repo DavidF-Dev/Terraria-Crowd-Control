@@ -70,7 +70,7 @@ public static class PlayerUtils
     [Pure]
     public static bool IsGrounded(this Player player, bool acceptTopSurface = true)
     {
-        return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 32, 8, acceptTopSurface);
+        return player.velocity.Y >= 0f && Collision.SolidCollision(player.BottomLeft, 16, 2, acceptTopSurface);
     }
 
     /// <summary>
