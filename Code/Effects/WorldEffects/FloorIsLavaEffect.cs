@@ -221,9 +221,6 @@ public sealed class FloorIsLavaEffect : CrowdControlEffect
                     }
                 }
 
-                Player.controlJump = false;
-                Player.RemoveAllGrapplingHooks();
-
                 // Bouncy on land with a diminishing strength
                 if (Player.IsGrounded() && Player.velocity.Y > 0)
                 {
@@ -248,10 +245,6 @@ public sealed class FloorIsLavaEffect : CrowdControlEffect
                 return;
             }
 
-            // A lil' bit of darkness!
-            Player.buffImmune[BuffID.Darkness] = false;
-            Player.AddBuff(BuffID.Darkness, 2);
-
             // Cause the player to bounce off of lava
             // Use vanilla lava collision so it is exact
             if (!Player.shimmering && Collision.LavaCollision(Player.position, Player.width, Player.waterWalk ? Player.height - 6 : Player.height))
@@ -275,6 +268,15 @@ public sealed class FloorIsLavaEffect : CrowdControlEffect
                 var wasBouncing = _bounceTime > 0;
                 _bounceTime = BounceDuration;
                 _hotButtTime = HotButtDuration;
+
+                if (Player.whoAmI == Main.myPlayer)
+                {
+                    Player.SetNoControl(new PlayerUtils.NoControlSetting
+                    {
+                        TimeLeft = _hotButtTime,
+                        AllowHorizontalMovement = true
+                    });
+                }
 
                 // Bounce on the lava (like in Mario 64)
                 Player.position.Y -= Player.oldVelocity.Y;

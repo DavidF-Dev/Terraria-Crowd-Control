@@ -14,7 +14,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const float FlingSpeed = 69f;
+    private const float FlingSpeed = 50f;
 
     #endregion
 
@@ -51,7 +51,7 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
         {
             for (var y = pos.Y; y > pos.Y - checkVerHeight; y -= 16f)
             {
-                if (Collision.IsWorldPointSolid(new Vector2(x, y)))
+                if (Collision.IsWorldPointSolid(new Vector2(x, y), true))
                 {
                     return CrowdControlResponseStatus.Retry;
                 }
@@ -81,7 +81,15 @@ public sealed class FlingUpwardsEffect : CrowdControlEffect
         // Make the player immune to damage and knockback temporarily
         player.Player.immune = true;
         player.Player.immuneNoBlink = true;
-        player.Player.immuneTime = 60;
+        player.Player.immuneTime = 60 * 2;
+
+        // Block player controls temporarily so they cannot cancel the fling prematurely
+        player.Player.SetNoControl(new PlayerUtils.NoControlSetting
+        {
+            TimeLeft = 60 * 2,
+            Predicate = static p => p.velocity.Y < 0,
+            AllowHorizontalMovement = true
+        });
 
         // Fling the player upwards!
         player.Player.velocity.X /= 8f;

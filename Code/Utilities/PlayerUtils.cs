@@ -113,7 +113,7 @@ public static class PlayerUtils
 
         return false;
     }
-    
+
     [Pure]
     public static bool IsStandingIn(this Player player, ushort id)
     {
@@ -347,6 +347,11 @@ public static class PlayerUtils
         PlayerDrawLayerVisiblePropertyInfo.SetValue(layer, true);
     }
 
+    public static void SetNoControl(this Player player, NoControlSetting setting)
+    {
+        player.GetModPlayer<NoControlPlayer>().Activate(setting);
+    }
+
     #endregion
 
     #region Constructors
@@ -354,6 +359,124 @@ public static class PlayerUtils
     static PlayerUtils()
     {
         PlayerDrawLayerVisiblePropertyInfo = typeof(PlayerDrawLayer).GetProperty("Visible", BindingFlags.Instance | BindingFlags.Public);
+    }
+
+    #endregion
+
+    #region Nested Types
+
+    /// <summary>
+    ///     Settings used when blocking player control temporarily.
+    /// </summary>
+    public struct NoControlSetting
+    {
+        #region Fields
+
+        /// <summary>
+        ///     Player control is blocked until this timer reaches 0.
+        /// </summary>
+        public int TimeLeft;
+
+        /// <summary>
+        ///     <see cref="TimeLeft" /> is set to 0 when this predicate returns false.
+        /// </summary>
+        public Predicate<Player>? Predicate;
+
+        /// <summary>
+        ///     Player will be able to move horizontally.
+        /// </summary>
+        public bool AllowHorizontalMovement;
+
+        #endregion
+    }
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class NoControlPlayer : ModPlayer
+    {
+        #region Fields
+
+        private readonly List<NoControlSetting> _active = new();
+        private bool _allowHorizontalMovement;
+
+        #endregion
+
+        #region Methods
+
+        public void Activate(NoControlSetting setting)
+        {
+            if (Player.whoAmI != Main.myPlayer)
+            {
+                // Ignore
+                return;
+            }
+
+            _active.Add(setting);
+            //TerrariaUtils.WriteDebug($"No Control started with duration: {setting.TimeLeft}");
+        }
+
+        public override void PreUpdate()
+        {
+            if (_active.Count == 0 || Player.dead)
+            {
+                // Ignore
+                return;
+            }
+
+            // Update the settings and check if any have expired
+            _allowHorizontalMovement = true;
+            for (var i = 0; i < _active.Count; i++)
+            {
+                var data = _active[i];
+                if (!(data.Predicate?.Invoke(Player) ?? true))
+                {
+                    data.TimeLeft = 0;
+                }
+
+                data.TimeLeft--;
+                if (data.TimeLeft > 0)
+                {
+                    _active[i] = data;
+
+                    // Set flags
+                    _allowHorizontalMovement &= data.AllowHorizontalMovement;
+                }
+                else
+                {
+                    _active.RemoveAt(i);
+                    i--;
+                    //TerrariaUtils.WriteDebug("No Control ended");
+                }
+            }
+        }
+
+        public override void PostUpdateBuffs()
+        {
+            if (_active.Count == 0)
+            {
+                // Ignore
+                return;
+            }
+
+            // Apply the settings, blocking player control
+
+            if (!_allowHorizontalMovement)
+            {
+                Player.controlLeft = false;
+                Player.controlRight = false;
+            }
+
+            Player.controlDown = false;
+            Player.controlDownHold = false;
+            Player.controlJump = false;
+
+            Player.noItems = true;
+            Player.cursed = true;
+            Player.wingTime = 0;
+            Player.ConsumeAllExtraJumps();
+            Player.RemoveAllGrapplingHooks();
+        }
+
+        #endregion
     }
 
     #endregion

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Item Repeller" effect (disabled).
 - Added "Floor Is Lava" effect (disabled).
 - Changed "Do-or-die" effect to have many possible rewards.
+- Changed "Fling Upwards" effect to block player control for a short time.
 
 ## [2.0.11] - 2023-12-13
 
