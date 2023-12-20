@@ -361,7 +361,11 @@ Mods: {
 
 				AllowCalamity: {
 					Label: "[i: 4765]  Calamity mod integration"
-					Tooltip: Disable to stop effects from using Calamity mod content if the Calamity mod is enabled.
+					Tooltip:
+						'''
+						If Calamity mod is enabled, disable this to blacklist its content from effects.
+						For example, to prevent the "Give Sword" effect from spawning a Calamity sword.
+						'''
 				}
 
 				DisableTombstones: {
