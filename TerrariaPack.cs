@@ -131,7 +131,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Give random potion", "give_potion") {Category = InventoryFolder, Price = 10, Description = "Provide the streamer with a random potion"},
                 new Effect("Give food", "give_food") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a random food item"},
                 new Effect("Give random kite", "give_kite") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a random kite"},
-                new Effect("Spawn flying piggy bank", "spawn_piggy_bank") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a flying piggy bank to store their valuables"},
+                new Effect("Spawn flying Piggy Bank", "spawn_piggy_bank") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a flying Piggy Bank to store their valuables"},
+                new Effect("Spawn Void Vault portal", "spawn_void_vault") {Category = InventoryFolder, Price = 5, Description = "Provide the streamer with a Void Vault portal to store their valuables"},
 
                 // --- World effects
                 new Effect("Use a sun dial", "sun_dial") {Category = WorldFolder, Price = 50, Description = "Fast-forward the time to morning"},

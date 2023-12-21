@@ -77,6 +77,7 @@ public static class EffectID
     public const string GiveFood = "give_food";
     public const string GiveKite = "give_kite";
     public const string SpawnPiggyBank = "spawn_piggy_bank";
+    public const string SpawnVoidVault = "spawn_void_vault";
     
     // --- World effects
     public const string UseSunDial = "sun_dial";

@@ -93,7 +93,8 @@ Mods: {
 				give_potion: "[Viewer] gave [Player] a {0}"
 				give_food: "[Viewer] gave [Player] a {0} to eat"
 				give_kite: "[Viewer] gave [Player] a {0} to fly around"
-				spawn_piggy_bank: "[Viewer] spawned a flying piggy bank for [Player]"
+				spawn_piggy_bank: "[Viewer] spawned a flying Piggy Bank for [Player]"
+				spawn_void_vault: "[Viewer] spawned a Void Vault portal for [Player]"
 				# World effects
 				sun_dial: "[Viewer] fast-forward time to the next morning"
 				moon_dial: "[Viewer] fast-forward time to the next dusk"
