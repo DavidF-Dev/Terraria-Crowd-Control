@@ -147,6 +147,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Spawn water trap", "water_trap") {Category = WorldFolder, Price = 40, Description = "Spawn a large pool of water"},
                 new Effect("Spawn honey trap", "honey_trap") {Category = WorldFolder, Price = 40, Description = "Spawn a large pool of honey"},
                 new Effect("Spawn lava trap", "lava_trap") {Category = WorldFolder, Price = 750, Description = "Spawn a large pool of lava"},
+                new Effect("Spawn shimmer trap", "shimmer_trap") {Category = WorldFolder, Price = 500, Description = "Spawn a puddle of shimmer"},
                 new Effect("Random teleport", "random_teleport") {Category = WorldFolder, Price = 150, Description = "Randomly teleport the streamer to a different part of the world"},
                 new Effect("Summon all NPCs", "summon_npcs") {Category = WorldFolder, Price = 100, Description = "Summon all alive NPCs to the streamer's position"},
                 new Effect("Spawn random Town NPC", "spawn_town_npc") {Category = WorldFolder, Price = 20, Description = "Spawn a random Town NPC at the streamer's position"},

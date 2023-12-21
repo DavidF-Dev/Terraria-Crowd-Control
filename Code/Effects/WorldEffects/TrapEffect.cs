@@ -22,7 +22,8 @@ public sealed class TrapEffect : CrowdControlEffect
         Sand,
         Water,
         Lava,
-        Honey
+        Honey,
+        Shimmer
     }
 
     #endregion
@@ -39,6 +40,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => EffectID.WaterTrap,
             TrapType.Lava => EffectID.LavaTrap,
             TrapType.Honey => EffectID.HoneyTrap,
+            TrapType.Shimmer => EffectID.ShimmerTrap,
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
     }
@@ -53,6 +55,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => (9, 7),
             TrapType.Lava => (5, 5),
             TrapType.Honey => (5, 5),
+            TrapType.Shimmer => (2, 1),
             _ => throw new ArgumentOutOfRangeException(nameof(trapType))
         };
     }
@@ -85,6 +88,11 @@ public sealed class TrapEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
+        if (player.Player.shimmering)
+        {
+            return CrowdControlResponseStatus.Retry;
+        }
+        
         var (halfWidth, halfHeight) = GetTrapSize(_type);
         if (player.Player.IsWithinSpawnProtection(Math.Max(halfWidth, halfHeight) / 2f) || !CanSpawnTrap(player.Player) || player.Player.shimmering)
         {
@@ -119,6 +127,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => ItemID.WaterBucket,
             TrapType.Lava => ItemID.LavaBucket,
             TrapType.Honey => ItemID.HoneyBucket,
+            TrapType.Shimmer => ItemID.BottomlessShimmerBucket,
             _ => (short)0
         };
 
@@ -134,6 +143,7 @@ public sealed class TrapEffect : CrowdControlEffect
             TrapType.Water => !player.IsInLiquid(LiquidID.Water),
             TrapType.Lava => !player.IsInLiquid(LiquidID.Lava),
             TrapType.Honey => !player.IsInLiquid(LiquidID.Honey),
+            TrapType.Shimmer => !player.IsInLiquid(LiquidID.Shimmer),
             _ => throw new ArgumentOutOfRangeException(nameof(_type))
         };
     }
@@ -178,6 +188,7 @@ public sealed class TrapEffect : CrowdControlEffect
             case TrapType.Water:
             case TrapType.Lava:
             case TrapType.Honey:
+            case TrapType.Shimmer:
             {
                 // Determine liquid id
                 var liquidId = _type switch
@@ -185,6 +196,7 @@ public sealed class TrapEffect : CrowdControlEffect
                     TrapType.Water => LiquidID.Water,
                     TrapType.Lava => LiquidID.Lava,
                     TrapType.Honey => LiquidID.Honey,
+                    TrapType.Shimmer => LiquidID.Shimmer,
                     _ => throw new ArgumentOutOfRangeException(nameof(_type))
                 };
 

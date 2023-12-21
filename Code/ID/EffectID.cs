@@ -92,6 +92,7 @@ public static class EffectID
     public const string WaterTrap = "water_trap";
     public const string HoneyTrap = "honey_trap";
     public const string LavaTrap = "lava_trap";
+    public const string ShimmerTrap = "shimmer_trap";
     public const string RandomTeleport = "random_teleport";
     public const string SummonNpcs = "summon_npcs";
     public const string SpawnTownNpc = "spawn_town_npc";

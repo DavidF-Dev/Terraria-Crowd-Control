@@ -970,6 +970,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new TrapEffect(TrapEffect.TrapType.Water));
         AddEffect(new TrapEffect(TrapEffect.TrapType.Honey));
         AddEffect(new TrapEffect(TrapEffect.TrapType.Lava));
+        AddEffect(new TrapEffect(TrapEffect.TrapType.Shimmer));
         AddEffect(new RandomTeleportEffect());
         AddEffect(new SummonNpcsEffect());
         AddEffect(new SpawnTownNPCEffect());

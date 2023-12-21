@@ -111,6 +111,7 @@ Mods: {
 				water_trap: "[Viewer] filled the area around [Player] with water"
 				honey_trap: "[Viewer] filled the area around [Player] with honey"
 				lava_trap: "[Viewer] filled the area around [Player] with lava"
+				shimmer_trap: "[Viewer] spawned a puddle of shimmer around [Player]"
 				random_teleport: "[Viewer] randomly teleported [Player]"
 				summon_npcs: "[Viewer] summoned all the alive NPCs to [Player]'s position"
 				spawn_town_npc: "[Viewer] spawned the {0} at [Player]'s position"
