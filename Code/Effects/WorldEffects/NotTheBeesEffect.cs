@@ -147,7 +147,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
 
     private void SpawnBees(int num, bool friendly, Rectangle rect, Vector2 dir, float angleVar, float speed, byte owner)
     {
-        num = Math.Clamp(num, 0, Main.maxProjectiles / 2);
+        num = Math.Clamp(num, 0, Main.maxProjectiles / 3);
         angleVar = Math.Abs(angleVar);
         speed = Math.Max(speed, 0);
         if (num == 0 || rect.IsEmpty)
@@ -167,6 +167,12 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         if (incEffect != null && ((NetUtils.IsSinglePlayer && incEffect.IsActive) || (NetUtils.IsServer && incEffect.IsActiveOnServer())))
         {
             num += friendly ? 1 : 2;
+        }
+
+        // Small chance for increased the amount of bees
+        if (Main.rand.NextBool(12))
+        {
+            num = (int)(num * (friendly ? 2 : 1.5f));
         }
 
         // Spawn the bees!
@@ -277,11 +283,11 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
             return;
         }
 
-        // Spawn bees when the player kills a tile
+        // Spawn bees when the player kills a tile (hostile when in evil biome)
         var player = Main.LocalPlayer;
         SpawnBees(
             Main.rand.Next(1, 3),
-            true,
+            !Main.LocalPlayer.ZoneCorrupt && !Main.LocalPlayer.ZoneCrimson,
             new Rectangle(i * 16, j * 16, 16, 16),
             Vector2.UnitX,
             MathHelper.Pi,
