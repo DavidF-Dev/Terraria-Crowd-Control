@@ -66,6 +66,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
         // Make it so the town is no longer safe, so that enemies spawn instead of just critters
 
         Span<float> cachedValues = stackalloc float[Main.maxPlayers];
+        Span<int> cachedBuffs = stackalloc int[Main.maxPlayers];
         for (var i = 0; i < Main.maxPlayers; i++)
         {
             var player = Main.player[i];
@@ -75,6 +76,7 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
             }
 
             cachedValues[i] = player.townNPCs;
+            cachedBuffs[i] = -1;
             if (!IsActiveFor(player))
             {
                 continue;
@@ -82,6 +84,8 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
             // Trick the game into thinking the player isn't in a town
             player.townNPCs = 0f;
+            player.AddBuff(BuffID.ShadowCandle, 2);
+            cachedBuffs[i] = player.FindBuffIndex(BuffID.ShadowCandle);
         }
 
         // Naturally spawn an NPC
@@ -97,6 +101,10 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
             }
 
             player.townNPCs = cachedValues[i];
+            if (cachedBuffs[i] >= 0)
+            {
+                player.DelBuff(cachedBuffs[i]);
+            }
         }
     }
 
