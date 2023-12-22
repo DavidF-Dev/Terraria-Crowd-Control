@@ -21,6 +21,10 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
     private static int GetBeeDamage(int type)
     {
         var dmg = type is ProjectileID.GiantBee or ProjectileID.Wasp ? 18f : 13f;
+
+        // Decrease damage slightly (not in vanilla)
+        dmg = (int)(dmg / 2f);
+
         if (Main.masterMode)
         {
             dmg *= 2;
