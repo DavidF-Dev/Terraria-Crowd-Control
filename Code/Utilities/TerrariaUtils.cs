@@ -19,6 +19,30 @@ public static class TerrariaUtils
     #region Static Methods
 
     /// <summary>
+    ///     Check if the mod is in developer mode.
+    /// </summary>
+    public static bool IsInDeveloperMode()
+    {
+        // Client is in developer mode if enabled in the config
+        if (NetUtils.IsSinglePlayer || NetUtils.IsClient)
+        {
+            return CrowdControlConfig.GetInstance().DeveloperMode;
+        }
+
+        // Server is in developer mode if any connected client is in developer mode
+        for (var i = 0; i < Main.maxPlayers; i++)
+        {
+            var player = Main.player[i];
+            if (player.active && player.GetModPlayer<CrowdControlPlayer>().ServerDeveloperMode)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     ///     Write a message to the game chat.<br />
     ///     Server will broadcast the message to all clients.
     /// </summary>
@@ -194,14 +218,20 @@ public static class TerrariaUtils
     {
         if (NetUtils.IsServer)
         {
+            // Ignore if not in developer mode (don't even send the packet!)    
+            if (!IsInDeveloperMode())
+            {
+                return;
+            }
+
+            // Ignore if on the game menu
+            if (Main.gameMenu)
+            {
+                return;
+            }
+
             try
             {
-                if (Main.gameMenu)
-                {
-                    // Ignore if on the game menu
-                    return;
-                }
-
                 // Create a packet to send to all clients
                 var packet = CrowdControlMod.GetInstance().GetPacket(3);
                 packet.Write((byte)PacketID.DebugMessage);
@@ -222,8 +252,8 @@ public static class TerrariaUtils
             return;
         }
 
-        // Ignore if not in developer mode        
-        if (!CrowdControlConfig.GetInstance().DeveloperMode)
+        // Ignore if not in developer mode (could be an incoming packet meant for someone else)
+        if (!IsInDeveloperMode())
         {
             return;
         }

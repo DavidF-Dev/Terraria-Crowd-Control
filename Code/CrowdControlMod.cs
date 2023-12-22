@@ -461,7 +461,8 @@ public sealed class CrowdControlMod : Mod
             case PacketID.ConfigState:
                 player.ServerDisableTombstones = reader.ReadBoolean();
                 player.ServerForcefullyDespawnBosses = reader.ReadBoolean();
-                TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones}, despawnBosses={player.ServerForcefullyDespawnBosses})");
+                player.ServerDeveloperMode = reader.ReadBoolean();
+                TerrariaUtils.WriteDebug($"Server received config for '{player.Player.name}' (disableTombstones={player.ServerDisableTombstones}, despawnBosses={player.ServerForcefullyDespawnBosses}, devMode={player.ServerDeveloperMode})");
                 break;
 
             // Client wants to trigger an effect on the server

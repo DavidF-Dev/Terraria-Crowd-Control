@@ -69,6 +69,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// </summary>
     public bool ServerForcefullyDespawnBosses;
 
+    /// <summary>
+    ///     Server-side value for whether this player has developer mode enabled in their config.
+    /// </summary>
+    public bool ServerDeveloperMode;
+
     #endregion
 
     #region Properties

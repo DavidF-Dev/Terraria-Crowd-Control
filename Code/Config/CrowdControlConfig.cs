@@ -172,10 +172,11 @@ public sealed class CrowdControlConfig : ModConfig
         }
 
         // Update the server on relevant changes
-        var packet = CrowdControlMod.GetInstance().GetPacket(3);
+        var packet = CrowdControlMod.GetInstance().GetPacket();
         packet.Write((byte)PacketID.ConfigState);
         packet.Write(DisableTombstones);
         packet.Write(ForceDespawnBosses);
+        packet.Write(DeveloperMode);
         packet.Send();
 
         TerrariaUtils.WriteDebug("Sending config to server");

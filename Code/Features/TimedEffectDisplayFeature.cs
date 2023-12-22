@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using CrowdControlMod.Config;
+using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -15,7 +15,7 @@ public sealed class TimedEffectDisplayFeature : IFeature
 
     private static void PostDrawInterface(SpriteBatch spriteBatch)
     {
-        if (!CrowdControlConfig.GetInstance().DeveloperMode)
+        if (!TerrariaUtils.IsInDeveloperMode())
         {
             // Ignore if developer mode is disabled in the mod configuration
             return;
