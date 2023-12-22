@@ -11,12 +11,18 @@ public sealed class CrowdControlTile : GlobalTile
     /// <inheritdoc cref="PreDraw" />
     public delegate bool PreDrawDelegate(int i, int j, int type, SpriteBatch spriteBatch);
 
+    /// <inheritdoc cref="KillTile" />
+    public delegate void KillTileDelegate(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem);
+
     #endregion
 
     #region Events
 
     /// <inheritdoc cref="PreDraw" />
     public static event PreDrawDelegate? PreDrawHook;
+
+    /// <inheritdoc cref="KillTile" />
+    public static event KillTileDelegate? KillTileHook;
 
     #endregion
 
@@ -25,6 +31,11 @@ public sealed class CrowdControlTile : GlobalTile
     public override bool PreDraw(int i, int j, int type, SpriteBatch spriteBatch)
     {
         return PreDrawHook?.Invoke(i, j, type, spriteBatch) ?? base.PreDraw(i, j, type, spriteBatch);
+    }
+
+    public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+    {
+        KillTileHook?.Invoke(i, j, type, ref fail, ref effectOnly, ref noItem);
     }
 
     #endregion

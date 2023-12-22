@@ -11,13 +11,16 @@ using Terraria.ID;
 
 namespace CrowdControlMod.Effects.WorldEffects;
 
+/// <summary>
+///     Effect that causes the player to spawn bees (friendly and hostile) via various actions.
+/// </summary>
 public sealed class NotTheBeesEffect : CrowdControlEffect
 {
     #region Static Methods
 
     private static int GetBeeDamage(int type)
     {
-        var dmg = type is ProjectileID.GiantBee ? 18f : 13f;
+        var dmg = type is ProjectileID.GiantBee or ProjectileID.Wasp ? 18f : 13f;
         if (Main.masterMode)
         {
             dmg *= 2;
@@ -27,7 +30,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
             dmg *= 1.5f;
         }
 
-        if (type == ProjectileID.GiantBee)
+        if (type is ProjectileID.GiantBee or ProjectileID.Wasp)
         {
             return (int)(dmg + Main.rand.Next(1, 4));
         }
@@ -37,8 +40,14 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
 
     private static float GetBeeKnockback(int type)
     {
-        return type is ProjectileID.GiantBee ? 0.5f : 0f;
+        return type is ProjectileID.GiantBee or ProjectileID.Wasp ? 0.5f : 0f;
     }
+
+    #endregion
+
+    #region Fields
+
+    private int _counter;
 
     #endregion
 
@@ -49,8 +58,6 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
     }
 
     #endregion
-
-    private int _counter;
 
     #region Properties
 
@@ -71,10 +78,11 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         player.ShootHook += Shoot;
         player.OnHurtHook += OnHurt;
         CrowdControlNPC.StrikeNPCHook += OnStrikeNPC;
+        CrowdControlTile.KillTileHook += OnKillTile;
 
         // Spawn bees initially
         SpawnBees(
-            6,
+            Main.rand.Next(11, 14),
             true,
             player.Player.Hitbox,
             Vector2.UnitX,
@@ -82,7 +90,6 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
             0.3f,
             (byte)player.Player.whoAmI);
 
-        _counter = 0;
         return CrowdControlResponseStatus.Success;
     }
 
@@ -92,36 +99,38 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         player.ShootHook -= Shoot;
         player.OnHurtHook -= OnHurt;
         CrowdControlNPC.StrikeNPCHook -= OnStrikeNPC;
+        CrowdControlTile.KillTileHook -= OnKillTile;
+
+        _counter = 0;
     }
 
     protected override void OnUpdate(float delta)
     {
-        _counter++;
-        if (CrowdControlMod.GetInstance().IsEffectActive(EffectID.IncreaseSpawnRate))
-        {
-            _counter++;
-        }
-
-        if (_counter % 90 != 0 || !Main.rand.NextBool(2))
+        if (_counter++ % 90 != 0 || !Main.rand.NextBool(2))
         {
             return;
         }
 
         // Spawn bees occasionally
-        var player = GetLocalPlayer();
+        var player = Main.LocalPlayer;
         SpawnBees(
             Main.rand.Next(2, 4),
             true,
-            player.Player.Hitbox,
+            player.Hitbox,
             Vector2.UnitX,
             MathHelper.Pi,
             0.3f,
-            (byte)player.Player.whoAmI);
+            (byte)player.whoAmI);
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.BeeMask, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
+    }
+
+    protected override void SendStopMessage()
+    {
+        TerrariaUtils.WriteEffectMessage(0, LangUtils.GetEffectStopText(Id), EffectSeverity.Neutral);
     }
 
     protected override void OnReceivePacket(CrowdControlPlayer player, BinaryReader reader)
@@ -146,11 +155,18 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
             return;
         }
 
+        // Forward packet to server if called on a client
         if (NetUtils.IsClient)
         {
-            // Forward packet to server if called on a client
             SendPacket(PacketID.HandleEffect, num, friendly, rect.X, rect.Y, rect.Width, rect.Height, dir.X, dir.Y, angleVar, speed, owner);
             return;
+        }
+
+        // Increase number of bees if spawn rate is increased
+        var incEffect = CrowdControlMod.GetInstance().GetEffect(EffectID.IncreaseSpawnRate);
+        if (incEffect != null && ((NetUtils.IsSinglePlayer && incEffect.IsActive) || (NetUtils.IsServer && incEffect.IsActiveOnServer())))
+        {
+            num += friendly ? 1 : 2;
         }
 
         // Spawn the bees!
@@ -161,7 +177,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
 
             if (friendly)
             {
-                var type = Main.rand.NextFromList(ProjectileID.Bee, ProjectileID.GiantBee);
+                var type = Main.rand.NextFromList(ProjectileID.Bee, ProjectileID.GiantBee, ProjectileID.Wasp);
                 var damage = GetBeeDamage(type);
                 var knockback = GetBeeKnockback(type);
                 var index = Projectile.NewProjectile(null, pos, vel, type, damage, knockback, owner);
@@ -226,9 +242,9 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
     private void OnStrikeNPC(NPC npc, Entity source, Player? player, NPC.HitInfo hit, int damageDone)
     {
         if (npc is {friendly: false, chaseable: true, type: not NPCID.Bee and not NPCID.BeeSmall and not NPCID.TargetDummy} &&
-            player != null && player.whoAmI == Main.myPlayer && npc.life > 0 && Main.rand.NextBool(2))
+            player != null && player.whoAmI == Main.myPlayer && Main.rand.NextBool(2))
         {
-            // Spawn hostile bees when the player hits a hostile npc
+            // Spawn hostile bees when the player hits or kills a hostile npc
             SpawnBees(
                 Main.rand.Next(2, 3) + (hit.Crit ? 1 : 0),
                 false,
@@ -236,8 +252,41 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
                 Vector2.UnitX,
                 MathHelper.Pi,
                 Main.rand.NextFloat(0.2f, 0.3f),
-                Main.maxPlayers);
+                (byte)player.whoAmI);
         }
+
+        if (npc is {friendly: true, CountsAsACritter: true} &&
+            player != null && player.whoAmI == Main.myPlayer && npc.life <= 0)
+        {
+            // Spawn hostile bees when the player kills a friendly critter
+            SpawnBees(
+                npc.life <= 0 ? Main.rand.Next(6, 9) : Main.rand.Next(1, 2),
+                false,
+                npc.Hitbox,
+                Vector2.UnitX,
+                MathHelper.Pi,
+                Main.rand.NextFloat(0.2f, 0.3f),
+                (byte)player.whoAmI);
+        }
+    }
+
+    private void OnKillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+    {
+        if (fail || effectOnly || noItem || TileID.Sets.IsMultitile[type] || !Main.rand.NextBool(3))
+        {
+            return;
+        }
+
+        // Spawn bees when the player kills a tile
+        var player = Main.LocalPlayer;
+        SpawnBees(
+            Main.rand.Next(1, 3),
+            true,
+            new Rectangle(i * 16, j * 16, 16, 16),
+            Vector2.UnitX,
+            MathHelper.Pi,
+            Main.rand.NextFloat(0.2f, 0.3f),
+            (byte)player.whoAmI);
     }
 
     #endregion

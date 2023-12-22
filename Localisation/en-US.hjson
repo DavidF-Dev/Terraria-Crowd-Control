@@ -179,6 +179,7 @@ Mods: {
 				boost_money: Coin drop-rate is back to normal
 				# World effects
 				golden_slime_rain: No longer raining Golden Slimes
+				not_the_bees: No longer spawning bees
 			}
 
 			Misc: {
