@@ -115,6 +115,7 @@ public static class EffectID
     public const string ShuffleSfx = "shuffle_sfx";
     public const string MysteryBlocks = "mystery_blocks";
     public const string HotFloor = "hot_floor";
+    public const string NotTheBees = "not_the_bees";
 
     // --- Boss effects
     public const string RandomBoss = "random_boss";

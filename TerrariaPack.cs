@@ -170,6 +170,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Shuffle sound effects", "shuffle_sfx") {Category = WorldFolder, Price = 10, Duration = 45, Description = "Temporarily shuffle all sound effects"},
                 new Effect("Mystery blocks", "mystery_blocks") {Category = WorldFolder, Price = 25, Duration = 30, Description = "Temporarily hide the blocks on screen, such that their identity is unknown"},
                 new Effect("Floor is lava", "hot_floor") {Category = WorldFolder, Price = 75, Duration = 25, Description = "Temporarily heat up the ground beneath the streamer"},
+                new Effect("Spawn bees", "not_the_bees") {Category = WorldFolder, Price = 25, Duration = 45, Description = "Temporarily cause the streamer to produce a ludicrous amount of bees"},
 
                 // --- Boss effects
                 new Effect("Spawn a boss", "random_boss") {Category = BossFolder, Price = 500, Description = "Spawn a random boss on the streamer based on their world progression"},

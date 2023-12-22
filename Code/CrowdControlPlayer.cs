@@ -29,6 +29,9 @@ public sealed class CrowdControlPlayer : ModPlayer
     /// <inheritdoc cref="ModifyHurt" />
     public delegate void ModifyHurtDelegate(ref Player.HurtModifiers modifiers);
 
+    /// <inheritdoc cref="OnHurt" />
+    public delegate void OnHurtDelegate(Player.HurtInfo info);
+
     /// <inheritdoc cref="CanConsumeAmmo" />
     public delegate bool CanConsumeAmmoDelegate(Item weapon, Item ammo);
 
@@ -104,6 +107,9 @@ public sealed class CrowdControlPlayer : ModPlayer
 
     /// <inheritdoc cref="ModifyHurt" />
     public event ModifyHurtDelegate? ModifyHurtHook;
+
+    /// <inheritdoc cref="OnHurt" />
+    public event OnHurtDelegate? OnHurtHook;
     
     /// <inheritdoc cref="CanConsumeAmmo" />
     public event CanConsumeAmmoDelegate? CanConsumeAmmoHook;
@@ -188,6 +194,11 @@ public sealed class CrowdControlPlayer : ModPlayer
     public override void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
         ModifyHurtHook?.Invoke(ref modifiers);
+    }
+
+    public override void OnHurt(Player.HurtInfo info)
+    {
+        OnHurtHook?.Invoke(info);
     }
 
     public override bool CanConsumeAmmo(Item weapon, Item ammo)
