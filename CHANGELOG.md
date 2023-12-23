@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Give Vanity" effect (disabled).
 - Added "Spawn Flying Piggy Bank" effect (disabled).
 - Added "Spawn Void Vault Portal" effect (disabled).
+- Added "Shimmer Item" effect (disabled).
 - Added "Item Attractor" effect (disabled).
 - Added "Item Repeller" effect (disabled).
 - Added "Floor Is Lava" effect (disabled).

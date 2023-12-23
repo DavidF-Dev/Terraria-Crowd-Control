@@ -76,6 +76,7 @@ Mods: {
 				shuffle_inventory: "[Viewer] shuffled [Player]'s inventory"
 				switch_loadout: "[Viewer] switched [Player]'s inventory loadout"
 				no_item_pickup: "[Viewer] prevented [Player] from picking up any items for [Duration] seconds"
+				shimmer_item: "[Viewer] shimmered [Player]'s {0}"
 				item_pull: "[Viewer] caused nearby items to gravitate towards [Player] for [Duration] seconds"
 				item_push: "[Viewer] caused nearby items to repel away from [Player] for [Duration] seconds"
 				item_prefix: "[Viewer] changed [Player]'s {0} to be {1}"

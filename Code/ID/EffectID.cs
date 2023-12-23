@@ -59,6 +59,7 @@ public static class EffectID
     public const string ShuffleInventory = "shuffle_inventory";
     public const string SwitchLoadout = "switch_loadout";
     public const string NoItemPickup = "no_item_pickup";
+    public const string ShimmerItem = "shimmer_item";
     public const string ItemPull = "item_pull";
     public const string ItemPush = "item_push";
     public const string ReforgeItem = "item_prefix";
@@ -78,7 +79,7 @@ public static class EffectID
     public const string GiveKite = "give_kite";
     public const string SpawnPiggyBank = "spawn_piggy_bank";
     public const string SpawnVoidVault = "spawn_void_vault";
-    
+
     // --- World effects
     public const string UseSunDial = "sun_dial";
     public const string UseMoonDial = "moon_dial";

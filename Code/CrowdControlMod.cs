@@ -938,6 +938,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new ShuffleInventoryEffect());
         AddEffect(new SwitchLoadoutEffect());
         AddEffect(new NoItemPickupEffect(20));
+        AddEffect(new ShimmerItemEffect());
         AddEffect(new ItemMagnetEffect(true, 25));
         AddEffect(new ItemMagnetEffect(false, 25));
         AddEffect(new ReforgeItemEffect());

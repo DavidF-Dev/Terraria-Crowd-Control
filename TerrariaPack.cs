@@ -114,6 +114,7 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Shuffle inventory", "shuffle_inventory") {Category = InventoryFolder, Price = 75, Description = "Shuffle the streamer's inventory"},
                 new Effect("Switch loadout", "switch_loadout") {Category = InventoryFolder, Price = 15, Description = "Randomly switch the streamer's inventory loadout to a random one"},
                 new Effect("Cannot pickup items", "no_item_pickup") {Category = InventoryFolder, Price = 40, Duration = 20, Description = "Temporarily prevent the streamer from picking up any items"},
+                new Effect("Shimmer item", "shimmer_item") {Category = InventoryFolder, Price = 50, Description = "Shimmer the streamer's held item if possible"},
                 new Effect("Item attractor", "item_pull") {Category = InventoryFolder, Price = 25, Duration = 25, Description = "Temporarily cause nearby items to gravitate towards the player"},
                 new Effect("Item repeller", "item_push") {Category = InventoryFolder, Price = 25, Duration = 25, Description = "Temporarily cause nearby items to repel away from the player"},
                 new Effect("Reforge item", "item_prefix") {Category = InventoryFolder, Price = 5, Description = "Reforge the streamer's held weapon or tool if possible"},
