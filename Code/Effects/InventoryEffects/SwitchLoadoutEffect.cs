@@ -30,19 +30,23 @@ public class SwitchLoadoutEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
+
+        // Choose a loadout (not the current one)
         var next = Main.rand.Next(player.Player.Loadouts.Length);
         if (next == player.Player.CurrentLoadoutIndex)
         {
             next = (next + 1) % player.Player.Loadouts.Length;
         }
 
+        // This can only happen if there is only one loadout
         if (next == player.Player.CurrentLoadoutIndex)
         {
             return CrowdControlResponseStatus.Unavailable;
         }
 
-        player.Player.TrySwitchingLoadout(next);
-        return next == player.Player.CurrentLoadoutIndex ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
+        // Attempt to set the loadout
+        // Use a custom method because the vanilla method fails if using an item or stunned
+        return player.Player.SetLoadout(next) ? CrowdControlResponseStatus.Success : CrowdControlResponseStatus.Failure;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)

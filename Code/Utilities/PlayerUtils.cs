@@ -347,6 +347,44 @@ public static class PlayerUtils
         PlayerDrawLayerVisiblePropertyInfo.SetValue(layer, true);
     }
 
+    /// <summary>
+    ///     Attempt to forcefully switch the player's loadout.
+    /// </summary>
+    public static bool SetLoadout(this Player player, int index)
+    {
+        if (player.dead || index < 0 || index >= player.Loadouts.Length || player.CurrentLoadoutIndex == index)
+        {
+            return false;
+        }
+
+        var itemTime = player.itemTime;
+        var itemAnimation = player.itemAnimation;
+        var frozen = player.frozen;
+        var webbed = player.webbed;
+        var stoned = player.stoned;
+        try
+        {
+            player.itemTime = 0;
+            player.itemAnimation = 0;
+            player.frozen = false;
+            player.webbed = false;
+            player.stoned = false;
+            player.TrySwitchingLoadout(index);
+            return player.CurrentLoadoutIndex == index;
+        }
+        finally
+        {
+            player.itemTime = itemTime;
+            player.itemAnimation = itemAnimation;
+            player.frozen = frozen;
+            player.webbed = webbed;
+            player.stoned = stoned;
+        }
+    }
+
+    /// <summary>
+    ///     Block player controls temporarily.
+    /// </summary>
     public static void SetNoControl(this Player player, NoControlSetting setting)
     {
         player.GetModPlayer<NoControlPlayer>().Activate(setting);
