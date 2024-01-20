@@ -73,6 +73,7 @@ public static class EffectID
     public const string GiveArmour = "give_armour";
     public const string GiveAccessory = "give_accessory";
     public const string GiveVanity = "give_vanity";
+    public const string GiveGrapple = "give_grapple";
     public const string GiveHealingPotion = "give_healing_potion";
     public const string GivePotion = "give_potion";
     public const string GiveFood = "give_food";

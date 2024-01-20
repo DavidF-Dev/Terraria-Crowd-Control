@@ -6,17 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Added "Give Yoyo" effect (disabled).
-- Added "Give Accessory" effect (disabled).
-- Added "Give Vanity" effect (disabled).
-- Added "Spawn Flying Piggy Bank" effect (disabled).
-- Added "Spawn Void Vault Portal" effect (disabled).
-- Added "Shimmer Item" effect (disabled).
-- Added "Item Attractor" effect (disabled).
-- Added "Item Repeller" effect (disabled).
-- Added "Floor Is Lava" effect (disabled).
-- Added "Spawn Bees" effect (disabled).
-- Added "Shimmer Trap" effect (disabled).
+- Added "Give Yoyo" effect.
+- Added "Give Accessory" effect.
+- Added "Give Vanity" effect.
+- Added "Give Grappling Hook" effect.
+- Added "Spawn Flying Piggy Bank" effect.
+- Added "Spawn Void Vault Portal" effect.
+- Added "Shimmer Item" effect.
+- Added "Item Attractor" effect.
+- Added "Item Repeller" effect.
+- Added "Floor Is Lava" effect.
+- Added "Spawn Bees" effect.
+- Added "Shimmer Trap" effect.
 - Changed "Do-or-die" effect to have many possible rewards.
 - Changed "Fling Upwards" effect to block player control for a short time.
 - Fixed "Switch Loadout" effect failing commonly.

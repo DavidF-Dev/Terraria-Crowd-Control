@@ -29,6 +29,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
         Armour,
         Accessory,
         Vanity,
+        Grapple,
         HealingPotion,
         Potion,
         Kite,
@@ -161,6 +162,21 @@ public sealed class GiveItemEffect : CrowdControlEffect
         ItemID.LokisHelm, ItemID.LokisShirt, ItemID.LokisPants, ItemID.RedsHelmet, ItemID.RedsBreastplate, ItemID.RedsLeggings,
         ItemID.SafemanSunHair, ItemID.SafemanSunDress, ItemID.SafemanDressLeggings, ItemID.SkiphsHelm, ItemID.SkiphsShirt, ItemID.SkiphsPants,
         ItemID.WillsHelmet, ItemID.WillsBreastplate, ItemID.WillsLeggings, ItemID.Yoraiz0rHead, ItemID.Yoraiz0rShirt, ItemID.Yoraiz0rPants
+    };
+
+    private static readonly IReadOnlyList<short> GrapplesPreHardmode = new[]
+    {
+        ItemID.GrapplingHook, ItemID.AmethystHook, ItemID.SquirrelHook, ItemID.TopazHook, ItemID.SapphireHook,
+        ItemID.EmeraldHook, ItemID.RubyHook, ItemID.AmberHook, ItemID.DiamondHook,
+        ItemID.WebSlinger, ItemID.SkeletronHand, ItemID.SlimeHook, ItemID.FishHook, ItemID.IvyWhip,
+        ItemID.BatHook, ItemID.CandyCaneHook
+    };
+
+    private static readonly IReadOnlyList<short> GrapplesHardmode = new[]
+    {
+        ItemID.DualHook, ItemID.QueenSlimeHook, ItemID.ThornHook, ItemID.IlluminantHook, ItemID.WormHook,
+        ItemID.TendonHook, ItemID.AntiGravityHook, ItemID.SpookyHook, ItemID.ChristmasHook, ItemID.LunarHook,
+        ItemID.StaticHook
     };
 
     private static readonly Dictionary<GiveItem, Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>> VanillaItems = new()
@@ -342,6 +358,19 @@ public sealed class GiveItemEffect : CrowdControlEffect
                 {ProgressionUtils.Progression.PreLunar, VanityAllGame},
                 {ProgressionUtils.Progression.PreMoonLord, VanityAllGame},
                 {ProgressionUtils.Progression.PostGame, VanityAllGame}
+            }
+        },
+        {
+            GiveItem.Grapple, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, GrapplesPreHardmode},
+                {ProgressionUtils.Progression.PreSkeletron, GrapplesPreHardmode},
+                {ProgressionUtils.Progression.PreWall, GrapplesPreHardmode},
+                {ProgressionUtils.Progression.PreMech, GrapplesHardmode},
+                {ProgressionUtils.Progression.PreGolem, GrapplesHardmode},
+                {ProgressionUtils.Progression.PreLunar, GrapplesHardmode},
+                {ProgressionUtils.Progression.PreMoonLord, GrapplesHardmode},
+                {ProgressionUtils.Progression.PostGame, GrapplesHardmode}
             }
         },
         {
@@ -566,6 +595,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Armour => EffectID.GiveArmour,
             GiveItem.Accessory => EffectID.GiveAccessory,
             GiveItem.Vanity => EffectID.GiveVanity,
+            GiveItem.Grapple => EffectID.GiveGrapple,
             GiveItem.HealingPotion => EffectID.GiveHealingPotion,
             GiveItem.Potion => EffectID.GivePotion,
             GiveItem.Kite => EffectID.GiveKite,
@@ -587,6 +617,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Armour => EffectSeverity.Positive,
             GiveItem.Accessory => EffectSeverity.Positive,
             GiveItem.Vanity => EffectSeverity.Neutral,
+            GiveItem.Grapple => EffectSeverity.Positive,
             GiveItem.HealingPotion => EffectSeverity.Positive,
             GiveItem.Potion => EffectSeverity.Positive,
             GiveItem.Kite => EffectSeverity.Neutral,
@@ -628,6 +659,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Magic => true,
             GiveItem.Summon => true,
             GiveItem.Ranged => true,
+            GiveItem.Grapple => true,
             _ => false
         };
         StartEmote = giveItem switch
