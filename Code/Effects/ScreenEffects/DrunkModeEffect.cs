@@ -82,22 +82,37 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         tooltips.AddRange(shuffled);
     }
 
-    private static bool PreDrawInInventory(Item item, SpriteBatch spritebatch, Vector2 position, Rectangle frame, Color drawColour, Color itemColour, Vector2 origin, float scale)
+    private static bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColour, Color itemColour, Vector2 origin, float scale)
     {
-        var id = FoodIds[item.type % FoodIds.Length];
-        if (!TextureAssets.Item[id].IsLoaded)
+        var type = item.type;
+        if (SteamUtils.IsThatGrayson)
         {
-            // Ensure loaded
-            Main.instance.LoadItem(id);
+            // Draw food instead
+            type = FoodIds[item.type % FoodIds.Length];
+            if (!TextureAssets.Item[type].IsLoaded)
+            {
+                // Ensure loaded
+                Main.instance.LoadItem(type);
+            }
         }
 
-        // Draw food in inventory
+        var tex = TextureAssets.Item[type];
+        if (!tex.IsLoaded)
+        {
+            return false;
+        }
+
+        const float spinSpeed = 2.5f;
+        var spinSeed = item.type + item.stack + item.prefix + item.rare;
+        var spinDir = item.type % 2 == 0 ? 1 : -1;
+
+        // Draw item in inventory spinning
         Main.EntitySpriteDraw(
-            TextureAssets.Item[id].Value,
+            tex.Value,
             position,
             frame,
             drawColour,
-            0f,
+            MathHelper.ToRadians(Main.GameUpdateCount * spinSpeed + spinSeed) * spinDir,
             origin,
             scale,
             SpriteEffects.None);
@@ -156,10 +171,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         glitchShaderData.UseIntensity(GlitchIntensity);
 
         CrowdControlItem.ModifyTooltipsHook += ModifyTooltips;
-        if (SteamUtils.IsThatGrayson)
-        {
-            CrowdControlItem.PreDrawInInventoryHook += PreDrawInInventory;
-        }
+        CrowdControlItem.PreDrawInInventoryHook += PreDrawInInventory;
 
         return CrowdControlResponseStatus.Success;
     }
@@ -170,10 +182,7 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         _glitchShader.Disable();
 
         CrowdControlItem.ModifyTooltipsHook -= ModifyTooltips;
-        if (SteamUtils.IsThatGrayson)
-        {
-            CrowdControlItem.PreDrawInInventoryHook -= PreDrawInInventory;
-        }
+        CrowdControlItem.PreDrawInInventoryHook -= PreDrawInInventory;
     }
 
     protected override void OnUpdate(float delta)

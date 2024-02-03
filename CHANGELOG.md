@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Shimmer Trap" effect.
 - Changed "Do-or-die" effect to have many possible rewards.
 - Changed "Fling Upwards" effect to block player control for a short time.
+- Changed "Drunk Mode" effect to cause inventory items to spin.
 - Fixed "Switch Loadout" effect failing commonly.
 
 ## [2.0.11] - 2023-12-13
