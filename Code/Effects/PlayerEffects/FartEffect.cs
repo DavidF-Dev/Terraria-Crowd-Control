@@ -134,6 +134,12 @@ public sealed class FartEffect : CrowdControlEffect
             SendPacket(PacketID.HandleEffect);
         }
 
+        // If hiccuping, enable fart hiccups for the remainder of the effect
+        if (CrowdControlMod.GetInstance().GetEffect(EffectID.Hiccup) is HiccupEffect {IsActive: true} hiccupEffect)
+        {
+            hiccupEffect.HicFart = true;
+        }
+
         return CrowdControlResponseStatus.Success;
     }
 

@@ -29,6 +29,7 @@ public sealed class HiccupEffect : CrowdControlEffect
 
     #region Fields
 
+    public bool HicFart;
     private int _timer;
 
     #endregion
@@ -59,6 +60,7 @@ public sealed class HiccupEffect : CrowdControlEffect
     {
         GetLocalPlayer().PostUpdateRunSpeedsHook -= OnPostUpdateRunSpeeds;
         _timer = 0;
+        HicFart = false;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
@@ -112,7 +114,28 @@ public sealed class HiccupEffect : CrowdControlEffect
         }
 
         // Play random 'hiccup' sound
-        SoundEngine.PlaySound(HiccupSounds[Main.rand.Next(HiccupSounds.Length)], player.Player.Center);
+        if (!HicFart)
+        {
+            SoundEngine.PlaySound(HiccupSounds[Main.rand.Next(HiccupSounds.Length)], player.Player.Center);
+        }
+        else
+        {
+            SoundEngine.PlaySound(SoundID.Item16 with
+            {
+                PlayOnlyIfFocused = false,
+                MaxInstances = int.MaxValue,
+                Pitch = Main.rand.NextFloat(-0.90f, 0.05f)
+            }, player.Player.Center);
+
+            // Provide stinky buff for a short time
+            player.Player.AddBuff(BuffID.Stinky, 120);
+
+            // Fart cloud dust
+            for (var i = 0; i < 6; i++)
+            {
+                Dust.NewDust(player.Player.position, 16 * 2, 16 * 3, DustID.FartInAJar);
+            }
+        }
 
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {
