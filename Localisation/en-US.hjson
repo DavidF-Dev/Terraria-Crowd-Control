@@ -469,6 +469,11 @@ Mods: {
 				DisplayName: Green Apple
 				Tooltip: "'Meep!'"
 			}
+
+			NadirItem: {
+				DisplayName: Nadir
+				Tooltip: "'A point on the celestial sphere directly below the observer, diametrically opposite the zenith'"
+			}
 		}
 	}
 }

@@ -957,6 +957,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Potion));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Food));
         AddEffect(new GiveItemEffect(GiveItemEffect.GiveItem.Kite));
+        AddEffect(new GiveNadirEffect());
         AddEffect(new SpawnPiggyBankEffect());
         AddEffect(new SpawnVoidVaultEffect());
 

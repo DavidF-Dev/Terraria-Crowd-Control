@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Give Accessory" effect.
 - Added "Give Vanity" effect.
 - Added "Give Grappling Hook" effect.
+- Added "Give Nadir" effect.
 - Added "Spawn Flying Piggy Bank" effect.
 - Added "Spawn Void Vault Portal" effect.
 - Added "Shimmer Item" effect.
