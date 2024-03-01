@@ -81,11 +81,12 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Increase knockback", "increase_knockback") {Category = PlayerFolder, Price = 40, Duration = 40, Description = "Temporarily increase the knockback received and dealt by the streamer"},
                 new Effect("Increase jump height", "jump_boost") {Category = PlayerFolder, Price = 40, Duration = 25, Description = "Temporarily increase the streamer's jump height by a large amount"},
                 new Effect("Increase movement speed", "run_boost") {Category = PlayerFolder, Price = 40, Duration = 25, Description = "Temporarily increase the streamer's movement speed by a large amount"},
+                new Effect("Increase attack speed", "attack_speed") {Category = PlayerFolder, Price = 25, Duration = 40, Description = "Temporarily increase the streamer's attack speed"},
                 new Effect("Slippery boots", "icy_feet") {Category = PlayerFolder, Price = 40, Duration = 25, Description = "Temporarily make the ground very slippery under the streamer"},
                 new Effect("Fling upwards", "fling_upwards") {Category = PlayerFolder, Price = 30, Description = "Fling the streamer upwards violently where there is space to do so"},
                 new Effect("Play fart sound", "fart_sound") {Category = PlayerFolder, Price = 1, Description = "Play a fart sound in-game"},
                 new Effect("Give hiccups", "hiccup") {Category = PlayerFolder, Price = 10, Duration = 60, Description = "Temporarily give the streamer hiccups, causing them to hop"},
-                
+
                 // --- Buff effects (positive)
                 new Effect("+ Boost survivability", "buff_survivability") {Category = BuffFolder, Price = 10, Duration = 60, Description = "Temporarily give the streamer survivability buffs"},
                 new Effect("+ Boost health regeneration", "buff_regen") {Category = BuffFolder, Price = 10, Duration = 60, Description = "Temporarily give the streamer regeneration buffs"},

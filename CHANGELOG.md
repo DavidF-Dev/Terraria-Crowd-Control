@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Floor Is Lava" effect.
 - Added "Spawn Bees" effect.
 - Added "Shimmer Trap" effect.
+- Added "Increase Attack Speed" effect.
 - Changed "Do-or-die" effect to have many possible rewards.
 - Changed "Fling Upwards" effect to block player control for a short time.
 - Changed "Drunk Mode" effect to cause inventory items to spin.

@@ -868,6 +868,7 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new IncreaseKnockbackEffect(40));
         AddEffect(new JumpBoostEffect(25));
         AddEffect(new RunBoostEffect(25));
+        AddEffect(new AttackSpeedEffect(40));
         AddEffect(new IcyFeetEffect(25));
         AddEffect(new FlingUpwardsEffect());
         AddEffect(new FartEffect());
