@@ -83,8 +83,9 @@ public sealed class ScreenShader
             // Load the shader and apply to a scene filter
             try
             {
-                _effect = new Ref<Effect>(CrowdControlMod.GetInstance().Assets.Request<Effect>(_shaderAssetPath, AssetRequestMode.ImmediateLoad).Value);
-                Filters.Scene[_filterName] = new Filter(new ScreenShaderData(_effect, _shaderPassName), EffectPriority.VeryHigh);
+                var asset = CrowdControlMod.GetInstance().Assets.Request<Effect>(_shaderAssetPath, AssetRequestMode.ImmediateLoad);
+                _effect = new Ref<Effect>(asset.Value);
+                Filters.Scene[_filterName] = new Filter(new ScreenShaderData(asset, _shaderPassName), EffectPriority.VeryHigh);
                 Filters.Scene[_filterName].Load();
             }
             catch (Exception)
