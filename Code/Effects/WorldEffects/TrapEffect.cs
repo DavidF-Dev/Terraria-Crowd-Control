@@ -51,7 +51,7 @@ public sealed class TrapEffect : CrowdControlEffect
         return trapType switch
         {
             TrapType.Cobweb => (13, 13),
-            TrapType.Sand => (13, 13),
+            TrapType.Sand => (8, 8),
             TrapType.Water => (9, 7),
             TrapType.Lava => (5, 5),
             TrapType.Honey => (5, 5),
@@ -172,6 +172,8 @@ public sealed class TrapEffect : CrowdControlEffect
             case TrapType.Sand:
             {
                 // Set the empty tiles around the player to sand blocks
+                ushort[] basicSand = [TileID.Sand];
+                ushort[] specialSand = Main.hardMode ? [TileID.Ebonsand, TileID.Crimsand, TileID.Pearlsand] : [TileID.Ebonsand, TileID.Crimsand];
                 foreach (var (x, y) in player.GetTilesAround(halfWidth, halfHeight))
                 {
                     if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType > 0)
@@ -180,7 +182,7 @@ public sealed class TrapEffect : CrowdControlEffect
                         continue;
                     }
 
-                    Main.tile[x, y].ResetToType(Main.hardMode ? Main.rand.Next(new[] {TileID.Sand, TileID.Pearlsand, TileID.Crimsand, TileID.Ebonsand}) : Main.rand.Next(new[] {TileID.Sand, TileID.Crimsand, TileID.Ebonsand}));
+                    Main.tile[x, y].ResetToType(Main.rand.Next(Main.rand.NextBool(20) ? specialSand : basicSand));
                 }
 
                 break;
