@@ -152,11 +152,12 @@ public sealed class SpawnTownNPCEffect : CrowdControlEffect
         }
 
         // Choose a random town NPC to spawn (except the previously chosen one)
+        var allowTravelingMerchant = Utils.GetDayTimeAs24FloatStartingFromMidnight() is >= 4.5f and <= 16.5f; // 4.30am -> 4.30pm
         short npcId;
         do
         {
             npcId = Main.rand.Next(options);
-        } while (npcId == _chosenNPC);
+        } while (npcId == _chosenNPC || (npcId == NPCID.TravellingMerchant && !allowTravelingMerchant));
 
         _chosenNPC = npcId;
         var givenName = !string.IsNullOrEmpty(Viewer) ? Viewer : string.Empty;
