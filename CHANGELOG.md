@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "For the Worthy mode (Disable)" and "Don't Starve mode (Disable)" effect prices to 300.
 - Changed "For the Worthy mode" and "Don't Starve mode" effects to be inactive by default.
 - Changed "Shuffle Sfx Volume Factor" config default value to 75% (was 100%).
+- Fixed "Give Buff" effects incorrectly setting the buff duration in some cases.
 
 ## [2.0.12] - 2024-08-08
 

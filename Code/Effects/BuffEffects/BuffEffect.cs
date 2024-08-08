@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Utilities;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 
@@ -118,23 +119,34 @@ public sealed class BuffEffect : CrowdControlEffect
         }
 
         // Add buffs if needed
+        var targetDuration = (int)Math.Ceiling(60 * TimeLeft);
         foreach (var buffId in _buffs)
         {
-            // Check if the player already has the buff
-            if (player.Player.HasBuff(buffId))
+            // Check the existing buff's time left
+            var buffIndex = player.Player.FindBuffIndex(buffId);
+            if (buffIndex != -1)
             {
-                // Check if the buff remaining time is 'fine'
-                var buffIndex = player.Player.FindBuffIndex(buffId);
-                if (player.Player.buffTime[buffIndex] >= TimeLeft)
+                // Ignore if the buff's time left is over the target duration (with a bit of leeway)
+                if (player.Player.buffTime[buffIndex] >= targetDuration - 30)
                 {
                     continue;
                 }
 
-                // Otherwise, remove the buff so that it can be added with the correct time
-                player.Player.DelBuff(buffIndex);
+                player.Player.buffTime[buffIndex] = targetDuration;
+                TerrariaUtils.WriteDebug($"Updated buff's time left: '{Lang.GetBuffName(buffId)}'");
             }
+            // Otherwise, add the buff and explicitly set its time left to the target duration
+            else
+            {
+                player.Player.AddBuff(buffId, 2, false);
+                TerrariaUtils.WriteDebug($"Added buff: '{Lang.GetBuffName(buffId)}'");
 
-            player.Player.AddBuff(buffId, (int)Math.Ceiling(60 * TimeLeft));
+                buffIndex = player.Player.FindBuffIndex(buffId);
+                if (buffId != -1)
+                {
+                    player.Player.buffTime[buffIndex] = targetDuration;
+                }
+            }
         }
     }
 
