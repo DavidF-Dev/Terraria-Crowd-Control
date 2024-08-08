@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Shimmer Trap" effect.
 - Added "Increase Attack Speed" effect.
 - Changed "Spawn Random Town NPC" effect to not choose Traveling Merchant at nighttime.
+- Changed "Spawn Structure" effect to retry if there is a nearby non-empty chest.
 - Changed "Switch Soundtrack" effect price to 10.
 - Changed "For the Worthy mode (Disable)" and "Don't Starve mode (Disable)" effect prices to 300.
 - Changed "For the Worthy mode" and "Don't Starve mode" effects to be inactive by default.

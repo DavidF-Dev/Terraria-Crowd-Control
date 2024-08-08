@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -39,20 +40,20 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
         if (player.ZoneCorrupt || player.ZoneCrimson)
         {
-            return wall is not WallID.EbonstoneUnsafe ? Structure.DeepChasm : Structure.None;
+            return wall != WallID.EbonstoneUnsafe ? Structure.DeepChasm : Structure.None;
         }
 
         if (player.ZoneUnderworldHeight)
         {
-            return wall is not WallID.ObsidianBrick and not WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
+            return wall != WallID.ObsidianBrick && wall != WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
         }
 
         if (tile.Y < Main.worldSurface - 100)
         {
-            return wall is not WallID.DiscWall and WallID.Glass ? Structure.IslandHouse : Structure.None;
+            return wall != WallID.DiscWall && wall != WallID.Glass ? Structure.IslandHouse : Structure.None;
         }
 
-        return wall is not WallID.Planked and WallID.Wood ? Structure.MineHouse : Structure.None;
+        return wall != WallID.Planked && wall != WallID.Wood ? Structure.MineHouse : Structure.None;
     }
 
     private static void SpawnStructure(Structure structure, int tileX, int tileY)
@@ -142,6 +143,12 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
                     return CrowdControlResponseStatus.Retry;
                 }
             }
+        }
+
+        // Check that there are no populated chests near the player
+        if (WorldUtils.NearOtherChests(tile.X, tile.Y, static chest => chest.item.Any(static i => i is {IsAir: false})))
+        {
+            return CrowdControlResponseStatus.Retry;
         }
 
         // Determine which structure to generate based on the player's location

@@ -184,6 +184,41 @@ public static class WorldUtils
     }
 
     /// <summary>
+    ///     Determines if there are any chests near the tile coordinates.
+    /// </summary>
+    [Pure]
+    public static bool NearOtherChests(int x, int y, Predicate<Chest>? predicate = null)
+    {
+        // From Chest.NearOtherChests
+        for (var i = x - 25; i < x + 25; i++)
+        {
+            for (var j = y - 8; j < y + 8; j++)
+            {
+                var tileSafely = Framing.GetTileSafely(i, j);
+                if (!tileSafely.HasTile || !TileID.Sets.BasicChest[tileSafely.TileType])
+                {
+                    continue;
+                }
+
+                if (predicate == null)
+                {
+                    return true;
+                }
+
+                var chestIndex = Chest.FindChest(i, j);
+                if (chestIndex == -1)
+                {
+                    continue;
+                }
+
+                return predicate(Main.chest[chestIndex]);
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     ///     Check if the provided tile is solid.
     /// </summary>
     [Pure]
