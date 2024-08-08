@@ -72,7 +72,7 @@ public sealed class CrowdControlConfig : ModConfig
     [Range(0.0f, 2f)]
     [Increment(0.1f)]
     [DrawTicks]
-    [DefaultValue(1f)]
+    [DefaultValue(0.75f)]
     public float ShuffleSfxVolumeFactor;
 
     [BackgroundColor(EffectR, EffectG, EffectB)]
