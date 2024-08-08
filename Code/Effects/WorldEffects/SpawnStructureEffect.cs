@@ -48,7 +48,7 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
             return wall != WallID.ObsidianBrick && wall != WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
         }
 
-        if (tile.Y < Main.worldSurface - 100)
+        if (tile.Y < Main.worldSurface - 150)
         {
             return wall != WallID.DiscWall && wall != WallID.Glass ? Structure.IslandHouse : Structure.None;
         }
