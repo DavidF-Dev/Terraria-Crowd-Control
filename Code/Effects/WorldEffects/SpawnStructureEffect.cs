@@ -44,15 +44,15 @@ public sealed class SpawnStructureEffect : CrowdControlEffect
 
         if (player.ZoneUnderworldHeight)
         {
-            return wall is not WallID.ObsidianBrick or WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
+            return wall is not WallID.ObsidianBrick and not WallID.ObsidianBrickUnsafe ? Structure.HellHouse : Structure.None;
         }
 
         if (tile.Y < Main.worldSurface - 100)
         {
-            return wall is not WallID.DiscWall or WallID.Glass ? Structure.IslandHouse : Structure.None;
+            return wall is not WallID.DiscWall and WallID.Glass ? Structure.IslandHouse : Structure.None;
         }
 
-        return wall is not WallID.Planked or WallID.Wood ? Structure.MineHouse : Structure.None;
+        return wall is not WallID.Planked and WallID.Wood ? Structure.MineHouse : Structure.None;
     }
 
     private static void SpawnStructure(Structure structure, int tileX, int tileY)
