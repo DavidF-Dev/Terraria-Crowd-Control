@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Increase Attack Speed" effect.
 - Removed "For the Worthy mode (Temporary)" and "Don't Starve mode (Temporary)" effect.
 - Changed "For the Worthy mode (Disable)" and "Don't Starve mode (Disable)" effect prices to 400.
+- Changed "For the Worthy mode (Enable)" and "For the Worthy mode (Disable)" effects to be inactive by default.
 
 ## [2.0.12] - 2024-08-08
 
