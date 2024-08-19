@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Spawn Bees" effect.
 - Added "Shimmer Trap" effect.
 - Added "Increase Attack Speed" effect.
+- Added "Drop Smoke Bombs" effect.
 - Changed "Spawn Random Town NPC" effect to not choose Traveling Merchant at nighttime.
 - Changed "Spawn Structure" effect to retry if there is a nearby non-empty chest.
 - Changed "Switch Soundtrack" effect price to 10.

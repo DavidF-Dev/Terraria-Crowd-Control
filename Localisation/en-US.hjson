@@ -42,6 +42,7 @@ Mods: {
 				force_mount: "[Viewer] is forcing [Player] to ride a {0}"
 				shoot_bombs: "[Viewer] caused [Player] to shoot bombs for [Duration] seconds"
 				shoot_grenades: "[Viewer] caused [Player] to shoot grenades for [Duration] seconds"
+				shoot_smoke_bombs: "[Viewer] dropped smoke bombs at [Player]'s feet"
 				increase_knockback: "[Viewer] increased knockback received and dealt by [Player] for [Duration] seconds"
 				jump_boost: "[Viewer] made it so [Player] can jump very high for [Duration] seconds"
 				run_boost: "[Viewer] made [Player] really, really fast for [Duration] seconds"
