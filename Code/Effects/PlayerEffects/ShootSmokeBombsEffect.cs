@@ -64,12 +64,7 @@ public sealed class ShootSmokeBombsEffect : CrowdControlEffect
         static int SpawnSmokeBomb(Vector2 velocity)
         {
             var index = Projectile.NewProjectile(null, Main.LocalPlayer.Center, velocity, ProjectileID.SmokeBomb, 1, 0, Main.myPlayer);
-            Main.projectile[index].timeLeft = 60 * 20;
-            if (NetUtils.IsClient)
-            {
-                Main.projectile[index].netUpdate = true;
-            }
-
+            Main.projectile[index].timeLeft = 60 * 20; // 20 seconds
             return index;
         }
     }
