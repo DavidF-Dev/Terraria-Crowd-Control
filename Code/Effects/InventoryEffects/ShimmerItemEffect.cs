@@ -17,7 +17,7 @@ public sealed class ShimmerItemEffect : CrowdControlEffect
 {
     #region Static Fields and Constants
 
-    private const int ShimmerStackMax = int.MaxValue;
+    private const int ShimmerStackMax = 1;
     private static readonly MethodInfo? ShimmerItemMethod;
 
     #endregion
