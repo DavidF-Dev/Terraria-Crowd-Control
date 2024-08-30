@@ -50,6 +50,11 @@ public sealed class GiveNadirEffect : CrowdControlEffect
         return CrowdControlResponseStatus.Success;
     }
 
+    protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
+    {
+        TerrariaUtils.WriteEffectMessage(ItemID.Zenith, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
+    }
+
     #endregion
 
     #region Nested Types
