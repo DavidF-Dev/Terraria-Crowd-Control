@@ -80,6 +80,7 @@ public static class EffectID
     public const string GivePotion = "give_potion";
     public const string GiveFood = "give_food";
     public const string GiveKite = "give_kite";
+    public const string GivePainting = "give_painting";
     public const string GiveNadir = "give_nadir";
     public const string SpawnPiggyBank = "spawn_piggy_bank";
     public const string SpawnVoidVault = "spawn_void_vault";

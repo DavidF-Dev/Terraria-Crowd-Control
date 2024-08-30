@@ -95,6 +95,7 @@ Mods: {
 				give_potion: "[Viewer] gave [Player] a {0}"
 				give_food: "[Viewer] gave [Player] a {0} to eat"
 				give_kite: "[Viewer] gave [Player] a {0} to fly around"
+				give_painting: "[Viewer] gave [Player] '{0}' to hang on their wall"
 				spawn_piggy_bank: "[Viewer] spawned a flying Piggy Bank for [Player]"
 				spawn_void_vault: "[Viewer] spawned a Void Vault portal for [Player]"
 				# World effects

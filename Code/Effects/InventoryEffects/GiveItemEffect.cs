@@ -33,7 +33,8 @@ public sealed class GiveItemEffect : CrowdControlEffect
         HealingPotion,
         Potion,
         Kite,
-        Food
+        Food,
+        Painting
     }
 
     #endregion
@@ -162,6 +163,89 @@ public sealed class GiveItemEffect : CrowdControlEffect
         ItemID.LokisHelm, ItemID.LokisShirt, ItemID.LokisPants, ItemID.RedsHelmet, ItemID.RedsBreastplate, ItemID.RedsLeggings,
         ItemID.SafemanSunHair, ItemID.SafemanSunDress, ItemID.SafemanDressLeggings, ItemID.SkiphsHelm, ItemID.SkiphsShirt, ItemID.SkiphsPants,
         ItemID.WillsHelmet, ItemID.WillsBreastplate, ItemID.WillsLeggings, ItemID.Yoraiz0rHead, ItemID.Yoraiz0rShirt, ItemID.Yoraiz0rPants
+    };
+
+    private static readonly IReadOnlyList<short> PaintingsAllGame = new[]
+    {
+        // Golfer
+        ItemID.GolfPainting1, ItemID.GolfPainting2, ItemID.GolfPainting3, ItemID.GolfPainting4,
+
+        // Painter
+        ItemID.FirstEncounter, ItemID.GoodMorning, ItemID.UndergroundReward, ItemID.ThroughtheWindow,
+        ItemID.PlaceAbovetheClouds, ItemID.DoNotStepontheGrass, ItemID.ColdWatersintheWhiteLand,
+        ItemID.LightlessChasms, ItemID.TheLandofDeceivingLooks, ItemID.Daylight,
+        ItemID.SecretoftheSands, ItemID.DeadlandComesAlive, ItemID.EvilPresence, ItemID.SkyGuardian,
+        ItemID.Purity, ItemID.Thunderbolt,
+
+        // Painter in graveyard
+        ItemID.Nevermore, ItemID.Reborn, ItemID.Graveyard, ItemID.GhostManifestation, ItemID.WickedUndead,
+        ItemID.BloodyGoblet, ItemID.StillLife, ItemID.HailtotheKing,
+
+        // Princess
+        ItemID.Princess64, ItemID.PaintingOfALass, ItemID.DarkSideHallow, ItemID.SuspiciouslySparkly,
+        ItemID.TerraBladeChronicles, ItemID.RoyalRomance, ItemID.PrincessStyle,
+
+        // Clothier
+        ItemID.PlacePainting,
+
+        // Traveling merchant
+        ItemID.PaintingCastleMarsberg, ItemID.PaintingMartiaLisa, ItemID.PaintingTheTruthIsUpThere, ItemID.PaintingAcorns,
+        ItemID.PaintingColdSnap, ItemID.PaintingCursedSaint, ItemID.PaintingSnowfellas, ItemID.PaintingTheSeason,
+        ItemID.MoonLordPainting, ItemID.PaintingWilson, ItemID.PaintingWillow, ItemID.PaintingWendy, ItemID.PaintingWolfgang,
+        ItemID.KargohsSummon, ItemID.BennyWarhol, ItemID.Duality, ItemID.ParsecPals, ItemID.DoNotEattheVileMushroom,
+        ItemID.YuumaTheBlueTiger, ItemID.MoonmanandCompany, ItemID.SunshineofIsrapony, ItemID.HoplitePizza,
+
+        // Truffle
+        ItemID.MySon,
+
+        // Zoologist
+        ItemID.TheWerewolf,
+
+        // Desert underground cabins
+        ItemID.AndrewSphinx, ItemID.WatchfulAntlion, ItemID.BurningSpirit, ItemID.JawsOfDeath, ItemID.TheSandsOfSlime,
+        ItemID.SnakesIHateSnakes, ItemID.LifeAboveTheSand, ItemID.Oasis, ItemID.PrehistoryPreserved, ItemID.AncientTablet,
+        ItemID.Uluru, ItemID.VisitingThePyramids, ItemID.BandageBoy, ItemID.DivineEye,
+
+        // Underground cabins
+        ItemID.Sunflowers, ItemID.TerrarianGothic, ItemID.GuidePicasso, ItemID.FatherofSomeone, ItemID.NurseLisa,
+        ItemID.Waldo, ItemID.Land, ItemID.FindingGold, ItemID.AmericanExplosive, ItemID.Discover, ItemID.OldMiner,
+        ItemID.TheMerchant, ItemID.CrownoDevoursHisLunch, ItemID.RareEnchantment, ItemID.GloriousNight, ItemID.Outcast,
+        ItemID.FairyGuides, ItemID.AHorribleNightforAlchemy, ItemID.MorningHunt, ItemID.CatSword, ItemID.SufficientlyAdvanced,
+        ItemID.StrangeGrowth, ItemID.HappyLittleTree, ItemID.StrangeDeadFellows, ItemID.Secrets, ItemID.Bioluminescence,
+        ItemID.Wildflowers, ItemID.VikingVoyage, ItemID.Bifrost, ItemID.Heartlands, ItemID.ForestTroll, ItemID.AuroraBorealis,
+
+        // Dungeon
+        ItemID.BloodMoonRising, ItemID.TheHangedMan, ItemID.GloryoftheFire, ItemID.BoneWarp, ItemID.SkellingtonJSkellingsworth,
+        ItemID.TheCursedMan, ItemID.TheEyeSeestheEnd, ItemID.SomethingEvilisWatchingYou, ItemID.TheTwinsHaveAwoken,
+        ItemID.TheScreamer, ItemID.GoblinsPlayingPoker, ItemID.Dryadisque, ItemID.Impact, ItemID.PoweredbyBirds,
+        ItemID.TheDestroyer, ItemID.ThePersistencyofEyes, ItemID.UnicornCrossingtheHallows, ItemID.GreatWave,
+        ItemID.StarryNight, ItemID.TheGuardiansGaze, ItemID.FacingtheCerebralMastermind, ItemID.TrioSuperHeroes,
+        ItemID.TheCreationoftheGuide, ItemID.SparkyPainting, ItemID.RemnantsofDevotion,
+
+        // Underworld
+        ItemID.Darkness, ItemID.DarkSoulReaper, ItemID.TrappedGhost, ItemID.DemonsEye, ItemID.HandEarth, ItemID.Skelehead,
+        ItemID.LakeofFire, ItemID.ImpFace, ItemID.OminousPresence, ItemID.ShiningMoon, ItemID.LivingGore, ItemID.FlowingMagma,
+
+        // Floating islands
+        ItemID.HighPitch, ItemID.Constellation, ItemID.BlessingfromTheHeavens, ItemID.LoveisintheTrashSlot,
+        ItemID.SeeTheWorldForWhatItIs, ItemID.SunOrnament,
+
+        // Fishing
+        ItemID.DreadoftheRedSea, ItemID.LadyOfTheLake,
+
+        // Temple
+        ItemID.LizardKing,
+
+        // Goodie bags
+        ItemID.JackingSkeletron, ItemID.BitterHarvest, ItemID.BloodMoonCountess, ItemID.HallowsEve, ItemID.MorbidCuriosity,
+
+        // Solar eclipse
+        ItemID.Requiem, ItemID.AMachineforTerrarians, ItemID.OcularResonance, ItemID.WingsofEvil, ItemID.Eyezorhead,
+        ItemID.ThisIsGettingOutOfHand, ItemID.Buddies, ItemID.MidnightSun,
+
+        // Angler quest rewards
+        ItemID.PillaginMePixels, ItemID.NotSoLostInParadise, ItemID.Crustography, ItemID.Fangs, ItemID.WhatLurksBelow,
+        ItemID.CouchGag, ItemID.SilentFish, ItemID.TheDuke
     };
 
     private static readonly IReadOnlyList<short> GrapplesPreHardmode = new[]
@@ -440,6 +524,19 @@ public sealed class GiveItemEffect : CrowdControlEffect
                     }
                 }
             }
+        },
+        {
+            GiveItem.Painting, new Dictionary<ProgressionUtils.Progression, IReadOnlyList<short>>
+            {
+                {ProgressionUtils.Progression.PreEye, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreSkeletron, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreWall, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreMech, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreGolem, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreLunar, PaintingsAllGame},
+                {ProgressionUtils.Progression.PreMoonLord, PaintingsAllGame},
+                {ProgressionUtils.Progression.PostGame, PaintingsAllGame}
+            }
         }
     };
 
@@ -600,6 +697,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Potion => EffectID.GivePotion,
             GiveItem.Kite => EffectID.GiveKite,
             GiveItem.Food => EffectID.GiveFood,
+            GiveItem.Painting => EffectID.GivePainting,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -622,6 +720,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
             GiveItem.Potion => EffectSeverity.Positive,
             GiveItem.Kite => EffectSeverity.Neutral,
             GiveItem.Food => EffectSeverity.Positive,
+            GiveItem.Painting => EffectSeverity.Neutral,
             _ => throw new ArgumentOutOfRangeException(nameof(giveItem), giveItem, null)
         };
     }
@@ -731,7 +830,7 @@ public sealed class GiveItemEffect : CrowdControlEffect
 
         // Create an instance of the item which will be cloned into the world
         _item = new Item(chosenId);
-        if (_item.maxStack == 1 && !string.IsNullOrEmpty(Viewer))
+        if (_giveItem is not GiveItem.Painting && _item.maxStack == 1 && !string.IsNullOrEmpty(Viewer))
         {
             // Set a custom name on the item using the viewer's name
             _item.SetItemOwner(Viewer);
