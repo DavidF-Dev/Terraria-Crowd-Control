@@ -110,7 +110,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
 
     protected override void OnUpdate(float delta)
     {
-        if (_counter++ % 90 != 0 || !Main.rand.NextBool(2))
+        if (_counter++ % 45 != 0)
         {
             return;
         }
