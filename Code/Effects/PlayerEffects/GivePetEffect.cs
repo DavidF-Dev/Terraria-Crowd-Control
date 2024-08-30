@@ -84,6 +84,12 @@ public sealed class GivePetEffect : CrowdControlEffect
                 x => allPetOptions.Add(x.Type));
         }
 
+        // Add Magikarp
+        if (petType == PetType.Pet && ModContent.TryFind(CrowdControlMod.GetInstance().Name, "MagikarpPetBuff", out ModBuff magikarpBuff))
+        {
+            allPetOptions.Add(magikarpBuff.Type);
+        }
+
         _allPetOptions = allPetOptions;
         _petOptions = _allPetOptions.ToList();
     }
