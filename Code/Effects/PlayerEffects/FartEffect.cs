@@ -114,16 +114,19 @@ public sealed class FartEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
+        var player = GetLocalPlayer();
+        
         // Play fart sound effect now
-        HandleClientFart(GetLocalPlayer().Player);
+        HandleClientFart(player.Player);
 
         if (NetUtils.IsSinglePlayer)
         {
             // Trigger effects
-            HandleFart(GetLocalPlayer().Player, SteamUtils.IsPixyWixy);
+            HandleFart(player.Player, SteamUtils.IsPixyWixy);
 
-            if (SteamUtils.IsPixyWixy)
+            if (SteamUtils.IsPixyWixy || Main.rand.NextBool(18))
             {
+                player.Player.ConsumeItem(ItemID.PoopBlock);
                 ModContent.GetInstance<PixyWixyGlobalFartSystem>().Activate();
             }
         }
