@@ -9,6 +9,7 @@ using CrowdControlMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -24,8 +25,8 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
 {
     #region Static Fields and Constants
 
-    private const float SineIntensity = 0.05f;
-    private const float GlitchIntensity = 24f;
+    private const float SineIntensity = 0.05f * 0.5f * 0.5f * 0.5f * 0.5f;
+    private const float GlitchIntensity = 24f * 0.5f;
 
     private static readonly short[] FoodIds =
     {
@@ -99,10 +100,10 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         var tex = TextureAssets.Item[type];
         if (!tex.IsLoaded)
         {
-            return false;
+            return true;
         }
 
-        const float spinSpeed = 2.5f;
+        const float spinSpeed = 1f;
         var spinSeed = item.type + item.stack + item.prefix + item.rare;
         var spinDir = item.type % 2 == 0 ? 1 : -1;
 
@@ -190,6 +191,33 @@ public sealed class DrunkModeEffect : CrowdControlEffect, IMusicEffect
         // Set the intensity of the shader effects
         _sineShader.GetShader()?.UseIntensity(SineIntensity);
         _glitchShader.GetShader()?.UseIntensity(GlitchIntensity);
+
+        // Randomly open nearby chests
+        var player = GetLocalPlayer();
+        var tile = player.Player.Center.ToTileCoordinates();
+        if (Chest.NearOtherChests(tile.X, tile.Y))
+        {
+            foreach (var (x, y) in player.Player.GetTilesAround(20))
+            {
+                var chestIndex = Chest.FindChest(x, y);
+                if (chestIndex == -1)
+                {
+                    // Ignore
+                    continue;
+                }
+
+                var chestWorld = new Vector2(x, y).ToWorldCoordinates();
+                if (Main.chest[chestIndex].eatingAnimationTime <= 0 && Main.rand.NextBool(100))
+                {
+                    Chest.AskForChestToEatItem(chestWorld, 90 + Main.rand.Next(6) * 15);
+                    SoundEngine.PlaySound(SoundID.ChesterOpen with {Volume = 0.5f}, chestWorld);
+                }
+                else if (Main.chest[chestIndex].eatingAnimationTime == 1)
+                {
+                    SoundEngine.PlaySound(SoundID.ChesterClose with {Volume = 0.5f}, chestWorld);
+                }
+            }
+        }
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
