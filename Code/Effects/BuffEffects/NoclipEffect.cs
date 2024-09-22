@@ -31,7 +31,7 @@ public sealed class NoclipEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.Player.HasBuff(BuffID.Shimmer) || player.Player.shimmering || !player.Player.IsGrounded())
+        if (player.Player.HasBuff(BuffID.Shimmer) || player.Player.shimmering || !player.Player.IsGrounded() || CrowdControlMod.GetInstance().IsEffectActive(EffectID.RandomChallenge))
         {
             // Retry if the player is already shimmered or not grounded
             return CrowdControlResponseStatus.Retry;
