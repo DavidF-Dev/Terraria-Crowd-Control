@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace CrowdControlMod.Effects.InventoryEffects;
 
@@ -79,9 +80,10 @@ public sealed class GiveNadirEffect : CrowdControlEffect
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.Zenith);
+            Item.DamageType = DamageClass.Default;
             Item.damage = 1;
-            Item.crit = 0;
             Item.knockBack = 0;
+            Item.crit = 0;
             Item.useAnimation = 60;
             Item.useTime = Item.useAnimation / 3;
             Item.shootSpeed /= 2;
@@ -89,6 +91,12 @@ public sealed class GiveNadirEffect : CrowdControlEffect
             Item.value = Item.buyPrice(copper: 10);
         }
 
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            damage = 1;
+            knockback = 0;
+        }
+        
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Main.rand.Next(-50, 51), 4956);
@@ -101,6 +109,11 @@ public sealed class GiveNadirEffect : CrowdControlEffect
             {
                 player.AddBuff(BuffID.Dazed, 2);
             }
+        }
+
+        public override bool? PrefixChance(int pre, UnifiedRandom rand)
+        {
+            return false;
         }
 
         #endregion
