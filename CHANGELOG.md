@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Changed "Noclip" effect to retry if a challenge is active.
+- Changed "Increase Spawn Rate" effect to retry during a boss fight.
 
 ## [2.1.0] - 2024-08-31
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.Globals;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
@@ -38,6 +39,11 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
     #endregion
 
     #region Methods
+
+    protected override CrowdControlResponseStatus OnStart()
+    {
+        return Main.CurrentFrameFlags.AnyActiveBossNPC ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
+    }
 
     protected override void OnDisposed()
     {
