@@ -42,7 +42,21 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        return Main.CurrentFrameFlags.AnyActiveBossNPC ? CrowdControlResponseStatus.Retry : CrowdControlResponseStatus.Success;
+        if (Main.CurrentFrameFlags.AnyActiveBossNPC)
+        {
+            return CrowdControlResponseStatus.Retry;
+        }
+
+        var player = GetLocalPlayer();
+        player.PreUpdateBuffsHook += PreUpdateBuffs;
+
+        return CrowdControlResponseStatus.Success;
+    }
+
+    protected override void OnStop()
+    {
+        var player = GetLocalPlayer();
+        player.PreUpdateBuffsHook -= PreUpdateBuffs;
     }
 
     protected override void OnDisposed()
@@ -119,5 +133,10 @@ public sealed class IncreaseSpawnRateEffect : CrowdControlEffect
         return (NetUtils.IsSinglePlayer && CrowdControlMod.GetInstance().IsSessionActive && IsActive) || (NetUtils.IsServer && IsActiveOnServer(player));
     }
 
+    private void PreUpdateBuffs()
+    {
+        GetLocalPlayer().Player.bloodMoonMonolithShader = true;
+    }
+    
     #endregion
 }

@@ -41,6 +41,7 @@ public sealed class GodModeEffect : CrowdControlEffect
 
         player.CanBeHitByNPCHook += CanBeHitByNpc;
         player.CanBeHitByProjectileHook += CanBeHitByProjectile;
+        player.PreUpdateBuffsHook += PreUpdateBuffs;
         return CrowdControlResponseStatus.Success;
     }
 
@@ -49,6 +50,7 @@ public sealed class GodModeEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         player.CanBeHitByNPCHook -= CanBeHitByNpc;
         player.CanBeHitByProjectileHook -= CanBeHitByProjectile;
+        player.PreUpdateBuffsHook -= PreUpdateBuffs;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
@@ -69,6 +71,11 @@ public sealed class GodModeEffect : CrowdControlEffect
     private bool CanBeHitByProjectile(Projectile _)
     {
         return !IsActive;
+    }
+
+    private void PreUpdateBuffs()
+    {
+        GetLocalPlayer().Player.hasAngelHalo = true;
     }
 
     #endregion
