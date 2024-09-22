@@ -118,13 +118,15 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         // Spawn bees occasionally
         var player = Main.LocalPlayer;
         SpawnBees(
-            Main.rand.Next(2, 4),
+            Main.rand.Next(3, 5),
             true,
             player.Hitbox,
             Vector2.UnitX,
             MathHelper.Pi,
             0.3f,
             (byte)player.whoAmI);
+
+        _counter += Main.rand.Next(15);
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
@@ -221,7 +223,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         {
             // Spawn bees when the player takes damage
             SpawnBees(
-                Main.rand.Next(2, 6),
+                Main.rand.Next(5, 10),
                 true,
                 player.Hitbox,
                 Vector2.UnitX,
@@ -233,18 +235,15 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
 
     private bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
     {
-        if (Main.rand.NextBool(3))
-        {
-            // Spawn bees when the player shoots a projectile from a weapon
-            SpawnBees(
-                Main.rand.Next(3, 4),
-                true,
-                new Rectangle((int)position.X, (int)position.Y, 1, 1),
-                velocity.SafeNormalize(Vector2.Zero),
-                MathHelper.ToRadians(10),
-                velocity.Length() * Main.rand.NextFloat(0.7f, 0.9f),
-                (byte)Main.myPlayer);
-        }
+        // Spawn bees when the player shoots a projectile from a weapon
+        SpawnBees(
+            Main.rand.Next(3, 5),
+            true,
+            new Rectangle((int)position.X, (int)position.Y, 1, 1),
+            velocity.SafeNormalize(Vector2.Zero),
+            MathHelper.ToRadians(10),
+            velocity.Length() * Main.rand.NextFloat(0.7f, 0.9f),
+            (byte)Main.myPlayer);
 
         return true;
     }
@@ -256,7 +255,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         {
             // Spawn hostile bees when the player hits or kills a hostile npc
             SpawnBees(
-                Main.rand.Next(2, 3) + (hit.Crit ? 1 : 0),
+                Main.rand.Next(3, 4) + (hit.Crit ? 1 : 0),
                 false,
                 npc.Hitbox,
                 Vector2.UnitX,
@@ -290,7 +289,7 @@ public sealed class NotTheBeesEffect : CrowdControlEffect
         // Spawn bees when the player kills a tile (hostile when in evil biome)
         var player = Main.LocalPlayer;
         SpawnBees(
-            Main.rand.Next(1, 3),
+            Main.rand.Next(5, 8),
             !Main.LocalPlayer.ZoneCorrupt && !Main.LocalPlayer.ZoneCrimson,
             new Rectangle(i * 16, j * 16, 16, 16),
             Vector2.UnitX,
