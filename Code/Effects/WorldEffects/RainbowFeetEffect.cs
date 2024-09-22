@@ -42,6 +42,7 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     private readonly List<Tile> _paintedTiles = new(MaxTrackedPaintedTiles);
     private int _paintIndex;
     private int _trackedPaintedTilesCounter;
+    private bool _hadRainbowCursor;
 
     #endregion
 
@@ -73,22 +74,30 @@ public sealed class RainbowFeetEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        _paintIndex = Main.rand.Next(PaintIds.Length);
         player.Player.SetHairDye(ItemID.RainbowHairDye);
-
+        _hadRainbowCursor = player.Player.hasRainbowCursor;
+        player.Player.hasRainbowCursor = true;
+        
         player.PostUpdateHook += PostUpdate;
         CrowdControlProjectile.KillHook += ProjectileKill;
+
+        _paintIndex = Main.rand.Next(PaintIds.Length);
+        
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
     {
+        var player = GetLocalPlayer();
+        player.Player.hasRainbowCursor = _hadRainbowCursor;
+        _hadRainbowCursor = false;
+
+        player.PostUpdateHook -= PostUpdate;
+        CrowdControlProjectile.KillHook -= ProjectileKill;
+        
         _paintedTiles.Clear();
         _paintIndex = 0;
         _trackedPaintedTilesCounter = 0;
-
-        GetLocalPlayer().PostUpdateHook -= PostUpdate;
-        CrowdControlProjectile.KillHook -= ProjectileKill;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
