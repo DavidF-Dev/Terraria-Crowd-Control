@@ -89,6 +89,7 @@ public sealed class GiveNadirEffect : CrowdControlEffect
             Item.shootSpeed /= 2;
             Item.rare = ItemRarityID.Blue;
             Item.value = Item.buyPrice(copper: 10);
+            Item.maxStack = Item.CommonMaxStack;
         }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
