@@ -33,6 +33,8 @@ public sealed class InfiniteAmmoEffect : CrowdControlEffect
         var player = GetLocalPlayer();
         player.Player.arrowDamage += 0.1f;
         player.Player.bulletDamage += 0.1f;
+        player.Player.maxMinions += 20;
+        player.Player.maxTurrets += 20;
     }
 
     #endregion

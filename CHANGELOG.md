@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed "Rainbow Feet" effect to change the cursor colour to rainbow.
 - Changed "Not the Bees" effect to increase the number of bees spawned.
 - Changed "Give Nadir" effect to increase the max stack size to avoid filling the inventory if spammed.
+- Changed "Infinite Ammo & Mana" effect to increase maximum number of sentries and turrets.
 
 ## [2.1.0] - 2024-08-31
 
