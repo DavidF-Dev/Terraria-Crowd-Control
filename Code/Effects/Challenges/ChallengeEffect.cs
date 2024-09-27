@@ -92,7 +92,8 @@ public abstract class ChallengeEffect : CrowdControlEffect
                 (ItemID.LifeCrystal, 1),
                 (ItemID.ManaCrystal, 1),
                 (ItemID.LifeFruit, 1),
-                (ItemID.GoldenDelight, 1)
+                (ItemID.GoldenDelight, 1),
+                (ItemID.RainbowBrick, 100)
             );
             player.Player.QuickSpawnItem(null, reward.itemType, reward.stack);
             SoundEngine.PlaySound(SoundID.AchievementComplete, player.Player.position);
