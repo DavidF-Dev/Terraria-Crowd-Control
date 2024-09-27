@@ -50,20 +50,20 @@ public sealed class FartEffect : CrowdControlEffect
         }
     }
 
-    private static void HandleFart(Player player, bool forceSpawnPooItem = false)
+    private static void HandleFart(Player player)
     {
         // Provide stinky buff for a short time (also happens client-side)
         player.AddBuff(BuffID.Stinky, 100);
 
-        // If not well fed, then there's a chance that no poo-related effects will happen
+        // If not well-fed, then there's a chance that no poo-related effects will happen
         var isWellFed = player.HasBuff(BuffID.WellFed) || player.HasBuff(BuffID.WellFed2) || player.HasBuff(BuffID.WellFed3);
-        if (!forceSpawnPooItem && !isWellFed && !Main.rand.NextBool(3))
+        if (!isWellFed && !Main.rand.NextBool(3))
         {
             return;
         }
 
         // Spawn a poo projectile
-        var pooCount = NetUtils.IsSinglePlayer && SteamUtils.IsPixyWixy ? 5 : 1;
+        var pooCount = Main.rand.Next(4, 6);
         for (var i = 0; i < pooCount; i++)
         {
             var pooProjIndex = Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(player.Hitbox), Vector2.Zero, ProjectileID.ToiletEffect, 0, 0f, player.whoAmI);
@@ -71,12 +71,6 @@ public sealed class FartEffect : CrowdControlEffect
             {
                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, pooProjIndex);
             }
-        }
-
-        // Check well fed
-        if (!forceSpawnPooItem && !isWellFed)
-        {
-            return;
         }
 
         // Spawn a poo item
@@ -122,11 +116,10 @@ public sealed class FartEffect : CrowdControlEffect
         if (NetUtils.IsSinglePlayer)
         {
             // Trigger effects
-            HandleFart(player.Player, SteamUtils.IsPixyWixy);
+            HandleFart(player.Player);
 
-            if (SteamUtils.IsPixyWixy || Main.rand.NextBool(18))
+            if (SteamUtils.IsPixyWixy || Main.rand.NextBool(14))
             {
-                player.Player.ConsumeItem(ItemID.PoopBlock);
                 ModContent.GetInstance<PixyWixyGlobalFartSystem>().Activate();
             }
         }
