@@ -54,6 +54,12 @@ public enum PacketID : byte
     SyncMorph,
 
     /// <summary>
+    ///     Sync player scale settings (from the server or client).<br />
+    ///     Packet data: (byte)whoAmI (float)scale<br />
+    /// </summary>
+    SyncResizedPlayer,
+    
+    /// <summary>
     ///     Sync newly spawned gore on other clients (from client).<br />
     ///     Packet data: (int)type (float)x (float)y (float)speedX (float)speedY (float)scale
     /// </summary>

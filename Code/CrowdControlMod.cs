@@ -426,9 +426,14 @@ public sealed class CrowdControlMod : Mod
                 break;
             }
 
-            // Client wants to change its morph
+            // Server wants to change a client's morph
             case PacketID.SyncMorph:
                 MorphUtils.HandleSync(reader);
+                break;
+
+            // Server wants to change a client's scale
+            case PacketID.SyncResizedPlayer:
+                ResizedPlayerUtils.HandleSync(reader);
                 break;
 
             // Client wants to spawn a new gore
@@ -492,6 +497,11 @@ public sealed class CrowdControlMod : Mod
             // Client wants to change its morph
             case PacketID.SyncMorph:
                 MorphUtils.HandleSync(reader);
+                break;
+
+            // Client wants to change its scale
+            case PacketID.SyncResizedPlayer:
+                ResizedPlayerUtils.HandleSync(reader);
                 break;
 
             // Client wants to spawn a new gore
