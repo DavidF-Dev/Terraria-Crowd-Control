@@ -43,7 +43,8 @@ public sealed class ResizePlayerEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        if ((_up && CrowdControlMod.GetInstance().IsEffectActive(EffectID.ResizePlayerDown)) ||
+        if (ResizedPlayerUtils.GetIsScaled(CrowdControlMod.GetLocalPlayer().Player) ||
+            (_up && CrowdControlMod.GetInstance().IsEffectActive(EffectID.ResizePlayerDown)) ||
             (!_up && CrowdControlMod.GetInstance().IsEffectActive(EffectID.ResizePlayerUp)))
         {
             return CrowdControlResponseStatus.Retry;
