@@ -2,6 +2,8 @@
 using CrowdControlMod.CrowdControlService;
 using CrowdControlMod.ID;
 using CrowdControlMod.Utilities;
+using Microsoft.Xna.Framework;
+using Terraria.Graphics;
 using Terraria.ID;
 
 namespace CrowdControlMod.Effects.PlayerEffects;
@@ -51,17 +53,36 @@ public sealed class ResizePlayerEffect : CrowdControlEffect
         }
 
         ResizedPlayerUtils.SetScale(CrowdControlMod.GetLocalPlayer().Player, _up ? ScaleLarge : ScaleSmall);
+        if (!_up)
+        {
+            CrowdControlModSystem.ModifyTransformMatrixHook += ModifyTransformMatrix;
+        }
+        
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
     {
         ResizedPlayerUtils.ResetScale(CrowdControlMod.GetLocalPlayer().Player);
+        if (!_up)
+        {
+            CrowdControlModSystem.ModifyTransformMatrixHook -= ModifyTransformMatrix;
+        }
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.BabyGrinchMischiefWhistle, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
+    }
+
+    private static void ModifyTransformMatrix(ref SpriteViewMatrix transform)
+    {
+        if (CrowdControlMod.GetInstance().IsEffectActive(EffectID.ZoomIn) || CrowdControlMod.GetInstance().IsEffectActive(EffectID.ZoomOut))
+        {
+            return;
+        }
+
+        transform.Zoom = new Vector2(7f);
     }
 
     #endregion

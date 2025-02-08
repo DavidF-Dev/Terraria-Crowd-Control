@@ -12,11 +12,16 @@ namespace CrowdControlMod.Effects.ScreenEffects;
 /// </summary>
 public sealed class ZoomEffect : CrowdControlEffect
 {
-    #region Static Fields and Constants
+    #region Static Methods
 
-    private const float ZoomInAmount = 5f;
-    private const float ZoomOutAmount = 0.6f;
-    private static bool _anyZoomActive;
+    private static void ModifyTransformMatrix(ref SpriteViewMatrix transform)
+    {
+        transform.Zoom = new Vector2(CrowdControlMod.GetInstance().IsEffectActive(EffectID.ZoomIn) ? 5f : 0.6f);
+        if (CrowdControlMod.GetInstance().IsEffectActive(EffectID.ResizePlayerDown))
+        {
+            transform.Zoom += new Vector2(2f);
+        }
+    }
 
     #endregion
 
@@ -45,30 +50,24 @@ public sealed class ZoomEffect : CrowdControlEffect
 
     protected override CrowdControlResponseStatus OnStart()
     {
-        if (_anyZoomActive)
+        if ((_zoomIn && CrowdControlMod.GetInstance().IsEffectActive(EffectID.ZoomOut)) ||
+            (!_zoomIn && CrowdControlMod.GetInstance().IsEffectActive(EffectID.ZoomIn)))
         {
-            return CrowdControlResponseStatus.Failure;
+            return CrowdControlResponseStatus.Retry;
         }
 
-        _anyZoomActive = true;
         CrowdControlModSystem.ModifyTransformMatrixHook += ModifyTransformMatrix;
         return CrowdControlResponseStatus.Success;
     }
 
     protected override void OnStop()
     {
-        _anyZoomActive = false;
         CrowdControlModSystem.ModifyTransformMatrixHook -= ModifyTransformMatrix;
     }
 
     protected override void SendStartMessage(string viewerString, string playerString, string? durationString)
     {
         TerrariaUtils.WriteEffectMessage(ItemID.Binoculars, LangUtils.GetEffectStartText(Id, viewerString, playerString, durationString), Severity);
-    }
-
-    private void ModifyTransformMatrix(ref SpriteViewMatrix transform)
-    {
-        transform.Zoom = new Vector2(_zoomIn ? ZoomInAmount : ZoomOutAmount);
     }
 
     #endregion
