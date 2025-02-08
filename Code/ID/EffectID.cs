@@ -32,6 +32,8 @@ public static class EffectID
     public const string FartSound = "fart_sound";
     public const string Hiccup = "hiccup";
     public const string AttackSpeed = "attack_speed";
+    public const string ResizePlayerUp = "size_up";
+    public const string ResizePlayerDown = "size_down";
 
     // --- Buff effects (positive)
     public const string BuffSurvivability = "buff_survivability";

@@ -884,6 +884,8 @@ public sealed class CrowdControlMod : Mod
         AddEffect(new FlingUpwardsEffect());
         AddEffect(new FartEffect());
         AddEffect(new HiccupEffect(60));
+        AddEffect(new ResizePlayerEffect(true, 40));
+        AddEffect(new ResizePlayerEffect(false, 40));
 
         // --- Buff effects (positive)
         AddEffect(new BuffEffect(EffectID.BuffSurvivability, EffectSeverity.Positive, 60,

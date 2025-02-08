@@ -49,6 +49,8 @@ Mods: {
 				icy_feet: "[Viewer] made the ground very slippery"
 				fling_upwards: "[Viewer] flung [Player] upwards into the air"
 				hiccup: "[Viewer] gave [Player] the hiccups"
+				size_up: "[Viewer] transformed [Player] into a giant person for [Duration] seconds"
+				size_down: "[Viewer] transformed [Player] into a tiny person for [Duration] seconds"
 				# Buff effects (positive)
 				buff_survivability: "[Viewer] provided [Player] with survivability buffs"
 				buff_regen: "[Viewer] provided [Player] with regeneration buffs"

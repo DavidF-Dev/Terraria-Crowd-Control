@@ -87,6 +87,8 @@ public sealed class Terraria : SimpleTCPPack
                 new Effect("Fling upwards", "fling_upwards") {Category = PlayerFolder, Price = 30, Description = "Fling the streamer upwards violently where there is space to do so"},
                 new Effect("Play fart sound", "fart_sound") {Category = PlayerFolder, Price = 1, Description = "Play a fart sound in-game"},
                 new Effect("Give hiccups", "hiccup") {Category = PlayerFolder, Price = 10, Duration = 60, Description = "Temporarily give the streamer hiccups, causing them to hop"},
+                new Effect("Resize player (Giant)", "size_up") {Category = PlayerFolder, Price = 50, Duration = 40, Description = "Temporarily increase the streamer's size"},
+                new Effect("Resize player (Tiny)", "size_down") {Category = PlayerFolder, Price = 50, Duration = 40, Description = "Temporarily decrease the streamer's size"},
 
                 // --- Buff effects (positive)
                 new Effect("+ Boost survivability", "buff_survivability") {Category = BuffFolder, Price = 10, Duration = 60, Description = "Temporarily give the streamer survivability buffs"},
