@@ -94,7 +94,7 @@ public sealed class TrapEffect : CrowdControlEffect
         }
         
         var (halfWidth, halfHeight) = GetTrapSize(_type);
-        if (player.Player.IsWithinSpawnProtection(Math.Max(halfWidth, halfHeight) / 2f) || !CanSpawnTrap(player.Player) || player.Player.shimmering)
+        if (player.Player.IsWithinSpawnProtection(Viewer, Math.Max(halfWidth, halfHeight) / 2f) || !CanSpawnTrap(player.Player) || player.Player.shimmering)
         {
             return CrowdControlResponseStatus.Retry;
         }

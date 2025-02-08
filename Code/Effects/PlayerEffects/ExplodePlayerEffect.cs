@@ -41,7 +41,7 @@ public sealed class ExplodePlayerEffect : CrowdControlEffect
     protected override CrowdControlResponseStatus OnStart()
     {
         var player = GetLocalPlayer();
-        if (player.Player.IsInvincible() || player.Player.IsWithinSpawnProtection())
+        if (player.Player.IsInvincible() || player.Player.IsWithinSpawnProtection(Viewer))
         {
             // Ignore if the player is invincible or within spawn protection
             return CrowdControlResponseStatus.Retry;

@@ -183,6 +183,24 @@ public static class PlayerUtils
     }
 
     /// <summary>
+    ///     Check if the player is within spawn protection (if enabled in the configuration).
+    /// </summary>
+    [Pure]
+    public static bool IsWithinSpawnProtection(this Player player, string viewerName, float extra = 0f)
+    {
+        if (!CrowdControlConfig.GetInstance().EnableSpawnProtection || viewerName == "DavidFDev")
+        {
+            return false;
+        }
+
+        var radius = CrowdControlConfig.GetInstance().SpawnProtectionRadius + extra;
+        var playerTile = player.Center.ToTileCoordinates().ToVector2();
+        var spawnTile = new Vector2(Main.spawnTileX, Main.spawnTileY);
+        var bedTile = new Vector2(player.SpawnX, player.SpawnY);
+        return playerTile.Distance(spawnTile) < radius || playerTile.Distance(bedTile) < radius;
+    }
+
+    /// <summary>
     ///     Set the hair dye of the player.
     /// </summary>
     public static void SetHairDye(this Player player, int hairDyeItemId)
