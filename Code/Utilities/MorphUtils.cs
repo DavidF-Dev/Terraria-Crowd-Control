@@ -221,7 +221,8 @@ public static class MorphUtils
 
         public override Position GetDefaultPosition()
         {
-            return new Between(PlayerDrawLayers.Skin, PlayerDrawLayers.HeldItem);
+            return new Between(null, PlayerDrawLayers.FirstVanillaLayer);
+            // return new Between(PlayerDrawLayers.Skin, PlayerDrawLayers.HeldItem);
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
