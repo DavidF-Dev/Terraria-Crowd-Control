@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Added "Resize player" effects.
+
+## [2.1.1] - 2025-06-01
+
 - Changed "Noclip" effect to retry if a challenge is active.
 - Changed "Increase Spawn Rate" effect to retry during a boss fight.
 - Changed "Rainbow Feet" effect to change the cursor colour to rainbow.
