@@ -17,6 +17,7 @@ public static class FeatureID
     public const int OfficialConduitEgg = 7;
     public const int MoonlitFayeAndMakenBaconEgg = 8;
     public const int RespawnImmunity = 9;
+    public const int TheSuitedBirdEgg = 10;
 
     #endregion
 }

@@ -25,6 +25,7 @@ public static class SteamUtils
     private static bool? _isMakenbacon;
     private static bool? _isPixyWixy;
     private static bool? _isKulprid;
+    private static bool? _isTheSuitedBird;
 
     #endregion
 
@@ -124,5 +125,10 @@ public static class SteamUtils
     /// </summary>
     public static bool IsKulprid => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isKulprid ?? (_isKulprid = SteamId == 76561198049559387UL).Value);
 
+    /// <summary>
+    ///     https://www.twitch.tv/thesuitedbird
+    /// </summary>
+    public static bool IsTheSuitedBird => CrowdControlConfig.GetInstance().ForceEasterEggs || (_isTheSuitedBird ?? (_isTheSuitedBird = SteamId == 76561198413782734UL).Value);
+    
     #endregion
 }
