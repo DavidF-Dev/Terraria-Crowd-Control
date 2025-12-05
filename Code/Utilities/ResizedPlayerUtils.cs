@@ -35,6 +35,7 @@ public static class ResizedPlayerUtils
         }
 
         resizedPlayer.Scale = Math.Max(scale, 0.05f);
+        resizedPlayer.OnScaleChanged();
         if (!NetUtils.IsSinglePlayer)
         {
             resizedPlayer.SyncScale();
@@ -71,6 +72,7 @@ public static class ResizedPlayerUtils
         var scale = reader.ReadSingle();
         var resizedPlayer = Main.player[whoAmI].GetModPlayer<ResizedPlayer>();
         resizedPlayer.Scale = scale;
+        resizedPlayer.OnScaleChanged();
         if (NetUtils.IsServer)
         {
             resizedPlayer.SyncScale(-1, whoAmI);
@@ -131,6 +133,11 @@ public static class ResizedPlayerUtils
 
         #region Methods
 
+        public void OnScaleChanged()
+        {
+            ResetPlayerSize(Player);
+        }
+
 #if DEBUG
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
@@ -157,6 +164,7 @@ public static class ResizedPlayerUtils
         public override void Initialize()
         {
             Scale = 1;
+            OnScaleChanged();
         }
 
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
