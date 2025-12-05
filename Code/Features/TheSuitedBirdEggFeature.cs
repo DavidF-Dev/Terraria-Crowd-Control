@@ -148,7 +148,7 @@ public sealed class TheSuitedBirdEggFeature : IFeature
 
         public override void PostUpdateEquips()
         {
-            if (!Main.gameMenu && NetUtils.IsSinglePlayer && TheSuitedBirdSystem.IsEventActive() && Main.GameUpdateCount % 30 == 0 && Main.rand.NextBool(Player.ZoneForest ? 20 : 35))
+            if (!Main.gameMenu && NetUtils.IsSinglePlayer && TheSuitedBirdSystem.IsEventActive() && Main.GameUpdateCount % 30 == 0 && Main.rand.NextBool(Player.ZoneForest ? 25 : 40))
             {
                 int birdN = Main.rand.Next(1, 4);
                 if (Player.ZoneForest && Main.rand.NextBool(6))
